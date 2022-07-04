@@ -576,13 +576,6 @@ Indeed, it is recommended to not supply <code>pr_body_file</code> to the <a href
 </thead>
 <tbody>
 <tr>
-<td align="left"><code>package_dir</code></td>
-<td align="left">Path to the Python package directory relative to the repository directory.</br></br>Example: <code>'src/my_package'</code>.</td>
-<td align="center"><strong><em>Yes</em></strong></td>
-<td align="center"></td>
-<td align="center"><em>string</em></td>
-</tr>
-<tr>
 <td align="left"><code>git_username</code></td>
 <td align="left">A git username (used to set the 'user.name' config option).</td>
 <td align="center"><strong><em>Yes</em></strong></td>
@@ -623,6 +616,20 @@ Indeed, it is recommended to not supply <code>pr_body_file</code> to the <a href
 <td align="center">No</td>
 <td align="center"><code>false</code></td>
 <td align="center"><em>boolean</em></td>
+</tr>
+<tr>
+<td align="left"><code>update_python_api_ref</code></td>
+<td align="left">Whether or not to update the Python API documentation reference.</br></br><strong>Note</strong>: If this is 'true', 'package_dir' is <em>required</em>.</td>
+<td align="center">No</td>
+<td align="center"><code>true</code></td>
+<td align="center"><em>boolean</em></td>
+</tr>
+<tr>
+<td align="left"><code>package_dir</code></td>
+<td align="left">Path to the Python package directory relative to the repository directory.</br></br>Example: <code>'src/my_package'</code>.</br></br><strong>Important</strong>: This is <em>required</em> if 'update_docs' and 'update_python_api_ref' are 'true'.</td>
+<td align="center"><strong><em>Yes</em> (if 'update_docs' and 'update_python_api_ref' are 'true')</strong></td>
+<td align="center"></td>
+<td align="center"><em>string</em></td>
 </tr>
 <tr>
 <td align="left"><code>update_docs_landing_page</code></td>
@@ -722,12 +729,12 @@ It is meant to be complete as is.</p>
 <span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CasperWA/gh-actions/.github/workflows/ci_cd_updated_default_branch.yml@main</span><span class="w"></span>
 <span class="w">    </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.repository_owner == &#39;CasperWA&#39;</span><span class="w"></span>
 <span class="w">    </span><span class="nt">inputs</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="nt">package_dir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-python-package</span><span class="w"></span>
 <span class="w">      </span><span class="nt">git_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Casper</span><span class="nv"> </span><span class="s">Welzel</span><span class="nv"> </span><span class="s">Andersen&quot;</span><span class="w"></span>
 <span class="w">      </span><span class="nt">git_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CasperWA@github.com&quot;</span><span class="w"></span>
 <span class="w">      </span><span class="nt">default_repo_branch</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stable</span><span class="w"></span>
 <span class="w">      </span><span class="nt">permanent_dependencies_branch</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ci/dependency-updates&quot;</span><span class="w"></span>
 <span class="w">      </span><span class="nt">update_docs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+<span class="w">      </span><span class="nt">package_dir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-python-package</span><span class="w"></span>
 <span class="w">      </span><span class="nt">doc_extras</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;[docs]&quot;</span><span class="w"></span>
 <span class="w">      </span><span class="nt">exclude_files</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">__init__.py,config.py</span><span class="w"></span>
 <span class="w">      </span><span class="nt">full_docs_dirs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">models</span><span class="w"></span>
