@@ -1,0 +1,1622 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for GitHub Action resusable workflows">
+      
+      
+      
+        <link rel="canonical" href="https://CasperWA.github.io/gh-actions/0.1.0/python/tasks/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.3.9">
+    
+    
+      
+        <title>Invoke tasks - GH Action Reusable Workflows</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.1d29e8d0.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.cbb835fc.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#cbdc38">
+        
+      
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../css/reference.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="lime" data-md-color-accent="amber">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#invoke-tasks" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-component="outdated" hidden>
+        <aside class="md-banner md-banner--warning">
+          
+        </aside>
+      </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="GH Action Reusable Workflows" class="md-header__button md-logo" aria-label="GH Action Reusable Workflows" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 14.27 10.64 13A11.242 11.242 0 0 0 5 10.18v6.95c2.61.34 5 1.34 7 2.82 2-1.48 4.39-2.48 7-2.82v-6.95c-2.16.39-4.09 1.39-5.64 2.82M19 8.15c.65-.1 1.32-.15 2-.15v11c-3.5 0-6.64 1.35-9 3.54C9.64 20.35 6.5 19 3 19V8c.68 0 1.35.05 2 .15 2.69.41 5.1 1.63 7 3.39 1.9-1.76 4.31-2.98 7-3.39M12 6c.27 0 .5-.1.71-.29.19-.21.29-.44.29-.71s-.1-.5-.29-.71C12.5 4.11 12.27 4 12 4s-.5.11-.71.29c-.18.21-.29.45-.29.71s.11.5.29.71c.21.19.45.29.71.29m2.12 1.12a2.997 2.997 0 1 1-4.24-4.24 2.997 2.997 0 1 1 4.24 4.24Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            GH Action Reusable Workflows
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Invoke tasks
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/CasperWA/gh-actions" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    gh-actions
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="GH Action Reusable Workflows" class="md-nav__button md-logo" aria-label="GH Action Reusable Workflows" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 14.27 10.64 13A11.242 11.242 0 0 0 5 10.18v6.95c2.61.34 5 1.34 7 2.82 2-1.48 4.39-2.48 7-2.82v-6.95c-2.16.39-4.09 1.39-5.64 2.82M19 8.15c.65-.1 1.32-.15 2-.15v11c-3.5 0-6.64 1.35-9 3.54C9.64 20.35 6.5 19 3 19V8c.68 0 1.35.05 2 .15 2.69.41 5.1 1.63 7 3.39 1.9-1.76 4.31-2.98 7-3.39M12 6c.27 0 .5-.1.71-.29.19-.21.29-.44.29-.71s-.1-.5-.29-.71C12.5 4.11 12.27 4 12 4s-.5.11-.71.29c-.18.21-.29.45-.29.71s.11.5.29.71c.21.19.45.29.71.29m2.12 1.12a2.997 2.997 0 1 1-4.24-4.24 2.997 2.997 0 1 1 4.24 4.24Z"/></svg>
+
+    </a>
+    GH Action Reusable Workflows
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/CasperWA/gh-actions" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    gh-actions
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Workflows
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Workflows" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Workflows
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../workflows/cd_release/" class="md-nav__link">
+        CD - Release
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../workflows/ci_automerge_prs/" class="md-nav__link">
+        CI - Activate auto-merging for PRs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../workflows/ci_cd_updated_default_branch/" class="md-nav__link">
+        CI/CD - New updates to default branch
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../workflows/ci_check_pyproject_dependencies/" class="md-nav__link">
+        CI - Check dependencies
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../workflows/ci_update_dependencies/" class="md-nav__link">
+        CI - Update dependencies
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Python Code
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Python Code" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Python Code
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Invoke tasks
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Invoke tasks
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tasks" class="md-nav__link">
+    tasks
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tasks.create_api_reference_docs" class="md-nav__link">
+    create_api_reference_docs()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tasks.create_docs_index" class="md-nav__link">
+    create_docs_index()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tasks.setver" class="md-nav__link">
+    setver()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tasks.update_deps" class="md-nav__link">
+    update_deps()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tasks.update_file" class="md-nav__link">
+    update_file()
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../LICENSE/" class="md-nav__link">
+        License
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CHANGELOG/" class="md-nav__link">
+        Changelog
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tasks" class="md-nav__link">
+    tasks
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tasks.create_api_reference_docs" class="md-nav__link">
+    create_api_reference_docs()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tasks.create_docs_index" class="md-nav__link">
+    create_docs_index()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tasks.setver" class="md-nav__link">
+    setver()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tasks.update_deps" class="md-nav__link">
+    update_deps()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tasks.update_file" class="md-nav__link">
+    update_file()
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+<h1 id="invoke-tasks">Invoke tasks<a class="headerlink" href="#invoke-tasks" title="Permanent link">&para;</a></h1>
+
+
+<div class="doc doc-object doc-module">
+
+
+<a id="tasks"></a>
+  <div class="doc doc-contents first">
+  
+      <p>Repository management tasks powered by <code>invoke</code>.
+More information on <code>invoke</code> can be found at <a href="http://www.pyinvoke.org/">pyinvoke.org</a>.</p>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="tasks.create_api_reference_docs" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">create_api_reference_docs</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">package_dir</span><span class="p">,</span> <span class="n">pre_clean</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">pre_commit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">repo_folder</span><span class="o">=</span><span class="s1">&#39;main&#39;</span><span class="p">,</span> <span class="n">docs_folder</span><span class="o">=</span><span class="s1">&#39;docs&#39;</span><span class="p">,</span> <span class="n">unwanted_dirs</span><span class="o">=</span><span class="s1">&#39;__pycache__&#39;</span><span class="p">,</span> <span class="n">unwanted_files</span><span class="o">=</span><span class="s1">&#39;__init__.py&#39;</span><span class="p">,</span> <span class="n">full_docs_dirs</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span></code>
+
+<a href="#tasks.create_api_reference_docs" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Create the Python API Reference in the documentation.</p>
+
+      <details class="quote">
+        <summary>Source code in <code>gh-actions/tasks.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span>
+<span class="normal">346</span>
+<span class="normal">347</span>
+<span class="normal">348</span>
+<span class="normal">349</span>
+<span class="normal">350</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span>
+<span class="normal">356</span>
+<span class="normal">357</span>
+<span class="normal">358</span>
+<span class="normal">359</span>
+<span class="normal">360</span>
+<span class="normal">361</span>
+<span class="normal">362</span>
+<span class="normal">363</span>
+<span class="normal">364</span>
+<span class="normal">365</span>
+<span class="normal">366</span>
+<span class="normal">367</span>
+<span class="normal">368</span>
+<span class="normal">369</span>
+<span class="normal">370</span>
+<span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span>
+<span class="normal">374</span>
+<span class="normal">375</span>
+<span class="normal">376</span>
+<span class="normal">377</span>
+<span class="normal">378</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@task</span><span class="p">(</span>
+    <span class="n">help</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;package-dir&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">&quot;Relative path to package dir from the repository root, &quot;</span>
+            <span class="s2">&quot;e.g. &#39;src/my_package&#39;.&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;pre-clean&quot;</span><span class="p">:</span> <span class="s2">&quot;Remove the &#39;api_reference&#39; sub directory prior to (re)creation.&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;pre-commit&quot;</span><span class="p">:</span> <span class="s2">&quot;Return a non-zero error code if changes were made.&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;repo-folder&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">&quot;The folder name of the repository, wherein the package dir is located. &quot;</span>
+            <span class="s2">&quot;This defaults to &#39;main&#39;, as this will be used in the callable workflows.&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;docs-folder&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">&quot;The folder name for the documentation root folder. &quot;</span>
+            <span class="s2">&quot;This defaults to &#39;docs&#39;.&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;unwanted-dirs&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">&quot;Comma-separated list of directories to avoid including in the Python API &quot;</span>
+            <span class="s2">&quot;reference documentation. Note, only directory names, not paths, may be &quot;</span>
+            <span class="s2">&quot;included. Note, all folders and their contents with these names will be &quot;</span>
+            <span class="s2">&quot;excluded. Defaults to &#39;__pycache__&#39;.&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;unwanted-files&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">&quot;Comma-separated list of files to avoid including the Python API reference&quot;</span>
+            <span class="s2">&quot; documentation. Note, only full file names, not paths, may be included, &quot;</span>
+            <span class="s2">&quot;i.e., filename + file extension. Note, all files with these names will &quot;</span>
+            <span class="s2">&quot;be excluded. Defaults to &#39;__init__.py&#39;.&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;full-docs-dirs&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">&quot;Comma-separated list of directories in which to include everything - even&quot;</span>
+            <span class="s2">&quot; those without documentation strings. This may be useful for a module &quot;</span>
+            <span class="s2">&quot;full of data models or to ensure all class attributes are listed.&quot;</span>
+        <span class="p">),</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">create_api_reference_docs</span><span class="p">(</span>  <span class="c1"># pylint: disable=too-many-locals</span>
+    <span class="n">context</span><span class="p">,</span>
+    <span class="n">package_dir</span><span class="p">,</span>
+    <span class="n">pre_clean</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">pre_commit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">repo_folder</span><span class="o">=</span><span class="s2">&quot;main&quot;</span><span class="p">,</span>
+    <span class="n">docs_folder</span><span class="o">=</span><span class="s2">&quot;docs&quot;</span><span class="p">,</span>
+    <span class="n">unwanted_dirs</span><span class="o">=</span><span class="s2">&quot;__pycache__&quot;</span><span class="p">,</span>
+    <span class="n">unwanted_files</span><span class="o">=</span><span class="s2">&quot;__init__.py&quot;</span><span class="p">,</span>
+    <span class="n">full_docs_dirs</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create the Python API Reference in the documentation.&quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">os</span>
+    <span class="kn">import</span> <span class="nn">shutil</span>
+
+    <span class="k">def</span> <span class="nf">write_file</span><span class="p">(</span><span class="n">full_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Write file with `content` to `full_path`&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">full_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="n">cached_content</span> <span class="o">=</span> <span class="n">full_path</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">content</span> <span class="o">==</span> <span class="n">cached_content</span><span class="p">:</span>
+                <span class="k">del</span> <span class="n">cached_content</span>
+                <span class="k">return</span>
+            <span class="k">del</span> <span class="n">cached_content</span>
+        <span class="n">full_path</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span>
+
+    <span class="n">package_dir</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">REPO_PARENT_DIR</span> <span class="o">/</span> <span class="n">repo_folder</span> <span class="o">/</span> <span class="n">package_dir</span>
+    <span class="n">docs_api_ref_dir</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">REPO_PARENT_DIR</span> <span class="o">/</span> <span class="n">repo_folder</span> <span class="o">/</span> <span class="n">docs_folder</span> <span class="o">/</span> <span class="s2">&quot;api_reference&quot;</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="s2">&quot;/&quot;</span> <span class="ow">in</span> <span class="n">unwanted_dirs</span> <span class="o">+</span> <span class="n">unwanted_files</span><span class="p">:</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span>
+            <span class="s2">&quot;Unwanted directories and files may NOT be paths. A forward slash (/) was &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;found in them. Given</span><span class="se">\n\n</span><span class="s2">  --unwanted-dirs=</span><span class="si">{</span><span class="n">unwanted_dirs</span><span class="si">}</span><span class="s2">,</span><span class="se">\n</span><span class="s2">  &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;--unwanted-files=</span><span class="si">{</span><span class="n">unwanted_files</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">unwanted_subdirs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">unwanted_dirs</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+    <span class="n">unwanted_subfiles</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">unwanted_files</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+    <span class="n">no_docstring_dirs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">full_docs_dirs</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+
+    <span class="n">pages_template</span> <span class="o">=</span> <span class="s1">&#39;title: &quot;</span><span class="si">{name}</span><span class="s1">&quot;</span><span class="se">\n</span><span class="s1">&#39;</span>
+    <span class="n">md_template</span> <span class="o">=</span> <span class="s2">&quot;# </span><span class="si">{name}</span><span class="se">\n\n</span><span class="s2">::: </span><span class="si">{py_path}</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="n">no_docstring_template</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">md_template</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="mi">4</span><span class="si">}</span><span class="s2">options:</span><span class="se">\n</span><span class="si">{</span><span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="mi">6</span><span class="si">}</span><span class="s2">show_if_no_docstring: true</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">docs_api_ref_dir</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">and</span> <span class="n">pre_clean</span><span class="p">:</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">docs_api_ref_dir</span><span class="p">,</span> <span class="n">ignore_errors</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">docs_api_ref_dir</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">docs_api_ref_dir</span><span class="si">}</span><span class="s2"> should have been removed!&quot;</span><span class="p">)</span>
+    <span class="n">docs_api_ref_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">write_file</span><span class="p">(</span>
+        <span class="n">full_path</span><span class="o">=</span><span class="n">docs_api_ref_dir</span> <span class="o">/</span> <span class="s2">&quot;.pages&quot;</span><span class="p">,</span>
+        <span class="n">content</span><span class="o">=</span><span class="n">pages_template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;API Reference&quot;</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">dirpath</span><span class="p">,</span> <span class="n">dirnames</span><span class="p">,</span> <span class="n">filenames</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">package_dir</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">unwanted_dir</span> <span class="ow">in</span> <span class="n">unwanted_subdirs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">unwanted_dir</span> <span class="ow">in</span> <span class="n">dirnames</span><span class="p">:</span>
+                <span class="c1"># Avoid walking into or through unwanted directories</span>
+                <span class="n">dirnames</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">unwanted_dir</span><span class="p">)</span>
+
+        <span class="n">relpath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">dirpath</span><span class="p">)</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">package_dir</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">package_dir</span><span class="o">.</span><span class="n">name</span> <span class="o">/</span> <span class="n">relpath</span> <span class="o">/</span> <span class="s2">&quot;__init__.py&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="c1"># Avoid paths that are not included in the public Python API</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;does not exist:&quot;</span><span class="p">,</span> <span class="n">package_dir</span><span class="o">.</span><span class="n">name</span> <span class="o">/</span> <span class="n">relpath</span> <span class="o">/</span> <span class="s2">&quot;__init__.py&quot;</span><span class="p">)</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># Create `.pages`</span>
+        <span class="n">docs_sub_dir</span> <span class="o">=</span> <span class="n">docs_api_ref_dir</span> <span class="o">/</span> <span class="n">relpath</span>
+        <span class="n">docs_sub_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">docs_sub_dir</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">relpath</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;.&quot;</span><span class="p">:</span>
+            <span class="n">write_file</span><span class="p">(</span>
+                <span class="n">full_path</span><span class="o">=</span><span class="n">docs_sub_dir</span> <span class="o">/</span> <span class="s2">&quot;.pages&quot;</span><span class="p">,</span>
+                <span class="n">content</span><span class="o">=</span><span class="n">pages_template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">relpath</span><span class="p">)</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="p">),</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Create markdown files</span>
+        <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;.*\.py$&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">unwanted_subfiles</span><span class="p">:</span>
+                <span class="c1"># Not a Python file: We don&#39;t care about it!</span>
+                <span class="c1"># Or filename is in the tuple of unwanted files:</span>
+                <span class="c1"># We don&#39;t want it!</span>
+                <span class="k">continue</span>
+
+            <span class="n">basename</span> <span class="o">=</span> <span class="n">filename</span><span class="p">[:</span> <span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="s2">&quot;.py&quot;</span><span class="p">)]</span>
+            <span class="n">py_path</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">package_dir</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">relpath</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">basename</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">relpath</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;.&quot;</span>
+                <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">package_dir</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">basename</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">md_filename</span> <span class="o">=</span> <span class="n">filename</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.py&quot;</span><span class="p">,</span> <span class="s2">&quot;.md&quot;</span><span class="p">)</span>
+
+            <span class="c1"># For special folders we want to include EVERYTHING, even if it doesn&#39;t</span>
+            <span class="c1"># have a doc-string</span>
+            <span class="n">template</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">no_docstring_template</span>
+                <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">relpath</span><span class="p">)</span> <span class="ow">in</span> <span class="n">no_docstring_dirs</span>
+                <span class="k">else</span> <span class="n">md_template</span>
+            <span class="p">)</span>
+
+            <span class="n">write_file</span><span class="p">(</span>
+                <span class="n">full_path</span><span class="o">=</span><span class="n">docs_sub_dir</span> <span class="o">/</span> <span class="n">md_filename</span><span class="p">,</span>
+                <span class="n">content</span><span class="o">=</span><span class="n">template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">basename</span><span class="p">,</span> <span class="n">py_path</span><span class="o">=</span><span class="n">py_path</span><span class="p">),</span>
+            <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">pre_commit</span><span class="p">:</span>
+        <span class="c1"># Check if there have been any changes.</span>
+        <span class="c1"># List changes if yes.</span>
+        <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+            <span class="n">context</span><span class="p">:</span> <span class="s2">&quot;Context&quot;</span> <span class="o">=</span> <span class="n">context</span>
+
+        <span class="c1"># NOTE: grep returns an exit code of 1 if it doesn&#39;t find anything</span>
+        <span class="c1"># (which will be good in this case).</span>
+        <span class="c1"># Concerning the weird last grep command see:</span>
+        <span class="c1"># http://manpages.ubuntu.com/manpages/precise/en/man1/git-status.1.html</span>
+        <span class="n">result</span><span class="p">:</span> <span class="s2">&quot;Result&quot;</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;git -C &quot;</span><span class="si">{</span><span class="n">REPO_PARENT_DIR</span> <span class="o">/</span> <span class="n">repo_folder</span><span class="si">}</span><span class="s1">&quot; status --porcelain &#39;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">docs_api_ref_dir</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">REPO_PARENT_DIR</span> <span class="o">/</span> <span class="n">repo_folder</span><span class="p">)</span><span class="si">}</span><span class="s2"> | &quot;</span>
+            <span class="s2">&quot;grep -E &#39;^[? MARC][?MD]&#39; || exit 0&quot;</span><span class="p">,</span>
+            <span class="n">hide</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="p">:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span>
+                <span class="s2">&quot;The following files have been changed/added, please stage &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;them:</span><span class="se">\n\n</span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="tasks.create_docs_index" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">create_docs_index</span><span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">repo_folder</span><span class="o">=</span><span class="s1">&#39;main&#39;</span><span class="p">,</span> <span class="n">docs_folder</span><span class="o">=</span><span class="s1">&#39;docs&#39;</span><span class="p">,</span> <span class="n">replacements</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">replacements_separator</span><span class="o">=</span><span class="s1">&#39;|&#39;</span><span class="p">,</span> <span class="n">internal_separator</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span></code>
+
+<a href="#tasks.create_docs_index" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Create the documentation index page from README.md.</p>
+
+      <details class="quote">
+        <summary>Source code in <code>gh-actions/tasks.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span>
+<span class="normal">386</span>
+<span class="normal">387</span>
+<span class="normal">388</span>
+<span class="normal">389</span>
+<span class="normal">390</span>
+<span class="normal">391</span>
+<span class="normal">392</span>
+<span class="normal">393</span>
+<span class="normal">394</span>
+<span class="normal">395</span>
+<span class="normal">396</span>
+<span class="normal">397</span>
+<span class="normal">398</span>
+<span class="normal">399</span>
+<span class="normal">400</span>
+<span class="normal">401</span>
+<span class="normal">402</span>
+<span class="normal">403</span>
+<span class="normal">404</span>
+<span class="normal">405</span>
+<span class="normal">406</span>
+<span class="normal">407</span>
+<span class="normal">408</span>
+<span class="normal">409</span>
+<span class="normal">410</span>
+<span class="normal">411</span>
+<span class="normal">412</span>
+<span class="normal">413</span>
+<span class="normal">414</span>
+<span class="normal">415</span>
+<span class="normal">416</span>
+<span class="normal">417</span>
+<span class="normal">418</span>
+<span class="normal">419</span>
+<span class="normal">420</span>
+<span class="normal">421</span>
+<span class="normal">422</span>
+<span class="normal">423</span>
+<span class="normal">424</span>
+<span class="normal">425</span>
+<span class="normal">426</span>
+<span class="normal">427</span>
+<span class="normal">428</span>
+<span class="normal">429</span>
+<span class="normal">430</span>
+<span class="normal">431</span>
+<span class="normal">432</span>
+<span class="normal">433</span>
+<span class="normal">434</span>
+<span class="normal">435</span>
+<span class="normal">436</span>
+<span class="normal">437</span>
+<span class="normal">438</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@task</span><span class="p">(</span>
+    <span class="n">help</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;repo-folder&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">&quot;The folder name of the repository, wherein the package dir is located. &quot;</span>
+            <span class="s2">&quot;This defaults to &#39;main&#39;, as this will be used in the callable workflows.&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;docs-folder&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">&quot;The folder name for the documentation root folder. &quot;</span>
+            <span class="s2">&quot;This defaults to &#39;docs&#39;.&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;replacements&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">&quot;List of replacements (mappings) to be performed on README.md when &quot;</span>
+            <span class="s2">&quot;creating the documentation&#39;s landing page (index.md). This list ALWAYS &quot;</span>
+            <span class="s2">&quot;includes replacing &#39;{docs-folder}/&#39; with an empty string to correct &quot;</span>
+            <span class="s2">&quot;relative links.&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;replacements-separator&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">&quot;String to separate replacement mappings from the &#39;replacements&#39; input. &quot;</span>
+            <span class="s2">&quot;Defaults to a pipe (|).&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;internal-separator&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">&quot;String to separate a single mapping&#39;s &#39;old&#39; to &#39;new&#39; statement. &quot;</span>
+            <span class="s2">&quot;Defaults to a comma (,).&quot;</span>
+        <span class="p">),</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">create_docs_index</span><span class="p">(</span>
+    <span class="n">_</span><span class="p">,</span>
+    <span class="n">repo_folder</span><span class="o">=</span><span class="s2">&quot;main&quot;</span><span class="p">,</span>
+    <span class="n">docs_folder</span><span class="o">=</span><span class="s2">&quot;docs&quot;</span><span class="p">,</span>
+    <span class="n">replacements</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">replacements_separator</span><span class="o">=</span><span class="s2">&quot;|&quot;</span><span class="p">,</span>
+    <span class="n">internal_separator</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create the documentation index page from README.md.&quot;&quot;&quot;</span>
+    <span class="n">readme</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">REPO_PARENT_DIR</span> <span class="o">/</span> <span class="n">repo_folder</span> <span class="o">/</span> <span class="s2">&quot;README.md&quot;</span>
+    <span class="n">docs_index</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">REPO_PARENT_DIR</span> <span class="o">/</span> <span class="n">repo_folder</span> <span class="o">/</span> <span class="n">docs_folder</span> <span class="o">/</span> <span class="s2">&quot;index.md&quot;</span>
+
+    <span class="n">content</span> <span class="o">=</span> <span class="n">readme</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span>
+
+    <span class="n">replacement_mapping</span> <span class="o">=</span> <span class="p">[(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">docs_folder</span><span class="si">}</span><span class="s2">/&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">replacement</span> <span class="ow">in</span> <span class="n">replacements</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">replacements_separator</span><span class="p">):</span>
+        <span class="n">new_replacement_map</span> <span class="o">=</span> <span class="n">replacement</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">internal_separator</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_replacement_map</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span>
+                <span class="s2">&quot;A single replacement must only include an &#39;old&#39; and &#39;new&#39; part, &quot;</span>
+                <span class="s2">&quot;i.e., be of exactly length 2 when split by the &quot;</span>
+                <span class="s2">&quot;&#39;--internal-separator&#39;. The following replacement did not fulfill &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;this requirement: </span><span class="si">{</span><span class="n">replacement</span><span class="si">!r}</span><span class="se">\n</span><span class="s2">  &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;--internal-separator=</span><span class="si">{</span><span class="n">internal_separator</span><span class="si">!r}</span><span class="se">\n</span><span class="s2">  &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;--replacements-separator=</span><span class="si">{</span><span class="n">replacements_separator</span><span class="si">!r}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="n">replacement_mapping</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">new_replacement_map</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span> <span class="ow">in</span> <span class="n">replacement_mapping</span><span class="p">:</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">)</span>
+
+    <span class="n">docs_index</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="tasks.setver" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">setver</span><span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">package_dir</span><span class="p">,</span> <span class="n">version</span><span class="p">,</span> <span class="n">repo_folder</span><span class="o">=</span><span class="s1">&#39;main&#39;</span><span class="p">)</span></code>
+
+<a href="#tasks.setver" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Sets the specified version of specified Python package.</p>
+
+      <details class="quote">
+        <summary>Source code in <code>gh-actions/tasks.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@task</span><span class="p">(</span>
+    <span class="n">help</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;Version to set.&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;package-dir&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">&quot;Relative path to package dir from the repository root, &quot;</span>
+            <span class="s2">&quot;e.g. &#39;src/my_package&#39;.&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;repo-folder&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">&quot;The folder name of the repository, wherein the package dir is located. &quot;</span>
+            <span class="s2">&quot;This defaults to &#39;main&#39;, as this will be used in the callable workflows.&quot;</span>
+        <span class="p">),</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">setver</span><span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">package_dir</span><span class="p">,</span> <span class="n">version</span><span class="p">,</span> <span class="n">repo_folder</span><span class="o">=</span><span class="s2">&quot;main&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Sets the specified version of specified Python package.&quot;&quot;&quot;</span>
+    <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">fullmatch</span><span class="p">(</span>
+        <span class="p">(</span>
+            <span class="sa">r</span><span class="s2">&quot;v?(?P&lt;version&gt;[0-9]+(\.[0-9]+)</span><span class="si">{2}</span><span class="s2">&quot;</span>  <span class="c1"># Major.Minor.Patch</span>
+            <span class="sa">r</span><span class="s2">&quot;(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?&quot;</span>  <span class="c1"># pre-release</span>
+            <span class="sa">r</span><span class="s2">&quot;(\+[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?)&quot;</span>  <span class="c1"># build metadata</span>
+        <span class="p">),</span>
+        <span class="n">version</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">match</span><span class="p">:</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span>
+            <span class="s2">&quot;Error: Please specify version as &quot;</span>
+            <span class="s2">&quot;&#39;Major.Minor.Patch(-Pre-Release+Build Metadata)&#39; or &quot;</span>
+            <span class="s2">&quot;&#39;vMajor.Minor.Patch(-Pre-Release+Build Metadata)&#39;&quot;</span>
+        <span class="p">)</span>
+    <span class="n">version</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;version&quot;</span><span class="p">)</span>
+
+    <span class="n">init_file</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">REPO_PARENT_DIR</span> <span class="o">/</span> <span class="n">repo_folder</span> <span class="o">/</span> <span class="n">package_dir</span> <span class="o">/</span> <span class="s2">&quot;__init__.py&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">init_file</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span>
+            <span class="s2">&quot;Error: Could not find the Python package&#39;s root &#39;__init__.py&#39; file at: &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">init_file</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">update_file</span><span class="p">(</span>
+        <span class="n">init_file</span><span class="p">,</span>
+        <span class="p">(</span><span class="sa">r</span><span class="s1">&#39;__version__ *= *(</span><span class="se">\&#39;</span><span class="s1">|&quot;).*(</span><span class="se">\&#39;</span><span class="s1">|&quot;)&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;__version__ = &quot;</span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bumped version for </span><span class="si">{</span><span class="n">package_dir</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="tasks.update_deps" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">update_deps</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">repo_folder</span><span class="o">=</span><span class="s1">&#39;main&#39;</span><span class="p">,</span> <span class="n">fail_fast</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+
+<a href="#tasks.update_deps" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Update dependencies in specified Python package's <code>pyproject.toml</code>.</p>
+
+      <details class="quote">
+        <summary>Source code in <code>gh-actions/tasks.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@task</span><span class="p">(</span>
+    <span class="n">help</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;fail-fast&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">&quot;Fail immediately if an error occurs. Otherwise, print and ignore all &quot;</span>
+            <span class="s2">&quot;non-critical errors.&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;repo-folder&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">&quot;The folder name of the repository, wherein the package dir is located. &quot;</span>
+            <span class="s2">&quot;This defaults to &#39;main&#39;, as this will be used in the callable workflows.&quot;</span>
+        <span class="p">),</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">update_deps</span><span class="p">(</span>  <span class="c1"># pylint: disable=too-many-branches,too-many-locals,too-many-statements</span>
+    <span class="n">context</span><span class="p">,</span> <span class="n">repo_folder</span><span class="o">=</span><span class="s2">&quot;main&quot;</span><span class="p">,</span> <span class="n">fail_fast</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Update dependencies in specified Python package&#39;s `pyproject.toml`.&quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">tomlkit</span>
+
+    <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+        <span class="n">context</span><span class="p">:</span> <span class="s2">&quot;Context&quot;</span> <span class="o">=</span> <span class="n">context</span>
+
+    <span class="n">pyproject_path</span> <span class="o">=</span> <span class="n">REPO_PARENT_DIR</span> <span class="o">/</span> <span class="n">repo_folder</span> <span class="o">/</span> <span class="s2">&quot;pyproject.toml&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">pyproject_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span>
+            <span class="s2">&quot;Error: Could not find the Python package repository&#39;s &#39;pyproject.toml&#39; &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;file at: </span><span class="si">{</span><span class="n">pyproject_path</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">pyproject</span> <span class="o">=</span> <span class="n">tomlkit</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">pyproject_path</span><span class="o">.</span><span class="n">read_bytes</span><span class="p">())</span>
+
+    <span class="n">py_version</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span>
+        <span class="sa">r</span><span class="s2">&quot;^.*(?P&lt;version&gt;3\.[0-9]+)$&quot;</span><span class="p">,</span>
+        <span class="n">pyproject</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;project&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;requires-python&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;version&quot;</span><span class="p">)</span>
+
+    <span class="n">already_handled_packages</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">updated_packages</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">dependencies</span> <span class="o">=</span> <span class="n">pyproject</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;project&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;dependencies&quot;</span><span class="p">,</span> <span class="p">[])</span>
+    <span class="k">for</span> <span class="n">optional_deps</span> <span class="ow">in</span> <span class="p">(</span>
+        <span class="n">pyproject</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;project&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;optional-dependencies&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+    <span class="p">):</span>
+        <span class="n">dependencies</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">optional_deps</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">dependencies</span><span class="p">:</span>
+        <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span>
+            <span class="sa">r</span><span class="s2">&quot;^(?P&lt;full_dependency&gt;(?P&lt;package&gt;[a-zA-Z0-9-_]+)\S*) &quot;</span>
+            <span class="sa">r</span><span class="s2">&quot;(?P&lt;operator&gt;&gt;|&lt;|&lt;=|&gt;=|==|!=|~=)&quot;</span>
+            <span class="sa">r</span><span class="s2">&quot;(?P&lt;version&gt;[0-9]+(?:\.[0-9]+){0,2})&quot;</span>
+            <span class="sa">r</span><span class="s2">&quot;(?P&lt;extra_op_ver&gt;(?:,(?:&gt;|&lt;|&lt;=|&gt;=|==|!=|~=)&quot;</span>
+            <span class="sa">r</span><span class="s2">&quot;[0-9]+(?:\.[0-9]+){0,2})*)$&quot;</span><span class="p">,</span>
+            <span class="n">line</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">match</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Could not parse package, operator, and version for line:</span><span class="se">\n</span><span class="s2">  </span><span class="si">{</span><span class="n">line</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">if</span> <span class="n">fail_fast</span><span class="p">:</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="n">full_dependency_name</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;full_dependency&quot;</span><span class="p">)</span>
+        <span class="n">package</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;package&quot;</span><span class="p">)</span>
+        <span class="n">operator</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;operator&quot;</span><span class="p">)</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;version&quot;</span><span class="p">)</span>
+        <span class="n">extra_op_ver</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;extra_op_ver&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Skip package if already handled</span>
+        <span class="k">if</span> <span class="n">package</span> <span class="ow">in</span> <span class="n">already_handled_packages</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># Check version from PyPI&#39;s online package index</span>
+        <span class="n">out</span><span class="p">:</span> <span class="s2">&quot;Result&quot;</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;pip index versions --python-version </span><span class="si">{</span><span class="n">py_version</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">package</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">hide</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">package_latest_version_line</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span>
+            <span class="sa">r</span><span class="s2">&quot;(?P&lt;package&gt;[a-zA-Z0-9-_]+) \((?P&lt;version&gt;[0-9]+(?:\.[0-9]+){0,2})\)&quot;</span><span class="p">,</span>
+            <span class="n">package_latest_version_line</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">match</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Could not parse package and version from &#39;pip index versions&#39; output &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;for line:</span><span class="se">\n</span><span class="s2">  </span><span class="si">{</span><span class="n">package_latest_version_line</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">fail_fast</span><span class="p">:</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="c1"># Sanity check</span>
+        <span class="k">if</span> <span class="n">package</span> <span class="o">!=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;package&quot;</span><span class="p">):</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Package name parsed from pyproject.toml (</span><span class="si">{</span><span class="n">package</span><span class="si">!r}</span><span class="s2">) does not match&quot;</span>
+                <span class="s2">&quot; the name returned from &#39;pip index versions&#39;: &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s1">&#39;package&#39;</span><span class="p">)</span><span class="si">!r}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">fail_fast</span><span class="p">:</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="n">latest_version</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;version&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">version_part</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">version</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">version_part</span> <span class="o">!=</span> <span class="n">latest_version</span><span class="p">[</span><span class="n">index</span><span class="p">]:</span>
+                <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">already_handled_packages</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">package</span><span class="p">)</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># Update pyproject.toml</span>
+        <span class="n">updated_version</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">latest_version</span><span class="p">[:</span> <span class="nb">len</span><span class="p">(</span><span class="n">version</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">))])</span>
+        <span class="n">escaped_full_dependency_name</span> <span class="o">=</span> <span class="n">full_dependency_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+            <span class="s2">&quot;[&quot;</span><span class="p">,</span> <span class="s2">&quot;\[&quot;</span>  <span class="c1"># pylint: disable=anomalous-backslash-in-string</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+            <span class="s2">&quot;]&quot;</span><span class="p">,</span> <span class="s2">&quot;\]&quot;</span>  <span class="c1"># pylint: disable=anomalous-backslash-in-string</span>
+        <span class="p">)</span>
+        <span class="n">update_file</span><span class="p">(</span>
+            <span class="n">pyproject_path</span><span class="p">,</span>
+            <span class="p">(</span>
+                <span class="sa">rf</span><span class="s1">&#39;&quot;</span><span class="si">{</span><span class="n">escaped_full_dependency_name</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">operator</span><span class="si">}</span><span class="s1">.*&quot;&#39;</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s1">&#39;&quot;</span><span class="si">{</span><span class="n">full_dependency_name</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">operator</span><span class="si">}{</span><span class="n">updated_version</span><span class="si">}</span><span class="s1">&#39;</span>
+                <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">extra_op_ver</span> <span class="k">if</span> <span class="n">extra_op_ver</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">already_handled_packages</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">package</span><span class="p">)</span>
+        <span class="n">updated_packages</span><span class="p">[</span><span class="n">full_dependency_name</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">operator</span><span class="si">}{</span><span class="n">updated_version</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="k">if</span> <span class="n">updated_packages</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="s2">&quot;Successfully updated the following dependencies:</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">package</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">version</span><span class="si">}{</span><span class="n">extra_op_ver</span> <span class="k">if</span> <span class="n">extra_op_ver</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span><span class="si">}</span><span class="s2">)&quot;</span>
+                <span class="k">for</span> <span class="n">package</span><span class="p">,</span> <span class="n">version</span> <span class="ow">in</span> <span class="n">updated_packages</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="p">)</span>
+            <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No dependency updates available.&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="tasks.update_file" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">update_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">sub_line</span><span class="p">,</span> <span class="n">strip</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#tasks.update_file" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Utility function for tasks to read, update, and write files</p>
+
+      <details class="quote">
+        <summary>Source code in <code>gh-actions/tasks.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">update_file</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">sub_line</span><span class="p">:</span> <span class="s2">&quot;Tuple[str, str]&quot;</span><span class="p">,</span> <span class="n">strip</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Utility function for tasks to read, update, and write files&quot;&quot;&quot;</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">sub_line</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sub_line</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="n">strip</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">filename</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+    <span class="p">]</span>
+    <span class="n">filename</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+              
+            </article>
+            
+          </div>
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Back to top
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../../workflows/ci_update_dependencies/" class="md-footer__link md-footer__link--prev" aria-label="Previous: CI - Update dependencies" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              CI - Update dependencies
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../../LICENSE/" class="md-footer__link md-footer__link--next" aria-label="Next: License" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              License
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2022 Casper Welzel Andersen
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    <a href="https://github.com/CasperWA" target="_blank" rel="noopener" title="Casper Welzel Andersen on GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top"], "search": "../../assets/javascripts/workers/search.b97dbffb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.6c7ad80a.min.js"></script>
+      
+    
+  </body>
+</html>
