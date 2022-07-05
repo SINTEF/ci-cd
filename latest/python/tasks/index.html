@@ -833,9 +833,7 @@ More information on <code>invoke</code> can be found at <a href="http://www.pyin
 <span class="normal">417</span>
 <span class="normal">418</span>
 <span class="normal">419</span>
-<span class="normal">420</span>
-<span class="normal">421</span>
-<span class="normal">422</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@task</span><span class="p">(</span>
+<span class="normal">420</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@task</span><span class="p">(</span>
     <span class="n">help</span><span class="o">=</span><span class="p">{</span>
         <span class="s2">&quot;package-dir&quot;</span><span class="p">:</span> <span class="p">(</span>
             <span class="s2">&quot;Relative path to package dir from the repository root, &quot;</span>
@@ -922,9 +920,9 @@ More information on <code>invoke</code> can be found at <a href="http://www.pyin
     <span class="n">no_docstring_dirs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">full_docs_dirs</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;unwanted_subdirs&quot;</span><span class="p">,</span> <span class="n">unwanted_subdirs</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;unwanted_subfiles&quot;</span><span class="p">,</span> <span class="n">unwanted_subfiles</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;no_docstring_dirs&quot;</span><span class="p">,</span> <span class="n">no_docstring_dirs</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;unwanted_subdirs:&quot;</span><span class="p">,</span> <span class="n">unwanted_subdirs</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;unwanted_subfiles:&quot;</span><span class="p">,</span> <span class="n">unwanted_subfiles</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;no_docstring_dirs:&quot;</span><span class="p">,</span> <span class="n">no_docstring_dirs</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="n">pages_template</span> <span class="o">=</span> <span class="s1">&#39;title: &quot;</span><span class="si">{name}</span><span class="s1">&quot;</span><span class="se">\n</span><span class="s1">&#39;</span>
     <span class="n">md_template</span> <span class="o">=</span> <span class="s2">&quot;# </span><span class="si">{name}</span><span class="se">\n\n</span><span class="s2">::: </span><span class="si">{py_path}</span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -951,22 +949,20 @@ More information on <code>invoke</code> can be found at <a href="http://www.pyin
         <span class="k">for</span> <span class="n">unwanted_dir</span> <span class="ow">in</span> <span class="n">unwanted_subdirs</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;unwanted_dir:&quot;</span><span class="p">,</span> <span class="n">unwanted_dir</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;dirnames;&quot;</span><span class="p">,</span> <span class="n">dirnames</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;dirnames:&quot;</span><span class="p">,</span> <span class="n">dirnames</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">unwanted_dir</span> <span class="ow">in</span> <span class="n">dirnames</span><span class="p">:</span>
                 <span class="c1"># Avoid walking into or through unwanted directories</span>
                 <span class="n">dirnames</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">unwanted_dir</span><span class="p">)</span>
 
         <span class="n">relpath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">dirpath</span><span class="p">)</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">package_dir</span><span class="p">)</span>
+        <span class="n">abspath</span> <span class="o">=</span> <span class="p">(</span><span class="n">package_dir</span> <span class="o">/</span> <span class="n">relpath</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;relpath:&quot;</span><span class="p">,</span> <span class="n">relpath</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;abspath:&quot;</span><span class="p">,</span> <span class="n">abspath</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">package_dir</span><span class="o">.</span><span class="n">name</span> <span class="o">/</span> <span class="n">relpath</span> <span class="o">/</span> <span class="s2">&quot;__init__.py&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">abspath</span> <span class="o">/</span> <span class="s2">&quot;__init__.py&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
             <span class="c1"># Avoid paths that are not included in the public Python API</span>
-            <span class="nb">print</span><span class="p">(</span>
-                <span class="s2">&quot;does not exist:&quot;</span><span class="p">,</span>
-                <span class="n">package_dir</span><span class="o">.</span><span class="n">name</span> <span class="o">/</span> <span class="n">relpath</span> <span class="o">/</span> <span class="s2">&quot;__init__.py&quot;</span><span class="p">,</span>
-                <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;does not exist:&quot;</span><span class="p">,</span> <span class="n">abspath</span> <span class="o">/</span> <span class="s2">&quot;__init__.py&quot;</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="k">continue</span>
 
         <span class="c1"># Create `.pages`</span>
@@ -1069,7 +1065,9 @@ More information on <code>invoke</code> can be found at <a href="http://www.pyin
 
       <details class="quote">
         <summary>Source code in <code>main/tasks.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">425</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">423</span>
+<span class="normal">424</span>
+<span class="normal">425</span>
 <span class="normal">426</span>
 <span class="normal">427</span>
 <span class="normal">428</span>
@@ -1124,9 +1122,7 @@ More information on <code>invoke</code> can be found at <a href="http://www.pyin
 <span class="normal">477</span>
 <span class="normal">478</span>
 <span class="normal">479</span>
-<span class="normal">480</span>
-<span class="normal">481</span>
-<span class="normal">482</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@task</span><span class="p">(</span>
+<span class="normal">480</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@task</span><span class="p">(</span>
     <span class="n">help</span><span class="o">=</span><span class="p">{</span>
         <span class="s2">&quot;repo-folder&quot;</span><span class="p">:</span> <span class="p">(</span>
             <span class="s2">&quot;The folder name of the repository, wherein the package dir is located. &quot;</span>
