@@ -21,6 +21,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://CasperWA.github.io/gh-actions/latest/workflows/</loc>
+         <lastmod>2022-07-05</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://CasperWA.github.io/gh-actions/latest/workflows/cd_release/</loc>
          <lastmod>2022-07-05</lastmod>
          <changefreq>daily</changefreq>
