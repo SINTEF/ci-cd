@@ -1,0 +1,8 @@
+LICENSE
+README.md
+setup.py
+gh_actions.egg-info/PKG-INFO
+gh_actions.egg-info/SOURCES.txt
+gh_actions.egg-info/dependency_links.txt
+gh_actions.egg-info/requires.txt
+gh_actions.egg-info/top_level.txt
