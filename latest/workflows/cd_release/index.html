@@ -549,6 +549,13 @@
 The newly created tag (created due to the caller workflow running <code>on.release.types.published</code>) will be updated accordingly, as will the publish branch (defaults to <code>main</code>).</p>
 <p>Secondly, a job to update the documentation is run, however, this can be deactivated.
 The job expects the documentation to be setup with the <a href="https://github.com/jimporter/mike">mike</a>+<a href="https://www.mkdocs.org">MkDocs</a>+<a href="https://pages.github.com/">GitHub Pages</a> framework.</p>
+<p>For more information about the specific changelog inputs, see the related <a href="https://github.com/github-changelog-generator/github-changelog-generator">changelog generator</a> actually used, specifically the <a href="https://github.com/github-changelog-generator/github-changelog-generator/wiki/Advanced-change-log-generation-examples">list of configuration options</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Concerning the changelog generator, the specific input <code>changelog_exclude_labels</code> defaults to a list of different labels if not supplied, hence, if supplied, one might want to include these labels alongside any extra labels.
+The default value is given here as a help:<br />
+<code>'duplicate,question,invalid,wontfix'</code></p>
+</div>
 <h2 id="expectations">Expectations<a class="headerlink" href="#expectations" title="Permanent link">&para;</a></h2>
 <p>This workflow should <em>only</em> be used for releasing a single modern Python package.</p>
 <p>The repository contains the following:</p>
@@ -571,13 +578,6 @@ The job expects the documentation to be setup with the <a href="https://github.c
 </thead>
 <tbody>
 <tr>
-<td align="left"><code>package_dir</code></td>
-<td align="left">Path to the Python package directory relative to the repository directory.</br></br>Example: <code>'src/my_package'</code>.</td>
-<td align="center"><strong><em>Yes</em></strong></td>
-<td align="center"></td>
-<td align="center"><em>string</em></td>
-</tr>
-<tr>
 <td align="left"><code>git_username</code></td>
 <td align="left">A git username (used to set the 'user.name' config option).</td>
 <td align="center"><strong><em>Yes</em></strong></td>
@@ -588,6 +588,20 @@ The job expects the documentation to be setup with the <a href="https://github.c
 <td align="left"><code>git_email</code></td>
 <td align="left">A git user's email address (used to set the 'user.email' config option).</td>
 <td align="center"><strong><em>Yes</em></strong></td>
+<td align="center"></td>
+<td align="center"><em>string</em></td>
+</tr>
+<tr>
+<td align="left"><code>python_package</code></td>
+<td align="left">Whether or not this is a Python package, where the version should be updated in the <code>'package_dir'/__init__.py</code> and a build and release to PyPI should be performed.</td>
+<td align="center">No</td>
+<td align="center"><code>true</code></td>
+<td align="center"><em>boolean</em></td>
+</tr>
+<tr>
+<td align="left"><code>package_dir</code></td>
+<td align="left">Path to the Python package directory relative to the repository directory.</br></br>Example: <code>'src/my_package'</code>.</br></br><strong>Important</strong>: This is <em>required</em> if 'python_package' is 'true', which is the default.</td>
+<td align="center"><strong><em>Yes</em> (if 'python_package' is 'true'</strong></td>
 <td align="center"></td>
 <td align="center"><em>string</em></td>
 </tr>
@@ -613,6 +627,34 @@ The job expects the documentation to be setup with the <a href="https://github.c
 <td align="center"><em>string</em></td>
 </tr>
 <tr>
+<td align="left"><code>build_cmd</code></td>
+<td align="left">The package build command, e.g., <code>'pip install flit &amp;&amp; flit build'</code> or <code>'python -m build'</code> (default).</td>
+<td align="center">No</td>
+<td align="center"><code>python -m build</code></td>
+<td align="center"><em>string</em></td>
+</tr>
+<tr>
+<td align="left"><code>tag_message_file</code></td>
+<td align="left">Relative path to a release tag message file from the root of the repository.</br></br>Example: <code>'.github/utils/release_tag_msg.txt'</code>.</td>
+<td align="center">No</td>
+<td align="center"><em>Empty string</em></td>
+<td align="center"><em>string</em></td>
+</tr>
+<tr>
+<td align="left"><code>publish_on_pypi</code></td>
+<td align="left">Whether or not to publish on PyPI.</br></br><strong>Note</strong>: This is only relevant if 'python_package' is 'true', which is the default.</td>
+<td align="center">No</td>
+<td align="center"><code>true</code></td>
+<td align="center"><em>boolean</em></td>
+</tr>
+<tr>
+<td align="left"><code>test</code></td>
+<td align="left">Whether to use the TestPyPI repository index instead of PyPI.</td>
+<td align="center">No</td>
+<td align="center"><code>false</code></td>
+<td align="center"><em>boolean</em></td>
+</tr>
+<tr>
 <td align="left"><code>update_docs</code></td>
 <td align="left">Whether or not to also run the 'docs' workflow job.</td>
 <td align="center">No</td>
@@ -627,25 +669,18 @@ The job expects the documentation to be setup with the <a href="https://github.c
 <td align="center"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>build_cmd</code></td>
-<td align="left">The package build command, e.g., <code>'flit build'</code> or <code>'python -m build'</code> (default).</td>
-<td align="center">No</td>
-<td align="center"><code>python -m build</code></td>
-<td align="center"><em>string</em></td>
-</tr>
-<tr>
-<td align="left"><code>tag_message_file</code></td>
-<td align="left">Relative path to a release tag message file from the root of the repository.</br></br>Example: <code>'.github/utils/release_tag_msg.txt'</code>.</td>
+<td align="left"><code>changelog_exclude_tags_regex</code></td>
+<td align="left">A regular expression matching any tags that should be excluded from the CHANGELOG.md.</td>
 <td align="center">No</td>
 <td align="center"><em>Empty string</em></td>
 <td align="center"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>test</code></td>
-<td align="left">Whether to use the TestPyPI repository index instead of PyPI.</td>
+<td align="left"><code>changelog_exclude_labels</code></td>
+<td align="left">Comma-separated list of labels to exclude from the CHANGELOG.md.</td>
 <td align="center">No</td>
-<td align="center"><code>false</code></td>
-<td align="center"><em>boolean</em></td>
+<td align="center"><em>Empty string</em></td>
+<td align="center"><em>string</em></td>
 </tr>
 </tbody>
 </table>
@@ -661,8 +696,8 @@ The job expects the documentation to be setup with the <a href="https://github.c
 <tbody>
 <tr>
 <td align="left"><code>PyPI_token</code></td>
-<td align="left">A PyPI token for publishing the built package to PyPI.</td>
-<td align="center"><strong><em>Yes</em></strong></td>
+<td align="left">A PyPI token for publishing the built package to PyPI.</br></br><strong>Important</strong>: This is <em>required</em> if both 'python_package' and 'publish_on_pypi' are 'true'. Both are 'true' by default.</td>
+<td align="center"><strong><em>Yes</em> (if 'python_package' and 'publish_on_pypi' are 'true')</strong></td>
 </tr>
 <tr>
 <td align="left"><code>PAT</code></td>
@@ -691,10 +726,11 @@ It is meant to be complete as is.</p>
 <span class="w">      </span><span class="nt">git_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CasperWA@github.com&quot;</span><span class="w"></span>
 <span class="w">      </span><span class="nt">release_branch</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stable</span><span class="w"></span>
 <span class="w">      </span><span class="nt">install_extras</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;[dev,build]&quot;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">doc_extras</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;[docs]&quot;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">update_docs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
-<span class="w">      </span><span class="nt">build_cmd</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;flit</span><span class="nv"> </span><span class="s">build&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="nt">build_cmd</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;pip</span><span class="nv"> </span><span class="s">install</span><span class="nv"> </span><span class="s">flit</span><span class="nv"> </span><span class="s">&amp;&amp;</span><span class="nv"> </span><span class="s">flit</span><span class="nv"> </span><span class="s">build&quot;</span><span class="w"></span>
 <span class="w">      </span><span class="nt">tag_message_file</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;.github/utils/release_tag_msg.txt&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="nt">update_docs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+<span class="w">      </span><span class="nt">doc_extras</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;[docs]&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="nt">exclude_labels</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;skip_changelog,duplicate&quot;</span><span class="w"></span>
 <span class="w">    </span><span class="nt">secrets</span><span class="p">:</span><span class="w"></span>
 <span class="w">      </span><span class="nt">PyPI_token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.PYPI_TOKEN }}</span><span class="w"></span>
 <span class="w">      </span><span class="nt">PAT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.PAT }}</span><span class="w"></span>
