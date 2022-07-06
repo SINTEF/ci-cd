@@ -1,9 +1,7 @@
----
-title: CI - Update dependencies PR
----
 <!-- markdownlint-disable MD038 -->
-<!-- markdownlint-disable-next-line MD025 -->
-# CI - Update dependencies PR (`ci_update_dependencies.yml`)
+# CI - Update dependencies PR
+
+**File to use:** `ci_update_dependencies.yml`
 
 This workflow creates a PR if there are any updates in the `permanent_dependencies_branch` branch that have not been included in the `default_repo_branch` branch.
 

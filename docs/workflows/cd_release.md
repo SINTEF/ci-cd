@@ -1,8 +1,6 @@
----
-title: CD - Release
----
-<!-- markdownlint-disable-next-line MD025 -->
-# CD - Release (`cd_release.yml`)
+# CD - Release
+
+**File to use:** `cd_release.yml`
 
 There are 2 jobs in this workflow, which run in sequence.
 

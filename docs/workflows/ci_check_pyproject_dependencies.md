@@ -1,8 +1,6 @@
----
-title: CI - Check pyproject.toml dependencies
----
-<!-- markdownlint-disable-next-line MD025 -->
-# CI - Check pyproject.toml dependencies (`ci_check_pyproject_dependencies.yml`)
+# CI - Check pyproject.toml dependencies
+
+**File to use:** `ci_check_pyproject_dependencies.yml`
 
 This workflow runs an [Invoke](https://pyinvoke.org) task to check dependencies in a `pyproject.toml` file.
 

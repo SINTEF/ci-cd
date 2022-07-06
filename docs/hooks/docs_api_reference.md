@@ -1,6 +1,6 @@
 # Update API Reference in Documentation
 
-**pre-commit hook `id`:** `docs-api-reference`
+**pre-commit hook _id_:** `docs-api-reference`
 
 Run this hook to update the API Reference section of your documentation.
 

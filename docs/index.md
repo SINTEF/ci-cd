@@ -6,7 +6,7 @@ Use tried and tested continuous integration (CI) and continuous deployment (CD) 
 
 Currently, the repository offers GitHub Actions callable/reusable workflows and [pre-commit](https://pre-commit.com) hooks.
 
-## GitHub Action callable/reusable workflows
+## GitHub Actions callable/reusable Workflows
 
 This repository contains reusable workflows for GitHub Actions.
 

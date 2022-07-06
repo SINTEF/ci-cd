@@ -1,8 +1,6 @@
----
-title: CI/CD - New updates to default branch
----
-<!-- markdownlint-disable-next-line MD025 -->
-# CI/CD - New updates to default branch (`ci_cd_updated_default_branch.yml`)
+# CI/CD - New updates to default branch
+
+**File to use:** `ci_cd_updated_default_branch.yml`
 
 Keep your `permanent_dependencies_branch` branch up-to-date with changes in your main development branch, i.e., the `default_repo_branch`.
 

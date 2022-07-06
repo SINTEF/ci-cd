@@ -1,6 +1,6 @@
 # Update Landing Page (index.md) for Documentation
 
-**pre-commit hook `id`:** `docs-landing-page`
+**pre-commit hook _id_:** `docs-landing-page`
 
 Run this hook to update the landing page (root `index.md` file) for your documentation.
 

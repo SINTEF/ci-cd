@@ -1,8 +1,6 @@
----
-title: CI - Activate auto-merging for PRs
----
-<!-- markdownlint-disable-next-line MD025 -->
-# CI - Activate auto-merging for PRs (`ci_automerge_prs.yml`)
+# CI - Activate auto-merging for PRs
+
+**File to use:** `ci_automerge_prs.yml`
 
 Activate auto-merging for a PR.
 
