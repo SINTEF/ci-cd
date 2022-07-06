@@ -78,16 +78,22 @@ def setver(_, package_dir, version, root_repo_path="."):
         "root-repo-path": (
             "A resolvable path to the root directory of the repository folder."
         ),
+        "pre-commit": "Whether or not this task is run as a pre-commit hook.",
     }
 )
 def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-statements
-    context, root_repo_path=".", fail_fast=False
+    context, root_repo_path=".", fail_fast=False, pre_commit=False
 ):
     """Update dependencies in specified Python package's `pyproject.toml`."""
     import tomlkit
 
     if TYPE_CHECKING:  # pragma: no cover
         context: "Context" = context
+
+    if pre_commit and root_repo_path == ".":
+        # Use git to determine repo root
+        result: "Result" = context.run("git rev-parse --show-toplevel", hide=True)
+        root_repo_path = result.stdout
 
     pyproject_path = Path(root_repo_path).resolve() / "pyproject.toml"
     if not pyproject_path.exists():
@@ -257,6 +263,9 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
     import os
     import shutil
 
+    if TYPE_CHECKING:  # pragma: no cover
+        context: "Context" = context
+
     def write_file(full_path: Path, content: str) -> None:
         """Write file with `content` to `full_path`"""
         if full_path.exists():
@@ -266,6 +275,11 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
                 return
             del cached_content
         full_path.write_text(content, encoding="utf8")
+
+    if pre_commit and root_repo_path == ".":
+        # Use git to determine repo root
+        result: "Result" = context.run("git rev-parse --show-toplevel", hide=True)
+        root_repo_path = result.stdout
 
     root_repo_path = Path(root_repo_path).resolve()
     package_dir: Path = root_repo_path / package_dir
@@ -454,6 +468,13 @@ def create_docs_index(  # pylint: disable=too-many-locals
     internal_separator=",",
 ):
     """Create the documentation index page from README.md."""
+    if TYPE_CHECKING:  # pragma: no cover
+        context: "Context" = context
+
+    if pre_commit and root_repo_path == ".":
+        # Use git to determine repo root
+        result: "Result" = context.run("git rev-parse --show-toplevel", hide=True)
+        root_repo_path = result.stdout
     root_repo_path = Path(root_repo_path).resolve()
     readme = root_repo_path / "README.md"
     docs_index: Path = root_repo_path / docs_folder / "index.md"
@@ -482,8 +503,6 @@ def create_docs_index(  # pylint: disable=too-many-locals
     if pre_commit:
         # Check if there have been any changes.
         # List changes if yes.
-        if TYPE_CHECKING:  # pragma: no cover
-            context: "Context" = context
 
         # NOTE: grep returns an exit code of 1 if it doesn't find anything
         # (which will be good in this case).

@@ -38,4 +38,3 @@
   minimum_pre_commit_version: "2.16.0"
   args:
     - '--replacements="(LICENSE),(LICENSE.md)"'
-    - '--root-repo-path="$(git rev-parse --show-toplevel)"'
