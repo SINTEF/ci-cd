@@ -735,7 +735,7 @@ It is meant to be complete as is.</p>
 <span class="nt">jobs</span><span class="p">:</span><span class="w"></span>
 <span class="w">  </span><span class="nt">publish</span><span class="p">:</span><span class="w"></span>
 <span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Publish package and documentation</span><span class="w"></span>
-<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CasperWA/ci-cd/.github/workflows/cd_release.yml@main</span><span class="w"></span>
+<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CasperWA/ci-cd/.github/workflows/cd_release.yml@v1</span><span class="w"></span>
 <span class="w">    </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.repository == &#39;CasperWA/my-python-package&#39; &amp;&amp; startsWith(github.ref, &#39;refs/tags/v&#39;)</span><span class="w"></span>
 <span class="w">    </span><span class="nt">with</span><span class="p">:</span><span class="w"></span>
 <span class="w">      </span><span class="nt">git_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Casper</span><span class="nv"> </span><span class="s">Welzel</span><span class="nv"> </span><span class="s">Andersen&quot;</span><span class="w"></span>
