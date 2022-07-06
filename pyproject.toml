@@ -1,0 +1,71 @@
+[build-system]
+requires = ["flit_core >=3.4,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "ci-cd"
+authors = [
+    {name = "Casper Welzel Andersen", email = "casper+github@welzel.nu"},
+]
+description = "CI/CD tools. Package with pre-commit hooks."
+readme = "README.md"
+license = {file = "LICENSE"}
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+]
+keywords = ["ci", "cd", "pre-commit"]
+requires-python = "~=3.7"
+dynamic = ["version"]
+
+dependencies = [
+    "invoke ~=1.7",
+    "tomlkit ~=0.11.0",
+]
+
+[project.optional-dependencies]
+docs = [
+    "mike ~=1.1",
+    "mkdocs ~=1.3",
+    "mkdocs-awesome-pages-plugin ~=2.7",
+    "mkdocs-material ~=8.3",
+    "mkdocstrings[python] ~=0.19.0",
+]
+dev = [
+    "pre-commit ~=2.19",
+    "pylint ~=2.14",
+]
+
+[project.urls]
+Home = "https://github.com/CasperWA/ci-cd"
+Documentation = "https://CasperWA.github.io/ci-cd"
+Source = "https://github.com/CasperWA/ci-cd"
+"Issue Tracker" = "https://github.com/CasperWA/ci-cd/issues"
+Changelog = "https://CasperWA.github.io/ci-cd/latest/CHANGELOG"
+
+[project.entry-points.console_scripts]
+"ci-cd" = "ci_cd.main:program.run"
+
+[tool.flit.module]
+name = "ci_cd"
+
+[tool.mypy]
+python_version = "3.9"
+ignore_missing_imports = true
+scripts_are_modules = true
+warn_unused_configs = true
+show_error_codes = true
+allow_redefinition = true
+
+[tool.pylint.messages_control]
+max-line-length = 90
+disable = []
+max-args = 10
+max-branches = 15

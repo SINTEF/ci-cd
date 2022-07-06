@@ -62,10 +62,6 @@ repos:
     - id: pylint
       name: pylint
       entry: pylint
-      args:
-      - "--max-args=10"
-      - "--max-branches=15"
       language: python
       types: [python]
       require_serial: true
-      # files: ^.*$
