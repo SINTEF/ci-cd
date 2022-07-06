@@ -79,7 +79,6 @@ nav:
   - Hooks:
     - Overview: hooks/index.md
     - ... | flat | hooks/**
-  - ... | python/**
   - License: LICENSE.md
   - Changelog: CHANGELOG.md
 
