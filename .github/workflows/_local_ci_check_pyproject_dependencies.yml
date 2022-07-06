@@ -1,0 +1,21 @@
+name: CI - Check dependencies PR
+
+on:
+  schedule:
+    # At 7:30 every Monday (5:30 UTC)
+    - cron: "30 5 * * 1"
+  workflow_dispatch:
+
+jobs:
+  update-pyproject-dependencies:
+    name: Call reusable workflow
+    if: github.repository_owner == 'CasperWA'
+    uses: ./.github/workflows/ci_check_pyproject_dependencies.yml
+    with:
+      git_username: "Casper Welzel Andersen"
+      git_email: "casper+github@welzel.nu"
+      permanent_dependencies_branch: "ci/dependency-updates"
+      install_extras: "[dev,docs]"
+      pr_labels: "CI/CD"
+    secrets:
+      PAT: ${{ secrets.RELEASE_PAT }}
