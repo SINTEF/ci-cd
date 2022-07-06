@@ -218,7 +218,10 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
             "e.g. 'src/my_package'."
         ),
         "pre-clean": "Remove the 'api_reference' sub directory prior to (re)creation.",
-        "pre-commit": "Whether or not this task is run as a pre-commit hook. Will return a non-zero error code if changes were made.",
+        "pre-commit": (
+            "Whether or not this task is run as a pre-commit hook. Will return a "
+            "non-zero error code if changes were made."
+        ),
         "repo-folder": (
             "The folder name of the repository, wherein the package dir is located. "
             "This defaults to 'main', as this will be used in the callable workflows."
@@ -417,9 +420,11 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
         )
         if result.stdout:
             sys.exit(
-                "The following files have been changed/added, please stage "
-                f"them:\n\n{result.stdout}"
+                "\u27b0 The following files have been changed/added, please stage "
+                f"them:\n\n{result.stdout}\n  git add "
+                f"{docs_api_ref_dir.relative_to(basis_dir / repo_folder)}"
             )
+        print("\u2714 No changes - your API reference documentation is up-to-date !")
 
 
 @task(
@@ -449,8 +454,8 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
         ),
     }
 )
-def create_docs_index(
-    _,
+def create_docs_index(  # pylint: disable=too-many-locals
+    context,
     pre_commit=False,
     repo_folder="main",
     docs_folder="docs",
@@ -483,3 +488,27 @@ def create_docs_index(
         content = content.replace(old, new)
 
     docs_index.write_text(content, encoding="utf8")
+
+    if pre_commit:
+        # Check if there have been any changes.
+        # List changes if yes.
+        if TYPE_CHECKING:  # pragma: no cover
+            context: "Context" = context
+
+        # NOTE: grep returns an exit code of 1 if it doesn't find anything
+        # (which will be good in this case).
+        # Concerning the weird last grep command see:
+        # http://manpages.ubuntu.com/manpages/precise/en/man1/git-status.1.html
+        result: "Result" = context.run(
+            f'git -C "{basis_dir / repo_folder}" status --porcelain '
+            f"{docs_index.relative_to(basis_dir / repo_folder)} | "
+            "grep -E '^[? MARC][?MD]' || exit 0",
+            hide=True,
+        )
+        if result.stdout:
+            sys.exit(
+                f"\u27b0 The landing page has been updated. Please stage: "
+                f"{docs_index.relative_to(basis_dir / repo_folder)} by running:\n\n"
+                f"  git add {docs_index.relative_to(basis_dir / repo_folder)}"
+            )
+        print("\u2714 No changes - your landing page is up-to-date !")

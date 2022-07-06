@@ -212,7 +212,7 @@ jobs:
       if: env.RELEASE_RUN == 'false'
       run: |
         if [ -n "$(git status --porcelain docs/api_reference docs/index.md)" ]; then
-          echo -e "\u274c Discrepancies found !"
+          echo -e "\u27b0 Discrepancies found !"
           echo -e "The following files in the documentation will be committed:"
           git status --porcelain docs/api_reference docs/index.md
 
@@ -226,7 +226,7 @@ jobs:
           git commit -m "[bot] Update documentation"
           echo "UPDATE_DEFAULT_BRANCH=true" >> $GITHUB_ENV
         else
-          echo -e "\u2705 All good !"
+          echo -e "\u2714 All good !"
           echo "UPDATE_DEFAULT_BRANCH=false" >> $GITHUB_ENV
         fi
       working-directory: ./main
