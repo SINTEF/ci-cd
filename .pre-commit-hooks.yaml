@@ -1,0 +1,41 @@
+# pre-commit hooks available at https://github.com/CasperWA/ci-cd
+
+- id: docs-api-reference
+  name: Update API Reference in Documentation
+  entry: "invoke create-api-reference-docs --pre-clean --pre-commit --repo-folder=."
+  language: python
+  files: \.py$
+  exclude: ^$
+  types: [file, python]
+  types_or: []
+  exclude_types: []
+  always_run: false
+  fail_fast: false
+  verbose: false
+  pass_filenames: false
+  require_serial: false
+  description: "Update the API Reference documentation whenever a Python file is touched in the code base."
+  language_version: default
+  minimum_pre_commit_version: "2.16.0"
+  args: []
+
+- id: docs-landing-page
+  name: Update Landing Page (index.md) for Documentation
+  entry: "invoke create-docs-index --repo-folder=."
+  language: python
+  files: ^README.md$
+  exclude: ^$
+  types: [file, markdown]
+  types_or: []
+  exclude_types: []
+  always_run: false
+  fail_fast: false
+  verbose: false
+  pass_filenames: false
+  require_serial: false
+  description: "Update the landing page (index.md) for the documentation if the source file (README.md) is changed."
+  language_version: default
+  minimum_pre_commit_version: "2.16.0"
+  args:
+    - "--replacements"
+    - "(LICENSE),(LICENSE.md)"
