@@ -16,8 +16,8 @@ jobs:
       default_repo_branch: fix-21-hooks-externally  #main
       update_docs: true
       doc_extras: "[docs]"
-      update_python_api_ref: false
-      update_docs_landing_page: false
+      update_python_api_ref: true
+      update_docs_landing_page: true
       changelog_exclude_tags_regex: "^v[0-9]+$"
       test: true
     secrets:
