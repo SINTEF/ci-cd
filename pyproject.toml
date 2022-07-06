@@ -2,12 +2,14 @@
 requires = ["flit_core >=3.4,<4"]
 build-backend = "flit_core.buildapi"
 
+[tool.flit.module]
+name = "ci_cd"
+
 [project]
 name = "ci-cd"
 authors = [
     {name = "Casper Welzel Andersen", email = "casper+github@welzel.nu"},
 ]
-description = "CI/CD tools. Package with pre-commit hooks."
 readme = "README.md"
 license = {file = "LICENSE"}
 classifiers = [
@@ -20,10 +22,11 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Natural Language :: English",
     "Operating System :: OS Independent",
+    "Private :: Do Not Upload",
 ]
 keywords = ["ci", "cd", "pre-commit"]
 requires-python = "~=3.7"
-dynamic = ["version"]
+dynamic = ["version", "description"]
 
 dependencies = [
     "invoke ~=1.7",
@@ -50,11 +53,8 @@ Source = "https://github.com/CasperWA/ci-cd"
 "Issue Tracker" = "https://github.com/CasperWA/ci-cd/issues"
 Changelog = "https://CasperWA.github.io/ci-cd/latest/CHANGELOG"
 
-[project.entry-points.console_scripts]
+[project.scripts]
 "ci-cd" = "ci_cd.main:program.run"
-
-[tool.flit.module]
-name = "ci_cd"
 
 [tool.mypy]
 python_version = "3.9"
