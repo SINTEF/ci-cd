@@ -31,11 +31,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://CasperWA.github.io/ci-cd/latest/python/tasks/</loc>
-         <lastmod>2022-07-06</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://CasperWA.github.io/ci-cd/latest/workflows/</loc>
          <lastmod>2022-07-06</lastmod>
          <changefreq>daily</changefreq>
