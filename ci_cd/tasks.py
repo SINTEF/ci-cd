@@ -15,10 +15,6 @@ if TYPE_CHECKING:  # pragma: no cover
     from invoke import Context, Result
 
 
-REPO_DIR = Path(__file__).resolve().parent.resolve()
-REPO_PARENT_DIR = REPO_DIR.parent.resolve()
-
-
 def update_file(filename: Path, sub_line: "Tuple[str, str]", strip: str = None) -> None:
     """Utility function for tasks to read, update, and write files"""
     lines = [
@@ -35,13 +31,12 @@ def update_file(filename: Path, sub_line: "Tuple[str, str]", strip: str = None) 
             "Relative path to package dir from the repository root, "
             "e.g. 'src/my_package'."
         ),
-        "repo-folder": (
-            "The folder name of the repository, wherein the package dir is located. "
-            "This defaults to 'main', as this will be used in the callable workflows."
+        "root-repo-path": (
+            "A resolvable path to the root directory of the repository folder."
         ),
     }
 )
-def setver(_, package_dir, version, repo_folder="main"):
+def setver(_, package_dir, version, root_repo_path="."):
     """Sets the specified version of specified Python package."""
     match = re.fullmatch(
         (
@@ -59,7 +54,7 @@ def setver(_, package_dir, version, repo_folder="main"):
         )
     version = match.group("version")
 
-    init_file: Path = REPO_PARENT_DIR / repo_folder / package_dir / "__init__.py"
+    init_file: Path = Path(root_repo_path).resolve() / package_dir / "__init__.py"
     if not init_file.exists():
         sys.exit(
             "Error: Could not find the Python package's root '__init__.py' file at: "
@@ -76,19 +71,17 @@ def setver(_, package_dir, version, repo_folder="main"):
 
 @task(
     help={
-        "pre-commit": "Whether or not this task is run as a pre-commit hook",
         "fail-fast": (
             "Fail immediately if an error occurs. Otherwise, print and ignore all "
             "non-critical errors."
         ),
-        "repo-folder": (
-            "The folder name of the repository, wherein the package dir is located. "
-            "This defaults to 'main', as this will be used in the callable workflows."
+        "root-repo-path": (
+            "A resolvable path to the root directory of the repository folder."
         ),
     }
 )
 def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-statements
-    context, pre_commit=False, repo_folder="main", fail_fast=False
+    context, root_repo_path=".", fail_fast=False
 ):
     """Update dependencies in specified Python package's `pyproject.toml`."""
     import tomlkit
@@ -96,8 +89,7 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
     if TYPE_CHECKING:  # pragma: no cover
         context: "Context" = context
 
-    basis_dir = REPO_DIR if pre_commit else REPO_PARENT_DIR
-    pyproject_path = basis_dir / repo_folder / "pyproject.toml"
+    pyproject_path = Path(root_repo_path).resolve() / "pyproject.toml"
     if not pyproject_path.exists():
         sys.exit(
             "Error: Could not find the Python package repository's 'pyproject.toml' "
@@ -222,9 +214,8 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
             "Whether or not this task is run as a pre-commit hook. Will return a "
             "non-zero error code if changes were made."
         ),
-        "repo-folder": (
-            "The folder name of the repository, wherein the package dir is located. "
-            "This defaults to 'main', as this will be used in the callable workflows."
+        "root-repo-path": (
+            "A resolvable path to the root directory of the repository folder."
         ),
         "docs-folder": (
             "The folder name for the documentation root folder. "
@@ -255,7 +246,7 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
     package_dir,
     pre_clean=False,
     pre_commit=False,
-    repo_folder="main",
+    root_repo_path=".",
     docs_folder="docs",
     unwanted_dirs="__pycache__",
     unwanted_files="__init__.py",
@@ -276,9 +267,9 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
             del cached_content
         full_path.write_text(content, encoding="utf8")
 
-    basis_dir = REPO_DIR if pre_commit else REPO_PARENT_DIR
-    package_dir: Path = basis_dir / repo_folder / package_dir
-    docs_api_ref_dir: Path = basis_dir / repo_folder / docs_folder / "api_reference"
+    root_repo_path = Path(root_repo_path).resolve()
+    package_dir: Path = root_repo_path / package_dir
+    docs_api_ref_dir: Path = root_repo_path / docs_folder / "api_reference"
     if debug:
         print("package_dir:", package_dir, flush=True)
         print("docs_api_ref_dir:", docs_api_ref_dir, flush=True)
@@ -413,8 +404,8 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
         # Concerning the weird last grep command see:
         # http://manpages.ubuntu.com/manpages/precise/en/man1/git-status.1.html
         result: "Result" = context.run(
-            f'git -C "{basis_dir / repo_folder}" status --porcelain '
-            f"{docs_api_ref_dir.relative_to(basis_dir / repo_folder)} | "
+            f'git -C "{root_repo_path}" status --porcelain '
+            f"{docs_api_ref_dir.relative_to(root_repo_path)} | "
             "grep -E '^[? MARC][?MD]' || exit 0",
             hide=True,
         )
@@ -422,7 +413,7 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
             sys.exit(
                 "\u27b0 The following files have been changed/added/removed:\n\n"
                 f"{result.stdout}\nPlease stage them:\n\n  git add "
-                f"{docs_api_ref_dir.relative_to(basis_dir / repo_folder)}"
+                f"{docs_api_ref_dir.relative_to(root_repo_path)}"
             )
         print("\u2714 No changes - your API reference documentation is up-to-date !")
 
@@ -430,9 +421,8 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
 @task(
     help={
         "pre-commit": "Whether or not this task is run as a pre-commit hook.",
-        "repo-folder": (
-            "The folder name of the repository, wherein the package dir is located. "
-            "This defaults to 'main', as this will be used in the callable workflows."
+        "root-repo-path": (
+            "A resolvable path to the root directory of the repository folder."
         ),
         "docs-folder": (
             "The folder name for the documentation root folder. "
@@ -457,16 +447,16 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
 def create_docs_index(  # pylint: disable=too-many-locals
     context,
     pre_commit=False,
-    repo_folder="main",
+    root_repo_path=".",
     docs_folder="docs",
     replacements="",
     replacements_separator="|",
     internal_separator=",",
 ):
     """Create the documentation index page from README.md."""
-    basis_dir = REPO_DIR if pre_commit else REPO_PARENT_DIR
-    readme: Path = basis_dir / repo_folder / "README.md"
-    docs_index: Path = basis_dir / repo_folder / docs_folder / "index.md"
+    root_repo_path = Path(root_repo_path).resolve()
+    readme = root_repo_path / "README.md"
+    docs_index: Path = root_repo_path / docs_folder / "index.md"
 
     content = readme.read_text(encoding="utf8")
 
@@ -500,14 +490,14 @@ def create_docs_index(  # pylint: disable=too-many-locals
         # Concerning the weird last grep command see:
         # http://manpages.ubuntu.com/manpages/precise/en/man1/git-status.1.html
         result: "Result" = context.run(
-            f'git -C "{basis_dir / repo_folder}" status --porcelain '
-            f"{docs_index.relative_to(basis_dir / repo_folder)} | "
+            f'git -C "{root_repo_path}" status --porcelain '
+            f"{docs_index.relative_to(root_repo_path)} | "
             "grep -E '^[? MARC][?MD]' || exit 0",
             hide=True,
         )
         if result.stdout:
             sys.exit(
                 f"\u27b0 The landing page has been updated.\n\nPlease stage it:\n\n"
-                f"  git add {docs_index.relative_to(basis_dir / repo_folder)}"
+                f"  git add {docs_index.relative_to(root_repo_path)}"
             )
         print("\u2714 No changes - your landing page is up-to-date !")

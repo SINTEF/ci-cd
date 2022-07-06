@@ -2,7 +2,7 @@
 
 - id: docs-api-reference
   name: Update API Reference in Documentation
-  entry: "invoke create-api-reference-docs --pre-clean --pre-commit --repo-folder=."
+  entry: "ci-cd create-api-reference-docs --pre-clean --pre-commit"
   language: python
   files: \.py$
   exclude: ^$
@@ -21,7 +21,7 @@
 
 - id: docs-landing-page
   name: Update Landing Page (index.md) for Documentation
-  entry: "invoke create-docs-index --pre-commit --repo-folder=."
+  entry: "ci-cd create-docs-index --pre-commit"
   language: python
   files: ^README.md$
   exclude: ^$
@@ -37,5 +37,5 @@
   language_version: default
   minimum_pre_commit_version: "2.16.0"
   args:
-    - "--replacements"
-    - "(LICENSE),(LICENSE.md)"
+    - '--replacements="(LICENSE),(LICENSE.md)"'
+    - '--root-repo-path="$(git rev-parse --show-toplevel)"'
