@@ -93,7 +93,7 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
     if pre_commit and root_repo_path == ".":
         # Use git to determine repo root
         result: "Result" = context.run("git rev-parse --show-toplevel", hide=True)
-        root_repo_path = result.stdout
+        root_repo_path = result.stdout.strip("\n")
 
     pyproject_path = Path(root_repo_path).resolve() / "pyproject.toml"
     if not pyproject_path.exists():
@@ -279,7 +279,7 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
     if pre_commit and root_repo_path == ".":
         # Use git to determine repo root
         result: "Result" = context.run("git rev-parse --show-toplevel", hide=True)
-        root_repo_path = result.stdout
+        root_repo_path = result.stdout.strip("\n")
 
     root_repo_path = Path(root_repo_path).resolve()
     package_dir: Path = root_repo_path / package_dir
@@ -474,7 +474,8 @@ def create_docs_index(  # pylint: disable=too-many-locals
     if pre_commit and root_repo_path == ".":
         # Use git to determine repo root
         result: "Result" = context.run("git rev-parse --show-toplevel", hide=True)
-        root_repo_path = result.stdout
+        root_repo_path = result.stdout.strip("\n")
+
     root_repo_path = Path(root_repo_path).resolve()
     readme = root_repo_path / "README.md"
     docs_index: Path = root_repo_path / docs_folder / "index.md"
