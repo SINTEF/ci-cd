@@ -420,8 +420,8 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
         )
         if result.stdout:
             sys.exit(
-                "\u27b0 The following files have been changed/added:\n\n"
-                f"{result.stdout}\n  Please stage them:    git add "
+                "\u27b0 The following files have been changed/added/removed:\n\n"
+                f"{result.stdout}\nPlease stage them:\n  git add "
                 f"{docs_api_ref_dir.relative_to(basis_dir / repo_folder)}"
             )
         print("\u2714 No changes - your API reference documentation is up-to-date !")
@@ -507,7 +507,7 @@ def create_docs_index(  # pylint: disable=too-many-locals
         )
         if result.stdout:
             sys.exit(
-                f"\u27b0 The landing page has been updated.\n  Please stage it:\n\n"
-                f"    git add {docs_index.relative_to(basis_dir / repo_folder)}"
+                f"\u27b0 The landing page has been updated.\n\nPlease stage it:\n\n"
+                f"  git add {docs_index.relative_to(basis_dir / repo_folder)}"
             )
         print("\u2714 No changes - your landing page is up-to-date !")
