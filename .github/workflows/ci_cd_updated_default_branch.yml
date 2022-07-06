@@ -146,7 +146,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -U setuptools wheel
         pip install .${{ inputs.doc_extras }}
-        pip install git+https://github.com/CasperWA/ci-cd.git@fix-21-hooks-externally
+        pip install git+https://github.com/CasperWA/ci-cd.git@v1
 
     - name: Set up git user
       if: env.RELEASE_RUN == 'false'
@@ -239,7 +239,6 @@ jobs:
         release_branch: ${{ inputs.default_repo_branch }}
         exclude_tags_regex: "${{ inputs.changelog_exclude_tags_regex }}"
         exclude_labels: "${{ inputs.changelog_exclude_labels }}"
-        output: "CHANGELOG.md"
         future_release: "Unreleased changes"
 
     - name: Deploy documentation

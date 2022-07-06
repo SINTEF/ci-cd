@@ -2,7 +2,7 @@ name: CI/CD - New updates to 'main'
 
 on:
   push:
-    branches: [main, fix-21-hooks-externally]
+    branches: [main]
 
 jobs:
   updated-main:
@@ -13,13 +13,12 @@ jobs:
       git_username: "Casper Welzel Andersen"
       git_email: "casper+github@welzel.nu"
       permanent_dependencies_branch: "ci/dependency-updates"
-      default_repo_branch: fix-21-hooks-externally  #main
+      default_repo_branch: main
       update_docs: true
       doc_extras: "[docs]"
-      update_python_api_ref: true
-      update_docs_landing_page: true
+      update_python_api_ref: false
+      update_docs_landing_page: false
       changelog_exclude_tags_regex: "^v[0-9]+$"
-      package_dir: ci_cd
-      test: true
+      test: false
     secrets:
       PAT: ${{ secrets.RELEASE_PAT }}

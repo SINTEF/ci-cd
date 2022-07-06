@@ -127,7 +127,7 @@ jobs:
 
     - name: Set PR body
       run: |
-        if [ -z "${{ inputs.pr_body_file }}" ] || [ ! -f "main/${{ inputs.pr_body_file }}" ]; then
+        if [ -z "${{ inputs.pr_body_file }}" ] || [ ! -f "${{ inputs.pr_body_file }}" ]; then
           PR_BODY_FILE=.tmp_pr-body_${{ github.run_id }}_${{ github.run_number }}_${{ github.run_attempt }}.txt
           echo "PR_BODY_FILE=${PR_BODY_FILE}" >> $GITHUB_ENV
 

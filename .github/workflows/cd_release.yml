@@ -97,14 +97,6 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
-        path: main
-
-    - name: Checkout CasperWA/ci-cd
-      uses: actions/checkout@v3
-      with:
-        repository: CasperWA/ci-cd
-        ref: main
-        path: ci-cd
 
     - name: Set up Python ${{ inputs.python_version }}
       uses: actions/setup-python@v4
@@ -115,8 +107,8 @@ jobs:
       run: |
         python -m pip install -U pip
         pip install -U setuptools wheel build
-        pip install ./main${{ inputs.install_extras }}
-        pip install -r ./ci-cd/requirements.txt
+        pip install .${{ inputs.install_extras }}
+        pip install git+https://github.com/CasperWA/ci-cd.git@v1
 
     - name: Update changelog
       uses: CharMixer/auto-changelog-action@v1
@@ -125,7 +117,6 @@ jobs:
         release_branch: ${{ inputs.release_branch }}
         exclude_tags_regex: "${{ inputs.changelog_exclude_tags_regex }}"
         exclude_labels: "${{ inputs.changelog_exclude_labels }}"
-        output: "main/CHANGELOG.md"
 
     - name: Set up git user
       run: |
@@ -142,37 +133,33 @@ jobs:
             echo "package_dir MUST be supplied, since python_package was set to 'true'."
             exit 1
           fi
-          invoke setver --version="${REF}" --repo-folder=main --package-dir=${{ inputs.package_dir }}
+          ci-cd setver --version="${REF}" --root-repo-path="${PWD}" --package-dir=${{ inputs.package_dir }}
         fi
 
-        MAIN_DIR="${{ github.workspace }}/main"
+        git commit -am "Release ${REF} - Changelog"
 
-        git -C ${MAIN_DIR} commit -am "Release ${REF} - Changelog"
-
-        if [ -z "${{ inputs.tag_message_file }}" ] || [ ! -f "main/${{ inputs.tag_message_file }}" ]; then
-          TAG_MSG_FILE=${{ github.workspace }}/.tmp_tag-msg_${{ github.run_id }}_${{ github.run_number }}_${{ github.run_attempt }}.txt
+        if [ -z "${{ inputs.tag_message_file }}" ] || [ ! -f "${{ inputs.tag_message_file }}" ]; then
+          TAG_MSG_FILE=.tmp_tag-msg_${{ github.run_id }}_${{ github.run_number }}_${{ github.run_attempt }}.txt
 
           echo -e "TAG_NAME\n\nThe full release changelog can be seen in the\n[repository source file](https://github.com/${{ github.repository }}/blob/TAG_NAME/CHANGELOG.md)." > ${TAG_MSG_FILE}
           echo "Using default release tag message."
           REMOVE_TAG_MSG_FILE=true
         else
           echo "Using found release tag message text file at ${{ inputs.tag_message_file }}."
-          TAG_MSG_FILE=main/${{ inputs.tag_message_file }}
+          TAG_MSG_FILE=${{ inputs.tag_message_file }}
           REMOVE_TAG_MSG_FILE=false
         fi
 
         sed -i "s|TAG_NAME|${REF}|" "${TAG_MSG_FILE}"
-        git -C ${MAIN_DIR} tag -af -F "${TAG_MSG_FILE}" ${REF}
+        git tag -af -F "${TAG_MSG_FILE}" ${REF}
 
         if [ "${REMOVE_TAG_MSG_FILE}" == "true" ]; then rm -f "${TAG_MSG_FILE}"; fi
-      working-directory: ./ci-cd
 
     - name: Build source distribution
       run: |
         # First, clean the git tree
         git checkout -- .
         ${{ inputs.build_cmd }}
-      working-directory: ./main
 
     - name: Update '${{ inputs.release_branch }}'
       uses: CasperWA/push-protected@v2
@@ -184,7 +171,6 @@ jobs:
         tags: true
         unprotect_reviews: true
         debug: ${{ inputs.test }}
-        path: main
 
     - name: Get tagged versions
       run: |
@@ -193,7 +179,6 @@ jobs:
         else
           echo "PREVIOUS_VERSION=$(git tag -l --sort -version:refname | sed -n 2p)" >> $GITHUB_ENV
         fi
-      working-directory: ./main
 
     - name: Create release-specific changelog
       uses: CharMixer/auto-changelog-action@v1
@@ -219,7 +204,6 @@ jobs:
       with:
         user: __token__
         password: ${{ secrets.PyPI_token }}
-        packages_dir: main/dist/
         repository_url: https://test.pypi.org/legacy/
 
     - name: Publish package to PyPI
@@ -228,7 +212,6 @@ jobs:
       with:
         user: __token__
         password: ${{ secrets.PyPI_token }}
-        packages_dir: main/dist/
 
   docs:
     name: Deploy release documentation
@@ -252,7 +235,7 @@ jobs:
       run: |
         python -m pip install -U pip
         pip install -U setuptools wheel
-        pip install -e .${{ inputs.doc_extras || inputs.install_extras }}
+        pip install .${{ inputs.doc_extras || inputs.install_extras }}
 
     - name: Set up git user
       run: |
