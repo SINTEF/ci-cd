@@ -18,7 +18,7 @@ There are no inputs for this workflow.
 
 ## Secrets
 
-| **Name** | **Descriptions** | **Required** |
+| **Name** | **Description** | **Required** |
 |:--- |:--- |:---:|
 | `PAT` | A personal access token (PAT) with rights to update the `permanent_dependencies_branch`. This will fallback on `GITHUB_TOKEN`. | No |
 

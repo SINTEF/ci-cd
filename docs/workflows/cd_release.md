@@ -35,7 +35,7 @@ The repository contains the following:
 
 ## Inputs
 
-| **Name** | **Descriptions** | **Required** | **Default** | **Type** |
+| **Name** | **Description** | **Required** | **Default** | **Type** |
 |:--- |:--- |:---:|:---:|:---:|
 | `git_username` | A git username (used to set the 'user.name' config option). | **_Yes_** | | _string_ |
 | `git_email` | A git user's email address (used to set the 'user.email' config option). | **_Yes_** | | _string_ |
@@ -55,7 +55,7 @@ The repository contains the following:
 
 ## Secrets
 
-| **Name** | **Descriptions** | **Required** |
+| **Name** | **Description** | **Required** |
 |:--- |:--- |:---:|
 | `PyPI_token` | A PyPI token for publishing the built package to PyPI.</br></br>**Important**: This is _required_ if both 'python_package' and 'publish_on_pypi' are 'true'. Both are 'true' by default. | **_Yes_ (if 'python_package' and 'publish_on_pypi' are 'true')** |
 | `PAT` | A personal access token (PAT) with rights to update the `release_branch`. This will fallback on `GITHUB_TOKEN`. | No |
@@ -82,6 +82,7 @@ jobs:
       git_username: "Casper Welzel Andersen"
       git_email: "CasperWA@github.com"
       release_branch: stable
+      package_dir: my_python_package
       install_extras: "[dev,build]"
       build_cmd: "pip install flit && flit build"
       tag_message_file: ".github/utils/release_tag_msg.txt"

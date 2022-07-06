@@ -215,7 +215,7 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
     help={
         "package-dir": (
             "Relative path to package dir from the repository root, "
-            "e.g. 'src/my_package'."
+            "e.g., 'src/my_package'."
         ),
         "pre-clean": "Remove the 'api_reference' sub directory prior to (re)creation.",
         "pre-commit": (
@@ -231,16 +231,16 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
             "This defaults to 'docs'."
         ),
         "unwanted-dirs": (
-            "Comma-separated list of directories to avoid including in the Python API "
+            "Comma-separated list of directories to avoid including into the Python API "
             "reference documentation. Note, only directory names, not paths, may be "
             "included. Note, all folders and their contents with these names will be "
             "excluded. Defaults to '__pycache__'."
         ),
         "unwanted-files": (
-            "Comma-separated list of files to avoid including the Python API reference"
-            " documentation. Note, only full file names, not paths, may be included, "
-            "i.e., filename + file extension. Note, all files with these names will "
-            "be excluded. Defaults to '__init__.py'."
+            "Comma-separated list of files to avoid including into the Python API "
+            "reference documentation. Note, only full file names, not paths, may be "
+            "included, i.e., filename + file extension. Note, all files with these "
+            "names will be excluded. Defaults to '__init__.py'."
         ),
         "full-docs-dirs": (
             "Comma-separated list of directories in which to include everything - even"

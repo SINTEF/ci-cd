@@ -28,7 +28,7 @@ There are no expectations of the repo when using this workflow.
 
 ## Inputs
 
-| **Name** | **Descriptions** | **Required** | **Default** | **Type** |
+| **Name** | **Description** | **Required** | **Default** | **Type** |
 |:--- |:--- |:---:|:---:|:---:|
 | `git_username` | A git username (used to set the 'user.name' config option). | **_Yes_** | | _string_ |
 | `git_email` | A git user's email address (used to set the 'user.email' config option). | **_Yes_** | | _string_ |
@@ -44,7 +44,7 @@ There are no expectations of the repo when using this workflow.
 
 ## Secrets
 
-| **Name** | **Descriptions** | **Required** |
+| **Name** | **Description** | **Required** |
 |:--- |:--- |:---:|
 | `PAT` | A personal access token (PAT) with rights to update the `permanent_dependencies_branch`. This will fallback on `GITHUB_TOKEN`. | No |
 

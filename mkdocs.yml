@@ -76,6 +76,9 @@ nav:
   - Workflows:
     - Overview: workflows/index.md
     - ... | flat
+  - '`pre-commit` Hooks':
+    - Overview: hooks/index.md
+    - ... | flat
   - ... | python/**
   - License: LICENSE.md
   - Changelog: CHANGELOG.md
