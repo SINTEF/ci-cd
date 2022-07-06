@@ -21,7 +21,7 @@
 
 - id: docs-landing-page
   name: Update Landing Page (index.md) for Documentation
-  entry: "invoke create-docs-index --repo-folder=."
+  entry: "invoke create-docs-index --pre-commit --repo-folder=."
   language: python
   files: ^README.md$
   exclude: ^$
