@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#ci-check-pyprojecttoml-dependencies-ci_check_pyproject_dependenciesyml" class="md-skip">
+        <a href="#ci-check-pyprojecttoml-dependencies" class="md-skip">
           Skip to content
         </a>
       
@@ -397,7 +397,7 @@
   
     <li class="md-nav__item">
       <a href="../ci_update_dependencies/" class="md-nav__link">
-        CI - Update dependencies PR
+        Ci update dependencies
       </a>
     </li>
   
@@ -427,12 +427,88 @@
       
       
         <label class="md-nav__link" for="__nav_3">
+          Hooks
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Hooks" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Hooks
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hooks/" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hooks/docs_api_reference/" class="md-nav__link">
+        Update API Reference in Documentation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hooks/docs_landig_page/" class="md-nav__link">
+        Update Landing Page (index.md) for Documentation
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
           Python Code
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="Python Code" data-md-level="1">
-        <label class="md-nav__title" for="__nav_3">
+        <label class="md-nav__title" for="__nav_4">
           <span class="md-nav__icon md-icon"></span>
           Python Code
         </label>
@@ -556,8 +632,8 @@
                 
 
 
-<!-- markdownlint-disable-next-line MD025 -->
-<h1 id="ci-check-pyprojecttoml-dependencies-ci_check_pyproject_dependenciesyml">CI - Check pyproject.toml dependencies (<code>ci_check_pyproject_dependencies.yml</code>)<a class="headerlink" href="#ci-check-pyprojecttoml-dependencies-ci_check_pyproject_dependenciesyml" title="Permanent link">&para;</a></h1>
+<h1 id="ci-check-pyprojecttoml-dependencies">CI - Check pyproject.toml dependencies<a class="headerlink" href="#ci-check-pyprojecttoml-dependencies" title="Permanent link">&para;</a></h1>
+<p><strong>File to use:</strong> <code>ci_check_pyproject_dependencies.yml</code></p>
 <p>This workflow runs an <a href="https://pyinvoke.org">Invoke</a> task to check dependencies in a <code>pyproject.toml</code> file.</p>
 <p>The reason for having this workflow and not using <a href="https://github.com/dependabot/dependabot-core">Dependabot</a> is because it seems to not function properly with this use case.</p>
 <div class="admonition warning">
@@ -575,7 +651,7 @@ Hence, if it is important to run CI/CD workflows for pull requests, consider pas
 <thead>
 <tr>
 <th align="left"><strong>Name</strong></th>
-<th align="left"><strong>Descriptions</strong></th>
+<th align="left"><strong>Description</strong></th>
 <th align="center"><strong>Required</strong></th>
 <th align="center"><strong>Default</strong></th>
 <th align="center"><strong>Type</strong></th>
@@ -645,7 +721,7 @@ Hence, if it is important to run CI/CD workflows for pull requests, consider pas
 <thead>
 <tr>
 <th align="left"><strong>Name</strong></th>
-<th align="left"><strong>Descriptions</strong></th>
+<th align="left"><strong>Description</strong></th>
 <th align="center"><strong>Required</strong></th>
 </tr>
 </thead>
@@ -718,13 +794,13 @@ It is meant to be complete as is.</p>
       
       
         
-        <a href="../ci_update_dependencies/" class="md-footer__link md-footer__link--next" aria-label="Next: CI - Update dependencies PR" rel="next">
+        <a href="../ci_update_dependencies/" class="md-footer__link md-footer__link--next" aria-label="Next: Ci update dependencies" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              CI - Update dependencies PR
+              Ci update dependencies
             </div>
           </div>
           <div class="md-footer__button md-icon">

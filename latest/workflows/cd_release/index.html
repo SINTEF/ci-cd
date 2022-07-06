@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#cd-release-cd_releaseyml" class="md-skip">
+        <a href="#cd-release" class="md-skip">
           Skip to content
         </a>
       
@@ -397,7 +397,7 @@
   
     <li class="md-nav__item">
       <a href="../ci_update_dependencies/" class="md-nav__link">
-        CI - Update dependencies PR
+        Ci update dependencies
       </a>
     </li>
   
@@ -427,12 +427,88 @@
       
       
         <label class="md-nav__link" for="__nav_3">
+          Hooks
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Hooks" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Hooks
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hooks/" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hooks/docs_api_reference/" class="md-nav__link">
+        Update API Reference in Documentation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hooks/docs_landig_page/" class="md-nav__link">
+        Update Landing Page (index.md) for Documentation
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
           Python Code
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="Python Code" data-md-level="1">
-        <label class="md-nav__title" for="__nav_3">
+        <label class="md-nav__title" for="__nav_4">
           <span class="md-nav__icon md-icon"></span>
           Python Code
         </label>
@@ -556,8 +632,8 @@
                 
 
 
-<!-- markdownlint-disable-next-line MD025 -->
-<h1 id="cd-release-cd_releaseyml">CD - Release (<code>cd_release.yml</code>)<a class="headerlink" href="#cd-release-cd_releaseyml" title="Permanent link">&para;</a></h1>
+<h1 id="cd-release">CD - Release<a class="headerlink" href="#cd-release" title="Permanent link">&para;</a></h1>
+<p><strong>File to use:</strong> <code>cd_release.yml</code></p>
 <p>There are 2 jobs in this workflow, which run in sequence.</p>
 <p>First, an update &amp; publish job, which updates the version in the package's root <code>__init__.py</code> file through an <a href="https://pyinvoke.org">Invoke</a> task.
 The newly created tag (created due to the caller workflow running <code>on.release.types.published</code>) will be updated accordingly, as will the publish branch (defaults to <code>main</code>).</p>
@@ -586,7 +662,7 @@ This is specifically for adding a changelog to the GitHub release body.</p>
 <thead>
 <tr>
 <th align="left"><strong>Name</strong></th>
-<th align="left"><strong>Descriptions</strong></th>
+<th align="left"><strong>Description</strong></th>
 <th align="center"><strong>Required</strong></th>
 <th align="center"><strong>Default</strong></th>
 <th align="center"><strong>Type</strong></th>
@@ -705,7 +781,7 @@ This is specifically for adding a changelog to the GitHub release body.</p>
 <thead>
 <tr>
 <th align="left"><strong>Name</strong></th>
-<th align="left"><strong>Descriptions</strong></th>
+<th align="left"><strong>Description</strong></th>
 <th align="center"><strong>Required</strong></th>
 </tr>
 </thead>
@@ -741,6 +817,7 @@ It is meant to be complete as is.</p>
 <span class="w">      </span><span class="nt">git_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Casper</span><span class="nv"> </span><span class="s">Welzel</span><span class="nv"> </span><span class="s">Andersen&quot;</span><span class="w"></span>
 <span class="w">      </span><span class="nt">git_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CasperWA@github.com&quot;</span><span class="w"></span>
 <span class="w">      </span><span class="nt">release_branch</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stable</span><span class="w"></span>
+<span class="w">      </span><span class="nt">package_dir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my_python_package</span><span class="w"></span>
 <span class="w">      </span><span class="nt">install_extras</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;[dev,build]&quot;</span><span class="w"></span>
 <span class="w">      </span><span class="nt">build_cmd</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;pip</span><span class="nv"> </span><span class="s">install</span><span class="nv"> </span><span class="s">flit</span><span class="nv"> </span><span class="s">&amp;&amp;</span><span class="nv"> </span><span class="s">flit</span><span class="nv"> </span><span class="s">build&quot;</span><span class="w"></span>
 <span class="w">      </span><span class="nt">tag_message_file</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;.github/utils/release_tag_msg.txt&quot;</span><span class="w"></span>

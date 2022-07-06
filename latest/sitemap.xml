@@ -16,6 +16,21 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://CasperWA.github.io/ci-cd/latest/hooks/</loc>
+         <lastmod>2022-07-06</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://CasperWA.github.io/ci-cd/latest/hooks/docs_api_reference/</loc>
+         <lastmod>2022-07-06</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://CasperWA.github.io/ci-cd/latest/hooks/docs_landig_page/</loc>
+         <lastmod>2022-07-06</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://CasperWA.github.io/ci-cd/latest/python/tasks/</loc>
          <lastmod>2022-07-06</lastmod>
          <changefreq>daily</changefreq>

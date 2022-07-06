@@ -17,7 +17,7 @@
     
     
       
-        <title>CI - Update dependencies PR - GH Action Reusable Workflows</title>
+        <title>Ci update dependencies - GH Action Reusable Workflows</title>
       
     
     
@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#ci-update-dependencies-pr-ci_update_dependenciesyml" class="md-skip">
+        <a href="#ci-update-dependencies-pr" class="md-skip">
           Skip to content
         </a>
       
@@ -111,7 +111,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              CI - Update dependencies PR
+              Ci update dependencies
             
           </span>
         </div>
@@ -344,12 +344,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          CI - Update dependencies PR
+          Ci update dependencies
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        CI - Update dependencies PR
+        Ci update dependencies
       </a>
       
         
@@ -427,12 +427,88 @@
       
       
         <label class="md-nav__link" for="__nav_3">
+          Hooks
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Hooks" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Hooks
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hooks/" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hooks/docs_api_reference/" class="md-nav__link">
+        Update API Reference in Documentation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hooks/docs_landig_page/" class="md-nav__link">
+        Update Landing Page (index.md) for Documentation
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
           Python Code
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="Python Code" data-md-level="1">
-        <label class="md-nav__title" for="__nav_3">
+        <label class="md-nav__title" for="__nav_4">
           <span class="md-nav__icon md-icon"></span>
           Python Code
         </label>
@@ -557,8 +633,8 @@
 
 
 <!-- markdownlint-disable MD038 -->
-<!-- markdownlint-disable-next-line MD025 -->
-<h1 id="ci-update-dependencies-pr-ci_update_dependenciesyml">CI - Update dependencies PR (<code>ci_update_dependencies.yml</code>)<a class="headerlink" href="#ci-update-dependencies-pr-ci_update_dependenciesyml" title="Permanent link">&para;</a></h1>
+<h1 id="ci-update-dependencies-pr">CI - Update dependencies PR<a class="headerlink" href="#ci-update-dependencies-pr" title="Permanent link">&para;</a></h1>
+<p><strong>File to use:</strong> <code>ci_update_dependencies.yml</code></p>
 <p>This workflow creates a PR if there are any updates in the <code>permanent_dependencies_branch</code> branch that have not been included in the <code>default_repo_branch</code> branch.</p>
 <p>This workflow works nicely together with the <a href="../ci_check_pyproject_dependencies/">CI - Check pyproject.toml dependencies</a> workflow, and the same value for <code>permanent_dependencies_branch</code> should be used.
 In this way, this workflow can be called on a schedule to update the dependencies that have been merged into the <code>permanent_dependencies_branch</code> branch into the <code>default_repo_branch</code> branch.</p>
@@ -581,7 +657,7 @@ Indeed, it is recommended to not supply a <code>pr_body_file</code> in this case
 <thead>
 <tr>
 <th align="left"><strong>Name</strong></th>
-<th align="left"><strong>Descriptions</strong></th>
+<th align="left"><strong>Description</strong></th>
 <th align="center"><strong>Required</strong></th>
 <th align="center"><strong>Default</strong></th>
 <th align="center"><strong>Type</strong></th>
@@ -672,7 +748,7 @@ Indeed, it is recommended to not supply a <code>pr_body_file</code> in this case
 <thead>
 <tr>
 <th align="left"><strong>Name</strong></th>
-<th align="left"><strong>Descriptions</strong></th>
+<th align="left"><strong>Description</strong></th>
 <th align="center"><strong>Required</strong></th>
 </tr>
 </thead>
@@ -749,13 +825,13 @@ It is meant to be complete as is.</p>
       
       
         
-        <a href="../../python/tasks/" class="md-footer__link md-footer__link--next" aria-label="Next: Invoke tasks" rel="next">
+        <a href="../../hooks/" class="md-footer__link md-footer__link--next" aria-label="Next: Overview" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Invoke tasks
+              Overview
             </div>
           </div>
           <div class="md-footer__button md-icon">

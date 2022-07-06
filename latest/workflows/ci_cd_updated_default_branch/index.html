@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#cicd-new-updates-to-default-branch-ci_cd_updated_default_branchyml" class="md-skip">
+        <a href="#cicd-new-updates-to-default-branch" class="md-skip">
           Skip to content
         </a>
       
@@ -397,7 +397,7 @@
   
     <li class="md-nav__item">
       <a href="../ci_update_dependencies/" class="md-nav__link">
-        CI - Update dependencies PR
+        Ci update dependencies
       </a>
     </li>
   
@@ -427,12 +427,88 @@
       
       
         <label class="md-nav__link" for="__nav_3">
+          Hooks
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Hooks" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Hooks
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hooks/" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hooks/docs_api_reference/" class="md-nav__link">
+        Update API Reference in Documentation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hooks/docs_landig_page/" class="md-nav__link">
+        Update Landing Page (index.md) for Documentation
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
           Python Code
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="Python Code" data-md-level="1">
-        <label class="md-nav__title" for="__nav_3">
+        <label class="md-nav__title" for="__nav_4">
           <span class="md-nav__icon md-icon"></span>
           Python Code
         </label>
@@ -556,8 +632,8 @@
                 
 
 
-<!-- markdownlint-disable-next-line MD025 -->
-<h1 id="cicd-new-updates-to-default-branch-ci_cd_updated_default_branchyml">CI/CD - New updates to default branch (<code>ci_cd_updated_default_branch.yml</code>)<a class="headerlink" href="#cicd-new-updates-to-default-branch-ci_cd_updated_default_branchyml" title="Permanent link">&para;</a></h1>
+<h1 id="cicd-new-updates-to-default-branch">CI/CD - New updates to default branch<a class="headerlink" href="#cicd-new-updates-to-default-branch" title="Permanent link">&para;</a></h1>
+<p><strong>File to use:</strong> <code>ci_cd_updated_default_branch.yml</code></p>
 <p>Keep your <code>permanent_dependencies_branch</code> branch up-to-date with changes in your main development branch, i.e., the <code>default_repo_branch</code>.</p>
 <p>Furthermore, this workflow can optionally update the <code>latest</code> <a href="https://github.com/jimporter/mike">mike</a>+<a href="https://www.mkdocs.org">MkDocs</a>+<a href="https://pages.github.com/">GitHub Pages</a>-framework documentation release alias, which represents the <code>default_repo_branch</code>.</p>
 <div class="admonition warning">
@@ -588,7 +664,7 @@ The default value is given here as a help:<br />
 <thead>
 <tr>
 <th align="left"><strong>Name</strong></th>
-<th align="left"><strong>Descriptions</strong></th>
+<th align="left"><strong>Description</strong></th>
 <th align="center"><strong>Required</strong></th>
 <th align="center"><strong>Default</strong></th>
 <th align="center"><strong>Type</strong></th>
@@ -742,7 +818,7 @@ The default value is given here as a help:<br />
 <thead>
 <tr>
 <th align="left"><strong>Name</strong></th>
-<th align="left"><strong>Descriptions</strong></th>
+<th align="left"><strong>Description</strong></th>
 <th align="center"><strong>Required</strong></th>
 </tr>
 </thead>
@@ -775,7 +851,7 @@ It is meant to be complete as is.</p>
 <span class="w">      </span><span class="nt">default_repo_branch</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stable</span><span class="w"></span>
 <span class="w">      </span><span class="nt">permanent_dependencies_branch</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ci/dependency-updates&quot;</span><span class="w"></span>
 <span class="w">      </span><span class="nt">update_docs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
-<span class="w">      </span><span class="nt">package_dir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-python-package</span><span class="w"></span>
+<span class="w">      </span><span class="nt">package_dir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my_python_package</span><span class="w"></span>
 <span class="w">      </span><span class="nt">doc_extras</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;[docs]&quot;</span><span class="w"></span>
 <span class="w">      </span><span class="nt">exclude_files</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">__init__.py,config.py</span><span class="w"></span>
 <span class="w">      </span><span class="nt">full_docs_dirs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">models</span><span class="w"></span>

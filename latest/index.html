@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#github-action-reusable-workflows" class="md-skip">
+        <a href="#cicd-tools" class="md-skip">
           Skip to content
         </a>
       
@@ -255,16 +255,56 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#github-actions-callablereusable-workflows" class="md-nav__link">
+    GitHub Actions callable/reusable Workflows
+  </a>
+  
+    <nav class="md-nav" aria-label="GitHub Actions callable/reusable Workflows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#available-workflows" class="md-nav__link">
     Available workflows
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#general-usage" class="md-nav__link">
     General usage
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pre-commit-hooks" class="md-nav__link">
+    pre-commit hooks
+  </a>
+  
+    <nav class="md-nav" aria-label="pre-commit hooks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#available-hooks" class="md-nav__link">
+    Available hooks
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#general-usage_1" class="md-nav__link">
+    General usage
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -388,7 +428,7 @@
   
     <li class="md-nav__item">
       <a href="workflows/ci_update_dependencies/" class="md-nav__link">
-        CI - Update dependencies PR
+        Ci update dependencies
       </a>
     </li>
   
@@ -418,12 +458,88 @@
       
       
         <label class="md-nav__link" for="__nav_3">
+          Hooks
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Hooks" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Hooks
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="hooks/" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="hooks/docs_api_reference/" class="md-nav__link">
+        Update API Reference in Documentation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="hooks/docs_landig_page/" class="md-nav__link">
+        Update Landing Page (index.md) for Documentation
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
           Python Code
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="Python Code" data-md-level="1">
-        <label class="md-nav__title" for="__nav_3">
+        <label class="md-nav__title" for="__nav_4">
           <span class="md-nav__icon md-icon"></span>
           Python Code
         </label>
@@ -506,16 +622,56 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#github-actions-callablereusable-workflows" class="md-nav__link">
+    GitHub Actions callable/reusable Workflows
+  </a>
+  
+    <nav class="md-nav" aria-label="GitHub Actions callable/reusable Workflows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#available-workflows" class="md-nav__link">
     Available workflows
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#general-usage" class="md-nav__link">
     General usage
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pre-commit-hooks" class="md-nav__link">
+    pre-commit hooks
+  </a>
+  
+    <nav class="md-nav" aria-label="pre-commit hooks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#available-hooks" class="md-nav__link">
+    Available hooks
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#general-usage_1" class="md-nav__link">
+    General usage
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -540,20 +696,33 @@
                 
 
 
-<h1 id="github-action-reusable-workflows">GitHub Action reusable workflows<a class="headerlink" href="#github-action-reusable-workflows" title="Permanent link">&para;</a></h1>
+<h1 id="cicd-tools">CI/CD tools<a class="headerlink" href="#cicd-tools" title="Permanent link">&para;</a></h1>
 <p><strong>Current version to use:</strong> <code>v1</code></p>
+<p>Use tried and tested continuous integration (CI) and continuous deployment (CD) tools from this repository.</p>
+<p>Currently, the repository offers GitHub Actions callable/reusable workflows and <a href="https://pre-commit.com">pre-commit</a> hooks.</p>
+<h2 id="github-actions-callablereusable-workflows">GitHub Actions callable/reusable Workflows<a class="headerlink" href="#github-actions-callablereusable-workflows" title="Permanent link">&para;</a></h2>
 <p>This repository contains reusable workflows for GitHub Actions.</p>
 <p>They are mainly for usage with modern Python package repositories.</p>
-<h2 id="available-workflows">Available workflows<a class="headerlink" href="#available-workflows" title="Permanent link">&para;</a></h2>
-<p>The callable, reusable workflows available from this repository are described in detail in this documentation under the "Workflows" section.</p>
-<h2 id="general-usage">General usage<a class="headerlink" href="#general-usage" title="Permanent link">&para;</a></h2>
+<h3 id="available-workflows">Available workflows<a class="headerlink" href="#available-workflows" title="Permanent link">&para;</a></h3>
+<p>The callable, reusable workflows available from this repository are described in detail in this documentation under the <a href="workflows/">Workflows</a> section.</p>
+<h3 id="general-usage">General usage<a class="headerlink" href="#general-usage" title="Permanent link">&para;</a></h3>
 <p>See the <a href="https://docs.github.com/en/actions/using-workflows/reusing-workflows#calling-a-reusable-workflow">GitHub Docs</a> on the topic of calling a reusable workflow to understand how one can incoporate one of these workflows in your workflow.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Workflow-level set <code>env</code> context variables cannot be used when setting input values for the called workflow.
 See the <a href="https://docs.github.com/en/actions/learn-github-actions/contexts#env-context">GitHub documentation</a> for more information on the <code>env</code> context.</p>
 </div>
-<p>Under the "Workflows" section for each available workflow, a usage example will be given.</p>
+<p>Under the <a href="workflows/">Workflows</a> section for each available workflow, a usage example will be given.</p>
+<h2 id="pre-commit-hooks">pre-commit hooks<a class="headerlink" href="#pre-commit-hooks" title="Permanent link">&para;</a></h2>
+<p>This repository contains hooks for keeping the documentation up-to-date, making available a few <a href="https://pyinvoke.org">invoke</a> tasks used in the reusable workflows.</p>
+<p>By implementing and using these hooks together with the workflows, one may ensure no extra commits are created during the workflow run to update the documentation.</p>
+<h3 id="available-hooks">Available hooks<a class="headerlink" href="#available-hooks" title="Permanent link">&para;</a></h3>
+<p>The pre-commit hooks available from this repository are described in detail in this documentation under the <a href="hooks/">Hooks</a> section.</p>
+<!-- markdownlint-disable-next-line MD024 -->
+<h3 id="general-usage_1">General usage<a class="headerlink" href="#general-usage_1" title="Permanent link">&para;</a></h3>
+<p>Add the hooks to your <code>.pre-commit-config.yaml</code> file.
+See the <a href="https://pre-commit.com">pre-commit webpage</a> for more information about how to use pre-commit.</p>
+<p>Under the <a href="hooks/">Hooks</a> section for each available hook, a usage example will be given.</p>
 <h2 id="license-copyright">License &amp; copyright<a class="headerlink" href="#license-copyright" title="Permanent link">&para;</a></h2>
 <p>This repository licensed under the  <a href="LICENSE/">MIT LICENSE</a> with copyright &copy; 2022 Casper Welzel Andersen (<a href="https://github.com/CasperWA">CasperWA</a>).</p>
 
