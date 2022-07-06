@@ -275,9 +275,7 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
 
     basis_dir = REPO_DIR if pre_commit else REPO_PARENT_DIR
     package_dir: Path = basis_dir / repo_folder / package_dir
-    docs_api_ref_dir: Path = (
-        basis_dir / repo_folder / docs_folder / "api_reference"
-    )
+    docs_api_ref_dir: Path = basis_dir / repo_folder / docs_folder / "api_reference"
     if debug:
         print("package_dir:", package_dir, flush=True)
         print("docs_api_ref_dir:", docs_api_ref_dir, flush=True)
