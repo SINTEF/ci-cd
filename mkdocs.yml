@@ -83,4 +83,4 @@ nav:
   - Changelog: CHANGELOG.md
 
 watch:
-  - "tasks.py"
+  - "ci_cd"
