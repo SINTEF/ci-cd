@@ -1,5 +1,5 @@
-<!-- markdownlint-disable MD038 -->
 # CI - Update dependencies PR
+<!-- markdownlint-disable MD038 -->
 
 **File to use:** `ci_update_dependencies.yml`
 
@@ -16,7 +16,7 @@ As a "bonus" this workflow supports updating [pre-commit](https://pre-commit.com
     If a PAT is not passed through for the `PAT` secret and `GITHUB_TOKEN` is used, beware that any other CI/CD jobs that run for, e.g., pull request events, may not run since `GITHUB_TOKEN`-generated PRs are designed to not start more workflows to avoid escalation.
     Hence, if it is important to run CI/CD workflows for pull requests, consider passing a PAT as a secret to this workflow represented by the `PAT` secret.
 
-!!! Important
+!!! important
     If this is to be used together with the [CI/CD - New updates to default branch](./ci_cd_updated_default_branch.md) workflow, the `pr_body_file` supplied (if any) should be immutable within the first 8 lines, i.e., no check boxes or similar in the first 8 lines.
     Indeed, it is recommended to not supply a `pr_body_file` in this case.
 
@@ -39,7 +39,6 @@ There are no expectations of the repo when using this workflow.
 | `python_version` | The Python version to use for the workflow.</br></br>**Note**: This is only relevant if `update_pre-commit` is `true`. | No | 3.9 | _string_ |
 | `install_extras` | Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces.</br></br>Example: `'[dev,pre-commit]'`.</br></br>**Note**: This is only relevant if `update_pre-commit` is `true`. | No | _Empty string_ | _string_ |
 | `skip_pre-commit_hooks` | A comma-separated list of pre-commit hook IDs to skip when running `pre-commit` after updating hooks.</br></br>**Note**: This is only relevant if `update_pre-commit` is `true`. | No | _Empty string_ | _string_ |
-| `pre-commit_autoupdate_options` | Options to add to `pre-commit autoupdate`. | No | _Empty string_ | _string_ |
 
 ## Secrets
 
