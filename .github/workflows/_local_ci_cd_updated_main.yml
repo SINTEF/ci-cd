@@ -19,6 +19,7 @@ jobs:
       update_python_api_ref: true
       update_docs_landing_page: true
       changelog_exclude_tags_regex: "^v[0-9]+$"
+      package_dir: ci_cd
       test: true
     secrets:
       PAT: ${{ secrets.RELEASE_PAT }}
