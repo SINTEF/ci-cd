@@ -149,8 +149,6 @@ jobs:
           DEBUG=
           if [ "${{ inputs.test }}" == "true" ]; then
             export AS_ENV="${{ inputs.version_update_changes }}"
-            echo "With double quotations: "${AS_ENV}"
-            echo 'With single quotations: ${AS_ENV}'
             DEBUG=--test
             REF=v0.0.0
           fi
