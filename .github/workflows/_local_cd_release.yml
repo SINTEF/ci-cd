@@ -1,9 +1,12 @@
 name: CD - Release
 
 on:
-  release:
-    types:
-      - "published"
+  # release:
+  #   types:
+  #     - "published"
+  push:
+    branches:
+      - fix-26-update-py-package-version
 
 jobs:
   publish:
@@ -13,12 +16,18 @@ jobs:
     with:
       git_username: "Casper Welzel Andersen"
       git_email: "casper+github@welzel.nu"
-      python_package: false
-      release_branch: main
+      python_package: true
+      publish_on_pypi: false
+      package_dir: ci_cd
+      release_branch: fix-26-update-py-package-version # main
       python_version: "3.9"
       build_cmd: ".github/utils/update_tags.sh"
       update_docs: true
       doc_extras: "[docs]"
       changelog_exclude_tags_regex: "^v[0-9]+$"
+      test: true
+      version_update_changes: |
+        {package_dir}/__init__.py;__version__ *= *(?:'|").*(?:'|");__version__ = "{version}"
+        ci_cd/__init__.py;__author_email__ *= *(?:'|").*@welzel\.nu(?:'|");__author_email__ = "casper.w.andersen@sintef.no"
     secrets:
       PAT: ${{ secrets.RELEASE_PAT }}

@@ -4,6 +4,7 @@ More information on `invoke` can be found at [pyinvoke.org](http://www.pyinvoke.
 # pylint: disable=import-outside-toplevel
 import re
 import sys
+from enum import Enum
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -13,6 +14,15 @@ if TYPE_CHECKING:  # pragma: no cover
     from typing import Tuple
 
     from invoke import Context, Result
+
+
+class Emoji(str, Enum):
+    """Unicode strings for certain emojis."""
+
+    PARTY_POPPER = "\U0001f389"
+    CHECK_MARK = "\u2714"
+    CROSS_MARK = "\u274c"
+    CURLY_LOOP = "\u27b0"
 
 
 def update_file(filename: Path, sub_line: "Tuple[str, str]", strip: str = None) -> None:
@@ -34,10 +44,47 @@ def update_file(filename: Path, sub_line: "Tuple[str, str]", strip: str = None) 
         "root-repo-path": (
             "A resolvable path to the root directory of the repository folder."
         ),
-    }
+        "code-base-update": (
+            "'--code-base-update-separator'-separated string defining 'file path', "
+            "'pattern', 'replacement string', in that order, for something to update "
+            "in the code base. E.g., '{package_dir}/__init__.py,__version__ *= "
+            "*('|\").*('|\"),__version__ = \"{version}\"', where '{package_dir}' "
+            "and {version} will be exchanged with the given '--package-dir' value and "
+            "given '--version' value, respectively. The 'file path' must always "
+            "either be relative to the repository root directory or absolute. The "
+            "'pattern' should be given as a 'raw' Python string. This input option "
+            "can be supplied multiple times."
+        ),
+        "code-base-update-separator": (
+            "The string separator to use for '--code-base-update' values."
+        ),
+        "fail_fast": (
+            "Whether to exist the task immediately upon failure or wait until the end."
+        ),
+        "test": "Whether to print extra debugging statements.",
+    },
+    iterable=["code_base_update"],
 )
-def setver(_, package_dir, version, root_repo_path="."):
+def setver(
+    _,
+    package_dir,
+    version,
+    root_repo_path=".",
+    code_base_update=None,
+    code_base_update_separator=",",
+    test=False,
+    fail_fast=False,
+):
     """Sets the specified version of specified Python package."""
+    if TYPE_CHECKING:  # pragma: no cover
+        package_dir: str = package_dir
+        version: str = version
+        root_repo_path: str = root_repo_path
+        code_base_update: list[str] = code_base_update
+        code_base_update_separator: str = code_base_update_separator
+        test: bool = test
+        fail_fast: bool = fail_fast
+
     match = re.fullmatch(
         (
             r"v?(?P<version>[0-9]+(\.[0-9]+){2}"  # Major.Minor.Patch
@@ -54,19 +101,67 @@ def setver(_, package_dir, version, root_repo_path="."):
         )
     version = match.group("version")
 
-    init_file: Path = Path(root_repo_path).resolve() / package_dir / "__init__.py"
-    if not init_file.exists():
-        sys.exit(
-            "Error: Could not find the Python package's root '__init__.py' file at: "
-            f"{init_file}"
+    if not code_base_update:
+        init_file = Path(root_repo_path).resolve() / package_dir / "__init__.py"
+        if not init_file.exists():
+            sys.exit(
+                f"{Emoji.CROSS_MARK.value} Error: Could not find the Python package's "
+                f"root '__init__.py' file at: {init_file}"
+            )
+
+        update_file(
+            init_file,
+            (r'__version__ *= *(?:\'|").*(?:\'|")', f'__version__ = "{version}"'),
         )
+    else:
+        errors: list[str] = []
+        for code_update in code_base_update:
+            try:
+                filepath, pattern, replacement = code_update.split(
+                    code_base_update_separator
+                )
+            except ValueError as exc:
+                if test:
+                    print(f"Caught exception:\n{exc}")
+                sys.exit(
+                    f"{Emoji.CROSS_MARK.value} Error: Could not properly extract "
+                    "'file path', 'pattern', 'replacement string' from the "
+                    f"'--code-base-update'={code_update}"
+                )
 
-    update_file(
-        init_file,
-        (r'__version__ *= *(\'|").*(\'|")', f'__version__ = "{version}"'),
-    )
+            filepath = Path(
+                filepath.format(**{"package_dir": package_dir, "version": version})
+            ).resolve()
+            if not filepath.exists():
+                error_msg = (
+                    f"{Emoji.CROSS_MARK.value} Error: Could not find the "
+                    f"user-provided file at: {filepath}"
+                )
+                if fail_fast:
+                    sys.exit(error_msg)
+                errors.append(error_msg)
+                continue
 
-    print(f"Bumped version for {package_dir} to {version}.")
+            if test:
+                print(f"filepath: {filepath}")
+                print(f"pattern: {pattern!r}")
+                print(f"replacement (input): {replacement}")
+                print(
+                    "replacement (handled): "
+                    f"{replacement.format(**{'package_dir': package_dir, 'version': version})}"  # pylint: disable=line-too-long
+                )
+
+            update_file(
+                filepath,
+                (
+                    pattern,
+                    replacement.format(
+                        **{"package_dir": package_dir, "version": version}
+                    ),
+                ),
+            )
+
+    print(f"{Emoji.PARTY_POPPER.value} Bumped version for {package_dir} to {version}.")
 
 
 @task(
@@ -89,6 +184,9 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
 
     if TYPE_CHECKING:  # pragma: no cover
         context: "Context" = context
+        root_repo_path: str = root_repo_path
+        fail_fast: bool = fail_fast
+        pre_commit: bool = pre_commit
 
     if pre_commit and root_repo_path == ".":
         # Use git to determine repo root
@@ -227,25 +325,28 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
             "The folder name for the documentation root folder. "
             "This defaults to 'docs'."
         ),
-        "unwanted-dirs": (
-            "Comma-separated list of directories to avoid including into the Python API "
-            "reference documentation. Note, only directory names, not paths, may be "
-            "included. Note, all folders and their contents with these names will be "
-            "excluded. Defaults to '__pycache__'."
+        "unwanted-folder": (
+            "A folder to avoid including into the Python API reference documentation. "
+            "Note, only folder names, not paths, may be included. Note, all folders "
+            "and their contents with this name will be excluded. Defaults to "
+            "'__pycache__'. This input option can be supplied multiple times."
         ),
-        "unwanted-files": (
-            "Comma-separated list of files to avoid including into the Python API "
-            "reference documentation. Note, only full file names, not paths, may be "
-            "included, i.e., filename + file extension. Note, all files with these "
-            "names will be excluded. Defaults to '__init__.py'."
+        "unwanted-file": (
+            "A file to avoid including into the Python API reference documentation. "
+            "Note, only full file names, not paths, may be included, i.e., filename + "
+            "file extension. Note, all files with this names will be excluded. "
+            "Defaults to '__init__.py'. This input option can be supplied multiple "
+            "times."
         ),
-        "full-docs-dirs": (
-            "Comma-separated list of directories in which to include everything - even"
-            " those without documentation strings. This may be useful for a module "
-            "full of data models or to ensure all class attributes are listed."
+        "full-docs-folder": (
+            "A folder in which to include everything - even those without "
+            "documentation strings. This may be useful for a module full of data "
+            "models or to ensure all class attributes are listed. This input option "
+            "can be supplied multiple times."
         ),
         "debug": "Whether or not to print debug statements.",
-    }
+    },
+    iterable=["unwanted_folder", "unwanted_file", "full_docs_folder"],
 )
 def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branches,too-many-statements,line-too-long
     context,
@@ -254,9 +355,9 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
     pre_commit=False,
     root_repo_path=".",
     docs_folder="docs",
-    unwanted_dirs="__pycache__",
-    unwanted_files="__init__.py",
-    full_docs_dirs="",
+    unwanted_folder=None,
+    unwanted_file=None,
+    full_docs_folder=None,
     debug=False,
 ):
     """Create the Python API Reference in the documentation."""
@@ -265,6 +366,17 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
 
     if TYPE_CHECKING:  # pragma: no cover
         context: "Context" = context
+        package_dir: str = package_dir
+        pre_clean: bool = pre_clean
+        pre_commit: bool = pre_commit
+        root_repo_path: str = root_repo_path
+        docs_folder: str = docs_folder
+        debug: bool = debug
+
+    if not unwanted_folder:
+        unwanted_folder: list[str] = ["__pycache__"]
+    if not unwanted_file:
+        unwanted_file: list[str] = ["__init__.py"]
 
     def write_file(full_path: Path, content: str) -> None:
         """Write file with `content` to `full_path`"""
@@ -281,33 +393,21 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
         result: "Result" = context.run("git rev-parse --show-toplevel", hide=True)
         root_repo_path = result.stdout.strip("\n")
 
-    root_repo_path = Path(root_repo_path).resolve()
+    root_repo_path: Path = Path(root_repo_path).resolve()
     package_dir: Path = root_repo_path / package_dir
-    docs_api_ref_dir: Path = root_repo_path / docs_folder / "api_reference"
+    docs_api_ref_dir = root_repo_path / docs_folder / "api_reference"
     if debug:
         print("package_dir:", package_dir, flush=True)
         print("docs_api_ref_dir:", docs_api_ref_dir, flush=True)
-        print(
-            "unwanted_dirs + unwanted_files:",
-            unwanted_dirs + unwanted_files,
-            flush=True,
-        )
+        print("unwanted_folder:", unwanted_folder, flush=True)
+        print("unwanted_file:", unwanted_file, flush=True)
+        print("full_docs_folder:", full_docs_folder, flush=True)
 
-    if "/" in unwanted_dirs + unwanted_files:
+    if "/" in any(unwanted_folder + unwanted_file):
         sys.exit(
-            "Unwanted directories and files may NOT be paths. A forward slash (/) was "
-            f"found in them. Given\n\n  --unwanted-dirs={unwanted_dirs},\n  "
-            f"--unwanted-files={unwanted_files}"
+            "Unwanted folders and files may NOT be paths. A forward slash (/) was "
+            "found in some of them."
         )
-
-    unwanted_subdirs: list[str] = unwanted_dirs.split(",")
-    unwanted_subfiles: list[str] = unwanted_files.split(",")
-    no_docstring_dirs: list[str] = full_docs_dirs.split(",")
-
-    if debug:
-        print("unwanted_subdirs:", unwanted_subdirs, flush=True)
-        print("unwanted_subfiles:", unwanted_subfiles, flush=True)
-        print("no_docstring_dirs:", no_docstring_dirs, flush=True)
 
     pages_template = 'title: "{name}"\n'
     md_template = "# {name}\n\n::: {py_path}\n"
@@ -331,13 +431,13 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
     )
 
     for dirpath, dirnames, filenames in os.walk(package_dir):
-        for unwanted_dir in unwanted_subdirs:
+        for unwanted in unwanted_folder:
             if debug:
-                print("unwanted_dir:", unwanted_dir, flush=True)
+                print("unwanted:", unwanted, flush=True)
                 print("dirnames:", dirnames, flush=True)
-            if unwanted_dir in dirnames:
+            if unwanted in dirnames:
                 # Avoid walking into or through unwanted directories
-                dirnames.remove(unwanted_dir)
+                dirnames.remove(unwanted)
 
         relpath = Path(dirpath).relative_to(package_dir)
         abspath = (package_dir / relpath).resolve()
@@ -367,13 +467,14 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
 
         # Create markdown files
         for filename in filenames:
-            if re.match(r".*\.py$", filename) is None or filename in unwanted_subfiles:
+            if re.match(r".*\.py$", filename) is None or filename in unwanted_file:
                 # Not a Python file: We don't care about it!
-                # Or filename is in the tuple of unwanted files:
+                # Or filename is in the list of unwanted files:
                 # We don't want it!
                 if debug:
                     print(
-                        f"{filename} is not a Python file or is in unwanted_subfiles. Skipping it.",
+                        f"{filename} is not a Python file or is an unwanted file "
+                        "(through user input). Skipping it.",
                         flush=True,
                     )
                 continue
@@ -394,7 +495,7 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
             # have a doc-string
             template = (
                 no_docstring_template
-                if str(relpath) in no_docstring_dirs
+                if str(relpath) in full_docs_folder
                 else md_template
             )
 
@@ -410,8 +511,6 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
     if pre_commit:
         # Check if there have been any changes.
         # List changes if yes.
-        if TYPE_CHECKING:  # pragma: no cover
-            context: "Context" = context
 
         # NOTE: grep returns an exit code of 1 if it doesn't find anything
         # (which will be good in this case).
@@ -425,11 +524,14 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
         )
         if result.stdout:
             sys.exit(
-                "\u27b0 The following files have been changed/added/removed:\n\n"
-                f"{result.stdout}\nPlease stage them:\n\n  git add "
-                f"{docs_api_ref_dir.relative_to(root_repo_path)}"
+                f"{Emoji.CURLY_LOOP.value} The following files have been "
+                f"changed/added/removed:\n\n{result.stdout}\nPlease stage them:\n\n"
+                f"  git add {docs_api_ref_dir.relative_to(root_repo_path)}"
             )
-        print("\u2714 No changes - your API reference documentation is up-to-date !")
+        print(
+            f"{Emoji.CHECK_MARK.value} No changes - your API reference documentation "
+            "is up-to-date !"
+        )
 
 
 @task(
@@ -442,61 +544,57 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
             "The folder name for the documentation root folder. "
             "This defaults to 'docs'."
         ),
-        "replacements": (
-            "List of replacements (mappings) to be performed on README.md when "
-            "creating the documentation's landing page (index.md). This list ALWAYS "
-            "includes replacing '{docs-folder}/' with an empty string to correct "
-            "relative links."
+        "replacement": (
+            "A replacement (mappings) to be performed on README.md when creating the "
+            "documentation's landing page (index.md). This list ALWAYS includes "
+            "replacing '{docs-folder}/' with an empty string to correct relative "
+            "links."
         ),
-        "replacements-separator": (
-            "String to separate replacement mappings from the 'replacements' input. "
-            "Defaults to a pipe (|)."
-        ),
-        "internal-separator": (
-            "String to separate a single mapping's 'old' to 'new' statement. "
+        "replacement-separator": (
+            "String to separate a replacement's 'old' to 'new' statement."
             "Defaults to a comma (,)."
         ),
-    }
+    },
+    iterable=["replacement"],
 )
 def create_docs_index(  # pylint: disable=too-many-locals
     context,
     pre_commit=False,
     root_repo_path=".",
     docs_folder="docs",
-    replacements="",
-    replacements_separator="|",
-    internal_separator=",",
+    replacement=None,
+    replacement_separator=",",
 ):
     """Create the documentation index page from README.md."""
     if TYPE_CHECKING:  # pragma: no cover
         context: "Context" = context
+        pre_commit: bool = pre_commit
+        root_repo_path: str = root_repo_path
+        docs_folder: str = docs_folder
+        replacement: list[str] = replacement
+        replacement_separator: str = replacement_separator
 
     if pre_commit and root_repo_path == ".":
         # Use git to determine repo root
         result: "Result" = context.run("git rev-parse --show-toplevel", hide=True)
         root_repo_path = result.stdout.strip("\n")
 
-    root_repo_path = Path(root_repo_path).resolve()
+    root_repo_path: Path = Path(root_repo_path).resolve()
     readme = root_repo_path / "README.md"
-    docs_index: Path = root_repo_path / docs_folder / "index.md"
+    docs_index = root_repo_path / docs_folder / "index.md"
 
     content = readme.read_text(encoding="utf8")
 
-    replacement_mapping = [(f"{docs_folder}/", "")]
-    for replacement in replacements.split(replacements_separator):
-        new_replacement_map = replacement.split(internal_separator)
-        if len(new_replacement_map) != 2:
+    for mapping in replacement:
+        try:
+            old, new = mapping.split(replacement_separator)
+        except ValueError:
             sys.exit(
-                "A single replacement must only include an 'old' and 'new' part, "
-                "i.e., be of exactly length 2 when split by the "
-                "'--internal-separator'. The following replacement did not fulfill "
-                f"this requirement: {replacement!r}\n  "
-                f"--internal-separator={internal_separator!r}\n  "
-                f"--replacements-separator={replacements_separator!r}"
+                "A replacement must only include an 'old' and 'new' part, i.e., be of "
+                "exactly length 2 when split by the '--replacement-separator'. The "
+                "following replacement did not fulfill this requirement: "
+                f"{mapping!r}\n  --replacement-separator={replacement_separator!r}"
             )
-        replacement_mapping.append(tuple(new_replacement_map))
-
-    for old, new in replacement_mapping:
         content = content.replace(old, new)
 
     docs_index.write_text(content, encoding="utf8")
@@ -517,7 +615,10 @@ def create_docs_index(  # pylint: disable=too-many-locals
         )
         if result.stdout:
             sys.exit(
-                f"\u27b0 The landing page has been updated.\n\nPlease stage it:\n\n"
+                f"{Emoji.CURLY_LOOP.value} The landing page has been updated.\n\n"
+                "Please stage it:\n\n"
                 f"  git add {docs_index.relative_to(root_repo_path)}"
             )
-        print("\u2714 No changes - your landing page is up-to-date !")
+        print(
+            f"{Emoji.CHECK_MARK.value} No changes - your landing page is up-to-date !"
+        )

@@ -38,6 +38,16 @@ on:
         required: false
         type: string
         default: "3.9"
+      version_update_changes:
+        description: "A single or multi-line string of changes to be implemented in the repository files upon updating the version. The string should be made up of three parts: 'file path', 'pattern', and 'replacement string'. These are separated by the 'version_update_changes_separator' value. The 'file path' must _always_ either be relative to the repository root directory or absolute. The 'pattern' should be given as a 'raw' Python string."
+        required: false
+        type: string
+        default: ""
+      version_update_changes_separator:
+        description: "The separator to use for 'version_udpate_changes' when splitting the three parts of each string."
+        required: false
+        type: string
+        default: ","
       update_docs:
         description: "Whether or not to also run the 'docs' workflow job."
         required: false
@@ -59,7 +69,7 @@ on:
         type: string
         default: ""
       test:
-        description: "Whether to use the TestPyPI repository index instead of PyPI."
+        description: "Whether to use the TestPyPI repository index instead of PyPI as well as output debug statements."
         required: false
         type: boolean
         default: false
@@ -133,7 +143,20 @@ jobs:
             echo "package_dir MUST be supplied, since python_package was set to 'true'."
             exit 1
           fi
-          ci-cd setver --version="${REF}" --root-repo-path="${PWD}" --package-dir=${{ inputs.package_dir }}
+
+          DEBUG=
+          if [ "${{ inputs.test }}" == "true" ]; then
+            echo "With double quotations: \"${{ inputs.version_update_changes }}\""
+            echo 'With single quotations: \'${{ inputs.version_update_changes }}\''
+            DEBUG=--test
+          fi
+
+          ci-cd setver ${DEBUG} \
+            --version=${REF} \
+            --root-repo-path=${PWD} \
+            --package-dir=${{ inputs.package_dir }} \
+            --code-base-update-separator=${{ inputs.version_update_changes_separator }} \
+            $(python -c "print(' '.join(f'--code-base-update={repr(line)}' for line in '${{ inputs.version_update_changes }}'.splitlines()")
         fi
 
         git commit -am "Release ${REF} - Changelog"
@@ -155,6 +178,10 @@ jobs:
 
         if [ "${REMOVE_TAG_MSG_FILE}" == "true" ]; then rm -f "${TAG_MSG_FILE}"; fi
 
+        git status
+        git diff HEAD~1
+        exit 1
+### TODO: REMOVE THE PREVIOUS LINE!
     - name: Build source distribution
       run: |
         # First, clean the git tree
