@@ -11,7 +11,7 @@ on:
 jobs:
   publish:
     name: Call reusable workflow
-    if: github.repository == 'CasperWA/ci-cd' && startsWith(github.ref, 'refs/tags/v')
+    if: github.repository == 'CasperWA/ci-cd' #&& startsWith(github.ref, 'refs/tags/v')
     uses: ./.github/workflows/cd_release.yml
     with:
       git_username: "Casper Welzel Andersen"
