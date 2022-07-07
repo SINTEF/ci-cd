@@ -158,7 +158,7 @@ jobs:
             --root-repo-path=${PWD} \
             --package-dir=${{ inputs.package_dir }} \
             --code-base-update-separator=${{ inputs.version_update_changes_separator }} \
-            $(python -c "import os; print(' '.join(f'--code-base-update={repr(line)}' for line in os.getenv('AS_ENV').splitlines()")
+            $(python -c "import os; print(' '.join(f'--code-base-update={repr(line)}' for line in os.getenv('AS_ENV').splitlines())")
         fi
 
         git commit -am "Release ${REF} - Changelog"
