@@ -29,5 +29,6 @@ jobs:
       version_update_changes: |
         {package_dir}/__init__.py;__version__ *= *(?:'|\").*(?:'|\");__version__ = \"{version}\"
         ci_cd/__init__.py;__author_email__ *= *(?:'|\").*@welzel\.nu(?:'|\");__author_email__ = \"casper.w.andersen@sintef.no\"
+      version_update_changes_separator: ;
     secrets:
       PAT: ${{ secrets.RELEASE_PAT }}
