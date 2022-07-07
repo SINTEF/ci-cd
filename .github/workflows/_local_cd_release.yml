@@ -27,7 +27,7 @@ jobs:
       changelog_exclude_tags_regex: "^v[0-9]+$"
       test: true
       version_update_changes: |
-        {package_dir}/__init__.py;__version__ *= *(?:'|").*(?:'|");__version__ = "{version}"
-        ci_cd/__init__.py;__author_email__ *= *(?:'|").*@welzel\.nu(?:'|");__author_email__ = "casper.w.andersen@sintef.no"
+        {package_dir}/__init__.py;__version__ *= *(?:'|\").*(?:'|\");__version__ = \"{version}\"
+        ci_cd/__init__.py;__author_email__ *= *(?:'|\").*@welzel\.nu(?:'|\");__author_email__ = \"casper.w.andersen@sintef.no\"
     secrets:
       PAT: ${{ secrets.RELEASE_PAT }}

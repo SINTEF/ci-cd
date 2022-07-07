@@ -146,7 +146,7 @@ jobs:
 
           DEBUG=
           if [ "${{ inputs.test }}" == "true" ]; then
-            AS_ENV=${{ inputs.version_update_changes }}
+            AS_ENV="${{ inputs.version_update_changes }}"
             echo "With double quotations: "${AS_ENV}"
             echo 'With single quotations: ${AS_ENV}'
             DEBUG=--test
@@ -158,7 +158,7 @@ jobs:
             --root-repo-path=${PWD} \
             --package-dir=${{ inputs.package_dir }} \
             --code-base-update-separator=${{ inputs.version_update_changes_separator }} \
-            $(python -c "print(' '.join(f'--code-base-update={repr(line)}' for line in '${{ inputs.version_update_changes }}'.splitlines()")
+            $(python -c "print(' '.join(f'--code-base-update={repr(line)}' for line in '${AS_ENV//'/\\'}'.splitlines()")
         fi
 
         git commit -am "Release ${REF} - Changelog"
