@@ -135,6 +135,8 @@ jobs:
 
     - name: Update version and tag
       run: |
+        set -x
+
         REF=${{ github.ref }}
         REF=${REF#refs/tags/}
 
