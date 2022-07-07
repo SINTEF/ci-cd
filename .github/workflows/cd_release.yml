@@ -155,16 +155,18 @@ jobs:
 
           CODE_BASE_UPDATES=()
           while IFS= read -r line; do
-            CODE_BASE_UPDATES+=(--code-base-update="${line}")
+            if [ -n "${line}" ]; then
+              CODE_BASE_UPDATES+=(--code-base-update="${line}")
+            fi
           done <<< "${AS_ENV}"
 
           # CODE_BASE_UPDATES=$(python -c "import os; print(' '.join(f'--code-base-update=\"{line}\"' for line in os.getenv('AS_ENV').splitlines()))")
 
           ci-cd setver ${DEBUG} \
-            --version=${REF} \
-            --root-repo-path=${PWD} \
-            --package-dir=${{ inputs.package_dir }} \
-            --code-base-update-separator=${{ inputs.version_update_changes_separator }} "${CODE_BASE_UPDATES[@]}"
+            --version="${REF}" \
+            --root-repo-path="${PWD}" \
+            --package-dir="${{ inputs.package_dir }}" \
+            --code-base-update-separator="${{ inputs.version_update_changes_separator }}" "${CODE_BASE_UPDATES[@]}"
         fi
 
         git commit -am "Release ${REF} - Changelog"
