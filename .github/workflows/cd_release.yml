@@ -135,8 +135,6 @@ jobs:
 
     - name: Update version and tag
       run: |
-        set -x
-
         REF=${{ github.ref }}
         REF=${REF#refs/tags/}
 
@@ -148,7 +146,6 @@ jobs:
 
           DEBUG=
           if [ "${{ inputs.test }}" == "true" ]; then
-            export AS_ENV="${{ inputs.version_update_changes }}"
             DEBUG=--test
             REF=v0.0.0
           fi
@@ -158,9 +155,7 @@ jobs:
             if [ -n "${line}" ]; then
               CODE_BASE_UPDATES+=(--code-base-update="${line}")
             fi
-          done <<< "${AS_ENV}"
-
-          # CODE_BASE_UPDATES=$(python -c "import os; print(' '.join(f'--code-base-update=\"{line}\"' for line in os.getenv('AS_ENV').splitlines()))")
+          done <<< "${{ inputs.version_update_changes }}"
 
           ci-cd setver ${DEBUG} \
             --version="${REF}" \
