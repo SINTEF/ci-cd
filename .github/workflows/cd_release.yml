@@ -153,12 +153,14 @@ jobs:
             REF=v0.0.0
           fi
 
+          CODE_BASE_UPDATES=$(python -c "import os; print(' '.join(f'--code-base-update={repr(line)}' for line in os.getenv('AS_ENV').splitlines()))")
+
           ci-cd setver ${DEBUG} \
             --version=${REF} \
             --root-repo-path=${PWD} \
             --package-dir=${{ inputs.package_dir }} \
             --code-base-update-separator=${{ inputs.version_update_changes_separator }} \
-            $(python -c "import os; print(' '.join(f'--code-base-update={repr(line)}' for line in os.getenv('AS_ENV').splitlines()))")
+            ${CODE_BASE_UPDATES}
         fi
 
         git commit -am "Release ${REF} - Changelog"
