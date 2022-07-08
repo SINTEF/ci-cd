@@ -74,17 +74,12 @@ on:
         type: string
         default: ""
       landing_page_replacements:
-        description: "List of replacements (mappings) to be performed on README.md when creating the documentation's landing page (index.md). This list ALWAYS includes replacing `'docs/'` with an empty string to correct relative links, i.e., this cannot be overwritten. By default `'(LICENSE)'` is replaced by `'(LICENSE.md)'`."
+        description: "A single or multi-line string of replacements (mappings) to be performed on README.md when creating the documentation's landing page (index.md). This list ALWAYS includes replacing `'docs/'` with an empty string to correct relative links, i.e., this cannot be overwritten. By default `'(LICENSE)'` is replaced by `'(LICENSE.md)'`."
         required: false
         type: string
         default: "(LICENSE),(LICENSE.md)"
-      landing_page_replacements_separator:
-        description: "String to separate replacement mappings from the 'replacements' input. Defaults to a pipe (`|`)."
-        required: false
-        type: string
-        default: "|"
       landing_page_replacement_separator:
-        description: "String to separate a single mapping's 'old' to 'new' statement. Defaults to a comma (`,`)."
+        description: "String to separate a mapping's 'old' to 'new' parts. Defaults to a comma (`,`)."
         required: false
         type: string
         default: ","
