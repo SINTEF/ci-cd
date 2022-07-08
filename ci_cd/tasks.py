@@ -4,6 +4,7 @@ More information on `invoke` can be found at [pyinvoke.org](http://www.pyinvoke.
 # pylint: disable=import-outside-toplevel
 import re
 import sys
+import traceback
 from enum import Enum
 from pathlib import Path
 from typing import TYPE_CHECKING
@@ -222,9 +223,9 @@ def setver(  # pylint: disable=too-many-locals
                 filepath, pattern, replacement = code_update.split(
                     code_base_update_separator
                 )
-            except ValueError as exc:
+            except ValueError:
                 if test:
-                    print(f"Caught exception:\n{exc}")
+                    print(traceback.format_exc())
                 sys.exit(
                     f"{Emoji.CROSS_MARK.value} Error: Could not properly extract "
                     "'file path', 'pattern', 'replacement string' from the "
@@ -255,15 +256,25 @@ def setver(  # pylint: disable=too-many-locals
                     f"{replacement.format(**{'package_dir': package_dir, 'version': semantic_version})}"  # pylint: disable=line-too-long
                 )
 
-            update_file(
-                filepath,
-                (
-                    pattern,
-                    replacement.format(
-                        **{"package_dir": package_dir, "version": semantic_version}
+            try:
+                update_file(
+                    filepath,
+                    (
+                        pattern,
+                        replacement.format(
+                            **{"package_dir": package_dir, "version": semantic_version}
+                        ),
                     ),
-                ),
-            )
+                )
+            except re.error:
+                if test:
+                    print(traceback.format_exc())
+                sys.exit(
+                    f"{Emoji.CROSS_MARK.value} Error: Could not update file {filepath}"
+                    f" according to the given input:\n\n  pattern: {pattern}\n  "
+                    "replacement: "
+                    f"{replacement.format(**{'package_dir': package_dir, 'version': semantic_version})}"  # pylint: disable=line-too-long
+                )
 
     print(
         f"{Emoji.PARTY_POPPER.value} Bumped version for {package_dir} to "
