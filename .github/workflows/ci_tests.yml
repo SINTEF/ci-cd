@@ -1,0 +1,198 @@
+name: CI - Tests
+
+on:
+  workflow_call:
+    inputs:
+      run_pre-commit:
+        description: "Run the `pre-commit` test job."
+        required: false
+        type: boolean
+        default: true
+      run_pylint_safety:
+        description: "Run the `pylint & safety` test job."
+        required: false
+        type: boolean
+        default: true
+      python_version:
+        description: "The Python version to use for the workflow. This is only relevant if `update_pre-commit` is `true`."
+        required: false
+        type: string
+        default: "3.9"
+      install_extras:
+        description: "Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces. Example: `'[dev,pre-commit]'`. This is only relevant if `update_pre-commit` is `true`."
+        required: false
+        type: string
+        default: ""
+      skip_pre-commit_hooks:
+        description: "A comma-separated list of pre-commit hook IDs to skip when running `pre-commit` after updating hooks. This is only relevant if `update_pre-commit` is `true`."
+        required: false
+        type: string
+        default: ""
+
+jobs:
+  pre-commit:
+    name: Run `pre-commit`
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout ${{ github.repository }}
+      uses: actions/checkout@v3
+
+    - name: Set up Python ${{ inputs.python_version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: "${{ inputs.python_version }}"
+
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -U setuptools wheel
+        pip install .${{ inputs.install_extras }}
+
+    - name: Test with `pre-commit`
+      run: SKIP=${{ inputs.skip_pre-commit_hooks }} pre-commit run --all-files
+
+  pylint_and_safety:
+    name: Run `pylint` & `safety`
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout ${{ github.repository }}
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 2
+
+    - name: Set up Python ${{ inputs.python_version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: "${{ inputs.python_version }}"
+
+    - name: Install dependencies
+      run: |
+        python -m pip install -U pip
+        pip install -U setuptools wheel
+        pip install .${{ inputs.install_extras }}
+        pip install pylint safety
+
+    - name: Run `pylint`
+      run: |
+        if [ -z "${{ inputs.pylint_targets }}" ]; then
+          echo "Please supply the 'pylint_targets' input."
+        fi
+
+        PYLINT_OPTIONS=()
+        while IFS= read -r line; do
+          if [ -n "${line}" ]; then PYLINT_OPTIONS+=("${line}"); fi
+        done <<< "${{ inputs.pylint_options }}"
+
+        pylint "${PYLINT_OPTIONS[@]}" ${{ inputs.pylint_targets }}
+# TODO: How to add more pylint jobs??
+    - name: Run `safety`
+      run: |
+        SAFETY_OPTIONS=()
+        while IFS= read -r line; do
+          if [ -n "${line}" ]; then SAFETY_OPTIONS+=("${line}"); fi
+        done <<< "${{ inputs.safety_options }}"
+
+        pip freeze | safety check --stdin "${SAFETY_OPTIONS[@]}"
+
+  build-package:
+    name: Build distribution package
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout ${{ github.repository }}
+      uses: actions/checkout@v3
+
+    - name: Set up Python ${{ inputs.python_version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: "${{ inputs.python_version }}"
+
+    - name: Install Python dependencies
+      run: |
+        python -m pip install -U pip
+        pip install -U setuptools wheel
+        if [ -n "${{ inputs.build_libs }}" ]; then
+          pip install ${{ inputs.build_libs }}
+        fi
+
+    - name: Check building distribution
+      run: ${{ inputs.build_cmd }}
+
+  docs:
+    name: Build MkDocs Documentation
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout ${{ github.repository }}
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 2
+
+    - name: Set up Python ${{ inputs.python_version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: "${{ inputs.python_version }}"
+
+    - name: Install Python dependencies
+      run: |
+        python -m pip install -U pip
+        pip install -U setuptools wheel
+        pip install .${{ inputs.install_extras }}
+        pip install git+https://github.com/CasperWA/ci-cd.git@v1
+
+    - name: Update API Reference
+      if: inputs.update_python_api_ref
+      run: |
+        if [ -z "${{ inputs.package_dir }}" ]; then
+          echo "package_dir MUST be supplied, since update_docs and update_python_api_ref were set to 'true'."
+          exit 1
+        fi
+
+        DEBUG=
+        if [ "${{ inputs.test }}" == "true" ]; then DEBUG=--debug; fi
+
+        UNWANTED_FOLDERS=()
+        UNWANTED_FILES=()
+        FULL_DOCS_FOLDERS=()
+        while IFS= read -r line; do
+          if [ -n "${line}" ]; then UNWANTED_FOLDERS+=(--unwanted-folder="${line}"); fi
+        done <<< "${{ inputs.exclude_dirs }}"
+        while IFS= read -r line; do
+          if [ -n "${line}" ]; then UNWANTED_FILES+=(--unwanted-file="${line}"); fi
+        done <<< "${{ inputs.exclude_files }}"
+        while IFS= read -r line; do
+          if [ -n "${line}" ]; then FULL_DOCS_FOLDERS+=(--full-docs-folder="${line}"); fi
+        done <<< "${{ inputs.full_docs_dirs }}"
+
+        ci-cd create-api-reference-docs ${DEBUG} \
+          --pre-clean \
+          --root-repo-path=${PWD} \
+          --package-dir="${{ inputs.package_dir }}" \
+          "${UNWANTED_FOLDERS[@]}" \
+          "${UNWANTED_FILES[@]}" \
+          "${FULL_DOCS_FOLDERS[@]}"
+
+    - name: Update landing page
+      if: inputs.update_docs_landing_page
+      run: |
+        # Ensure the default replacement for LICENSE linking works
+        # with a custom separator
+        LANDING_PAGE_REPLACEMENTS="${{ inputs.landing_page_replacements }}"
+        if [ "${{ inputs.landing_page_replacement_separator }}" != "," ] && [ "${{ inputs.landing_page_replacements }}" == "(LICENSE),(LICENSE.md)" ]; then
+          LANDING_PAGE_REPLACEMENTS="${LANDING_PAGE_REPLACEMENTS/,/${{ inputs.landing_page_replacement_separator }}}"
+        fi
+
+        REPLACEMENTS=()
+        while IFS= read -r line; do
+          if [ -n "${line}" ]; then REPLACEMENTS+=(--replacement="${line}"); fi
+        done <<< "${LANDING_PAGE_REPLACEMENTS}"
+
+        ci-cd create-docs-index \
+          --root-repo-path=${PWD} \
+          --replacement-separator="${{ inputs.landing_page_replacement_separator }}" \
+          "${REPLACEMENTS[@]}"
+
+    - name: Build MkDocs documentation
+      run: mkdocs build --strict
