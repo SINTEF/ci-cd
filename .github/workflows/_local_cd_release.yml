@@ -26,9 +26,19 @@ jobs:
       doc_extras: "[docs]"
       changelog_exclude_tags_regex: "^v[0-9]+$"
       test: true
+      version_update_changes_separator: ","
       version_update_changes: |
-        {package_dir}/__init__.py;__version__ *= *(?:'|\").*(?:'|\");__version__ = \"{version}\"
-        ci_cd/__init__.py;__author_email__ *= *(?:'|\").*@welzel\.nu(?:'|\");__author_email__ = \"casper.w.andersen@sintef.no\"
-      version_update_changes_separator: ";"
+        {package_dir}/__init__.py,__version__ *= *(?:'|\").*(?:'|\"),__version__ = \"{version}\"
+        docs/index.md,^**Current version to use:** `v[0-9]+`$,**Current version to use:** `v{version.major}`
+        docs/hooks/docs_api_reference.md,rev: v[0-9]+$,rev: v{version.major}
+        docs/hooks/docs_landing_page.md,rev: v[0-9]+$,rev: v{version.major}
+        docs/workflows/cd_release.md,uses: CasperWA/ci-cd/\.github/workflows/cd_release\.yml@v[0-9]+$,uses: CasperWA/ci-cd/.github/workflows/cd_release.yml@v{version.major}
+        docs/workflows/ci_automerge_prs.md,uses: CasperWA/ci-cd/\.github/workflows/ci_automerge_prs\.yml@v[0-9]+$,uses: CasperWA/ci-cd/.github/workflows/ci_automerge_prs.yml@v{version.major}
+        docs/workflows/ci_cd_updated_default_branch.md,uses: CasperWA/ci-cd/\.github/workflows/ci_cd_updated_default_branch\.yml@v[0-9]+$,uses: CasperWA/ci-cd/.github/workflows/ci_cd_updated_default_branch.yml@v{version.major}
+        docs/workflows/ci_check_pyproject_dependencies.md,uses: CasperWA/ci-cd/\.github/workflows/ci_check_pyproject_dependencies\.yml@v[0-9]+$,uses: CasperWA/ci-cd/.github/workflows/ci_check_pyproject_dependencies.yml@v{version.major}
+        docs/workflows/ci_update_dependencies.md,uses: CasperWA/ci-cd/\.github/workflows/ci_update_dependencies\.yml@v[0-9]+$,uses: CasperWA/ci-cd/.github/workflows/ci_update_dependencies.yml@v{version.major}
+        .github/workflows/cd_release.yml,https://github\.com/CasperWA/ci-cd\.git@v[0-9]+$,https://github.com/CasperWA/ci-cd.git@v{version.major}
+        .github/workflows/ci_cd_updated_default_branch.yml,https://github\.com/CasperWA/ci-cd\.git@v[0-9]+$,https://github.com/CasperWA/ci-cd.git@v{version.major}
+        .github/workflows/ci_check_pyproject_dependencies.yml,https://github\.com/CasperWA/ci-cd\.git@v[0-9]+$,https://github.com/CasperWA/ci-cd.git@v{version.major}
     secrets:
       PAT: ${{ secrets.RELEASE_PAT }}
