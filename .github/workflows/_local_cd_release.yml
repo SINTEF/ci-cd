@@ -29,7 +29,7 @@ jobs:
       version_update_changes_separator: ","
       version_update_changes: |
         {package_dir}/__init__.py,__version__ *= *(?:'|\").*(?:'|\"),__version__ = \"{version}\"
-        docs/index.md,^\*\*Current version to use:\*\* `v[0-9]+`$,**Current version to use:** `v{version.major}`
+        docs/index.md,^\*\*Current version to use:\*\* \`v[0-9]+\`$,**Current version to use:** \`v{version.major}\`
         docs/hooks/docs_api_reference.md,rev: v[0-9]+$,rev: v{version.major}
         docs/hooks/docs_landing_page.md,rev: v[0-9]+$,rev: v{version.major}
         docs/workflows/cd_release.md,uses: CasperWA/ci-cd/\.github/workflows/cd_release\.yml@v[0-9]+$,uses: CasperWA/ci-cd/.github/workflows/cd_release.yml@v{version.major}
