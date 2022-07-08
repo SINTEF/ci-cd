@@ -702,42 +702,35 @@ The default value is given here as a help:<br />
 </tr>
 <tr>
 <td align="left"><code>exclude_dirs</code></td>
-<td align="left">Comma-separated list of directories to exclude in the Python API reference documentation. Note, only directory names, not paths, may be included. Note, all folders and their contents with these names will be excluded. Defaults to <code>'__pycache__'</code>. <strong>Important</strong>: When a user value is set, the preset value is overwritten - hence <code>'__pycache__'</code> should be included in the user value if one wants to exclude these directories.</td>
+<td align="left">A single or multi-line string of directories to exclude in the Python API reference documentation. Note, only directory names, not paths, may be included. Note, all folders and their contents with these names will be excluded. Defaults to <code>'__pycache__'</code>. <strong>Important</strong>: When a user value is set, the preset value is overwritten - hence <code>'__pycache__'</code> should be included in the user value if one wants to exclude these directories.</td>
 <td align="center">No</td>
 <td align="center">__pycache__</td>
 <td align="center"><em>string</em></td>
 </tr>
 <tr>
 <td align="left"><code>exclude_files</code></td>
-<td align="left">Comma-separated list of files to exclude in the Python API reference documentation. Note, only full file names, not paths, may be included, i.e., filename + file extension. Note, all files with these names will be excluded. Defaults to <code>'__init__.py'</code>. <strong>Important</strong>: When a user value is set, the preset value is overwritten - hence <code>'__init__.py'</code> should be included in the user value if one wants to exclude these files.</td>
+<td align="left">A single or multi-line string of files to exclude in the Python API reference documentation. Note, only full file names, not paths, may be included, i.e., filename + file extension. Note, all files with these names will be excluded. Defaults to <code>'__init__.py'</code>. <strong>Important</strong>: When a user value is set, the preset value is overwritten - hence <code>'__init__.py'</code> should be included in the user value if one wants to exclude these files.</td>
 <td align="center">No</td>
 <td align="center">__init__.py</td>
 <td align="center"><em>string</em></td>
 </tr>
 <tr>
 <td align="left"><code>full_docs_dirs</code></td>
-<td align="left">Comma-separated list of directories in which to include everything - even those without documentation strings. This may be useful for a module full of data models or to ensure all class attributes are listed.</td>
+<td align="left">A single or multi-line string of directories in which to include everything - even those without documentation strings. This may be useful for a module full of data models or to ensure all class attributes are listed.</td>
 <td align="center">No</td>
 <td align="center"><em>Empty string</em></td>
 <td align="center"><em>string</em></td>
 </tr>
 <tr>
 <td align="left"><code>landing_page_replacements</code></td>
-<td align="left">List of replacements (mappings) to be performed on README.md when creating the documentation's landing page (index.md). This list <em>always</em> includes replacing <code>'docs/'</code> with an empty string to correct relative links, i.e., this cannot be overwritten. By default <code>'(LICENSE)'</code> is replaced by <code>'(LICENSE.md)'</code>.</td>
+<td align="left">A single or multi-line string of replacements (mappings) to be performed on README.md when creating the documentation's landing page (index.md). This list <em>always</em> includes replacing <code>'docs/'</code> with an empty string to correct relative links, i.e., this cannot be overwritten. By default <code>'(LICENSE)'</code> is replaced by <code>'(LICENSE.md)'</code>.</td>
 <td align="center">No</td>
 <td align="center">(LICENSE),(LICENSE.md)</td>
 <td align="center"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>landing_page_replacements_separator</code></td>
-<td align="left">String to separate replacement mappings from the 'replacements' input. Defaults to a pipe (<code>\|</code>).</td>
-<td align="center">No</td>
-<td align="center">|</td>
-<td align="center"><em>string</em></td>
-</tr>
-<tr>
-<td align="left"><code>landing_page_replacements_mapping_separator</code></td>
-<td align="left">String to separate a single mapping's 'old' to 'new' statement. Defaults to a comma (<code>,</code>).</td>
+<td align="left"><code>landing_page_replacement_separator</code></td>
+<td align="left">String to separate a mapping's 'old' to 'new' parts. Defaults to a comma (<code>,</code>).</td>
 <td align="center">No</td>
 <td align="center">,</td>
 <td align="center"><em>string</em></td>

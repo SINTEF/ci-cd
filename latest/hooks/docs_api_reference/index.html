@@ -607,22 +607,22 @@
 <td align="center"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>--unwanted-dirs</code></td>
-<td align="left">Comma-separated list of directories to avoid including into the Python API reference documentation.</br></br><strong>Note</strong>: Only directory names, not paths, may be included.</br></br><strong>Note</strong>: All folders and their contents with these names will be excluded.</td>
+<td align="left"><code>--unwanted-folder</code></td>
+<td align="left">A folder to avoid including into the Python API reference documentation. If this is not supplied, it will default to <code>__pycache__</code>.</br></br><strong>Note</strong>: Only folder names, not paths, may be included.</br></br><strong>Note</strong>: All folders and their contents with these names will be excluded.</br></br>This input option can be supplied multiple times.</td>
 <td align="center">No</td>
 <td align="center">__pycache__</td>
 <td align="center"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>--unwanted-files</code></td>
-<td align="left">Comma-separated list of files to avoid including into the Python API reference documentation.</br></br><strong>Note</strong>: Only full file names, not paths, may be included, i.e., filename + file extension.</br></br><strong>Note</strong>: All files with these names will be excluded.</td>
+<td align="left"><code>--unwanted-file</code></td>
+<td align="left">A file to avoid including into the Python API reference documentation. If this is not supplied, it will default to <code>__init__.py</code></br></br><strong>Note</strong>: Only full file names, not paths, may be included, i.e., filename + file extension.</br></br><strong>Note</strong>: All files with these names will be excluded.</br></br>This input option can be supplied multiple times.</td>
 <td align="center">No</td>
 <td align="center">__init__.py</td>
 <td align="center"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>--full-docs-dirs</code></td>
-<td align="left">Comma-separated list of directories in which to include everything - even those without documentation strings. This may be useful for a module full of data models or to ensure all class attributes are listed.</td>
+<td align="left"><code>--full-docs-folder</code></td>
+<td align="left">A folder in which to include everything - even those without documentation strings. This may be useful for a module full of data models or to ensure all class attributes are listed.</br></br>This input option can be supplied multiple times.</td>
 <td align="center">No</td>
 <td align="center"><em>Empty string</em></td>
 <td align="center"><em>string</em></td>
@@ -645,8 +645,12 @@ It is meant to be complete as is.</p>
 <span class="w">    </span><span class="nt">hooks</span><span class="p">:</span><span class="w"></span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docs-api-reference</span><span class="w"></span>
 <span class="w">      </span><span class="nt">args</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;--package-dir=&quot;my_python_package&quot;&#39;</span><span class="w"></span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;--full-docs-dirs=&quot;models&quot;&#39;</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--package-dir</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my_python_package</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--full-docs-folder</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">models</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--full-docs-folder</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">data</span><span class="w"></span>
 </code></pre></div>
 
               
