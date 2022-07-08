@@ -79,7 +79,7 @@ on:
         type: string
         default: "(LICENSE),(LICENSE.md)"
       landing_page_replacement_separator:
-        description: "String to separate a mapping's 'old' to 'new' parts. Defaults to a comma (`,`)."
+        description: "String to separate a replacement's 'old' to 'new' parts. Defaults to a comma (`,`)."
         required: false
         type: string
         default: ","
