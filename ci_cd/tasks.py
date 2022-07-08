@@ -668,13 +668,13 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
             "This defaults to 'docs'."
         ),
         "replacement": (
-            "A replacement (mappings) to be performed on README.md when creating the "
+            "A replacement (mapping) to be performed on README.md when creating the "
             "documentation's landing page (index.md). This list ALWAYS includes "
-            "replacing '{docs-folder}/' with an empty string to correct relative "
-            "links."
+            "replacing '{docs-folder}/' with an empty string, in order to correct "
+            "relative links. This input option can be supplied multiple times."
         ),
         "replacement-separator": (
-            "String to separate a replacement's 'old' to 'new' statement."
+            "String to separate a replacement's 'old' to 'new' parts."
             "Defaults to a comma (,)."
         ),
     },

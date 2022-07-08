@@ -21,9 +21,8 @@ Any of these options can be given through the `args` key when defining the hook.
 | **Name** | **Description** | **Required** | **Default** | **Type** |
 |:--- |:--- |:---:|:---:|:---:|
 | `--docs-folder` | The folder name for the documentation root folder. | No | docs | _string_ |
-| `--replacements` | List of replacements (mappings) to be performed on `README.md` when creating the documentation's landing page (`index.md`). This list _always_ includes replacing '`--docs-folder`/' with an empty string to correct relative links. | No | (LICENSE),(LICENSE.md) | _string_ |
-| `--replacements-separator` | String to separate replacement mappings from the `--replacements` input. Defaults to a pipe (`\|`). | No | \| | _string_ |
-| `--internal-separator` | String to separate a single mapping's 'old' to 'new' statement. Defaults to a comma (`,`). | No | , | _string_ |
+| `--replacement` | A replacement (mapping) to be performed on `README.md` when creating the documentation's landing page (`index.md`). This list _always_ includes replacing '`--docs-folder`/' with an empty string, in order to correct relative links. By default the value `(LICENSE),(LICENSE.md)` is set, but this will be overwritten if `args` is set.</br></br>This input option can be supplied multiple times. | No | (LICENSE),(LICENSE.md) | _string_ |
+| `--replacement-separator` | String to separate a replacement's 'old' to 'new' parts. Defaults to a comma (`,`). | No | , | _string_ |
 
 ## Usage example
 
@@ -38,7 +37,11 @@ repos:
     - id: docs-landing-page
       args:
       # Replace `(LICENSE)` with `(LICENSE.md)` (i.e., don't overwrite the default)
+      - '--replacement'
+      - '(LICENSE);(LICENSE.md)'
       # Replace `(tools/` with `(`
-      - '--replacements="(LICENSE);(LICENSE.md)|(tools/;("'
-      - '--internal-separator=;'
+      - '--replacement'
+      - '(tools/;('
+      - '--replacement-separator'
+      - ';'
 ```
