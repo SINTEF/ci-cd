@@ -37,4 +37,5 @@
   language_version: default
   minimum_pre_commit_version: "2.16.0"
   args:
-    - '--replacements="(LICENSE),(LICENSE.md)"'
+    - '--replacements'
+    - '(LICENSE),(LICENSE.md)'
