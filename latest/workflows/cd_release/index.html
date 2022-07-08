@@ -312,6 +312,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#updating-instances-of-version-in-repository-files" class="md-nav__link">
+    Updating instances of version in repository files
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#expectations" class="md-nav__link">
     Expectations
   </a>
@@ -472,7 +479,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../hooks/docs_landig_page/" class="md-nav__link">
+      <a href="../../hooks/docs_landing_page/" class="md-nav__link">
         Update Landing Page (index.md) for Documentation
       </a>
     </li>
@@ -543,6 +550,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#updating-instances-of-version-in-repository-files" class="md-nav__link">
+    Updating instances of version in repository files
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#expectations" class="md-nav__link">
     Expectations
   </a>
@@ -600,6 +614,26 @@ The default value is given here as a help:<br />
 </div>
 <p>The <code>changelog_exclude_tags_regex</code> is also used to remove tags in a list of tags to consider when evaluating the "previous version".
 This is specifically for adding a changelog to the GitHub release body.</p>
+<h2 id="updating-instances-of-version-in-repository-files">Updating instances of version in repository files<a class="headerlink" href="#updating-instances-of-version-in-repository-files" title="Permanent link">&para;</a></h2>
+<p>The content of repository files can be updated to use the new version where necessary.
+This is done through the <code>version_update_changes</code> (and <code>version_update_changes_separator</code>) inputs.</p>
+<p>To see an example of how to use the <code>version_update_changes</code> (and <code>version_update_changes_separator</code>) see for example the <a href="https://github.com/CasperWA/ci-cd/blob/v1/.github/workflows/_local_cd_release.yml">workflow used by the CasperWA/ci-cd repository</a> calling the <em>CD Release</em> workflow.</p>
+<p>Some notes to consider and respect when using <code>version_update_changes</code> are:</p>
+<ul>
+<li>The value of <code>version_update_changes_separator</code> applies to <em>all</em> lines given in <code>version_update_changes</code>, meaning it should be a character, or series of characters, which will not be part of the actual content.</li>
+<li>Specifically, concerning the 'raw' Python string 'pattern' the following applies:</li>
+<li><strong>Always</strong> escape double quotes (<code>"</code>).
+    This is done by prefixing it with a backslash (<code>\</code>): <code>\"</code>.</li>
+<li>Escape special bash/sh characters, e.g., back tick (<code>`</code>).</li>
+<li>Escape special Python regular expression characters, if they are not used for their intended purpose in this 'raw' string.
+    See the <a href="https://docs.python.org/3/library/re.html"><code>re</code> library documentation</a> for more information.</li>
+</ul>
+<p>Concerning the 'replacement string' part, the <code>package_dir</code> input and full semantic version can be substituted in dynamically by wrapping either <code>package_dir</code> or <code>version</code> in curly braces (<code>{}</code>).
+Indeed, for the version, one can specify sub-parts of the version to use, e.g., if one desires to only use the major version, this can be done by using the <code>major</code> attribute: <code>{version.major}</code>.
+The full list of version attributes are: <code>major</code>, <code>minor</code>, <code>patch</code>, <code>pre_release</code>, and <code>build</code>.
+More can be used, e.g., to only insert the major.minor version: <code>{version.major}.{version.minor}</code>.</p>
+<p>For the 'file path' part, package_dir wrapped in curly braces (<code>{}</code>) will also be substituted at run time with the <code>package_dir</code> input.
+E.g., <code>{package_dir}/__init__.py</code> will become <code>ci_cd/__init__.py</code> if the <code>package_dir</code> input was <code>'ci_cd'</code>.</p>
 <h2 id="expectations">Expectations<a class="headerlink" href="#expectations" title="Permanent link">&para;</a></h2>
 <p>This workflow should <em>only</em> be used for releasing a single modern Python package.</p>
 <p>The repository contains the following:</p>
@@ -668,6 +702,20 @@ This is specifically for adding a changelog to the GitHub release body.</p>
 <td align="left">The Python version to use for the workflow.</td>
 <td align="center">No</td>
 <td align="center">3.9</td>
+<td align="center"><em>string</em></td>
+</tr>
+<tr>
+<td align="left"><code>version_update_changes</code></td>
+<td align="left">A single or multi-line string of changes to be implemented in the repository files upon updating the version. The string should be made up of three parts: 'file path', 'pattern', and 'replacement string'. These are separated by the 'version_update_changes_separator' value.</br>The 'file path' must <em>always</em> either be relative to the repository root directory or absolute.</br>The 'pattern' should be given as a 'raw' Python string.</td>
+<td align="center">No</td>
+<td align="center"><em>Empty string</em></td>
+<td align="center"><em>string</em></td>
+</tr>
+<tr>
+<td align="left"><code>version_update_changes_separator</code></td>
+<td align="left">The separator to use for 'version_update_changes' when splitting the three parts of each string.</td>
+<td align="center">No</td>
+<td align="center">,</td>
 <td align="center"><em>string</em></td>
 </tr>
 <tr>
