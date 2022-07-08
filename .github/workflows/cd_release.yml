@@ -158,7 +158,8 @@ jobs:
             --version="${REF}" \
             --root-repo-path="${PWD}" \
             --package-dir="${{ inputs.package_dir }}" \
-            --code-base-update-separator="${{ inputs.version_update_changes_separator }}" "${CODE_BASE_UPDATES[@]}"
+            --code-base-update-separator="${{ inputs.version_update_changes_separator }}" \
+            "${CODE_BASE_UPDATES[@]}"
         fi
 
         git commit -am "Release ${REF} - Changelog"

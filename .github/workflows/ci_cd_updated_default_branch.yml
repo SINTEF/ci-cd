@@ -59,17 +59,17 @@ on:
         type: string
         default: ""
       exclude_dirs:
-        description: "Comma-separated list of directories to exclude in the Python API reference documentation. Note, only directory names, not paths, may be included. Note, all folders and their contents with these names will be excluded. Defaults to `'__pycache__'`. Important: When a user value is set, the preset value is overwritten - hence `'__pycache__'` should be included in the user value if one wants to exclude these directories."
+        description: "A single or multi-line string of directories to exclude in the Python API reference documentation. Note, only directory names, not paths, may be included. Note, all folders and their contents with these names will be excluded. Defaults to `'__pycache__'`. Important: When a user value is set, the preset value is overwritten - hence `'__pycache__'` should be included in the user value if one wants to exclude these directories."
         required: false
         type: string
         default: "__pycache__"
       exclude_files:
-        description: "Comma-separated list of files to exclude in the Python API reference documentation. Note, only full file names, not paths, may be included, i.e., filename + file extension. Note, all files with these names will be excluded. Defaults to `'__init__.py'`. Important: When a user value is set, the preset value is overwritten - hence `'__init__.py'` should be included in the user value if one wants to exclude these files."
+        description: "A single or multi-line string of files to exclude in the Python API reference documentation. Note, only full file names, not paths, may be included, i.e., filename + file extension. Note, all files with these names will be excluded. Defaults to `'__init__.py'`. Important: When a user value is set, the preset value is overwritten - hence `'__init__.py'` should be included in the user value if one wants to exclude these files."
         required: false
         type: string
         default: "__init__.py"
       full_docs_dirs:
-        description: "Comma-separated list of directories in which to include everything - even those without documentation strings. This may be useful for a module full of data models or to ensure all class attributes are listed."
+        description: "A single or multi-line string of directories in which to include everything - even those without documentation strings. This may be useful for a module full of data models or to ensure all class attributes are listed."
         required: false
         type: string
         default: ""
@@ -83,7 +83,7 @@ on:
         required: false
         type: string
         default: "|"
-      landing_page_replacements_mapping_separator:
+      landing_page_replacement_separator:
         description: "String to separate a single mapping's 'old' to 'new' statement. Defaults to a comma (`,`)."
         required: false
         type: string
@@ -166,19 +166,29 @@ jobs:
           exit 1
         fi
 
-        if [ "${{ inputs.test }}" == "true" ]; then
-          DEBUG=--debug
-        else
-          DEBUG=
-        fi
+        DEBUG=
+        if [ "${{ inputs.test }}" == "true" ]; then DEBUG=--debug; fi
+
+        UNWANTED_FOLDERS=()
+        UNWANTED_FILES=()
+        FULL_DOCS_FOLDERS=()
+        while IFS= read -r line; do
+          if [ -n "${line}" ]; then UNWANTED_FOLDERS+=(--unwanted-folder="${line}"); fi
+        done <<< "${{ inputs.exclude_dirs }}"
+        while IFS= read -r line; do
+          if [ -n "${line}" ]; then UNWANTED_FILES+=(--unwanted-file="${line}"); fi
+        done <<< "${{ inputs.exclude_files }}"
+        while IFS= read -r line; do
+          if [ -n "${line}" ]; then FULL_DOCS_FOLDERS+=(--full-docs-folder="${line}"); fi
+        done <<< "${{ inputs.full_docs_dirs }}"
 
         ci-cd create-api-reference-docs ${DEBUG} \
           --pre-clean \
           --root-repo-path=${PWD} \
           --package-dir="${{ inputs.package_dir }}" \
-          --unwanted-dirs="${{ inputs.exclude_dirs }}" \
-          --unwanted-files="${{ inputs.exclude_files }}" \
-          --full-docs-dirs="${{ inputs.full_docs_dirs }}"
+          "${UNWANTED_FOLDERS[@]}" \
+          "${UNWANTED_FILES[@]}" \
+          "${FULL_DOCS_FOLDERS[@]}"
 
     - name: Update landing page
       if: env.RELEASE_RUN == 'false' && inputs.update_docs_landing_page
@@ -186,15 +196,19 @@ jobs:
         # Ensure the default replacement for LICENSE linking works
         # with a custom separator
         LANDING_PAGE_REPLACEMENTS="${{ inputs.landing_page_replacements }}"
-        if [ "${{ inputs.landing_page_replacements_mapping_separator }}" != "," ] && [ "${{ inputs.landing_page_replacements }}" == "(LICENSE),(LICENSE.md)" ]; then
-          LANDING_PAGE_REPLACEMENTS="${LANDING_PAGE_REPLACEMENTS/,/${{ inputs.landing_page_replacements_mapping_separator }}}"
+        if [ "${{ inputs.landing_page_replacement_separator }}" != "," ] && [ "${{ inputs.landing_page_replacements }}" == "(LICENSE),(LICENSE.md)" ]; then
+          LANDING_PAGE_REPLACEMENTS="${LANDING_PAGE_REPLACEMENTS/,/${{ inputs.landing_page_replacement_separator }}}"
         fi
+
+        REPLACEMENTS=()
+        while IFS= read -r line; do
+          if [ -n "${line}" ]; then REPLACEMENTS+=(--replacement="${line}"); fi
+        done <<< "${LANDING_PAGE_REPLACEMENTS}"
 
         ci-cd create-docs-index \
           --root-repo-path=${PWD} \
-          --replacements="${LANDING_PAGE_REPLACEMENTS}" \
-          --replacements-separator="${{ inputs.landing_page_replacements_separator }}" \
-          --internal-separator="${{ inputs.landing_page_replacements_mapping_separator }}"
+          --replacement-separator="${{ inputs.landing_page_replacement_separator }}" \
+          "${REPLACEMENTS[@]}"
 
     - name: Determine if documentation was updated
       if: env.RELEASE_RUN == 'false'
