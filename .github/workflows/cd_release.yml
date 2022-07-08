@@ -44,7 +44,7 @@ on:
         type: string
         default: ""
       version_update_changes_separator:
-        description: "The separator to use for 'version_udpate_changes' when splitting the three parts of each string."
+        description: "The separator to use for 'version_update_changes' when splitting the three parts of each string."
         required: false
         type: string
         default: ","

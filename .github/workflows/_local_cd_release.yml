@@ -37,5 +37,6 @@ jobs:
         .github/workflows/cd_release.yml,https://github\.com/CasperWA/ci-cd\.git@v[0-9]+$,https://github.com/CasperWA/ci-cd.git@v{version.major}
         .github/workflows/ci_cd_updated_default_branch.yml,https://github\.com/CasperWA/ci-cd\.git@v[0-9]+$,https://github.com/CasperWA/ci-cd.git@v{version.major}
         .github/workflows/ci_check_pyproject_dependencies.yml,https://github\.com/CasperWA/ci-cd\.git@v[0-9]+$,https://github.com/CasperWA/ci-cd.git@v{version.major}
+        docs/workflows/cd_release.md,\(https://github\.com/CasperWA/ci-cd/blob/v[0-9]+/\.github/workflows/_local_cd_release\.yml\),(https://github.com/CasperWA/ci-cd/blob/v{version.major}/.github/workflows/_local_cd_release.yml)
     secrets:
       PAT: ${{ secrets.RELEASE_PAT }}

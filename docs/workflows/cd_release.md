@@ -20,6 +20,23 @@ For more information about the specific changelog inputs, see the related [chang
 The `changelog_exclude_tags_regex` is also used to remove tags in a list of tags to consider when evaluating the "previous version".
 This is specifically for adding a changelog to the GitHub release body.
 
+## Updating instances of version in repository files
+
+The content of repository files can be updated to use the new version where necessary.
+This is done through the `version_update_changes` (and `version_update_changes_separator`) inputs.
+
+To see an example of how to use the `version_update_changes` (and `version_update_changes_separator`) see for example the [workflow used by the CasperWA/ci-cd repository](https://github.com/CasperWA/ci-cd/blob/v1/.github/workflows/_local_cd_release.yml) calling the _CD Release_ workflow.
+
+Some notes to consider and respect when using `version_update_changes` are:
+
+- The value of `version_update_changes_separator` applies to _all_ lines given in `version_update_changes`, meaning it should be a character, or series of characters, which will not be part of the actual content.
+- Specifically, concerning the 'raw' Python string 'pattern' the following applies:
+  - **Always** escape double quotes (`"`).
+    This is done by prefixing it with a backslash (`\`): `\"`.
+  - Escape special bash/sh characters, e.g., back tick (`\``).
+  - Escape special Python regular expression characters, if they are not used for their intended purpose in this 'raw' string.
+    See the [`re` library documentation](https://docs.python.org/3/library/re.html) for more information.
+
 ## Expectations
 
 This workflow should _only_ be used for releasing a single modern Python package.
@@ -42,6 +59,8 @@ The repository contains the following:
 | `release_branch` | The branch name to release/publish from. | No | main | _string_ |
 | `install_extras` | Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces.</br></br>Example: `'[dev,release]'`. | No | _Empty string_ | _string_ |
 | `python_version` | The Python version to use for the workflow. | No | 3.9 | _string_ |
+| `version_update_changes` | A single or multi-line string of changes to be implemented in the repository files upon updating the version. The string should be made up of three parts: 'file path', 'pattern', and 'replacement string'. These are separated by the 'version_update_changes_separator' value.</br>The 'file path' must _always_ either be relative to the repository root directory or absolute.</br>The 'pattern' should be given as a 'raw' Python string. | No | _Empty string_ | _string_ |
+| `version_update_changes_separator` | The separator to use for 'version_update_changes' when splitting the three parts of each string. | No | , | _string_ |
 | `build_cmd` | The package build command, e.g., `'pip install flit && flit build'` or `'python -m build'` (default). | No | `python -m build` | _string_ |
 | `tag_message_file` | Relative path to a release tag message file from the root of the repository.</br></br>Example: `'.github/utils/release_tag_msg.txt'`. | No | _Empty string_ | _string_ |
 | `publish_on_pypi` | Whether or not to publish on PyPI.</br></br>**Note**: This is only relevant if 'python_package' is 'true', which is the default. | No | `true` | _boolean_ |
