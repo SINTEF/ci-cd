@@ -8,8 +8,18 @@ on:
         required: false
         type: boolean
         default: true
-      run_pylint_safety:
-        description: "Run the `pylint & safety` test job."
+      # run_pylint_safety:
+      #   description: "Run the `pylint & safety` test job."
+      #   required: false
+      #   type: boolean
+      #   default: true
+      run_build_package:
+        description: "Run the 'build package' test job."
+        required: false
+        type: boolean
+        default: true
+      run_build_docs:
+        description: "Run the 'build documentation' test job."
         required: false
         type: boolean
         default: true
@@ -28,10 +38,66 @@ on:
         required: false
         type: string
         default: ""
+      build_libs:
+        description: "A space-separated list of packages to install via PyPI (`pip install`)."
+        required: false
+        type: string
+        default: ""
+      build_cmd:
+        description: "The package build command, e.g., `'flit build'` or `'python -m build'` (default)."
+        required: false
+        type: string
+        default: "python -m build"
+      update_python_api_ref:
+        description: "Whether or not to update the Python API documentation reference. **Note**: If this is 'true', 'package_dir' is _required_."
+        required: false
+        type: boolean
+        default: true
+      package_dir:
+        description: "Path to the Python package directory relative to the repository directory. Example: `'src/my_package'`. **Important**: This is _required_ if 'run_build_docs' and 'update_python_api_ref' are 'true'."
+        required: false
+        type: string
+        default: ""
+      update_docs_landing_page:
+        description: "Whether or not to update the documentation landing page. The landing page will be based on the root README.md file."
+        required: false
+        type: boolean
+        default: true
+      exclude_dirs:
+        description: "A single or multi-line string of directories to exclude in the Python API reference documentation. Note, only directory names, not paths, may be included. Note, all folders and their contents with these names will be excluded. Defaults to `'__pycache__'`. Important: When a user value is set, the preset value is overwritten - hence `'__pycache__'` should be included in the user value if one wants to exclude these directories."
+        required: false
+        type: string
+        default: "__pycache__"
+      exclude_files:
+        description: "A single or multi-line string of files to exclude in the Python API reference documentation. Note, only full file names, not paths, may be included, i.e., filename + file extension. Note, all files with these names will be excluded. Defaults to `'__init__.py'`. Important: When a user value is set, the preset value is overwritten - hence `'__init__.py'` should be included in the user value if one wants to exclude these files."
+        required: false
+        type: string
+        default: "__init__.py"
+      full_docs_dirs:
+        description: "A single or multi-line string of directories in which to include everything - even those without documentation strings. This may be useful for a module full of data models or to ensure all class attributes are listed."
+        required: false
+        type: string
+        default: ""
+      landing_page_replacements:
+        description: "A single or multi-line string of replacements (mappings) to be performed on README.md when creating the documentation's landing page (index.md). This list ALWAYS includes replacing `'docs/'` with an empty string to correct relative links, i.e., this cannot be overwritten. By default `'(LICENSE)'` is replaced by `'(LICENSE.md)'`."
+        required: false
+        type: string
+        default: "(LICENSE),(LICENSE.md)"
+      landing_page_replacement_separator:
+        description: "String to separate a replacement's 'old' to 'new' parts. Defaults to a comma (`,`)."
+        required: false
+        type: string
+        default: ","
+      debug:
+        description: "Whether to do print extra debug statements."
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   pre-commit:
     name: Run `pre-commit`
+    if: ${{ inputs.run_pre-commit }}
     runs-on: ubuntu-latest
 
     steps:
@@ -52,52 +118,53 @@ jobs:
     - name: Test with `pre-commit`
       run: SKIP=${{ inputs.skip_pre-commit_hooks }} pre-commit run --all-files
 
-  pylint_and_safety:
-    name: Run `pylint` & `safety`
-    runs-on: ubuntu-latest
+#   pylint_and_safety:
+#     name: Run `pylint` & `safety`
+#     runs-on: ubuntu-latest
 
-    steps:
-    - name: Checkout ${{ github.repository }}
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 2
+#     steps:
+#     - name: Checkout ${{ github.repository }}
+#       uses: actions/checkout@v3
+#       with:
+#         fetch-depth: 2
 
-    - name: Set up Python ${{ inputs.python_version }}
-      uses: actions/setup-python@v4
-      with:
-        python-version: "${{ inputs.python_version }}"
+#     - name: Set up Python ${{ inputs.python_version }}
+#       uses: actions/setup-python@v4
+#       with:
+#         python-version: "${{ inputs.python_version }}"
 
-    - name: Install dependencies
-      run: |
-        python -m pip install -U pip
-        pip install -U setuptools wheel
-        pip install .${{ inputs.install_extras }}
-        pip install pylint safety
+#     - name: Install dependencies
+#       run: |
+#         python -m pip install -U pip
+#         pip install -U setuptools wheel
+#         pip install .${{ inputs.install_extras }}
+#         pip install pylint safety
 
-    - name: Run `pylint`
-      run: |
-        if [ -z "${{ inputs.pylint_targets }}" ]; then
-          echo "Please supply the 'pylint_targets' input."
-        fi
+#     - name: Run `pylint`
+#       run: |
+#         if [ -z "${{ inputs.pylint_targets }}" ]; then
+#           echo "Please supply the 'pylint_targets' input."
+#         fi
 
-        PYLINT_OPTIONS=()
-        while IFS= read -r line; do
-          if [ -n "${line}" ]; then PYLINT_OPTIONS+=("${line}"); fi
-        done <<< "${{ inputs.pylint_options }}"
+#         PYLINT_OPTIONS=()
+#         while IFS= read -r line; do
+#           if [ -n "${line}" ]; then PYLINT_OPTIONS+=("${line}"); fi
+#         done <<< "${{ inputs.pylint_options }}"
 
-        pylint "${PYLINT_OPTIONS[@]}" ${{ inputs.pylint_targets }}
-# TODO: How to add more pylint jobs??
-    - name: Run `safety`
-      run: |
-        SAFETY_OPTIONS=()
-        while IFS= read -r line; do
-          if [ -n "${line}" ]; then SAFETY_OPTIONS+=("${line}"); fi
-        done <<< "${{ inputs.safety_options }}"
+#         pylint "${PYLINT_OPTIONS[@]}" ${{ inputs.pylint_targets }}
+# # TODO: How to add more pylint jobs??
+#     - name: Run `safety`
+#       run: |
+#         SAFETY_OPTIONS=()
+#         while IFS= read -r line; do
+#           if [ -n "${line}" ]; then SAFETY_OPTIONS+=("${line}"); fi
+#         done <<< "${{ inputs.safety_options }}"
 
-        pip freeze | safety check --stdin "${SAFETY_OPTIONS[@]}"
+#         pip freeze | safety check --stdin "${SAFETY_OPTIONS[@]}"
 
   build-package:
     name: Build distribution package
+    if: ${{ inputs.run_build_package }}
     runs-on: ubuntu-latest
 
     steps:
@@ -122,6 +189,7 @@ jobs:
 
   docs:
     name: Build MkDocs Documentation
+    if: ${{ inputs.run_build_docs }}
     runs-on: ubuntu-latest
 
     steps:
@@ -151,7 +219,7 @@ jobs:
         fi
 
         DEBUG=
-        if [ "${{ inputs.test }}" == "true" ]; then DEBUG=--debug; fi
+        if [ "${{ inputs.debug }}" == "true" ]; then DEBUG=--debug; fi
 
         UNWANTED_FOLDERS=()
         UNWANTED_FILES=()
