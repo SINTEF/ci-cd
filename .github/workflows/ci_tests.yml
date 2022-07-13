@@ -8,11 +8,16 @@ on:
         required: false
         type: boolean
         default: true
-      # run_pylint_safety:
-      #   description: "Run the `pylint & safety` test job."
-      #   required: false
-      #   type: boolean
-      #   default: true
+      run_pylint:
+        description: "Run the `pylint` test job."
+        required: false
+        type: boolean
+        default: true
+      run_safety:
+        description: "Run the `safety` test job."
+        required: false
+        type: boolean
+        default: true
       run_build_package:
         description: "Run the 'build package' test job."
         required: false
@@ -35,6 +40,26 @@ on:
         default: ""
       skip_pre-commit_hooks:
         description: "A comma-separated list of pre-commit hook IDs to skip when running `pre-commit` after updating hooks. This is only relevant if `update_pre-commit` is `true`."
+        required: false
+        type: string
+        default: ""
+      pylint_options:
+        description: "Single space-separated or multi-line string of pylint command line options. Note, this is only valid if 'pylint_runs' is not defined."
+        required: false
+        type: string
+        default: ""
+      pylint_targets:
+        description: "Space-separated string of pylint file and folder targets. Note, this is only valid if 'pylint_runs' is not defined."
+        required: false
+        type: string
+        default: ""
+      pylint_runs:
+        description: "Single or multi-line string with each line representing a separate pylint run/execution. This should include all desired options and targets. Important, if either of 'pylint_options' or 'pylint_targets' are defined, they will be ignored if this is defined."
+        required: false
+        type: string
+        default: ""
+      safety_options:
+        description: "Single space-separated or multi-line string of safety command line options."
         required: false
         type: string
         default: ""
@@ -97,7 +122,7 @@ on:
 jobs:
   pre-commit:
     name: Run `pre-commit`
-    if: ${{ inputs.run_pre-commit }}
+    if: inputs.run_pre-commit
     runs-on: ubuntu-latest
 
     steps:
@@ -118,53 +143,68 @@ jobs:
     - name: Test with `pre-commit`
       run: SKIP=${{ inputs.skip_pre-commit_hooks }} pre-commit run --all-files
 
-#   pylint_and_safety:
-#     name: Run `pylint` & `safety`
-#     runs-on: ubuntu-latest
+  pylint_and_safety:
+    name: Run `pylint` & `safety`
+    if: inputs.run_pylint || inputs.run_safety
+    runs-on: ubuntu-latest
 
-#     steps:
-#     - name: Checkout ${{ github.repository }}
-#       uses: actions/checkout@v3
-#       with:
-#         fetch-depth: 2
+    steps:
+    - name: Checkout ${{ github.repository }}
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 2
 
-#     - name: Set up Python ${{ inputs.python_version }}
-#       uses: actions/setup-python@v4
-#       with:
-#         python-version: "${{ inputs.python_version }}"
+    - name: Set up Python ${{ inputs.python_version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: "${{ inputs.python_version }}"
 
-#     - name: Install dependencies
-#       run: |
-#         python -m pip install -U pip
-#         pip install -U setuptools wheel
-#         pip install .${{ inputs.install_extras }}
-#         pip install pylint safety
+    - name: Install dependencies
+      run: |
+        python -m pip install -U pip
+        pip install -U setuptools wheel
+        pip install .${{ inputs.install_extras }}
+        if [ "${{ inputs.run_pylint }}" == "true" ]; then
+          pip install pylint
+        fi
+        if [ "${{ inputs.run_safety }}" == "true" ]; then
+          pip install safety
+        fi
 
-#     - name: Run `pylint`
-#       run: |
-#         if [ -z "${{ inputs.pylint_targets }}" ]; then
-#           echo "Please supply the 'pylint_targets' input."
-#         fi
+    - name: Run `pylint`
+      if: inputs.run_pylint
+      run: |
 
-#         PYLINT_OPTIONS=()
-#         while IFS= read -r line; do
-#           if [ -n "${line}" ]; then PYLINT_OPTIONS+=("${line}"); fi
-#         done <<< "${{ inputs.pylint_options }}"
+        if [ -n "${{ inputs.pylint_runs }}" ]; then
+          while IFS= read -r line; do
+            if [ -n "${line}" ]; then pylint ${line}; fi
+          done <<< "${{ inputs.pylint_runs }}"
+        else
+          if [ -z "${{ inputs.pylint_targets }}" ]; then
+            echo "Please supply the 'pylint_targets' input, since you are not using the 'pylint_runs' input."
+          fi
 
-#         pylint "${PYLINT_OPTIONS[@]}" ${{ inputs.pylint_targets }}
-# # TODO: How to add more pylint jobs??
-#     - name: Run `safety`
-#       run: |
-#         SAFETY_OPTIONS=()
-#         while IFS= read -r line; do
-#           if [ -n "${line}" ]; then SAFETY_OPTIONS+=("${line}"); fi
-#         done <<< "${{ inputs.safety_options }}"
+          PYLINT_OPTIONS=()
+          while IFS= read -r line; do
+            if [ -n "${line}" ]; then PYLINT_OPTIONS+=("${line}"); fi
+          done <<< "${{ inputs.pylint_options }}"
 
-#         pip freeze | safety check --stdin "${SAFETY_OPTIONS[@]}"
+          pylint "${PYLINT_OPTIONS[@]}" ${{ inputs.pylint_targets }}
+        fi
+
+    - name: Run `safety`
+      if: inputs.run_safety
+      run: |
+        SAFETY_OPTIONS=()
+        while IFS= read -r line; do
+          if [ -n "${line}" ]; then SAFETY_OPTIONS+=("${line}"); fi
+        done <<< "${{ inputs.safety_options }}"
+
+        pip freeze | safety check --stdin "${SAFETY_OPTIONS[@]}"
 
   build-package:
     name: Build distribution package
-    if: ${{ inputs.run_build_package }}
+    if: inputs.run_build_package
     runs-on: ubuntu-latest
 
     steps:
@@ -189,7 +229,7 @@ jobs:
 
   docs:
     name: Build MkDocs Documentation
-    if: ${{ inputs.run_build_docs }}
+    if: inputs.run_build_docs
     runs-on: ubuntu-latest
 
     steps:
