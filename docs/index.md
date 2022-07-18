@@ -47,3 +47,11 @@ Under the [Hooks](./hooks/index.md) section for each available hook, a usage exa
 ## License & copyright
 
 This repository licensed under the  [MIT LICENSE](LICENSE.md) with copyright &copy; 2022 Casper Welzel Andersen ([CasperWA](https://github.com/CasperWA)).
+
+## Funding support
+
+This repository has been supported by the following projects:
+
+- **OntoTrans** (2020-2024) that receives funding from the European Union’s Horizon 2020 Research and Innovation Programme, under Grant Agreement n. 862136.
+
+- **OpenModel** (2021-2025) receives funding from the European Union’s Horizon 2020 Research and Innovation Programme - DT-NMBP-11-2020 Open Innovation Platform for Materials Modelling, under Grant Agreement no: 953167.
