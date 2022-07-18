@@ -1,0 +1,24 @@
+name: CI - Tests
+
+on:
+  pull_request:
+  push:
+    branches:
+      - 'main'
+      - 'push-action/**'
+
+jobs:
+  base-tests:
+    name: Call reusable workflow
+    uses: ./.github/workflows/ci_tests.yml
+    with:
+      python_version: "3.9"
+      install_extras: "[dev,docs]"
+      skip_pre-commit_hooks: pylint
+      pylint_options: --rcfile=pyproject.toml
+      pylint_targets: ci_cd
+      build_libs: flit
+      build_cmd: flit build
+      update_python_api_ref: false
+      update_docs_landing_page: false
+      debug: false

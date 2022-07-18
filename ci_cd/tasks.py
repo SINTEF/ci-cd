@@ -526,7 +526,7 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
         print("unwanted_file:", unwanted_file, flush=True)
         print("full_docs_folder:", full_docs_folder, flush=True)
 
-    if "/" in any(unwanted_folder + unwanted_file):
+    if any("/" in _ for _ in unwanted_folder + unwanted_file):
         sys.exit(
             "Unwanted folders and files may NOT be paths. A forward slash (/) was "
             "found in some of them."

@@ -6,4 +6,5 @@ This section contains all the available callable/reusable workflows:
 - [CI - Activate auto-merging for PRs (`ci_automerge_prs.yml`)](./ci_automerge_prs.md)
 - [CI/CD - New updates to default branch (`ci_cd_updated_default_branch.yml`))](./ci_cd_updated_default_branch.md)
 - [CI - Check pyproject.toml dependencies (`ci_check_pyproject_dependencies.yml`)](./ci_check_pyproject_dependencies.md)
+- [CI - Tests (`ci_tests.yml`)](./ci_tests.md)
 - [CI - Update dependencies PR (`ci_update_dependencies.yml`)](./ci_update_dependencies.md)
