@@ -29,17 +29,17 @@ on:
         type: boolean
         default: true
       python_version:
-        description: "The Python version to use for the workflow. This is only relevant if `update_pre-commit` is `true`."
+        description: "The Python version to use for the workflow."
         required: false
         type: string
         default: "3.9"
       install_extras:
-        description: "Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces. Example: `'[dev,pre-commit]'`. This is only relevant if `update_pre-commit` is `true`."
+        description: "Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces. Example: `'[dev,pre-commit]'`."
         required: false
         type: string
         default: ""
       skip_pre-commit_hooks:
-        description: "A comma-separated list of pre-commit hook IDs to skip when running `pre-commit` after updating hooks. This is only relevant if `update_pre-commit` is `true`."
+        description: "A comma-separated list of pre-commit hook IDs to skip when running `pre-commit` after updating hooks."
         required: false
         type: string
         default: ""
@@ -54,7 +54,7 @@ on:
         type: string
         default: ""
       pylint_runs:
-        description: "Single or multi-line string with each line representing a separate pylint run/execution. This should include all desired options and targets. Important, if either of 'pylint_options' or 'pylint_targets' are defined, they will be ignored if this is defined."
+        description: "Single or multi-line string with each line representing a separate pylint run/execution. This should include all desired options and targets. Important, the inputs 'pylint_options' and 'pylint_targets' will be ignored if this is defined."
         required: false
         type: string
         default: ""
@@ -174,7 +174,6 @@ jobs:
     - name: Run `pylint`
       if: inputs.run_pylint
       run: |
-
         if [ -n "${{ inputs.pylint_runs }}" ]; then
           while IFS= read -r line; do
             if [ -n "${line}" ]; then pylint ${line}; fi
