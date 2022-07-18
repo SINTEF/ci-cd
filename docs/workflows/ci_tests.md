@@ -59,9 +59,9 @@ There are no expectations or pre-requisites.
 | `run_safety` | Run the `safety` test job. | No | `true` | _boolean_ |
 | `python_version` | The Python version to use for the workflow. | No | 3.9 | _string_ |
 | `install_extras` | Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces.</br></br>Example: `'[dev,pre-commit]'`. | No | _Empty string_ | _string_ |
-| `pylint_targets` | Space-separated string of pylint file and folder targets.</br></br>**Note**, this is only valid if `pylint_runs` is not defined. | **Yes, if `pylint_runs` is not defined** | _Empty string_ | _string_ |
-| `pylint_options` | Single space-separated or multi-line string of pylint command line options.</br></br>**Note**, this is only valid if `pylint_runs` is not defined. | No | _Empty string_ | _string_ |
-| `pylint_runs` | Single or multi-line string with each line representing a separate pylint run/execution. This should include all desired options and targets.</br></br>**Important**, the inputs `pylint_options` and `pylint_targets` will be ignored if this is defined. | No | _Empty string_ | _string_ |
+| `pylint_targets` | Space-separated string of pylint file and folder targets.</br></br>**Note**: This is only valid if `pylint_runs` is not defined. | **Yes, if `pylint_runs` is not defined** | _Empty string_ | _string_ |
+| `pylint_options` | Single space-separated or multi-line string of pylint command line options.</br></br>**Note**: This is only valid if `pylint_runs` is not defined. | No | _Empty string_ | _string_ |
+| `pylint_runs` | Single or multi-line string with each line representing a separate pylint run/execution. This should include all desired options and targets.</br></br>**Important**: The inputs `pylint_options` and `pylint_targets` will be ignored if this is defined. | No | _Empty string_ | _string_ |
 | `safety_options` | Single space-separated or multi-line string of safety command line options. | No | _Empty string_ | _string_ |
 
 ### Build distribution package
@@ -181,9 +181,9 @@ However, it is recommended to instead refer to the job-specific tables of inputs
 | `skip_pre-commit_hooks` | A comma-separated list of pre-commit hook IDs to skip when running `pre-commit` after updating hooks. | No | _Empty string_ | _string_ |
 | `run_pylint` | Run the `pylint` test job. | No | `true` | _boolean_ |
 | `run_safety` | Run the `safety` test job. | No | `true` | _boolean_ |
-| `pylint_targets` | Space-separated string of pylint file and folder targets.</br></br>**Note**, this is only valid if `pylint_runs` is not defined. | **Yes, if `pylint_runs` is not defined** | _Empty string_ | _string_ |
-| `pylint_options` | Single space-separated or multi-line string of pylint command line options.</br></br>**Note**, this is only valid if `pylint_runs` is not defined. | No | _Empty string_ | _string_ |
-| `pylint_runs` | Single or multi-line string with each line representing a separate pylint run/execution. This should include all desired options and targets.</br></br>**Important**, the inputs `pylint_options` and `pylint_targets` will be ignored if this is defined. | No | _Empty string_ | _string_ |
+| `pylint_targets` | Space-separated string of pylint file and folder targets.</br></br>**Note**: This is only valid if `pylint_runs` is not defined. | **Yes, if `pylint_runs` is not defined** | _Empty string_ | _string_ |
+| `pylint_options` | Single space-separated or multi-line string of pylint command line options.</br></br>**Note**: This is only valid if `pylint_runs` is not defined. | No | _Empty string_ | _string_ |
+| `pylint_runs` | Single or multi-line string with each line representing a separate pylint run/execution. This should include all desired options and targets.</br></br>**Important**: The inputs `pylint_options` and `pylint_targets` will be ignored if this is defined. | No | _Empty string_ | _string_ |
 | `safety_options` | Single space-separated or multi-line string of safety command line options. | No | _Empty string_ | _string_ |
 | `run_build_package` | Run the `build package` test job. | No | `true` | _boolean_ |
 | `build_libs` | A space-separated list of packages to install via PyPI (`pip install`). | No | _Empty string_ | _string_ |
