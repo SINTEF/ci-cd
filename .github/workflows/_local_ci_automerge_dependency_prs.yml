@@ -7,7 +7,7 @@ on:
 jobs:
   update-dependencies-branch:
     name: Call reusable workflow
-    if: github.repository_owner == 'CasperWA' && startsWith(github.event.pull_request.head.ref, 'dependabot/') && github.actor == 'dependabot[bot]'
+    if: github.repository_owner == 'SINTEF' && startsWith(github.event.pull_request.head.ref, 'dependabot/') && github.actor == 'dependabot[bot]'
     uses: ./.github/workflows/ci_automerge_prs.yml
     secrets:
       PAT: ${{ secrets.RELEASE_PAT }}

@@ -9,11 +9,11 @@ on:
 jobs:
   create-dependencies-pr:
     name: Call reusable workflow
-    if: github.repository_owner == 'CasperWA'
+    if: github.repository_owner == 'SINTEF'
     uses: ./.github/workflows/ci_update_dependencies.yml
     with:
-      git_username: "Casper Welzel Andersen"
-      git_email: "casper+github@welzel.nu"
+      git_username: "TEAM 4.0[bot]"
+      git_email: "TEAM4.0@SINTEF.no"
       permanent_dependencies_branch: "ci/dependency-updates"
       default_repo_branch: main
       pr_labels: "CI/CD"

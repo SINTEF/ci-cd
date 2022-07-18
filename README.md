@@ -4,7 +4,7 @@ This repository contains reusable workflows for GitHub Actions as well as [`pre-
 
 They are mainly for usage with modern Python package repositories.
 
-**All available workflows and more detailed information can be found in the documentation [here](https://CasperWA.github.io/ci-cd).**
+**All available workflows and more detailed information can be found in the documentation [here](https://SINTEF.github.io/ci-cd).**
 
 ## Usage
 
@@ -17,7 +17,7 @@ See the [pre-commit website](https://pre-commit.com) to learn more about how to 
 
 ## License & copyright
 
-This repository licensed under the  [MIT LICENSE](LICENSE) with copyright &copy; 2022 Casper Welzel Andersen ([CasperWA](https://github.com/CasperWA)).
+This repository licensed under the  [MIT LICENSE](LICENSE) with copyright &copy; 2022 Casper Welzel Andersen ([CasperWA](https://github.com/CasperWA)) & SINTEF ([on GitHub](https://github.com/SINTEF)).
 
 ## Funding support
 

@@ -100,9 +100,9 @@ jobs:
       if: inputs.update_pre-commit
       run: |
         pre-commit autoupdate
-        if [ -n "$(grep -i '\- repo: https://github.com/CasperWA/ci-cd' .pre-commit-config.yaml)" ]; then
+        if [ -n "$(grep -i '\- repo: https://github.com/SINTEF/ci-cd' .pre-commit-config.yaml)" ]; then
           # Using hooks from this repository
-          pre-commit autoupdate --repo https://github.com/CasperWA/ci-cd --freeze
+          pre-commit autoupdate --repo https://github.com/SINTEF/ci-cd --freeze
         fi
 
         if [ -n "$(git status --porcelain .pre-commit-config.yaml)" ]; then
@@ -135,7 +135,7 @@ jobs:
           PR_BODY_FILE=.tmp_pr-body_${{ github.run_id }}_${{ github.run_number }}_${{ github.run_attempt }}.txt
           echo "PR_BODY_FILE=${PR_BODY_FILE}" >> $GITHUB_ENV
 
-          echo -e "### Update dependencies\n\nAutomatically created PR from [\`${{ inputs.permanent_dependencies_branch }}\`](https://github.com/${{ github.repository }}/tree/${{ inputs.permanent_dependencies_branch }}).\n\nThe PR is based on the ['CI - Update dependencies PR' workflow](https://CasperWA.github.io/ci-cd/latest/workflows/ci_update_dependencies/) in [CasperWA/ci-cd](https://github.com/CasperWA/ci-cd).\n\n#### To do\n\n- [ ] Check that the diff is sensible, and that tests and builds pass with the new dependency versions.\n${{ inputs.extra_to_dos }}" > ${PR_BODY_FILE}
+          echo -e "### Update dependencies\n\nAutomatically created PR from [\`${{ inputs.permanent_dependencies_branch }}\`](https://github.com/${{ github.repository }}/tree/${{ inputs.permanent_dependencies_branch }}).\n\nThe PR is based on the ['CI - Update dependencies PR' workflow](https://SINTEF.github.io/ci-cd/latest/workflows/ci_update_dependencies/) in [SINTEF/ci-cd](https://github.com/SINTEF/ci-cd).\n\n#### To do\n\n- [ ] Check that the diff is sensible, and that tests and builds pass with the new dependency versions.\n${{ inputs.extra_to_dos }}" > ${PR_BODY_FILE}
           echo "Using default PR body."
           echo "REMOVE_PR_BODY_FILE=true" >> $GITHUB_ENV
         else
