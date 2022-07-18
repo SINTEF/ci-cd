@@ -110,7 +110,7 @@ This requires at minimum a `mkdocs.yml` configuration file.
 | `full_docs_dirs` | A single or multi-line string of directories in which to include everything - even those without documentation strings. This may be useful for a module full of data models or to ensure all class attributes are listed. | No | _Empty string_ | _string_ |
 | `landing_page_replacements` | A single or multi-line string of replacements (mappings) to be performed on README.md when creating the documentation's landing page (index.md). This list _always_ includes replacing `'docs/'` with an empty string to correct relative links, i.e., this cannot be overwritten. By default `'(LICENSE)'` is replaced by `'(LICENSE.md)'`. | No | (LICENSE),(LICENSE.md) | _string_ |
 | `landing_page_replacement_separator` | String to separate a mapping's 'old' to 'new' parts. Defaults to a comma (`,`). | No | , | _string_ |
-| `debug` | The package build command, e.g., `'flit build'` or `'python -m build'` (default). | No | `python -m build` | _string_ |
+| `debug` | Whether to do print extra debug statements. | No | `false` | _boolean_ |
 
 ## Usage example
 
@@ -199,4 +199,4 @@ However, it is recommended to instead refer to the job-specific tables of inputs
 | `full_docs_dirs` | A single or multi-line string of directories in which to include everything - even those without documentation strings. This may be useful for a module full of data models or to ensure all class attributes are listed. | No | _Empty string_ | _string_ |
 | `landing_page_replacements` | A single or multi-line string of replacements (mappings) to be performed on README.md when creating the documentation's landing page (index.md). This list _always_ includes replacing `'docs/'` with an empty string to correct relative links, i.e., this cannot be overwritten. By default `'(LICENSE)'` is replaced by `'(LICENSE.md)'`. | No | (LICENSE),(LICENSE.md) | _string_ |
 | `landing_page_replacement_separator` | String to separate a mapping's 'old' to 'new' parts. Defaults to a comma (`,`). | No | , | _string_ |
-| `debug` | The package build command, e.g., `'flit build'` or `'python -m build'` (default). | No | `python -m build` | _string_ |
+| `debug` | Whether to do print extra debug statements. | No | `false` | _boolean_ |
