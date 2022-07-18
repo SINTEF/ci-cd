@@ -396,6 +396,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../ci_tests/" class="md-nav__link">
+        CI - Tests
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../ci_update_dependencies/" class="md-nav__link">
         CI - Update dependencies PR
       </a>
@@ -615,146 +629,146 @@ The default value is given here as a help:<br />
 <table>
 <thead>
 <tr>
-<th align="left"><strong>Name</strong></th>
-<th align="left"><strong>Description</strong></th>
-<th align="center"><strong>Required</strong></th>
-<th align="center"><strong>Default</strong></th>
-<th align="center"><strong>Type</strong></th>
+<th style="text-align: left;"><strong>Name</strong></th>
+<th style="text-align: left;"><strong>Description</strong></th>
+<th style="text-align: center;"><strong>Required</strong></th>
+<th style="text-align: center;"><strong>Default</strong></th>
+<th style="text-align: center;"><strong>Type</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left"><code>git_username</code></td>
-<td align="left">A git username (used to set the 'user.name' config option).</td>
-<td align="center"><strong><em>Yes</em></strong></td>
-<td align="center"></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>git_username</code></td>
+<td style="text-align: left;">A git username (used to set the 'user.name' config option).</td>
+<td style="text-align: center;"><strong><em>Yes</em></strong></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>git_email</code></td>
-<td align="left">A git user's email address (used to set the 'user.email' config option).</td>
-<td align="center"><strong><em>Yes</em></strong></td>
-<td align="center"></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>git_email</code></td>
+<td style="text-align: left;">A git user's email address (used to set the 'user.email' config option).</td>
+<td style="text-align: center;"><strong><em>Yes</em></strong></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>permanent_dependencies_branch</code></td>
-<td align="left">The branch name for the permanent dependency updates branch.</td>
-<td align="center">No</td>
-<td align="center">ci/dependency-updates</td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>permanent_dependencies_branch</code></td>
+<td style="text-align: left;">The branch name for the permanent dependency updates branch.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">ci/dependency-updates</td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>default_repo_branch</code></td>
-<td align="left">The branch name of the repository's default branch. More specifically, the branch the PR should target.</td>
-<td align="center">No</td>
-<td align="center">main</td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>default_repo_branch</code></td>
+<td style="text-align: left;">The branch name of the repository's default branch. More specifically, the branch the PR should target.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">main</td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>update_dependencies_pr_body_file</code></td>
-<td align="left">Relative path to a PR body file from the root of the repository, which is used in the 'CI - Update dependencies PR' workflow, if used.</br></br>Example: <code>'.github/utils/pr_body_update_deps.txt'</code>.</td>
-<td align="center">No</td>
-<td align="center"><em>Empty string</em></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>update_dependencies_pr_body_file</code></td>
+<td style="text-align: left;">Relative path to a PR body file from the root of the repository, which is used in the 'CI - Update dependencies PR' workflow, if used.</br></br>Example: <code>'.github/utils/pr_body_update_deps.txt'</code>.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>update_docs</code></td>
-<td align="left">Whether or not to also run the 'docs' workflow job.</td>
-<td align="center">No</td>
-<td align="center"><code>false</code></td>
-<td align="center"><em>boolean</em></td>
+<td style="text-align: left;"><code>update_docs</code></td>
+<td style="text-align: left;">Whether or not to also run the 'docs' workflow job.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>false</code></td>
+<td style="text-align: center;"><em>boolean</em></td>
 </tr>
 <tr>
-<td align="left"><code>update_python_api_ref</code></td>
-<td align="left">Whether or not to update the Python API documentation reference.</br></br><strong>Note</strong>: If this is 'true', 'package_dir' is <em>required</em>.</td>
-<td align="center">No</td>
-<td align="center"><code>true</code></td>
-<td align="center"><em>boolean</em></td>
+<td style="text-align: left;"><code>update_python_api_ref</code></td>
+<td style="text-align: left;">Whether or not to update the Python API documentation reference.</br></br><strong>Note</strong>: If this is 'true', 'package_dir' is <em>required</em>.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>true</code></td>
+<td style="text-align: center;"><em>boolean</em></td>
 </tr>
 <tr>
-<td align="left"><code>package_dir</code></td>
-<td align="left">Path to the Python package directory relative to the repository directory.</br></br>Example: <code>'src/my_package'</code>.</br></br><strong>Important</strong>: This is <em>required</em> if 'update_docs' and 'update_python_api_ref' are 'true'.</td>
-<td align="center"><strong><em>Yes</em> (if 'update_docs' and 'update_python_api_ref' are 'true')</strong></td>
-<td align="center"></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>package_dir</code></td>
+<td style="text-align: left;">Path to the Python package directory relative to the repository directory.</br></br>Example: <code>'src/my_package'</code>.</br></br><strong>Important</strong>: This is <em>required</em> if 'update_docs' and 'update_python_api_ref' are 'true'.</td>
+<td style="text-align: center;"><strong><em>Yes</em> (if 'update_docs' and 'update_python_api_ref' are 'true')</strong></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>update_docs_landing_page</code></td>
-<td align="left">Whether or not to update the documentation landing page. The landing page will be based on the root README.md file.</td>
-<td align="center">No</td>
-<td align="center"><code>true</code></td>
-<td align="center"><em>boolean</em></td>
+<td style="text-align: left;"><code>update_docs_landing_page</code></td>
+<td style="text-align: left;">Whether or not to update the documentation landing page. The landing page will be based on the root README.md file.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>true</code></td>
+<td style="text-align: center;"><em>boolean</em></td>
 </tr>
 <tr>
-<td align="left"><code>python_version</code></td>
-<td align="left">The Python version to use for the workflow.</br></br><strong>Note</strong>: This is only relevant if <code>update_pre-commit</code> is <code>true</code>.</td>
-<td align="center">No</td>
-<td align="center">3.9</td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>python_version</code></td>
+<td style="text-align: left;">The Python version to use for the workflow.</br></br><strong>Note</strong>: This is only relevant if <code>update_pre-commit</code> is <code>true</code>.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">3.9</td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>doc_extras</code></td>
-<td align="left">Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (<code>[]</code>) and be separated by commas (<code>,</code>) without any spaces.</br></br>Example: <code>'[docs]'</code>.</td>
-<td align="center">No</td>
-<td align="center"><em>Empty string</em></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>doc_extras</code></td>
+<td style="text-align: left;">Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (<code>[]</code>) and be separated by commas (<code>,</code>) without any spaces.</br></br>Example: <code>'[docs]'</code>.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>exclude_dirs</code></td>
-<td align="left">A single or multi-line string of directories to exclude in the Python API reference documentation. Note, only directory names, not paths, may be included. Note, all folders and their contents with these names will be excluded. Defaults to <code>'__pycache__'</code>. <strong>Important</strong>: When a user value is set, the preset value is overwritten - hence <code>'__pycache__'</code> should be included in the user value if one wants to exclude these directories.</td>
-<td align="center">No</td>
-<td align="center">__pycache__</td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>exclude_dirs</code></td>
+<td style="text-align: left;">A single or multi-line string of directories to exclude in the Python API reference documentation. Note, only directory names, not paths, may be included. Note, all folders and their contents with these names will be excluded. Defaults to <code>'__pycache__'</code>.</br></br><strong>Important</strong>: When a user value is set, the preset value is overwritten - hence <code>'__pycache__'</code> should be included in the user value if one wants to exclude these directories.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">__pycache__</td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>exclude_files</code></td>
-<td align="left">A single or multi-line string of files to exclude in the Python API reference documentation. Note, only full file names, not paths, may be included, i.e., filename + file extension. Note, all files with these names will be excluded. Defaults to <code>'__init__.py'</code>. <strong>Important</strong>: When a user value is set, the preset value is overwritten - hence <code>'__init__.py'</code> should be included in the user value if one wants to exclude these files.</td>
-<td align="center">No</td>
-<td align="center">__init__.py</td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>exclude_files</code></td>
+<td style="text-align: left;">A single or multi-line string of files to exclude in the Python API reference documentation. Note, only full file names, not paths, may be included, i.e., filename + file extension. Note, all files with these names will be excluded. Defaults to <code>'__init__.py'</code>.</br></br><strong>Important</strong>: When a user value is set, the preset value is overwritten - hence <code>'__init__.py'</code> should be included in the user value if one wants to exclude these files.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">__init__.py</td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>full_docs_dirs</code></td>
-<td align="left">A single or multi-line string of directories in which to include everything - even those without documentation strings. This may be useful for a module full of data models or to ensure all class attributes are listed.</td>
-<td align="center">No</td>
-<td align="center"><em>Empty string</em></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>full_docs_dirs</code></td>
+<td style="text-align: left;">A single or multi-line string of directories in which to include everything - even those without documentation strings. This may be useful for a module full of data models or to ensure all class attributes are listed.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>landing_page_replacements</code></td>
-<td align="left">A single or multi-line string of replacements (mappings) to be performed on README.md when creating the documentation's landing page (index.md). This list <em>always</em> includes replacing <code>'docs/'</code> with an empty string to correct relative links, i.e., this cannot be overwritten. By default <code>'(LICENSE)'</code> is replaced by <code>'(LICENSE.md)'</code>.</td>
-<td align="center">No</td>
-<td align="center">(LICENSE),(LICENSE.md)</td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>landing_page_replacements</code></td>
+<td style="text-align: left;">A single or multi-line string of replacements (mappings) to be performed on README.md when creating the documentation's landing page (index.md). This list <em>always</em> includes replacing <code>'docs/'</code> with an empty string to correct relative links, i.e., this cannot be overwritten. By default <code>'(LICENSE)'</code> is replaced by <code>'(LICENSE.md)'</code>.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">(LICENSE),(LICENSE.md)</td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>landing_page_replacement_separator</code></td>
-<td align="left">String to separate a mapping's 'old' to 'new' parts. Defaults to a comma (<code>,</code>).</td>
-<td align="center">No</td>
-<td align="center">,</td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>landing_page_replacement_separator</code></td>
+<td style="text-align: left;">String to separate a mapping's 'old' to 'new' parts. Defaults to a comma (<code>,</code>).</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">,</td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>test</code></td>
-<td align="left">Whether to do a "dry run", i.e., run the workflow, but avoid pushing to 'permanent_dependencies_branch' branch and deploying documentation (if 'update_docs' is 'true').</td>
-<td align="center">No</td>
-<td align="center"><code>false</code></td>
-<td align="center"><em>boolean</em></td>
+<td style="text-align: left;"><code>test</code></td>
+<td style="text-align: left;">Whether to do a "dry run", i.e., run the workflow, but avoid pushing to 'permanent_dependencies_branch' branch and deploying documentation (if 'update_docs' is 'true').</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>false</code></td>
+<td style="text-align: center;"><em>boolean</em></td>
 </tr>
 <tr>
-<td align="left"><code>changelog_exclude_tags_regex</code></td>
-<td align="left">A regular expression matching any tags that should be excluded from the CHANGELOG.md.</td>
-<td align="center">No</td>
-<td align="center"><em>Empty string</em></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>changelog_exclude_tags_regex</code></td>
+<td style="text-align: left;">A regular expression matching any tags that should be excluded from the CHANGELOG.md.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>changelog_exclude_labels</code></td>
-<td align="left">Comma-separated list of labels to exclude from the CHANGELOG.md.</td>
-<td align="center">No</td>
-<td align="center"><em>Empty string</em></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>changelog_exclude_labels</code></td>
+<td style="text-align: left;">Comma-separated list of labels to exclude from the CHANGELOG.md.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 </tbody>
 </table>
@@ -762,16 +776,16 @@ The default value is given here as a help:<br />
 <table>
 <thead>
 <tr>
-<th align="left"><strong>Name</strong></th>
-<th align="left"><strong>Description</strong></th>
-<th align="center"><strong>Required</strong></th>
+<th style="text-align: left;"><strong>Name</strong></th>
+<th style="text-align: left;"><strong>Description</strong></th>
+<th style="text-align: center;"><strong>Required</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left"><code>PAT</code></td>
-<td align="left">A personal access token (PAT) with rights to update the <code>permanent_dependencies_branch</code>. This will fallback on <code>GITHUB_TOKEN</code>.</td>
-<td align="center">No</td>
+<td style="text-align: left;"><code>PAT</code></td>
+<td style="text-align: left;">A personal access token (PAT) with rights to update the <code>permanent_dependencies_branch</code>. This will fallback on <code>GITHUB_TOKEN</code>.</td>
+<td style="text-align: center;">No</td>
 </tr>
 </tbody>
 </table>

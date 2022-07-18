@@ -332,6 +332,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../../workflows/ci_tests/" class="md-nav__link">
+        CI - Tests
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../workflows/ci_update_dependencies/" class="md-nav__link">
         CI - Update dependencies PR
       </a>
@@ -584,55 +598,55 @@
 <table>
 <thead>
 <tr>
-<th align="left"><strong>Name</strong></th>
-<th align="left"><strong>Description</strong></th>
-<th align="center"><strong>Required</strong></th>
-<th align="center"><strong>Default</strong></th>
-<th align="center"><strong>Type</strong></th>
+<th style="text-align: left;"><strong>Name</strong></th>
+<th style="text-align: left;"><strong>Description</strong></th>
+<th style="text-align: center;"><strong>Required</strong></th>
+<th style="text-align: center;"><strong>Default</strong></th>
+<th style="text-align: center;"><strong>Type</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left"><code>--package-dir</code></td>
-<td align="left">Relative path to package dir from the repository root, e.g., 'src/my_package'.</td>
-<td align="center"><strong><em>Yes</em></strong></td>
-<td align="center"></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>--package-dir</code></td>
+<td style="text-align: left;">Relative path to package dir from the repository root, e.g., 'src/my_package'.</td>
+<td style="text-align: center;"><strong><em>Yes</em></strong></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>--docs-folder</code></td>
-<td align="left">The folder name for the documentation root folder.</td>
-<td align="center">No</td>
-<td align="center">docs</td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>--docs-folder</code></td>
+<td style="text-align: left;">The folder name for the documentation root folder.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">docs</td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>--unwanted-folder</code></td>
-<td align="left">A folder to avoid including into the Python API reference documentation. If this is not supplied, it will default to <code>__pycache__</code>.</br></br><strong>Note</strong>: Only folder names, not paths, may be included.</br></br><strong>Note</strong>: All folders and their contents with these names will be excluded.</br></br>This input option can be supplied multiple times.</td>
-<td align="center">No</td>
-<td align="center">__pycache__</td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>--unwanted-folder</code></td>
+<td style="text-align: left;">A folder to avoid including into the Python API reference documentation. If this is not supplied, it will default to <code>__pycache__</code>.</br></br><strong>Note</strong>: Only folder names, not paths, may be included.</br></br><strong>Note</strong>: All folders and their contents with these names will be excluded.</br></br>This input option can be supplied multiple times.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">__pycache__</td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>--unwanted-file</code></td>
-<td align="left">A file to avoid including into the Python API reference documentation. If this is not supplied, it will default to <code>__init__.py</code></br></br><strong>Note</strong>: Only full file names, not paths, may be included, i.e., filename + file extension.</br></br><strong>Note</strong>: All files with these names will be excluded.</br></br>This input option can be supplied multiple times.</td>
-<td align="center">No</td>
-<td align="center">__init__.py</td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>--unwanted-file</code></td>
+<td style="text-align: left;">A file to avoid including into the Python API reference documentation. If this is not supplied, it will default to <code>__init__.py</code></br></br><strong>Note</strong>: Only full file names, not paths, may be included, i.e., filename + file extension.</br></br><strong>Note</strong>: All files with these names will be excluded.</br></br>This input option can be supplied multiple times.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">__init__.py</td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>--full-docs-folder</code></td>
-<td align="left">A folder in which to include everything - even those without documentation strings. This may be useful for a module full of data models or to ensure all class attributes are listed.</br></br>This input option can be supplied multiple times.</td>
-<td align="center">No</td>
-<td align="center"><em>Empty string</em></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>--full-docs-folder</code></td>
+<td style="text-align: left;">A folder in which to include everything - even those without documentation strings. This may be useful for a module full of data models or to ensure all class attributes are listed.</br></br>This input option can be supplied multiple times.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>--debug</code></td>
-<td align="left">Whether or not to print debug statements.</td>
-<td align="center">No</td>
-<td align="center"><code>False</code></td>
-<td align="center"><em>boolean</em></td>
+<td style="text-align: left;"><code>--debug</code></td>
+<td style="text-align: left;">Whether or not to print debug statements.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>False</code></td>
+<td style="text-align: center;"><em>boolean</em></td>
 </tr>
 </tbody>
 </table>

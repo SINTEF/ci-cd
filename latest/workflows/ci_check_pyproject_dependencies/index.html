@@ -396,6 +396,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../ci_tests/" class="md-nav__link">
+        CI - Tests
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../ci_update_dependencies/" class="md-nav__link">
         CI - Update dependencies PR
       </a>
@@ -602,69 +616,69 @@ Hence, if it is important to run CI/CD workflows for pull requests, consider pas
 <table>
 <thead>
 <tr>
-<th align="left"><strong>Name</strong></th>
-<th align="left"><strong>Description</strong></th>
-<th align="center"><strong>Required</strong></th>
-<th align="center"><strong>Default</strong></th>
-<th align="center"><strong>Type</strong></th>
+<th style="text-align: left;"><strong>Name</strong></th>
+<th style="text-align: left;"><strong>Description</strong></th>
+<th style="text-align: center;"><strong>Required</strong></th>
+<th style="text-align: center;"><strong>Default</strong></th>
+<th style="text-align: center;"><strong>Type</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left"><code>git_username</code></td>
-<td align="left">A git username (used to set the 'user.name' config option).</td>
-<td align="center"><strong><em>Yes</em></strong></td>
-<td align="center"></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>git_username</code></td>
+<td style="text-align: left;">A git username (used to set the 'user.name' config option).</td>
+<td style="text-align: center;"><strong><em>Yes</em></strong></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>git_email</code></td>
-<td align="left">A git user's email address (used to set the 'user.email' config option).</td>
-<td align="center"><strong><em>Yes</em></strong></td>
-<td align="center"></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>git_email</code></td>
+<td style="text-align: left;">A git user's email address (used to set the 'user.email' config option).</td>
+<td style="text-align: center;"><strong><em>Yes</em></strong></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>permanent_dependencies_branch</code></td>
-<td align="left">The branch name for the permanent dependency updates branch.</td>
-<td align="center">No</td>
-<td align="center">ci/dependency-updates</td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>permanent_dependencies_branch</code></td>
+<td style="text-align: left;">The branch name for the permanent dependency updates branch.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">ci/dependency-updates</td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>python_version</code></td>
-<td align="left">The Python version to use for the workflow.</td>
-<td align="center">No</td>
-<td align="center">3.9</td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>python_version</code></td>
+<td style="text-align: left;">The Python version to use for the workflow.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">3.9</td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>install_extras</code></td>
-<td align="left">Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (<code>[]</code>) and be separated by commas (<code>,</code>) without any spaces.</br></br>Example: <code>'[dev,release]'</code>.</td>
-<td align="center">No</td>
-<td align="center"><em>Empty string</em></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>install_extras</code></td>
+<td style="text-align: left;">Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (<code>[]</code>) and be separated by commas (<code>,</code>) without any spaces.</br></br>Example: <code>'[dev,release]'</code>.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>pr_body_file</code></td>
-<td align="left">Relative path to PR body file from the root of the repository.</br></br>Example: <code>'.github/utils/pr_body_deps_check.txt'</code>.</td>
-<td align="center">No</td>
-<td align="center"><em>Empty string</em></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>pr_body_file</code></td>
+<td style="text-align: left;">Relative path to PR body file from the root of the repository.</br></br>Example: <code>'.github/utils/pr_body_deps_check.txt'</code>.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>fail_fast</code></td>
-<td align="left">Whether the task to update dependencies should fail if any error occurs.</td>
-<td align="center">No</td>
-<td align="center"><code>false</code></td>
-<td align="center"><em>boolean</em></td>
+<td style="text-align: left;"><code>fail_fast</code></td>
+<td style="text-align: left;">Whether the task to update dependencies should fail if any error occurs.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>false</code></td>
+<td style="text-align: center;"><em>boolean</em></td>
 </tr>
 <tr>
-<td align="left"><code>pr_labels</code></td>
-<td align="left">A comma separated list of strings of GitHub labels to use for the created PR.</td>
-<td align="center">No</td>
-<td align="center"><em>Empty string</em></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>pr_labels</code></td>
+<td style="text-align: left;">A comma separated list of strings of GitHub labels to use for the created PR.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 </tbody>
 </table>
@@ -672,16 +686,16 @@ Hence, if it is important to run CI/CD workflows for pull requests, consider pas
 <table>
 <thead>
 <tr>
-<th align="left"><strong>Name</strong></th>
-<th align="left"><strong>Description</strong></th>
-<th align="center"><strong>Required</strong></th>
+<th style="text-align: left;"><strong>Name</strong></th>
+<th style="text-align: left;"><strong>Description</strong></th>
+<th style="text-align: center;"><strong>Required</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left"><code>PAT</code></td>
-<td align="left">A personal access token (PAT) with rights to update the <code>permanent_dependencies_branch</code>. This will fallback on <code>GITHUB_TOKEN</code>.</td>
-<td align="center">No</td>
+<td style="text-align: left;"><code>PAT</code></td>
+<td style="text-align: left;">A personal access token (PAT) with rights to update the <code>permanent_dependencies_branch</code>. This will fallback on <code>GITHUB_TOKEN</code>.</td>
+<td style="text-align: center;">No</td>
 </tr>
 </tbody>
 </table>
@@ -746,13 +760,13 @@ It is meant to be complete as is.</p>
       
       
         
-        <a href="../ci_update_dependencies/" class="md-footer__link md-footer__link--next" aria-label="Next: CI - Update dependencies PR" rel="next">
+        <a href="../ci_tests/" class="md-footer__link md-footer__link--next" aria-label="Next: CI - Tests" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              CI - Update dependencies PR
+              CI - Tests
             </div>
           </div>
           <div class="md-footer__button md-icon">

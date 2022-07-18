@@ -403,6 +403,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../ci_tests/" class="md-nav__link">
+        CI - Tests
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../ci_update_dependencies/" class="md-nav__link">
         CI - Update dependencies PR
       </a>
@@ -647,132 +661,132 @@ E.g., <code>{package_dir}/__init__.py</code> will become <code>ci_cd/__init__.py
 <table>
 <thead>
 <tr>
-<th align="left"><strong>Name</strong></th>
-<th align="left"><strong>Description</strong></th>
-<th align="center"><strong>Required</strong></th>
-<th align="center"><strong>Default</strong></th>
-<th align="center"><strong>Type</strong></th>
+<th style="text-align: left;"><strong>Name</strong></th>
+<th style="text-align: left;"><strong>Description</strong></th>
+<th style="text-align: center;"><strong>Required</strong></th>
+<th style="text-align: center;"><strong>Default</strong></th>
+<th style="text-align: center;"><strong>Type</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left"><code>git_username</code></td>
-<td align="left">A git username (used to set the 'user.name' config option).</td>
-<td align="center"><strong><em>Yes</em></strong></td>
-<td align="center"></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>git_username</code></td>
+<td style="text-align: left;">A git username (used to set the 'user.name' config option).</td>
+<td style="text-align: center;"><strong><em>Yes</em></strong></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>git_email</code></td>
-<td align="left">A git user's email address (used to set the 'user.email' config option).</td>
-<td align="center"><strong><em>Yes</em></strong></td>
-<td align="center"></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>git_email</code></td>
+<td style="text-align: left;">A git user's email address (used to set the 'user.email' config option).</td>
+<td style="text-align: center;"><strong><em>Yes</em></strong></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>python_package</code></td>
-<td align="left">Whether or not this is a Python package, where the version should be updated in the <code>'package_dir'/__init__.py</code> and a build and release to PyPI should be performed.</td>
-<td align="center">No</td>
-<td align="center"><code>true</code></td>
-<td align="center"><em>boolean</em></td>
+<td style="text-align: left;"><code>python_package</code></td>
+<td style="text-align: left;">Whether or not this is a Python package, where the version should be updated in the <code>'package_dir'/__init__.py</code> and a build and release to PyPI should be performed.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>true</code></td>
+<td style="text-align: center;"><em>boolean</em></td>
 </tr>
 <tr>
-<td align="left"><code>package_dir</code></td>
-<td align="left">Path to the Python package directory relative to the repository directory.</br></br>Example: <code>'src/my_package'</code>.</br></br><strong>Important</strong>: This is <em>required</em> if 'python_package' is 'true', which is the default.</td>
-<td align="center"><strong><em>Yes</em> (if 'python_package' is 'true'</strong></td>
-<td align="center"></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>package_dir</code></td>
+<td style="text-align: left;">Path to the Python package directory relative to the repository directory.</br></br>Example: <code>'src/my_package'</code>.</br></br><strong>Important</strong>: This is <em>required</em> if 'python_package' is 'true', which is the default.</td>
+<td style="text-align: center;"><strong><em>Yes</em> (if 'python_package' is 'true'</strong></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>release_branch</code></td>
-<td align="left">The branch name to release/publish from.</td>
-<td align="center">No</td>
-<td align="center">main</td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>release_branch</code></td>
+<td style="text-align: left;">The branch name to release/publish from.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">main</td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>install_extras</code></td>
-<td align="left">Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (<code>[]</code>) and be separated by commas (<code>,</code>) without any spaces.</br></br>Example: <code>'[dev,release]'</code>.</td>
-<td align="center">No</td>
-<td align="center"><em>Empty string</em></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>install_extras</code></td>
+<td style="text-align: left;">Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (<code>[]</code>) and be separated by commas (<code>,</code>) without any spaces.</br></br>Example: <code>'[dev,release]'</code>.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>python_version</code></td>
-<td align="left">The Python version to use for the workflow.</td>
-<td align="center">No</td>
-<td align="center">3.9</td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>python_version</code></td>
+<td style="text-align: left;">The Python version to use for the workflow.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">3.9</td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>version_update_changes</code></td>
-<td align="left">A single or multi-line string of changes to be implemented in the repository files upon updating the version. The string should be made up of three parts: 'file path', 'pattern', and 'replacement string'. These are separated by the 'version_update_changes_separator' value.</br>The 'file path' must <em>always</em> either be relative to the repository root directory or absolute.</br>The 'pattern' should be given as a 'raw' Python string.</td>
-<td align="center">No</td>
-<td align="center"><em>Empty string</em></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>version_update_changes</code></td>
+<td style="text-align: left;">A single or multi-line string of changes to be implemented in the repository files upon updating the version. The string should be made up of three parts: 'file path', 'pattern', and 'replacement string'. These are separated by the 'version_update_changes_separator' value.</br>The 'file path' must <em>always</em> either be relative to the repository root directory or absolute.</br>The 'pattern' should be given as a 'raw' Python string.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>version_update_changes_separator</code></td>
-<td align="left">The separator to use for 'version_update_changes' when splitting the three parts of each string.</td>
-<td align="center">No</td>
-<td align="center">,</td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>version_update_changes_separator</code></td>
+<td style="text-align: left;">The separator to use for 'version_update_changes' when splitting the three parts of each string.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">,</td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>build_cmd</code></td>
-<td align="left">The package build command, e.g., <code>'pip install flit &amp;&amp; flit build'</code> or <code>'python -m build'</code> (default).</td>
-<td align="center">No</td>
-<td align="center"><code>python -m build</code></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>build_cmd</code></td>
+<td style="text-align: left;">The package build command, e.g., <code>'pip install flit &amp;&amp; flit build'</code> or <code>'python -m build'</code> (default).</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>python -m build</code></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>tag_message_file</code></td>
-<td align="left">Relative path to a release tag message file from the root of the repository.</br></br>Example: <code>'.github/utils/release_tag_msg.txt'</code>.</td>
-<td align="center">No</td>
-<td align="center"><em>Empty string</em></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>tag_message_file</code></td>
+<td style="text-align: left;">Relative path to a release tag message file from the root of the repository.</br></br>Example: <code>'.github/utils/release_tag_msg.txt'</code>.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>publish_on_pypi</code></td>
-<td align="left">Whether or not to publish on PyPI.</br></br><strong>Note</strong>: This is only relevant if 'python_package' is 'true', which is the default.</td>
-<td align="center">No</td>
-<td align="center"><code>true</code></td>
-<td align="center"><em>boolean</em></td>
+<td style="text-align: left;"><code>publish_on_pypi</code></td>
+<td style="text-align: left;">Whether or not to publish on PyPI.</br></br><strong>Note</strong>: This is only relevant if 'python_package' is 'true', which is the default.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>true</code></td>
+<td style="text-align: center;"><em>boolean</em></td>
 </tr>
 <tr>
-<td align="left"><code>test</code></td>
-<td align="left">Whether to use the TestPyPI repository index instead of PyPI.</td>
-<td align="center">No</td>
-<td align="center"><code>false</code></td>
-<td align="center"><em>boolean</em></td>
+<td style="text-align: left;"><code>test</code></td>
+<td style="text-align: left;">Whether to use the TestPyPI repository index instead of PyPI.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>false</code></td>
+<td style="text-align: center;"><em>boolean</em></td>
 </tr>
 <tr>
-<td align="left"><code>update_docs</code></td>
-<td align="left">Whether or not to also run the 'docs' workflow job.</td>
-<td align="center">No</td>
-<td align="center"><code>false</code></td>
-<td align="center"><em>boolean</em></td>
+<td style="text-align: left;"><code>update_docs</code></td>
+<td style="text-align: left;">Whether or not to also run the 'docs' workflow job.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>false</code></td>
+<td style="text-align: center;"><em>boolean</em></td>
 </tr>
 <tr>
-<td align="left"><code>doc_extras</code></td>
-<td align="left">Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (<code>[]</code>) and be separated by commas (<code>,</code>) without any spaces.</br></br>Note, if this is empty, 'install_extras' will be used as a fallback.</br></br>Example: <code>'[docs]'</code>.</td>
-<td align="center">No</td>
-<td align="center"><em>Empty string</em></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>doc_extras</code></td>
+<td style="text-align: left;">Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (<code>[]</code>) and be separated by commas (<code>,</code>) without any spaces.</br></br>Note, if this is empty, 'install_extras' will be used as a fallback.</br></br>Example: <code>'[docs]'</code>.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>changelog_exclude_tags_regex</code></td>
-<td align="left">A regular expression matching any tags that should be excluded from the CHANGELOG.md.</td>
-<td align="center">No</td>
-<td align="center"><em>Empty string</em></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>changelog_exclude_tags_regex</code></td>
+<td style="text-align: left;">A regular expression matching any tags that should be excluded from the CHANGELOG.md.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>changelog_exclude_labels</code></td>
-<td align="left">Comma-separated list of labels to exclude from the CHANGELOG.md.</td>
-<td align="center">No</td>
-<td align="center"><em>Empty string</em></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>changelog_exclude_labels</code></td>
+<td style="text-align: left;">Comma-separated list of labels to exclude from the CHANGELOG.md.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 </tbody>
 </table>
@@ -780,21 +794,21 @@ E.g., <code>{package_dir}/__init__.py</code> will become <code>ci_cd/__init__.py
 <table>
 <thead>
 <tr>
-<th align="left"><strong>Name</strong></th>
-<th align="left"><strong>Description</strong></th>
-<th align="center"><strong>Required</strong></th>
+<th style="text-align: left;"><strong>Name</strong></th>
+<th style="text-align: left;"><strong>Description</strong></th>
+<th style="text-align: center;"><strong>Required</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left"><code>PyPI_token</code></td>
-<td align="left">A PyPI token for publishing the built package to PyPI.</br></br><strong>Important</strong>: This is <em>required</em> if both 'python_package' and 'publish_on_pypi' are 'true'. Both are 'true' by default.</td>
-<td align="center"><strong><em>Yes</em> (if 'python_package' and 'publish_on_pypi' are 'true')</strong></td>
+<td style="text-align: left;"><code>PyPI_token</code></td>
+<td style="text-align: left;">A PyPI token for publishing the built package to PyPI.</br></br><strong>Important</strong>: This is <em>required</em> if both 'python_package' and 'publish_on_pypi' are 'true'. Both are 'true' by default.</td>
+<td style="text-align: center;"><strong><em>Yes</em> (if 'python_package' and 'publish_on_pypi' are 'true')</strong></td>
 </tr>
 <tr>
-<td align="left"><code>PAT</code></td>
-<td align="left">A personal access token (PAT) with rights to update the <code>release_branch</code>. This will fallback on <code>GITHUB_TOKEN</code>.</td>
-<td align="center">No</td>
+<td style="text-align: left;"><code>PAT</code></td>
+<td style="text-align: left;">A personal access token (PAT) with rights to update the <code>release_branch</code>. This will fallback on <code>GITHUB_TOKEN</code>.</td>
+<td style="text-align: center;">No</td>
 </tr>
 </tbody>
 </table>
