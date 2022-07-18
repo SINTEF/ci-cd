@@ -1,4 +1,4 @@
-# pre-commit hooks available at https://github.com/CasperWA/ci-cd
+# pre-commit hooks available at https://github.com/SINTEF/ci-cd
 
 - id: docs-api-reference
   name: Update API Reference in Documentation

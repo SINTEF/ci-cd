@@ -4,7 +4,7 @@
 The tasks are called "hooks" and are run in a separate virtual environment.
 The hooks usually change files in-place, meaning after pre-commit is run during a `git commit` command, the changed files can be reviewed and re-staged and committed.
 
-Through [CasperWA/ci-cd](https://github.com/CasperWA/ci-cd) several hooks are available, mainly related to the [GitHub Actions callable/reusable workflows](../workflows/index.md) that are also available in this repository.
+Through [SINTEF/ci-cd](https://github.com/SINTEF/ci-cd) several hooks are available, mainly related to the [GitHub Actions callable/reusable workflows](../workflows/index.md) that are also available in this repository.
 
 This section contains all the available pre-commit hooks:
 

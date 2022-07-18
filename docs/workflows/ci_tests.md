@@ -129,7 +129,7 @@ on:
 jobs:
   tests:
     name: Run basic tests
-    uses: CasperWA/ci-cd/.github/workflows/ci_tests.yml@v1
+    uses: SINTEF/ci-cd/.github/workflows/ci_tests.yml@v1
     with:
       python_version: "3.8"
       install_extras: "[dev,docs]"
@@ -156,7 +156,7 @@ on:
 jobs:
   tests:
     name: Run basic tests
-    uses: CasperWA/ci-cd/.github/workflows/ci_tests.yml@v1
+    uses: SINTEF/ci-cd/.github/workflows/ci_tests.yml@v1
     with:
       python_version: "3.8"
       install_extras: "[dev,docs]"

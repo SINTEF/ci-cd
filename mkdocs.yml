@@ -1,7 +1,7 @@
 site_name: "GH Action Reusable Workflows"
 site_description: Documentation for GitHub Action resusable workflows
-site_url: https://CasperWA.github.io/ci-cd
-copyright: Copyright &copy; 2022 Casper Welzel Andersen
+site_url: https://SINTEF.github.io/ci-cd
+copyright: Copyright &copy; 2022 Casper Welzel Andersen & SINTEF
 
 theme:
   name: material
@@ -19,11 +19,14 @@ theme:
     - navigation.top
 
 repo_name: "ci-cd"
-repo_url: "https://github.com/CasperWA/ci-cd"
+repo_url: "https://github.com/SINTEF/ci-cd"
 edit_uri: ""
 
 extra:
   social:
+    - icon: fontawesome/brands/github-square
+      link: https://github.com/SINTEF
+      name: "SINTEF on GitHub"
     - icon: fontawesome/brands/github
       link: https://github.com/CasperWA
       name: "Casper Welzel Andersen on GitHub"

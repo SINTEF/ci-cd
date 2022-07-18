@@ -46,7 +46,7 @@ Under the [Hooks](./hooks/index.md) section for each available hook, a usage exa
 
 ## License & copyright
 
-This repository licensed under the  [MIT LICENSE](LICENSE.md) with copyright &copy; 2022 Casper Welzel Andersen ([CasperWA](https://github.com/CasperWA)).
+This repository licensed under the  [MIT LICENSE](LICENSE.md) with copyright &copy; 2022 Casper Welzel Andersen ([CasperWA](https://github.com/CasperWA)) & SINTEF ([on GitHub](https://github.com/SINTEF)).
 
 ## Funding support
 

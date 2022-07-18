@@ -8,7 +8,7 @@ name = "ci_cd"
 [project]
 name = "ci-cd"
 authors = [
-    {name = "Casper Welzel Andersen", email = "casper+github@welzel.nu"},
+    {name = "Casper Welzel Andersen", email = "casper.w.andersen@sintef.no"},
 ]
 readme = "README.md"
 license = {file = "LICENSE"}
@@ -47,11 +47,11 @@ dev = [
 ]
 
 [project.urls]
-Home = "https://github.com/CasperWA/ci-cd"
-Documentation = "https://CasperWA.github.io/ci-cd"
-Source = "https://github.com/CasperWA/ci-cd"
-"Issue Tracker" = "https://github.com/CasperWA/ci-cd/issues"
-Changelog = "https://CasperWA.github.io/ci-cd/latest/CHANGELOG"
+Home = "https://github.com/SINTEF/ci-cd"
+Documentation = "https://SINTEF.github.io/ci-cd"
+Source = "https://github.com/SINTEF/ci-cd"
+"Issue Tracker" = "https://github.com/SINTEF/ci-cd/issues"
+Changelog = "https://SINTEF.github.io/ci-cd/latest/CHANGELOG"
 
 [project.scripts]
 "ci-cd" = "ci_cd.main:program.run"

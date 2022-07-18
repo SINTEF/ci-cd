@@ -141,7 +141,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -U setuptools wheel
         pip install .${{ inputs.doc_extras }}
-        pip install git+https://github.com/CasperWA/ci-cd.git@v1
+        pip install git+https://github.com/SINTEF/ci-cd.git@v1
 
     - name: Set up git user
       if: env.RELEASE_RUN == 'false'
@@ -278,7 +278,7 @@ jobs:
           PR_BODY_FILE=.tmp_pr-body_${{ github.run_id }}_${{ github.run_number }}_${{ github.run_attempt }}.txt
           echo "PR_BODY_FILE=${PR_BODY_FILE}" >> $GITHUB_ENV
 
-          echo -e "### Update dependencies\n\nAutomatically created PR from [\`${{ inputs.permanent_dependencies_branch }}\`](https://github.com/${{ github.repository }}/tree/${{ inputs.permanent_dependencies_branch }}).\n\nThe PR is based on the ['CI - Update dependencies PR' workflow](https://CasperWA.github.io/ci-cd/latest/workflows/ci_update_dependencies/) in [CasperWA/ci-cd](https://github.com/CasperWA/ci-cd).\n\n#### To do\n" > ${PR_BODY_FILE}
+          echo -e "### Update dependencies\n\nAutomatically created PR from [\`${{ inputs.permanent_dependencies_branch }}\`](https://github.com/${{ github.repository }}/tree/${{ inputs.permanent_dependencies_branch }}).\n\nThe PR is based on the ['CI - Update dependencies PR' workflow](https://SINTEF.github.io/ci-cd/latest/workflows/ci_update_dependencies/) in [SINTEF/ci-cd](https://github.com/SINTEF/ci-cd).\n\n#### To do\n" > ${PR_BODY_FILE}
           echo "Using default PR body (similar to the one used in the 'CI - Update dependencies PR' workflow)."
           echo "REMOVE_PR_BODY_FILE=true" >> $GITHUB_ENV
         else

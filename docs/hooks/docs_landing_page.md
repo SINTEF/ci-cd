@@ -31,7 +31,7 @@ It is meant to be complete as is.
 
 ```yaml
 repos:
-  - repo: https://github.com/CasperWA/ci-cd
+  - repo: https://github.com/SINTEF/ci-cd
     rev: v1
     hooks:
     - id: docs-landing-page

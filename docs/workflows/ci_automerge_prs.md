@@ -36,8 +36,8 @@ on:
 jobs:
   update-dependency-branch:
     name: Call external workflow
-    uses: CasperWA/ci-cd/.github/workflows/ci_automerge_prs.yml@v1
-    if: github.repository_owner == 'CasperWA' && ( ( startsWith(github.event.pull_request.head.ref, 'dependabot/') && github.actor == 'dependabot[bot]' ) || ( github.event.pull_request.head.ref == 'ci/update-pyproject' && github.actor == 'CasperWA' ) )
+    uses: SINTEF/ci-cd/.github/workflows/ci_automerge_prs.yml@v1
+    if: github.repository_owner == 'SINTEF' && ( ( startsWith(github.event.pull_request.head.ref, 'dependabot/') && github.actor == 'dependabot[bot]' ) || ( github.event.pull_request.head.ref == 'ci/update-pyproject' && github.actor == 'CasperWA' ) )
     secrets:
       PAT: ${{ secrets.RELEASE_PAT }}
 ```
