@@ -14,7 +14,7 @@ jobs:
     with:
       # general
       python_version: "3.9"
-      install_extras: "[dev,docs]"
+      install_extras: "[dev,docs,testing]"
 
       # pre-commit
       skip_pre-commit_hooks: pylint,pylint-tests
