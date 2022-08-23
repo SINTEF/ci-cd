@@ -58,7 +58,7 @@ jobs:
         pip install -e .[testing]
 
     - name: Test with pytest
-      run: pytest -vvv --cov-report=xml
+      run: pytest -vvv --cov=ci_cd --cov-report=xml
 
     - name: Upload coverage to Codecov
       if: matrix.python-version == '3.9' && github.repository == 'SINTEF/ci-cd'
