@@ -133,19 +133,19 @@ requires-python = "~=3.7"
 
 dependencies = [
     "invoke ~={original_dependencies['invoke']}",
-    "tomlkit ~={original_dependencies['tomlkit']}",
+    "tomlkit[test,docs] ~={original_dependencies['tomlkit']}",
 ]
 
 [project.optional-dependencies]
 docs = [
-    "mike ~={original_dependencies['mike']}",
+    "mike >={original_dependencies['mike']},<3",
 ]
 testing = [
     "pytest ~={original_dependencies['pytest']}",
     "pytest-cov ~={original_dependencies['pytest-cov']}",
 ]
 dev = [
-    "mike ~={original_dependencies['mike']}",
+    "mike >={original_dependencies['mike']},<3",
     "pytest ~={original_dependencies['pytest']}",
     "pytest-cov ~={original_dependencies['pytest-cov']}",
     "pre-commit ~={original_dependencies['pre-commit']}",
@@ -189,9 +189,9 @@ dev = [
                 assert line == f"{package_name} ~={original_dependencies[package_name]}"
             elif "tomlkit" in line:
                 # Should be three version digits, since the original dependency had three.
-                assert line == "tomlkit ~=1.0.0"
+                assert line == "tomlkit[test,docs] ~=1.0.0"
             elif "mike" in line:
-                assert line == "mike ~=1.0"
+                assert line == "mike >=1.0,<3"
             elif "pytest-cov" in line:
                 assert line == "pytest-cov ~=3.1"
             elif "pylint" in line:
