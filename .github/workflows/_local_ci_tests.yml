@@ -12,13 +12,55 @@ jobs:
     name: Call reusable workflow
     uses: ./.github/workflows/ci_tests.yml
     with:
+      # general
       python_version: "3.9"
       install_extras: "[dev,docs]"
-      skip_pre-commit_hooks: pylint
-      pylint_options: --rcfile=pyproject.toml
-      pylint_targets: ci_cd
+
+      # pre-commit
+      skip_pre-commit_hooks: pylint,pylint-tests
+
+      # pylint
+      pylint_runs: |
+        --rcfile=pyproject.toml ci_cd
+        --rcfile=pyproject.toml --disable=import-outside-toplevel,redefined-outer-name tests
+
+      # build dist
       build_libs: flit
       build_cmd: flit build
+
+      # build docs
       update_python_api_ref: false
       update_docs_landing_page: false
       debug: false
+
+  pytest:
+    name: pytest
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.7", "3.8", "3.9", "3.10"]
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 2
+
+    - name: Set up Python ${{ matrix.python-version}}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version}}
+
+    - name: Install Python dependencies
+      run: |
+        python -m pip install -U pip
+        pip install -U setuptools wheel flit
+        pip install -e .[testing]
+
+    - name: Test with pytest
+      run: pytest -vvv --cov-report=xml
+
+    - name: Upload coverage to Codecov
+      if: matrix.python-version == '3.9' && github.repository == 'SINTEF/ci-cd'
+      uses: codecov/codecov-action@v3

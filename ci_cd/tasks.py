@@ -401,10 +401,8 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
 
         # Update pyproject.toml
         updated_version = ".".join(latest_version[: len(version.split("."))])
-        escaped_full_dependency_name = full_dependency_name.replace(
-            "[", "\["  # pylint: disable=anomalous-backslash-in-string
-        ).replace(
-            "]", "\]"  # pylint: disable=anomalous-backslash-in-string
+        escaped_full_dependency_name = full_dependency_name.replace("[", r"\[").replace(
+            "]", r"\]"
         )
         update_file(
             pyproject_path,
@@ -500,6 +498,8 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
         unwanted_folder: list[str] = ["__pycache__"]
     if not unwanted_file:
         unwanted_file: list[str] = ["__init__.py"]
+    if not full_docs_folder:
+        full_docs_folder: list[str] = []
 
     def write_file(full_path: Path, content: str) -> None:
         """Write file with `content` to `full_path`"""
@@ -604,9 +604,13 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
 
             basename = filename[: -len(".py")]
             py_path = (
-                f"{package_dir.name}/{relpath}/{basename}".replace("/", ".")
+                f"{package_dir.relative_to(root_repo_path)}/{relpath}/{basename}".replace(
+                    "/", "."
+                )
                 if str(relpath) != "."
-                else f"{package_dir.name}/{basename}".replace("/", ".")
+                else f"{package_dir.relative_to(root_repo_path)}/{basename}".replace(
+                    "/", "."
+                )
             )
             md_filename = filename.replace(".py", ".md")
             if debug:

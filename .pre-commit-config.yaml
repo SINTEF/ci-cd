@@ -41,6 +41,7 @@ repos:
     hooks:
     - id: bandit
       args: ["-r"]
+      exclude: ^tests/.*$
 
   # mypy is a static typing linter
   # The main code repository can be found at:
@@ -62,6 +63,23 @@ repos:
     - id: pylint
       name: pylint
       entry: pylint
+      args: ["--rcfile=pyproject.toml"]
       language: python
       types: [python]
       require_serial: true
+      exclude: ^tests/.*$
+    # pylint is a Python linter
+    # It is run through the local environment to ensure external packages can be
+    # imported without issue.
+    # For more information about pylint see its documentation at:
+    # https://pylint.pycqa.org/en/latest/
+    - id: pylint-tests
+      name: pylint - tests
+      entry: pylint
+      args:
+      - "--rcfile=pyproject.toml"
+      - "--disable=import-outside-toplevel,redefined-outer-name"
+      language: python
+      types: [python]
+      require_serial: true
+      files: ^tests/.*$
