@@ -465,6 +465,10 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
             "models or to ensure all class attributes are listed. This input option "
             "can be supplied multiple times."
         ),
+        "relative": (
+            "Whether or not to use relative Python import links in the API reference "
+            "markdown files."
+        ),
         "debug": "Whether or not to print debug statements.",
     },
     iterable=["unwanted_folder", "unwanted_file", "full_docs_folder"],
@@ -479,6 +483,7 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
     unwanted_folder=None,
     unwanted_file=None,
     full_docs_folder=None,
+    relative=False,
     debug=False,
 ):
     """Create the Python API Reference in the documentation."""
@@ -492,6 +497,7 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
         pre_commit: bool = pre_commit
         root_repo_path: str = root_repo_path
         docs_folder: str = docs_folder
+        relative: bool = relative
         debug: bool = debug
 
     if not unwanted_folder:
@@ -602,15 +608,16 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
                     )
                 continue
 
+            py_path_root = (
+                package_dir.relative_to(root_repo_path)
+                if relative
+                else package_dir.name
+            )
             basename = filename[: -len(".py")]
             py_path = (
-                f"{package_dir.relative_to(root_repo_path)}/{relpath}/{basename}".replace(
-                    "/", "."
-                )
+                f"{py_path_root}/{relpath}/{basename}".replace("/", ".")
                 if str(relpath) != "."
-                else f"{package_dir.relative_to(root_repo_path)}/{basename}".replace(
-                    "/", "."
-                )
+                else f"{py_path_root}/{basename}".replace("/", ".")
             )
             md_filename = filename.replace(".py", ".md")
             if debug:

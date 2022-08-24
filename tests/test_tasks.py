@@ -79,6 +79,7 @@ def test_api_reference_nested_package() -> None:
             MockContext(),
             str(package_dir),
             root_repo_path=str(root_path),
+            relative=True,
         )
 
         api_reference_folder = docs_folder / "api_reference"
