@@ -90,6 +90,9 @@ Test building the documentation within the [MkDocs](https://www.mkdocs.org) fram
 !!! note
     If using [mike](https://github.com/jimporter/mike), note that this will _not_ be tested, as this would be equivalent to testing mike itself and whether it can build a MkDocs documentation, which should never be part of a repository that uses these tools.
 
+If used together with the [Update API Reference in Documentation](../hooks/docs_api_reference.md#using-it-together-with-cicd-workflows), please align the `relative` input with the `--relative` option, when running the hook.
+See the [proper section](../hooks/docs_api_reference.md#using-it-together-with-cicd-workflows) to understand why and how these options and inputs should be aligned.
+
 #### Expectations
 
 Is is expected that documentation exists, which is using the MkDocs framework.
@@ -104,6 +107,7 @@ This requires at minimum a `mkdocs.yml` configuration file.
 | `update_docs_landing_page` | Whether or not to update the documentation landing page. The landing page will be based on the root README.md file. | No | `true` | _boolean_ |
 | `python_version` | The Python version to use for the workflow. | No | 3.9 | _string_ |
 | `install_extras` | Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces.</br></br>**Example**: `'[dev,docs]'`. | No | _Empty string_ | _string_ |
+| `relative` | Whether or not to use install the local Python package(s) as an editable. | No | `false` | _boolean_ |
 | `package_dir` | Path to the Python package directory relative to the repository directory.</br></br>**Example**: `'src/my_package'`. | **Yes, if `update_python_api_ref` is `true` (default)** | _Empty string_ | _string_ |
 | `exclude_dirs` | A single or multi-line string of directories to exclude in the Python API reference documentation. Note, only directory names, not paths, may be included. Note, all folders and their contents with these names will be excluded. Defaults to `'__pycache__'`.</br></br>**Important**: When a user value is set, the preset value is overwritten - hence `'__pycache__'` should be included in the user value if one wants to exclude these directories. | No | \_\_pycache\_\_ | _string_ |
 | `exclude_files` | A single or multi-line string of files to exclude in the Python API reference documentation. Note, only full file names, not paths, may be included, i.e., filename + file extension. Note, all files with these names will be excluded. Defaults to `'__init__.py'`.</br></br>**Important**: When a user value is set, the preset value is overwritten - hence `'__init__.py'` should be included in the user value if one wants to exclude these files. | No | \_\_init\_\_.py | _string_ |
@@ -193,6 +197,7 @@ However, it is recommended to instead refer to the job-specific tables of inputs
 | `update_docs_landing_page` | Whether or not to update the documentation landing page. The landing page will be based on the root README.md file. | No | `true` | _boolean_ |
 | `python_version` | The Python version to use for the workflow. | No | 3.9 | _string_ |
 | `install_extras` | Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces.</br></br>**Example**: `'[dev,docs]'`. | No | _Empty string_ | _string_ |
+| `relative` | Whether or not to use install the local Python package(s) as an editable, _only_ when running the `build_docs` job. | No | `false` | _boolean_ |
 | `package_dir` | Path to the Python package directory relative to the repository directory.</br></br>**Example**: `'src/my_package'`. | **Yes, if `update_python_api_ref` is `true` (default)** | _Empty string_ | _string_ |
 | `exclude_dirs` | A single or multi-line string of directories to exclude in the Python API reference documentation. Note, only directory names, not paths, may be included. Note, all folders and their contents with these names will be excluded. Defaults to `'__pycache__'`.</br></br>**Important**: When a user value is set, the preset value is overwritten - hence `'__pycache__'` should be included in the user value if one wants to exclude these directories. | No | \_\_pycache\_\_ | _string_ |
 | `exclude_files` | A single or multi-line string of files to exclude in the Python API reference documentation. Note, only full file names, not paths, may be included, i.e., filename + file extension. Note, all files with these names will be excluded. Defaults to `'__init__.py'`.</br></br>**Important**: When a user value is set, the preset value is overwritten - hence `'__init__.py'` should be included in the user value if one wants to exclude these files. | No | \_\_init\_\_.py | _string_ |

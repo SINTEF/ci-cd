@@ -20,6 +20,9 @@ For more information about the specific changelog inputs, see the related [chang
 The `changelog_exclude_tags_regex` is also used to remove tags in a list of tags to consider when evaluating the "previous version".
 This is specifically for adding a changelog to the GitHub release body.
 
+If used together with the [Update API Reference in Documentation](../hooks/docs_api_reference.md#using-it-together-with-cicd-workflows), please align the `relative` input with the `--relative` option, when running the hook.
+See the [proper section](../hooks/docs_api_reference.md#using-it-together-with-cicd-workflows) to understand why and how these options and inputs should be aligned.
+
 ## Updating instances of version in repository files
 
 The content of repository files can be updated to use the new version where necessary.
@@ -66,6 +69,7 @@ The repository contains the following:
 | `package_dir` | Path to the Python package directory relative to the repository directory.</br></br>Example: `'src/my_package'`.</br></br>**Important**: This is _required_ if 'python_package' is 'true', which is the default. | **_Yes_ (if 'python_package' is 'true'** | | _string_ |
 | `release_branch` | The branch name to release/publish from. | No | main | _string_ |
 | `install_extras` | Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces.</br></br>Example: `'[dev,release]'`. | No | _Empty string_ | _string_ |
+| `relative` | Whether or not to use install the local Python package(s) as an editable. | No | `false` | _boolean_ |
 | `python_version` | The Python version to use for the workflow. | No | 3.9 | _string_ |
 | `version_update_changes` | A single or multi-line string of changes to be implemented in the repository files upon updating the version. The string should be made up of three parts: 'file path', 'pattern', and 'replacement string'. These are separated by the 'version_update_changes_separator' value.</br>The 'file path' must _always_ either be relative to the repository root directory or absolute.</br>The 'pattern' should be given as a 'raw' Python string. | No | _Empty string_ | _string_ |
 | `version_update_changes_separator` | The separator to use for 'version_update_changes' when splitting the three parts of each string. | No | , | _string_ |

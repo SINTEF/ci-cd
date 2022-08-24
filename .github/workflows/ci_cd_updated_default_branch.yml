@@ -58,6 +58,11 @@ on:
         required: false
         type: string
         default: ""
+      relative:
+        description: "Whether or not to use install the local Python package(s) as an editable."
+        required: false
+        type: boolean
+        default: false
       exclude_dirs:
         description: "A single or multi-line string of directories to exclude in the Python API reference documentation. Note, only directory names, not paths, may be included. Note, all folders and their contents with these names will be excluded. Defaults to `'__pycache__'`. Important: When a user value is set, the preset value is overwritten - hence `'__pycache__'` should be included in the user value if one wants to exclude these directories."
         required: false
@@ -138,9 +143,12 @@ jobs:
     - name: Install Python dependencies
       if: env.RELEASE_RUN == 'false'
       run: |
+        EDITABLE=
+        if [ "${{ inputs.relative }}" == "true" ]; then EDITABLE=-e ; fi
+
         python -m pip install --upgrade pip
         pip install -U setuptools wheel
-        pip install .${{ inputs.doc_extras }}
+        pip install ${EDITABLE}.${{ inputs.doc_extras }}
         pip install git+https://github.com/SINTEF/ci-cd.git@v1
 
     - name: Set up git user

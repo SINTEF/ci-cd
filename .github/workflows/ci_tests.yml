@@ -38,6 +38,11 @@ on:
         required: false
         type: string
         default: ""
+      relative:
+        description: "Whether or not to use install the local Python package(s) as an editable, _only_ when running the `build_docs` job."
+        required: false
+        type: boolean
+        default: false
       skip_pre-commit_hooks:
         description: "A comma-separated list of pre-commit hook IDs to skip when running `pre-commit` after updating hooks."
         required: false
@@ -218,7 +223,7 @@ jobs:
     - name: Install Python dependencies
       run: |
         python -m pip install -U pip
-        pip install -U setuptools wheel
+        pip install -U setuptools wheel build
         if [ -n "${{ inputs.build_libs }}" ]; then
           pip install ${{ inputs.build_libs }}
         fi
@@ -244,9 +249,12 @@ jobs:
 
     - name: Install Python dependencies
       run: |
+        EDITABLE=
+        if [ "${{ inputs.relative }}" == "true" ]; then EDITABLE=-e ; fi
+
         python -m pip install -U pip
         pip install -U setuptools wheel
-        pip install .${{ inputs.install_extras }}
+        pip install ${EDITABLE}.${{ inputs.install_extras }}
         pip install git+https://github.com/SINTEF/ci-cd.git@v1
 
     - name: Update API Reference
