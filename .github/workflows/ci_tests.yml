@@ -266,7 +266,9 @@ jobs:
         fi
 
         DEBUG=
+        RELATIVE=
         if [ "${{ inputs.debug }}" == "true" ]; then DEBUG=--debug; fi
+        if [ "${{ inputs.relative }}" == "true" ]; then RELATIVE=--relative; fi
 
         UNWANTED_FOLDERS=()
         UNWANTED_FILES=()
@@ -281,7 +283,7 @@ jobs:
           if [ -n "${line}" ]; then FULL_DOCS_FOLDERS+=(--full-docs-folder="${line}"); fi
         done <<< "${{ inputs.full_docs_dirs }}"
 
-        ci-cd create-api-reference-docs ${DEBUG} \
+        ci-cd create-api-reference-docs ${DEBUG} ${RELATIVE} \
           --pre-clean \
           --root-repo-path=${PWD} \
           --package-dir="${{ inputs.package_dir }}" \
