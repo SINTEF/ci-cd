@@ -626,6 +626,8 @@ The default value is given here as a help:<br />
 </div>
 <p>The <code>changelog_exclude_tags_regex</code> is also used to remove tags in a list of tags to consider when evaluating the "previous version".
 This is specifically for adding a changelog to the GitHub release body.</p>
+<p>If used together with the <a href="../../hooks/docs_api_reference/#using-it-together-with-cicd-workflows">Update API Reference in Documentation</a>, please align the <code>relative</code> input with the <code>--relative</code> option, when running the hook.
+See the <a href="../../hooks/docs_api_reference/#using-it-together-with-cicd-workflows">proper section</a> to understand why and how these options and inputs should be aligned.</p>
 <h2 id="updating-instances-of-version-in-repository-files">Updating instances of version in repository files<a class="headerlink" href="#updating-instances-of-version-in-repository-files" title="Permanent link">&para;</a></h2>
 <p>The content of repository files can be updated to use the new version where necessary.
 This is done through the <code>version_update_changes</code> (and <code>version_update_changes_separator</code>) inputs.</p>
@@ -708,6 +710,13 @@ E.g., <code>{package_dir}/__init__.py</code> will become <code>ci_cd/__init__.py
 <td align="center">No</td>
 <td align="center"><em>Empty string</em></td>
 <td align="center"><em>string</em></td>
+</tr>
+<tr>
+<td align="left"><code>relative</code></td>
+<td align="left">Whether or not to use install the local Python package(s) as an editable.</td>
+<td align="center">No</td>
+<td align="center"><code>false</code></td>
+<td align="center"><em>boolean</em></td>
 </tr>
 <tr>
 <td align="left"><code>python_version</code></td>

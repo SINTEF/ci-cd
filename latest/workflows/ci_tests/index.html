@@ -1002,6 +1002,8 @@ For each line in <code>pylint_runs</code>, <code>pylint</code> will be executed.
 <p class="admonition-title">Note</p>
 <p>If using <a href="https://github.com/jimporter/mike">mike</a>, note that this will <em>not</em> be tested, as this would be equivalent to testing mike itself and whether it can build a MkDocs documentation, which should never be part of a repository that uses these tools.</p>
 </div>
+<p>If used together with the <a href="../../hooks/docs_api_reference/#using-it-together-with-cicd-workflows">Update API Reference in Documentation</a>, please align the <code>relative</code> input with the <code>--relative</code> option, when running the hook.
+See the <a href="../../hooks/docs_api_reference/#using-it-together-with-cicd-workflows">proper section</a> to understand why and how these options and inputs should be aligned.</p>
 <h4 id="expectations_3">Expectations<a class="headerlink" href="#expectations_3" title="Permanent link">&para;</a></h4>
 <p>Is is expected that documentation exists, which is using the MkDocs framework.
 This requires at minimum a <code>mkdocs.yml</code> configuration file.</p>
@@ -1051,6 +1053,13 @@ This requires at minimum a <code>mkdocs.yml</code> configuration file.</p>
 <td align="center">No</td>
 <td align="center"><em>Empty string</em></td>
 <td align="center"><em>string</em></td>
+</tr>
+<tr>
+<td align="left"><code>relative</code></td>
+<td align="left">Whether or not to use install the local Python package(s) as an editable.</td>
+<td align="center">No</td>
+<td align="center"><code>false</code></td>
+<td align="center"><em>boolean</em></td>
 </tr>
 <tr>
 <td align="left"><code>package_dir</code></td>
@@ -1279,6 +1288,13 @@ However, it is recommended to instead refer to the job-specific tables of inputs
 <td align="center">No</td>
 <td align="center"><em>Empty string</em></td>
 <td align="center"><em>string</em></td>
+</tr>
+<tr>
+<td align="left"><code>relative</code></td>
+<td align="left">Whether or not to use install the local Python package(s) as an editable, <em>only</em> when running the <code>build_docs</code> job.</td>
+<td align="center">No</td>
+<td align="center"><code>false</code></td>
+<td align="center"><em>boolean</em></td>
 </tr>
 <tr>
 <td align="left"><code>package_dir</code></td>

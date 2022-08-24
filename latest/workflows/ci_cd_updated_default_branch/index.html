@@ -616,6 +616,8 @@ Indeed, it is recommended to not supply <code>pr_body_file</code> to the <a href
 The default value is given here as a help:<br />
 <code>'duplicate,question,invalid,wontfix'</code></p>
 </div>
+<p>If used together with the <a href="../../hooks/docs_api_reference/#using-it-together-with-cicd-workflows">Update API Reference in Documentation</a>, please align the <code>relative</code> input with the <code>--relative</code> option, when running the hook.
+See the <a href="../../hooks/docs_api_reference/#using-it-together-with-cicd-workflows">proper section</a> to understand why and how these options and inputs should be aligned.</p>
 <h2 id="expectations">Expectations<a class="headerlink" href="#expectations" title="Permanent link">&para;</a></h2>
 <p>The repository contains the following:</p>
 <ul>
@@ -711,6 +713,13 @@ The default value is given here as a help:<br />
 <td align="center">No</td>
 <td align="center"><em>Empty string</em></td>
 <td align="center"><em>string</em></td>
+</tr>
+<tr>
+<td align="left"><code>relative</code></td>
+<td align="left">Whether or not to use install the local Python package(s) as an editable.</td>
+<td align="center">No</td>
+<td align="center"><code>false</code></td>
+<td align="center"><em>boolean</em></td>
 </tr>
 <tr>
 <td align="left"><code>exclude_dirs</code></td>

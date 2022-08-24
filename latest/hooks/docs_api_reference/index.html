@@ -442,6 +442,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#using-it-together-with-cicd-workflows" class="md-nav__link">
+    Using it together with CI/CD workflows
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#expectations" class="md-nav__link">
     Expectations
   </a>
@@ -548,6 +555,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#using-it-together-with-cicd-workflows" class="md-nav__link">
+    Using it together with CI/CD workflows
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#expectations" class="md-nav__link">
     Expectations
   </a>
@@ -588,6 +602,18 @@
 <p>The hook walks through a package directory, finding all Python files and creating a markdown file matching it along with recreating the Python API tree under the <code>docs/api_reference/</code> folder.</p>
 <p>The hook will run when any Python file is changed in the repository.</p>
 <p>The hook expects the documentation to be setup with the <a href="https://www.mkdocs.org">MkDocs</a> framework, including the <a href="https://mkdocstrings.github.io/">mkdocstrings</a> plugin for parsing in the Python class/function and method doc-strings, as well as the <a href="https://github.com/lukasgeiter/mkdocs-awesome-pages-plugin">awesome-pages</a> plugin for providing proper titles in the table-of-contents navigation.</p>
+<h2 id="using-it-together-with-cicd-workflows">Using it together with CI/CD workflows<a class="headerlink" href="#using-it-together-with-cicd-workflows" title="Permanent link">&para;</a></h2>
+<p>If this hook is being used together with the workflow <a href="../../workflows/ci_tests/#build-mkdocs-documentation"><em>CI - Tests</em></a>, to test if the documentation can be built, or <a href="../../workflows/cd_release/"><em>CD - Release</em></a> and/or <a href="../../workflows/ci_cd_updated_default_branch/"><em>CI/CD - New updates to default branch</em></a>, to build and publish the documentation upon a release or push to the default branch, it is necessary to understand the way the Python API modules are referenced in the markdown files under <code>docs/api_reference/</code>.</p>
+<p>By default, the references refer to the Python import path of a module.
+However, should a package be installed as an editable installation, i.e., using <code>pip install -e</code>, then the relative path from the repository root will be used.</p>
+<p>This differentiation is only relevant for repositories, where these two cases are not aligned, such as when the Python package folder is in a nested folder, e.g., <code>src/my_package/</code>.</p>
+<p>In order to remedy this, there are a single configuration in each workflow and this hooks that needs to be set to the same value.
+For this hook, the option name is <code>--relative</code> and the value for using the relative path, i.e., an editable installation, is to simply include this toggle option.
+If the option is <em>not</em> included, then a non-editable installation is assumed, i.e., the <code>-e</code> option is <em>not</em> used when installing the package, and a proper resolvable Python import statement is used as a link in the API reference markdown files.
+The latter is the default.</p>
+<p>For the workflows, one should set the configuration option <code>relative</code> to <code>true</code> to use the relative path, i.e., an editable installation.
+And likewise set <code>relative</code> to <code>false</code> if a proper resolvable Python import statement is to be used, without forcing the <code>-e</code> option.
+The latter is the default.</p>
 <h2 id="expectations">Expectations<a class="headerlink" href="#expectations" title="Permanent link">&para;</a></h2>
 <p>It is <strong>required</strong> to specify the <code>--package-dir</code> argument through the <code>args</code> key.</p>
 <p>Otherwise, as noted above, without the proper framework, the created markdown files will not bring about the desired result in a built documentation.</p>
@@ -638,6 +664,13 @@
 <td align="center">No</td>
 <td align="center"><em>Empty string</em></td>
 <td align="center"><em>string</em></td>
+</tr>
+<tr>
+<td align="left"><code>--relative</code></td>
+<td align="left">Whether or not to use relative Python import links in the API reference markdown files. See section <a href="#using-it-together-with-cicd-workflows">Using it together with CI/CD workflows</a> above.</td>
+<td align="center">No</td>
+<td align="center"><code>False</code></td>
+<td align="center"><em>boolean</em></td>
 </tr>
 <tr>
 <td align="left"><code>--debug</code></td>
