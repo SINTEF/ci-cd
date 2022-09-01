@@ -29,7 +29,7 @@ repos:
   # Black is a code style and formatter
   # It works on files in-place
   - repo: https://github.com/ambv/black
-    rev: 22.6.0
+    rev: 22.8.0
     hooks:
     - id: black
 
