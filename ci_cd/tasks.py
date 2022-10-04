@@ -431,8 +431,8 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
 @task(
     help={
         "package-dir": (
-            "Relative path to package dir from the repository root, "
-            "e.g., 'src/my_package'."
+            "Relative path to a package dir from the repository root, "
+            "e.g., 'src/my_package'. This input option can be supplied multiple times."
         ),
         "pre-clean": "Remove the 'api_reference' sub directory prior to (re)creation.",
         "pre-commit": (
@@ -471,7 +471,7 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
         ),
         "debug": "Whether or not to print debug statements.",
     },
-    iterable=["unwanted_folder", "unwanted_file", "full_docs_folder"],
+    iterable=["package_dir", "unwanted_folder", "unwanted_file", "full_docs_folder"],
 )
 def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branches,too-many-statements,line-too-long
     context,
@@ -492,7 +492,6 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
 
     if TYPE_CHECKING:  # pragma: no cover
         context: "Context" = context
-        package_dir: str = package_dir
         pre_clean: bool = pre_clean
         pre_commit: bool = pre_commit
         root_repo_path: str = root_repo_path
@@ -523,10 +522,10 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
         root_repo_path = result.stdout.strip("\n")
 
     root_repo_path: Path = Path(root_repo_path).resolve()
-    package_dir: Path = root_repo_path / package_dir
+    package_dirs: list[Path] = [root_repo_path / _ for _ in package_dir]
     docs_api_ref_dir = root_repo_path / docs_folder / "api_reference"
     if debug:
-        print("package_dir:", package_dir, flush=True)
+        print("package_dirs:", package_dirs, flush=True)
         print("docs_api_ref_dir:", docs_api_ref_dir, flush=True)
         print("unwanted_folder:", unwanted_folder, flush=True)
         print("unwanted_file:", unwanted_file, flush=True)
@@ -559,88 +558,90 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
         content=pages_template.format(name="API Reference"),
     )
 
-    for dirpath, dirnames, filenames in os.walk(package_dir):
-        for unwanted in unwanted_folder:
-            if debug:
-                print("unwanted:", unwanted, flush=True)
-                print("dirnames:", dirnames, flush=True)
-            if unwanted in dirnames:
-                # Avoid walking into or through unwanted directories
-                dirnames.remove(unwanted)
-
-        relpath = Path(dirpath).relative_to(package_dir)
-        abspath = (package_dir / relpath).resolve()
-        if debug:
-            print("relpath:", relpath, flush=True)
-            print("abspath:", abspath, flush=True)
-
-        if not (abspath / "__init__.py").exists():
-            # Avoid paths that are not included in the public Python API
-            print("does not exist:", abspath / "__init__.py", flush=True)
-            continue
-
-        # Create `.pages`
-        docs_sub_dir = docs_api_ref_dir / relpath
-        docs_sub_dir.mkdir(exist_ok=True)
-        if debug:
-            print("docs_sub_dir:", docs_sub_dir, flush=True)
-        if str(relpath) != ".":
-            if debug:
-                print(f"Writing file: {docs_sub_dir / '.pages'}", flush=True)
-            write_file(
-                full_path=docs_sub_dir / ".pages",
-                content=pages_template.format(
-                    name=str(relpath).rsplit("/", maxsplit=1)[-1]
-                ),
-            )
-
-        # Create markdown files
-        for filename in filenames:
-            if re.match(r".*\.py$", filename) is None or filename in unwanted_file:
-                # Not a Python file: We don't care about it!
-                # Or filename is in the list of unwanted files:
-                # We don't want it!
+    for package in package_dirs:
+        for dirpath, dirnames, filenames in os.walk(package):
+            for unwanted in unwanted_folder:
                 if debug:
-                    print(
-                        f"{filename} is not a Python file or is an unwanted file "
-                        "(through user input). Skipping it.",
-                        flush=True,
-                    )
+                    print("unwanted:", unwanted, flush=True)
+                    print("dirnames:", dirnames, flush=True)
+                if unwanted in dirnames:
+                    # Avoid walking into or through unwanted directories
+                    dirnames.remove(unwanted)
+
+            relpath = Path(dirpath).relative_to(root_repo_path)
+            abspath = (root_repo_path / relpath).resolve()
+            if debug:
+                print("relpath:", relpath, flush=True)
+                print("abspath:", abspath, flush=True)
+
+            if not (abspath / "__init__.py").exists():
+                # Avoid paths that are not included in the public Python API
+                print("does not exist:", abspath / "__init__.py", flush=True)
                 continue
 
-            py_path_root = (
-                package_dir.relative_to(root_repo_path)
-                if relative
-                else package_dir.name
-            )
-            basename = filename[: -len(".py")]
-            py_path = (
-                f"{py_path_root}/{relpath}/{basename}".replace("/", ".")
-                if str(relpath) != "."
-                else f"{py_path_root}/{basename}".replace("/", ".")
-            )
-            md_filename = filename.replace(".py", ".md")
+            # Create `.pages`
+            docs_sub_dir = docs_api_ref_dir / relpath
+            docs_sub_dir.mkdir(exist_ok=True)
             if debug:
-                print("basename:", basename, flush=True)
-                print("py_path:", py_path, flush=True)
-                print("md_filename:", md_filename, flush=True)
+                print("docs_sub_dir:", docs_sub_dir, flush=True)
+            if str(relpath) != ".":
+                if debug:
+                    print(f"Writing file: {docs_sub_dir / '.pages'}", flush=True)
+                write_file(
+                    full_path=docs_sub_dir / ".pages",
+                    content=pages_template.format(
+                        name=str(relpath).rsplit("/", maxsplit=1)[-1]
+                    ),
+                )
 
-            # For special folders we want to include EVERYTHING, even if it doesn't
-            # have a doc-string
-            template = (
-                no_docstring_template
-                if str(relpath) in full_docs_folder
-                else md_template
-            )
+            # Create markdown files
+            for filename in (Path(_) for _ in filenames):
+                if (
+                    re.match(r".*\.py$", str(filename)) is None
+                    or str(filename) in unwanted_file
+                ):
+                    # Not a Python file: We don't care about it!
+                    # Or filename is in the list of unwanted files:
+                    # We don't want it!
+                    if debug:
+                        print(
+                            f"{filename} is not a Python file or is an unwanted file "
+                            "(through user input). Skipping it.",
+                            flush=True,
+                        )
+                    continue
 
-            if debug:
-                print("template:", template, flush=True)
-                print(f"Writing file: {docs_sub_dir / md_filename}", flush=True)
+                py_path_root = (
+                    package.relative_to(root_repo_path) if relative else package.name
+                )
+                py_path = (
+                    f"{py_path_root}/{relpath}/{filename.stem}".replace("/", ".")
+                    if str(relpath) != "."
+                    else f"{py_path_root}/{filename.stem}".replace("/", ".")
+                )
+                if debug:
+                    print("filename:", filename, flush=True)
+                    print("py_path:", py_path, flush=True)
 
-            write_file(
-                full_path=docs_sub_dir / md_filename,
-                content=template.format(name=basename, py_path=py_path),
-            )
+                # For special folders we want to include EVERYTHING, even if it doesn't
+                # have a doc-string
+                template = (
+                    no_docstring_template
+                    if str(relpath) in full_docs_folder
+                    else md_template
+                )
+
+                if debug:
+                    print("template:", template, flush=True)
+                    print(
+                        f"Writing file: {docs_sub_dir / filename.with_suffix('.md')}",
+                        flush=True,
+                    )
+
+                write_file(
+                    full_path=docs_sub_dir / filename.with_suffix(".md"),
+                    content=template.format(name=filename.stem, py_path=py_path),
+                )
 
     if pre_commit:
         # Check if there have been any changes.
