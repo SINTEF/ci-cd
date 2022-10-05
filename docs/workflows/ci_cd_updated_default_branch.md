@@ -79,7 +79,7 @@ jobs:
     name: Call external workflow
     uses: SINTEF/ci-cd/.github/workflows/ci_cd_updated_default_branch.yml@v1
     if: github.repository_owner == 'SINTEF'
-    inputs:
+    with:
       git_username: "Casper Welzel Andersen"
       git_email: "CasperWA@github.com"
       default_repo_branch: stable

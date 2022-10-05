@@ -1,4 +1,5 @@
 # CD - Release
+<!-- markdownlint-disable MD007 -->
 
 **File to use:** `cd_release.yml`
 
@@ -34,11 +35,12 @@ Some notes to consider and respect when using `version_update_changes` are:
 
 - The value of `version_update_changes_separator` applies to _all_ lines given in `version_update_changes`, meaning it should be a character, or series of characters, which will not be part of the actual content.
 - Specifically, concerning the 'raw' Python string 'pattern' the following applies:
-  - **Always** escape double quotes (`"`).
-    This is done by prefixing it with a backslash (`\`): `\"`.
-  - Escape special bash/sh characters, e.g., back tick (`` ` ``).
-  - Escape special Python regular expression characters, if they are not used for their intended purpose in this 'raw' string.
-    See the [`re` library documentation](https://docs.python.org/3/library/re.html) for more information.
+
+    - **Always** escape double quotes (`"`).
+      This is done by prefixing it with a backslash (`\`): `\"`.
+    - Escape special bash/sh characters, e.g., back tick (`` ` ``).
+    - Escape special Python regular expression characters, if they are not used for their intended purpose in this 'raw' string.
+      See the [`re` library documentation](https://docs.python.org/3/library/re.html) for more information.
 
 Concerning the 'replacement string' part, the `package_dirs` input and full semantic version can be substituted in dynamically by wrapping either `package_dir` or `version` in curly braces (`{}`).
 Indeed, for the version, one can specify sub-parts of the version to use, e.g., if one desires to only use the major version, this can be done by using the `major` attribute: `{version.major}`.

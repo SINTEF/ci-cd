@@ -64,7 +64,7 @@ jobs:
     name: Call external workflow
     uses: SINTEF/ci-cd/.github/workflows/ci_update_dependencies.yml@v1
     if: github.repository_owner == 'SINTEF'
-    inputs:
+    with:
       git_username: "Casper Welzel Andersen"
       git_email: "CasperWA@github.com"
       permanent_dependencies_branch: "ci/dependency-updates"
