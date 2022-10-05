@@ -15,7 +15,7 @@ jobs:
       git_email: "TEAM4.0@SINTEF.no"
       python_package: true
       publish_on_pypi: false
-      package_dir: ci_cd
+      package_dirs: ci_cd
       release_branch: main
       build_cmd: ".github/utils/update_tags.sh"
       update_docs: true
