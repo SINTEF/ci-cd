@@ -1093,6 +1093,20 @@ This requires at minimum a <code>mkdocs.yml</code> configuration file.</p>
 <td align="center"><em>string</em></td>
 </tr>
 <tr>
+<td align="left"><code>full_docs_files</code></td>
+<td align="left">A single or multi-line string of relative paths to files in which to include everything - even those without documentation strings. This may be useful for a file full of data models or to ensure all class attributes are listed.</td>
+<td align="center">No</td>
+<td align="center"><em>Empty string</em></td>
+<td align="center"><em>string</em></td>
+</tr>
+<tr>
+<td align="left"><code>special_file_api_ref_options</code></td>
+<td align="left">A single or multi-line string of combinations of a relative path to a Python file and a fully formed mkdocstrings option that should be added to the generated MarkDown file for the Python API reference documentation.</br>Example: <code>my_module/py_file.py,show_bases:false</code>.</br></br>Encapsulate the value in double quotation marks (<code>"</code>) if including spaces ( ).</br></br><strong>Important</strong>: If multiple <code>package_dirs</code> are supplied, the relative path MUST include/start with the appropriate 'package_dir' value, e.g., <code>"my_package/my_module/py_file.py,show_bases: false"</code>.</td>
+<td align="center">No</td>
+<td align="center"><em>Empty string</em></td>
+<td align="center"><em>string</em></td>
+</tr>
+<tr>
 <td align="left"><code>landing_page_replacements</code></td>
 <td align="left">A single or multi-line string of replacements (mappings) to be performed on README.md when creating the documentation's landing page (index.md). This list <em>always</em> includes replacing <code>'docs/'</code> with an empty string to correct relative links, i.e., this cannot be overwritten. By default <code>'(LICENSE)'</code> is replaced by <code>'(LICENSE.md)'</code>.</td>
 <td align="center">No</td>
@@ -1323,6 +1337,20 @@ However, it is recommended to instead refer to the job-specific tables of inputs
 <tr>
 <td align="left"><code>full_docs_dirs</code></td>
 <td align="left">A single or multi-line string of directories in which to include everything - even those without documentation strings. This may be useful for a module full of data models or to ensure all class attributes are listed.</td>
+<td align="center">No</td>
+<td align="center"><em>Empty string</em></td>
+<td align="center"><em>string</em></td>
+</tr>
+<tr>
+<td align="left"><code>full_docs_files</code></td>
+<td align="left">A single or multi-line string of relative paths to files in which to include everything - even those without documentation strings. This may be useful for a file full of data models or to ensure all class attributes are listed.</td>
+<td align="center">No</td>
+<td align="center"><em>Empty string</em></td>
+<td align="center"><em>string</em></td>
+</tr>
+<tr>
+<td align="left"><code>special_file_api_ref_options</code></td>
+<td align="left">A single or multi-line string of combinations of a relative path to a Python file and a fully formed mkdocstrings option that should be added to the generated MarkDown file for the Python API reference documentation.</br>Example: <code>my_module/py_file.py,show_bases:false</code>.</br></br>Encapsulate the value in double quotation marks (<code>"</code>) if including spaces ( ).</br></br><strong>Important</strong>: If multiple <code>package_dirs</code> are supplied, the relative path MUST include/start with the appropriate 'package_dir' value, e.g., <code>"my_package/my_module/py_file.py,show_bases: false"</code>.</td>
 <td align="center">No</td>
 <td align="center"><em>Empty string</em></td>
 <td align="center"><em>string</em></td>
