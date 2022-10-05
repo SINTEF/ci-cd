@@ -27,7 +27,7 @@ def test_create_api_reference() -> None:
 
         create_api_reference_docs(
             MockContext(),
-            str(package_dir),
+            [str(package_dir)],
             root_repo_path=str(root_path),
         )
 
@@ -77,7 +77,7 @@ def test_api_reference_nested_package() -> None:
 
         create_api_reference_docs(
             MockContext(),
-            str(package_dir),
+            [str(package_dir)],
             root_repo_path=str(root_path),
             relative=True,
         )

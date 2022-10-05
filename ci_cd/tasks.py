@@ -558,6 +558,7 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
         content=pages_template.format(name="API Reference"),
     )
 
+    single_package = len(package_dirs) == 1
     for package in package_dirs:
         for dirpath, dirnames, filenames in os.walk(package):
             for unwanted in unwanted_folder:
@@ -568,8 +569,12 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
                     # Avoid walking into or through unwanted directories
                     dirnames.remove(unwanted)
 
-            relpath = Path(dirpath).relative_to(root_repo_path)
-            abspath = (root_repo_path / relpath).resolve()
+            relpath = Path(dirpath).relative_to(
+                package if single_package else root_repo_path
+            )
+            abspath = (
+                package / relpath if single_package else root_repo_path / relpath
+            ).resolve()
             if debug:
                 print("relpath:", relpath, flush=True)
                 print("abspath:", abspath, flush=True)
