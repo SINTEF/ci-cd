@@ -14,12 +14,12 @@ on:
         type: string
       # OPTIONAL
       python_package:
-        description: "Whether or not this is a Python package, where the version should be updated in the 'package_dir'/__init__.py and a build and release to PyPI should be performed."
+        description: "Whether or not this is a Python package, where the version should be updated in the 'package_dir'/__init__.py for the possibly several 'package_dir' lines given in the 'package_dirs' input and a build and release to PyPI should be performed."
         required: false
         type: boolean
         default: true
-      package_dir:
-        description: "Path to the Python package directory relative to the repository directory. Example: `'src/my_package'`. **Important**: This is _required_ if 'python_package' is 'true', which is the default."
+      package_dirs:
+        description: "A single or multi-line string of paths to Python package directories relative to the repository directory to have its `__version__` value updated. Example: `'src/my_package'`. **Important**: This is _required_ if 'python_package' is 'true', which is the default."
         required: false
         type: string
         default: ""
@@ -147,27 +147,31 @@ jobs:
         REF=${REF#refs/tags/}
 
         if [ "${{ inputs.python_package }}" == "true" ]; then
-          if [ -z "${{ inputs.package_dir }}" ]; then
-            echo "package_dir MUST be supplied, since python_package was set to 'true'."
+          if [ -z "${{ inputs.package_dirs }}" ]; then
+            echo "package_dirs MUST be supplied, since python_package was set to 'true'."
             exit 1
           fi
 
           DEBUG=
           if [ "${{ inputs.test }}" == "true" ]; then DEBUG=--test; fi
 
+          PACKAGE_DIRS=()
           CODE_BASE_UPDATES=()
           while IFS= read -r line; do
-            if [ -n "${line}" ]; then
-              CODE_BASE_UPDATES+=(--code-base-update="${line}")
-            fi
+            if [ -n "${line}" ]; then PACKAGE_DIRS+=(${line}); fi
+          done <<< "${{ inputs.package_dirs }}"
+          while IFS= read -r line; do
+            if [ -n "${line}" ]; then CODE_BASE_UPDATES+=(--code-base-update="${line}"); fi
           done <<< "${{ inputs.version_update_changes }}"
 
-          ci-cd setver ${DEBUG} \
-            --version="${REF}" \
-            --root-repo-path="${PWD}" \
-            --package-dir="${{ inputs.package_dir }}" \
-            --code-base-update-separator="${{ inputs.version_update_changes_separator }}" \
-            "${CODE_BASE_UPDATES[@]}"
+          for package_dir in ${PACKAGE_DIRS}; do
+            ci-cd setver ${DEBUG} \
+              --version="${REF}" \
+              --root-repo-path="${PWD}" \
+              --package-dir="${package_dir}" \
+              --code-base-update-separator="${{ inputs.version_update_changes_separator }}" \
+              "${CODE_BASE_UPDATES[@]}"
+          done
         fi
 
         git commit -am "Release ${REF} - Changelog"
