@@ -73,3 +73,11 @@ max-line-length = 90
 disable = []
 max-args = 15
 max-branches = 15
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+filterwarnings = [
+    "ignore:.*imp module.*:DeprecationWarning",
+    # Remove when invoke updates to `inspect.signature()` or similar:
+    "ignore:.*inspect.getargspec().*:DeprecationWarning",
+]
