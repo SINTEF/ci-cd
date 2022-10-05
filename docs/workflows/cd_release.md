@@ -40,13 +40,13 @@ Some notes to consider and respect when using `version_update_changes` are:
   - Escape special Python regular expression characters, if they are not used for their intended purpose in this 'raw' string.
     See the [`re` library documentation](https://docs.python.org/3/library/re.html) for more information.
 
-Concerning the 'replacement string' part, the `package_dir` input and full semantic version can be substituted in dynamically by wrapping either `package_dir` or `version` in curly braces (`{}`).
+Concerning the 'replacement string' part, the `package_dirs` input and full semantic version can be substituted in dynamically by wrapping either `package_dir` or `version` in curly braces (`{}`).
 Indeed, for the version, one can specify sub-parts of the version to use, e.g., if one desires to only use the major version, this can be done by using the `major` attribute: `{version.major}`.
 The full list of version attributes are: `major`, `minor`, `patch`, `pre_release`, and `build`.
 More can be used, e.g., to only insert the major.minor version: `{version.major}.{version.minor}`.
 
-For the 'file path' part, package_dir wrapped in curly braces (`{}`) will also be substituted at run time with the `package_dir` input.
-E.g., `{package_dir}/__init__.py` will become `ci_cd/__init__.py` if the `package_dir` input was `'ci_cd'`.
+For the 'file path' part, `package_dir` wrapped in curly braces (`{}`) will also be substituted at run time with each line from the possibly multi-line `package_dirs` input.
+E.g., `{package_dir}/__init__.py` will become `ci_cd/__init__.py` if the `package_dirs` input was `'ci_cd'`.
 
 ## Expectations
 
@@ -65,8 +65,8 @@ The repository contains the following:
 |:--- |:--- |:---:|:---:|:---:|
 | `git_username` | A git username (used to set the 'user.name' config option). | **_Yes_** | | _string_ |
 | `git_email` | A git user's email address (used to set the 'user.email' config option). | **_Yes_** | | _string_ |
-| `python_package` | Whether or not this is a Python package, where the version should be updated in the `'package_dir'/__init__.py` and a build and release to PyPI should be performed. | No | `true` | _boolean_ |
-| `package_dir` | Path to the Python package directory relative to the repository directory.</br></br>Example: `'src/my_package'`.</br></br>**Important**: This is _required_ if 'python_package' is 'true', which is the default. | **_Yes_ (if 'python_package' is 'true'** | | _string_ |
+| `python_package` | Whether or not this is a Python package, where the version should be updated in the `'package_dir'/__init__.py` for the possibly several 'package_dir' lines given in the `package_dirs` input and a build and release to PyPI should be performed. | No | `true` | _boolean_ |
+| `package_dirs` |  single or multi-line string of paths to Python package directories relative to the repository directory to have its `__version__` value updated.</br></br>Example: `'src/my_package'`.</br></br>**Important**: This is _required_ if 'python_package' is 'true', which is the default. | **_Yes_ (if 'python_package' is 'true'** | | _string_ |
 | `release_branch` | The branch name to release/publish from. | No | main | _string_ |
 | `install_extras` | Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces.</br></br>Example: `'[dev,release]'`. | No | _Empty string_ | _string_ |
 | `relative` | Whether or not to use install the local Python package(s) as an editable. | No | `false` | _boolean_ |
@@ -111,7 +111,7 @@ jobs:
       git_username: "Casper Welzel Andersen"
       git_email: "CasperWA@github.com"
       release_branch: stable
-      package_dir: my_python_package
+      package_dirs: my_python_package
       install_extras: "[dev,build]"
       build_cmd: "pip install flit && flit build"
       tag_message_file: ".github/utils/release_tag_msg.txt"
