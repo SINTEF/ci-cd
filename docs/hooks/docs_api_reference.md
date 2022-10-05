@@ -30,7 +30,7 @@ The latter is the default.
 
 ## Expectations
 
-It is **required** to specify the `--package-dir` argument through the `args` key.
+It is **required** to specify the `--package-dir` argument at least once through the `args` key.
 
 Otherwise, as noted above, without the proper framework, the created markdown files will not bring about the desired result in a built documentation.
 
@@ -40,7 +40,7 @@ Any of these options can be given through the `args` key when defining the hook.
 
 | **Name** | **Description** | **Required** | **Default** | **Type** |
 |:--- |:--- |:---:|:---:|:---:|
-| `--package-dir` | Relative path to package dir from the repository root, e.g., 'src/my_package'. | **_Yes_** | | _string_ |
+| `--package-dir` | Relative path to a package dir from the repository root, e.g., 'src/my_package'.</br></br>This input option can be supplied multiple times. | **_Yes_** | | _string_ |
 | `--docs-folder` | The folder name for the documentation root folder. | No | docs | _string_ |
 | `--unwanted-folder` | A folder to avoid including into the Python API reference documentation. If this is not supplied, it will default to `__pycache__`.</br></br>**Note**: Only folder names, not paths, may be included.</br></br>**Note**: All folders and their contents with these names will be excluded.</br></br>This input option can be supplied multiple times. | No | \_\_pycache\_\_ | _string_ |
 | `--unwanted-file` | A file to avoid including into the Python API reference documentation. If this is not supplied, it will default to `__init__.py`</br></br>**Note**: Only full file names, not paths, may be included, i.e., filename + file extension.</br></br>**Note**: All files with these names will be excluded.</br></br>This input option can be supplied multiple times. | No | \_\_init\_\_.py | _string_ |
@@ -61,7 +61,9 @@ repos:
     - id: docs-api-reference
       args:
       - --package-dir
-      - my_python_package
+      - src/my_python_package
+      - --package-dir
+      - src/my_other_python_package
       - --full-docs-folder
       - models
       - --full-docs-folder
