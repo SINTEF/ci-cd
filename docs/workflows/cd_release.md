@@ -72,7 +72,8 @@ The repository contains the following:
 | `release_branch` | The branch name to release/publish from. | No | main | _string_ |
 | `install_extras` | Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces.</br></br>Example: `'[dev,release]'`. | No | _Empty string_ | _string_ |
 | `relative` | Whether or not to use install the local Python package(s) as an editable. | No | `false` | _boolean_ |
-| `python_version` | The Python version to use for the workflow. | No | 3.9 | _string_ |
+| `python_version_build` | The Python version to use for the workflow when building the package. | No | 3.9 | _string_ |
+| `python_version_docs` | The Python version to use for the workflow when building the documentation. | No | 3.9 | _string_ |
 | `version_update_changes` | A single or multi-line string of changes to be implemented in the repository files upon updating the version. The string should be made up of three parts: 'file path', 'pattern', and 'replacement string'. These are separated by the 'version_update_changes_separator' value.</br>The 'file path' must _always_ either be relative to the repository root directory or absolute.</br>The 'pattern' should be given as a 'raw' Python string. | No | _Empty string_ | _string_ |
 | `version_update_changes_separator` | The separator to use for 'version_update_changes' when splitting the three parts of each string. | No | , | _string_ |
 | `build_cmd` | The package build command, e.g., `'pip install flit && flit build'` or `'python -m build'` (default). | No | `python -m build` | _string_ |

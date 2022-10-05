@@ -29,7 +29,7 @@ This job **should not be run** _if_ the repository does not implement `pre-commi
 | **Name** | **Description** | **Required** | **Default** | **Type** |
 |:--- |:--- |:---:|:---:|:---:|
 | `run_pre-commit` | Run the `pre-commit` test job. | No | `true` | _boolean_ |
-| `python_version` | The Python version to use for the workflow. | No | 3.9 | _string_ |
+| `python_version_pre-commit` | The Python version to use for the `pre-commit` test job. | No | 3.9 | _string_ |
 | `install_extras` | Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces.</br></br>Example: `'[dev,pre-commit]'`. | No | _Empty string_ | _string_ |
 | `skip_pre-commit_hooks` | A comma-separated list of pre-commit hook IDs to skip when running `pre-commit` after updating hooks. | No | _Empty string_ | _string_ |
 
@@ -57,7 +57,7 @@ There are no expectations or pre-requisites.
 |:--- |:--- |:---:|:---:|:---:|
 | `run_pylint` | Run the `pylint` test job. | No | `true` | _boolean_ |
 | `run_safety` | Run the `safety` test job. | No | `true` | _boolean_ |
-| `python_version` | The Python version to use for the workflow. | No | 3.9 | _string_ |
+| `python_version_pylint_safety` | The Python version to use for the `pylint` and `safety` test jobs. | No | 3.9 | _string_ |
 | `install_extras` | Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces.</br></br>Example: `'[dev,pre-commit]'`. | No | _Empty string_ | _string_ |
 | `pylint_targets` | Space-separated string of pylint file and folder targets.</br></br>**Note**: This is only valid if `pylint_runs` is not defined. | **Yes, if `pylint_runs` is not defined** | _Empty string_ | _string_ |
 | `pylint_options` | Single space-separated or multi-line string of pylint command line options.</br></br>**Note**: This is only valid if `pylint_runs` is not defined. | No | _Empty string_ | _string_ |
@@ -79,7 +79,7 @@ The repository should be a "buildable" Python package.
 | **Name** | **Description** | **Required** | **Default** | **Type** |
 |:--- |:--- |:---:|:---:|:---:|
 | `run_build_package` | Run the `build package` test job. | No | `true` | _boolean_ |
-| `python_version` | The Python version to use for the workflow. | No | 3.9 | _string_ |
+| `python_version_package` | The Python version to use for the `build package` test job. | No | 3.9 | _string_ |
 | `build_libs` | A space-separated list of packages to install via PyPI (`pip install`). | No | _Empty string_ | _string_ |
 | `build_cmd` | The package build command, e.g., `'flit build'` or `'python -m build'` (default). | No | `python -m build` | _string_ |
 
@@ -105,7 +105,7 @@ This requires at minimum a `mkdocs.yml` configuration file.
 | `run_build_docs` | Run the `build package` test job. | No | `true` | _boolean_ |
 | `update_python_api_ref` | Whether or not to update the Python API documentation reference.</br></br>**Note**: If this is `true`, `package_dirs` is _required_. | No | `true` | _boolean_ |
 | `update_docs_landing_page` | Whether or not to update the documentation landing page. The landing page will be based on the root README.md file. | No | `true` | _boolean_ |
-| `python_version` | The Python version to use for the workflow. | No | 3.9 | _string_ |
+| `python_version_docs` | The Python version to use for the `build documentation` test job. | No | 3.9 | _string_ |
 | `install_extras` | Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces.</br></br>**Example**: `'[dev,docs]'`. | No | _Empty string_ | _string_ |
 | `relative` | Whether or not to use install the local Python package(s) as an editable. | No | `false` | _boolean_ |
 | `package_dirs` | A single or multi-line string of path to Python package directories relative to the repository directory to be considered for creating the Python API reference documentation.</br></br>**Example**: `'src/my_package'`. | **Yes, if `update_python_api_ref` is `true` (default)** | _Empty string_ | _string_ |
@@ -137,7 +137,8 @@ jobs:
     name: Run basic tests
     uses: SINTEF/ci-cd/.github/workflows/ci_tests.yml@v1
     with:
-      python_version: "3.8"
+      python_version_pylint_safety: "3.8"
+      python_version_docs: "3.7"
       install_extras: "[dev,docs]"
       skip_pre-commit_hooks: pylint
       pylint_options: --rcfile=pyproject.toml
@@ -164,7 +165,8 @@ jobs:
     name: Run basic tests
     uses: SINTEF/ci-cd/.github/workflows/ci_tests.yml@v1
     with:
-      python_version: "3.8"
+      python_version_pylint_safety: "3.8"
+      python_version_docs: "3.7"
       install_extras: "[dev,docs]"
       skip_pre-commit_hooks: pylint
       pylint_runs: |
@@ -197,7 +199,10 @@ However, it is recommended to instead refer to the job-specific tables of inputs
 | `run_build_docs` | Run the `build package` test job. | No | `true` | _boolean_ |
 | `update_python_api_ref` | Whether or not to update the Python API documentation reference.</br></br>**Note**: If this is `true`, `package_dirs` is _required_. | No | `true` | _boolean_ |
 | `update_docs_landing_page` | Whether or not to update the documentation landing page. The landing page will be based on the root README.md file. | No | `true` | _boolean_ |
-| `python_version` | The Python version to use for the workflow. | No | 3.9 | _string_ |
+| `python_version_pre-commit` | The Python version to use for the `pre-commit` test job. | No | 3.9 | _string_ |
+| `python_version_pylint_safety` | The Python version to use for the `pylint` and `safety` test jobs. | No | 3.9 | _string_ |
+| `python_version_package` | The Python version to use for the `build package` test job. | No | 3.9 | _string_ |
+| `python_version_docs` | The Python version to use for the `build documentation` test job. | No | 3.9 | _string_ |
 | `install_extras` | Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces.</br></br>**Example**: `'[dev,docs]'`. | No | _Empty string_ | _string_ |
 | `relative` | Whether or not to use install the local Python package(s) as an editable, _only_ when running the `build_docs` job. | No | `false` | _boolean_ |
 | `package_dirs` | A single or multi-line string of path to Python package directories relative to the repository directory to be considered for creating the Python API reference documentation.</br></br>**Example**: `'src/my_package'`. | **Yes, if `update_python_api_ref` is `true` (default)** | _Empty string_ | _string_ |

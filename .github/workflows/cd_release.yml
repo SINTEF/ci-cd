@@ -38,8 +38,13 @@ on:
         required: false
         type: boolean
         default: false
-      python_version:
-        description: "The Python version to use for the workflow."
+      python_version_build:
+        description: "The Python version to use for the workflow when building the package."
+        required: false
+        type: string
+        default: "3.9"
+      python_version_docs:
+        description: "The Python version to use for the workflow when building the documentation."
         required: false
         type: string
         default: "3.9"
@@ -113,10 +118,10 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Set up Python ${{ inputs.python_version }}
+    - name: Set up Python ${{ inputs.python_version_build }}
       uses: actions/setup-python@v4
       with:
-        python-version: "${{ inputs.python_version }}"
+        python-version: "${{ inputs.python_version_build }}"
 
     - name: Install Python dependencies
       run: |
@@ -266,10 +271,10 @@ jobs:
         fetch-depth: 0
         ref: ${{ inputs.release_branch }}
 
-    - name: Set up Python ${{ inputs.python_version }}
+    - name: Set up Python ${{ inputs.python_version_docs }}
       uses: actions/setup-python@v4
       with:
-        python-version: "${{ inputs.python_version }}"
+        python-version: "${{ inputs.python_version_docs }}"
 
     - name: Install Python dependencies
       run: |

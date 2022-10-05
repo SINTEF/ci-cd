@@ -28,8 +28,23 @@ on:
         required: false
         type: boolean
         default: true
-      python_version:
-        description: "The Python version to use for the workflow."
+      python_version_pre-commit:
+        description: "The Python version to use for the `pre-commit` test job."
+        required: false
+        type: string
+        default: "3.9"
+      python_version_pylint_safety:
+        description: "The Python version to use for the `pylint` and `safety` test jobs."
+        required: false
+        type: string
+        default: "3.9"
+      python_version_package:
+        description: "The Python version to use for the `build package` test job."
+        required: false
+        type: string
+        default: "3.9"
+      python_version_docs:
+        description: "The Python version to use for the `build documentation` test job."
         required: false
         type: string
         default: "3.9"
@@ -144,10 +159,10 @@ jobs:
     - name: Checkout ${{ github.repository }}
       uses: actions/checkout@v3
 
-    - name: Set up Python ${{ inputs.python_version }}
+    - name: Set up Python ${{ inputs.python_version_pre-commit }}
       uses: actions/setup-python@v4
       with:
-        python-version: "${{ inputs.python_version }}"
+        python-version: "${{ inputs.python_version_pre-commit }}"
 
     - name: Install Python dependencies
       run: |
@@ -169,10 +184,10 @@ jobs:
       with:
         fetch-depth: 2
 
-    - name: Set up Python ${{ inputs.python_version }}
+    - name: Set up Python ${{ inputs.python_version_pylint_safety }}
       uses: actions/setup-python@v4
       with:
-        python-version: "${{ inputs.python_version }}"
+        python-version: "${{ inputs.python_version_pylint_safety }}"
 
     - name: Install dependencies
       run: |
@@ -225,10 +240,10 @@ jobs:
     - name: Checkout ${{ github.repository }}
       uses: actions/checkout@v3
 
-    - name: Set up Python ${{ inputs.python_version }}
+    - name: Set up Python ${{ inputs.python_version_package }}
       uses: actions/setup-python@v4
       with:
-        python-version: "${{ inputs.python_version }}"
+        python-version: "${{ inputs.python_version_package }}"
 
     - name: Install Python dependencies
       run: |
@@ -252,10 +267,10 @@ jobs:
       with:
         fetch-depth: 2
 
-    - name: Set up Python ${{ inputs.python_version }}
+    - name: Set up Python ${{ inputs.python_version_docs }}
       uses: actions/setup-python@v4
       with:
-        python-version: "${{ inputs.python_version }}"
+        python-version: "${{ inputs.python_version_docs }}"
 
     - name: Install Python dependencies
       run: |
