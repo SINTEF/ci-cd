@@ -17,7 +17,7 @@ See the [pre-commit website](https://pre-commit.com) to learn more about how to 
 
 ## License & copyright
 
-This repository licensed under the  [MIT LICENSE](LICENSE) with copyright &copy; 2022 Casper Welzel Andersen ([CasperWA](https://github.com/CasperWA)) & SINTEF ([on GitHub](https://github.com/SINTEF)).
+This repository is licensed under the [MIT LICENSE](LICENSE) with copyright &copy; 2022 Casper Welzel Andersen ([CasperWA](https://github.com/CasperWA)) & SINTEF ([on GitHub](https://github.com/SINTEF)).
 
 ## Funding support
 

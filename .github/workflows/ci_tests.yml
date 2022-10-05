@@ -108,6 +108,11 @@ on:
         required: false
         type: string
         default: ""
+      special_file_api_ref_options:
+        description: "A single or multi-line string of combinations of a relative path to a Python file and a fully formed mkdocstrings option that should be added to the generated MarkDown file for the Python API reference documentation. Example: 'my_module/py_file.py,show_bases:false'. Encapsulate the value in double quotation marks (\") if including spaces ( ). Important: If multiple `package_dirs` are supplied, the relative path MUST include/start with the appropriate 'package_dir' value, e.g., '\"my_package/my_module/py_file.py,show_bases: false\"'."
+        required: false
+        type: string
+        default: ""
       landing_page_replacements:
         description: "A single or multi-line string of replacements (mappings) to be performed on README.md when creating the documentation's landing page (index.md). This list ALWAYS includes replacing `'docs/'` with an empty string to correct relative links, i.e., this cannot be overwritten. By default `'(LICENSE)'` is replaced by `'(LICENSE.md)'`."
         required: false
@@ -274,6 +279,7 @@ jobs:
         UNWANTED_FOLDERS=()
         UNWANTED_FILES=()
         FULL_DOCS_FOLDERS=()
+        SPECIAL_OPTIONS=()
         while IFS= read -r line; do
           if [ -n "${line}" ]; then PACKAGE_DIRS+=(--package-dir="${line}"); fi
         done <<< "${{ inputs.package_dirs }}"
@@ -286,6 +292,9 @@ jobs:
         while IFS= read -r line; do
           if [ -n "${line}" ]; then FULL_DOCS_FOLDERS+=(--full-docs-folder="${line}"); fi
         done <<< "${{ inputs.full_docs_dirs }}"
+        while IFS= read -r line; do
+          if [ -n "${line}" ]; then SPECIAL_OPTIONS+=(--special-option="${line}"); fi
+        done <<< "${{ inputs.special_file_api_ref_options }}"
 
         ci-cd create-api-reference-docs ${DEBUG} ${RELATIVE} \
           --pre-clean \
@@ -293,7 +302,8 @@ jobs:
           "${PACKAGE_DIRS[@]}" \
           "${UNWANTED_FOLDERS[@]}" \
           "${UNWANTED_FILES[@]}" \
-          "${FULL_DOCS_FOLDERS[@]}"
+          "${FULL_DOCS_FOLDERS[@]}" \
+          "${SPECIAL_OPTIONS[@]}"
 
     - name: Update landing page
       if: inputs.update_docs_landing_page
