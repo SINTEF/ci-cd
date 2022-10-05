@@ -17,7 +17,6 @@ jobs:
       publish_on_pypi: false
       package_dir: ci_cd
       release_branch: main
-      python_version: "3.9"
       build_cmd: ".github/utils/update_tags.sh"
       update_docs: true
       doc_extras: "[docs]"
