@@ -710,9 +710,13 @@ def create_docs_index(  # pylint: disable=too-many-locals
         context: "Context" = context
         pre_commit: bool = pre_commit
         root_repo_path: str = root_repo_path
-        docs_folder: str = docs_folder
-        replacement: list[str] = replacement
         replacement_separator: str = replacement_separator
+
+    docs_folder: Path = Path(docs_folder)
+
+    if not replacement:
+        replacement: list[str] = []
+    replacement.append(f"{docs_folder.name}/{replacement_separator}")
 
     if pre_commit and root_repo_path == ".":
         # Use git to determine repo root
