@@ -467,11 +467,6 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
             "models or to ensure all class attributes are listed. This input option "
             "can be supplied multiple times."
         ),
-        "relative": (
-            "Whether or not to use relative Python import links in the API reference "
-            "markdown files."
-        ),
-        "debug": "Whether or not to print debug statements.",
         "special-option": (
             "A combination of a relative path to a file and a fully formed "
             "mkdocstrings option that should be added to the generated MarkDown file. "
@@ -484,6 +479,11 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
             "option can be supplied multiple times. The options will be accumulated "
             "for the same file, if given several times."
         ),
+        "relative": (
+            "Whether or not to use relative Python import links in the API reference "
+            "markdown files."
+        ),
+        "debug": "Whether or not to print debug statements.",
     },
     iterable=[
         "package_dir",
@@ -503,9 +503,9 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
     unwanted_folder=None,
     unwanted_file=None,
     full_docs_folder=None,
+    special_option=None,
     relative=False,
     debug=False,
-    special_option=None,
 ):
     """Create the Python API Reference in the documentation."""
     import os
