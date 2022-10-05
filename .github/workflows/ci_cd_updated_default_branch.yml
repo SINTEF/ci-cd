@@ -78,6 +78,11 @@ on:
         required: false
         type: string
         default: ""
+      full_docs_files:
+        description: "A single or multi-line string of relative paths to files in which to include everything - even those without documentation strings. This may be useful for a file full of data models or to ensure all class attributes are listed."
+        required: false
+        type: string
+        default: ""
       special_file_api_ref_options:
         description: "A single or multi-line string of combinations of a relative path to a Python file and a fully formed mkdocstrings option that should be added to the generated MarkDown file for the Python API reference documentation. Example: 'my_module/py_file.py,show_bases:false'. Encapsulate the value in double quotation marks (\") if including spaces ( ). Important: If multiple `package_dirs` are supplied, the relative path MUST include/start with the appropriate 'package_dir' value, e.g., '\"my_package/my_module/py_file.py,show_bases: false\"'."
         required: false
@@ -183,6 +188,7 @@ jobs:
         UNWANTED_FOLDERS=()
         UNWANTED_FILES=()
         FULL_DOCS_FOLDERS=()
+        FULL_DOCS_FILES=()
         SPECIAL_OPTIONS=()
         while IFS= read -r line; do
           if [ -n "${line}" ]; then PACKAGE_DIRS+=(--package-dir="${line}"); fi
@@ -197,6 +203,9 @@ jobs:
           if [ -n "${line}" ]; then FULL_DOCS_FOLDERS+=(--full-docs-folder="${line}"); fi
         done <<< "${{ inputs.full_docs_dirs }}"
         while IFS= read -r line; do
+          if [ -n "${line}" ]; then FULL_DOCS_FILES+=(--full-docs-file="${line}"); fi
+        done <<< "${{ inputs.full_docs_files }}"
+        while IFS= read -r line; do
           if [ -n "${line}" ]; then SPECIAL_OPTIONS+=(--special-option="${line}"); fi
         done <<< "${{ inputs.special_file_api_ref_options }}"
 
@@ -207,6 +216,7 @@ jobs:
           "${UNWANTED_FOLDERS[@]}" \
           "${UNWANTED_FILES[@]}" \
           "${FULL_DOCS_FOLDERS[@]}" \
+          "${FULL_DOCS_FILES[@]}" \
           "${SPECIAL_OPTIONS[@]}"
 
     - name: Update landing page
