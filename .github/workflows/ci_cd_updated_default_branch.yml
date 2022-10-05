@@ -34,12 +34,12 @@ on:
         type: boolean
         default: false
       update_python_api_ref:
-        description: "Whether or not to update the Python API documentation reference. **Note**: If this is 'true', 'package_dir' is _required_."
+        description: "Whether or not to update the Python API documentation reference. **Note**: If this is 'true', 'package_dirs' is _required_."
         required: false
         type: boolean
         default: true
-      package_dir:
-        description: "Path to the Python package directory relative to the repository directory. Example: `'src/my_package'`. **Important**: This is _required_ if 'update_docs' and 'update_python_api_ref' are 'true'."
+      package_dirs:
+        description: "A single or multi-line string of paths to Python package directories relative to the repository directory to be considered for creating the Python API reference documentation. Example: `'src/my_package'`. **Important**: This is _required_ if 'update_docs' and 'update_python_api_ref' are 'true'."
         required: false
         type: string
         default: ""
@@ -164,8 +164,8 @@ jobs:
     - name: Update API Reference
       if: env.RELEASE_RUN == 'false' && inputs.update_python_api_ref
       run: |
-        if [ -z "${{ inputs.package_dir }}" ]; then
-          echo "package_dir MUST be supplied, since update_docs and update_python_api_ref were set to 'true'."
+        if [ -z "${{ inputs.package_dirs }}" ]; then
+          echo "package_dirs MUST be supplied, since update_docs and update_python_api_ref were set to 'true'."
           exit 1
         fi
 
@@ -174,9 +174,13 @@ jobs:
         if [ "${{ inputs.test }}" == "true" ]; then DEBUG=--debug; fi
         if [ "${{ inputs.relative }}" == "true" ]; then RELATIVE=--relative; fi
 
+        PACKAGE_DIRS=()
         UNWANTED_FOLDERS=()
         UNWANTED_FILES=()
         FULL_DOCS_FOLDERS=()
+        while IFS= read -r line; do
+          if [ -n "${line}" ]; then PACKAGE_DIRS+=(--package-dir="${line}"); fi
+        done <<< "${{ inputs.package_dirs }}"
         while IFS= read -r line; do
           if [ -n "${line}" ]; then UNWANTED_FOLDERS+=(--unwanted-folder="${line}"); fi
         done <<< "${{ inputs.exclude_dirs }}"
@@ -190,7 +194,7 @@ jobs:
         ci-cd create-api-reference-docs ${DEBUG} ${RELATIVE} \
           --pre-clean \
           --root-repo-path=${PWD} \
-          --package-dir="${{ inputs.package_dir }}" \
+          "${PACKAGE_DIRS[@]}" \
           "${UNWANTED_FOLDERS[@]}" \
           "${UNWANTED_FILES[@]}" \
           "${FULL_DOCS_FOLDERS[@]}"
