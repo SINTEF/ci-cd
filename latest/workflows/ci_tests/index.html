@@ -1031,7 +1031,7 @@ This requires at minimum a <code>mkdocs.yml</code> configuration file.</p>
 </tr>
 <tr>
 <td align="left"><code>update_python_api_ref</code></td>
-<td align="left">Whether or not to update the Python API documentation reference.</br></br><strong>Note</strong>: If this is <code>true</code>, <code>package_dir</code> is <em>required</em>.</td>
+<td align="left">Whether or not to update the Python API documentation reference.</br></br><strong>Note</strong>: If this is <code>true</code>, <code>package_dirs</code> is <em>required</em>.</td>
 <td align="center">No</td>
 <td align="center"><code>true</code></td>
 <td align="center"><em>boolean</em></td>
@@ -1065,8 +1065,8 @@ This requires at minimum a <code>mkdocs.yml</code> configuration file.</p>
 <td align="center"><em>boolean</em></td>
 </tr>
 <tr>
-<td align="left"><code>package_dir</code></td>
-<td align="left">Path to the Python package directory relative to the repository directory.</br></br><strong>Example</strong>: <code>'src/my_package'</code>.</td>
+<td align="left"><code>package_dirs</code></td>
+<td align="left">A single or multi-line string of path to Python package directories relative to the repository directory to be considered for creating the Python API reference documentation.</br></br><strong>Example</strong>: <code>'src/my_package'</code>.</td>
 <td align="center"><strong>Yes, if <code>update_python_api_ref</code> is <code>true</code> (default)</strong></td>
 <td align="center"><em>Empty string</em></td>
 <td align="center"><em>string</em></td>
@@ -1266,7 +1266,7 @@ However, it is recommended to instead refer to the job-specific tables of inputs
 </tr>
 <tr>
 <td align="left"><code>update_python_api_ref</code></td>
-<td align="left">Whether or not to update the Python API documentation reference.</br></br><strong>Note</strong>: If this is <code>true</code>, <code>package_dir</code> is <em>required</em>.</td>
+<td align="left">Whether or not to update the Python API documentation reference.</br></br><strong>Note</strong>: If this is <code>true</code>, <code>package_dirs</code> is <em>required</em>.</td>
 <td align="center">No</td>
 <td align="center"><code>true</code></td>
 <td align="center"><em>boolean</em></td>
@@ -1300,8 +1300,8 @@ However, it is recommended to instead refer to the job-specific tables of inputs
 <td align="center"><em>boolean</em></td>
 </tr>
 <tr>
-<td align="left"><code>package_dir</code></td>
-<td align="left">Path to the Python package directory relative to the repository directory.</br></br><strong>Example</strong>: <code>'src/my_package'</code>.</td>
+<td align="left"><code>package_dirs</code></td>
+<td align="left">A single or multi-line string of path to Python package directories relative to the repository directory to be considered for creating the Python API reference documentation.</br></br><strong>Example</strong>: <code>'src/my_package'</code>.</td>
 <td align="center"><strong>Yes, if <code>update_python_api_ref</code> is <code>true</code> (default)</strong></td>
 <td align="center"><em>Empty string</em></td>
 <td align="center"><em>string</em></td>

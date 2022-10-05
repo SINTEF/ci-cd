@@ -618,7 +618,7 @@ The latter is the default.</p>
 And likewise set <code>relative</code> to <code>false</code> if a proper resolvable Python import statement is to be used, without forcing the <code>-e</code> option.
 The latter is the default.</p>
 <h2 id="expectations">Expectations<a class="headerlink" href="#expectations" title="Permanent link">&para;</a></h2>
-<p>It is <strong>required</strong> to specify the <code>--package-dir</code> argument through the <code>args</code> key.</p>
+<p>It is <strong>required</strong> to specify the <code>--package-dir</code> argument at least once through the <code>args</code> key.</p>
 <p>Otherwise, as noted above, without the proper framework, the created markdown files will not bring about the desired result in a built documentation.</p>
 <h2 id="options">Options<a class="headerlink" href="#options" title="Permanent link">&para;</a></h2>
 <p>Any of these options can be given through the <code>args</code> key when defining the hook.</p>
@@ -635,7 +635,7 @@ The latter is the default.</p>
 <tbody>
 <tr>
 <td align="left"><code>--package-dir</code></td>
-<td align="left">Relative path to package dir from the repository root, e.g., 'src/my_package'.</td>
+<td align="left">Relative path to a package dir from the repository root, e.g., 'src/my_package'.</br></br>This input option can be supplied multiple times.</td>
 <td align="center"><strong><em>Yes</em></strong></td>
 <td align="center"></td>
 <td align="center"><em>string</em></td>
@@ -694,7 +694,9 @@ It is meant to be complete as is.</p>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docs-api-reference</span><span class="w"></span>
 <span class="w">      </span><span class="nt">args</span><span class="p">:</span><span class="w"></span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--package-dir</span><span class="w"></span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my_python_package</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">src/my_python_package</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--package-dir</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">src/my_other_python_package</span><span class="w"></span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--full-docs-folder</span><span class="w"></span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">models</span><span class="w"></span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--full-docs-folder</span><span class="w"></span>

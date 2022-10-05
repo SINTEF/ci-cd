@@ -624,7 +624,7 @@ See the <a href="../../hooks/docs_api_reference/#using-it-together-with-cicd-wor
 <h2 id="expectations">Expectations<a class="headerlink" href="#expectations" title="Permanent link">&para;</a></h2>
 <p>The repository contains the following:</p>
 <ul>
-<li>(<strong>required</strong>) A single Python package is contained in the <code>package_dir</code> directory.</li>
+<li>(<strong>required</strong>) At least one Python package exists that can be pointed to for the <code>package_dirs</code> input.</li>
 <li>(<strong>required</strong>) <em>Only if also updating the documentation</em>, then the documentation should be contained in a root <code>docs</code> directory.</li>
 <li>(<strong>required</strong>) <em>Only if also updating the documentation</em>, then a root <code>README.md</code> file must exist and desired to be used as the documentation's landing page if the <code>update_docs_landing_page</code> is set to <code>true</code>, which is the default.</li>
 </ul>
@@ -684,14 +684,14 @@ See the <a href="../../hooks/docs_api_reference/#using-it-together-with-cicd-wor
 </tr>
 <tr>
 <td align="left"><code>update_python_api_ref</code></td>
-<td align="left">Whether or not to update the Python API documentation reference.</br></br><strong>Note</strong>: If this is 'true', 'package_dir' is <em>required</em>.</td>
+<td align="left">Whether or not to update the Python API documentation reference.</br></br><strong>Note</strong>: If this is 'true', 'package_dirs' is <em>required</em>.</td>
 <td align="center">No</td>
 <td align="center"><code>true</code></td>
 <td align="center"><em>boolean</em></td>
 </tr>
 <tr>
-<td align="left"><code>package_dir</code></td>
-<td align="left">Path to the Python package directory relative to the repository directory.</br></br>Example: <code>'src/my_package'</code>.</br></br><strong>Important</strong>: This is <em>required</em> if 'update_docs' and 'update_python_api_ref' are 'true'.</td>
+<td align="left"><code>package_dirs</code></td>
+<td align="left">A single or multi-line string of paths to Python package directories relative to the repository directory to be considered for creating the Python API reference documentation.</br></br>Example: <code>'src/my_package'</code>.</br></br><strong>Important</strong>: This is <em>required</em> if 'update_docs' and 'update_python_api_ref' are 'true'.</td>
 <td align="center"><strong><em>Yes</em> (if 'update_docs' and 'update_python_api_ref' are 'true')</strong></td>
 <td align="center"></td>
 <td align="center"><em>string</em></td>
@@ -820,7 +820,9 @@ It is meant to be complete as is.</p>
 <span class="w">      </span><span class="nt">default_repo_branch</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stable</span><span class="w"></span>
 <span class="w">      </span><span class="nt">permanent_dependencies_branch</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ci/dependency-updates&quot;</span><span class="w"></span>
 <span class="w">      </span><span class="nt">update_docs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
-<span class="w">      </span><span class="nt">package_dir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my_python_package</span><span class="w"></span>
+<span class="w">      </span><span class="nt">package_dirs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="w"></span>
+<span class="w">        </span><span class="no">my_python_package</span><span class="w"></span>
+<span class="w">        </span><span class="no">my_other_python_package</span><span class="w"></span>
 <span class="w">      </span><span class="nt">doc_extras</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;[docs]&quot;</span><span class="w"></span>
 <span class="w">      </span><span class="nt">exclude_files</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">__init__.py,config.py</span><span class="w"></span>
 <span class="w">      </span><span class="nt">full_docs_dirs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">models</span><span class="w"></span>
