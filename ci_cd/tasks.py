@@ -1,16 +1,17 @@
 """Repository management tasks powered by `invoke`.
 More information on `invoke` can be found at [pyinvoke.org](http://www.pyinvoke.org/).
 """
+import os
 import re
+import shutil
 import sys
 import traceback
-
-# pylint: disable=import-outside-toplevel
 from collections import defaultdict
 from enum import Enum
 from pathlib import Path
 from typing import TYPE_CHECKING
 
+import tomlkit
 from invoke import task
 
 if TYPE_CHECKING:  # pragma: no cover
@@ -305,8 +306,6 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
     context, root_repo_path=".", fail_fast=False, pre_commit=False
 ):
     """Update dependencies in specified Python package's `pyproject.toml`."""
-    import tomlkit
-
     if TYPE_CHECKING:  # pragma: no cover
         context: "Context" = context
         root_repo_path: str = root_repo_path
@@ -516,9 +515,6 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
     debug=False,
 ):
     """Create the Python API Reference in the documentation."""
-    import os
-    import shutil
-
     if TYPE_CHECKING:  # pragma: no cover
         context: "Context" = context
         pre_clean: bool = pre_clean
