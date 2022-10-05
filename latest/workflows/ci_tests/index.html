@@ -849,8 +849,8 @@ For more information about <code>pre-commit</code>, please see the tool's websit
 <td align="center"><em>boolean</em></td>
 </tr>
 <tr>
-<td align="left"><code>python_version</code></td>
-<td align="left">The Python version to use for the workflow.</td>
+<td align="left"><code>python_version_pre-commit</code></td>
+<td align="left">The Python version to use for the <code>pre-commit</code> test job.</td>
 <td align="center">No</td>
 <td align="center">3.9</td>
 <td align="center"><em>string</em></td>
@@ -909,8 +909,8 @@ For each line in <code>pylint_runs</code>, <code>pylint</code> will be executed.
 <td align="center"><em>boolean</em></td>
 </tr>
 <tr>
-<td align="left"><code>python_version</code></td>
-<td align="left">The Python version to use for the workflow.</td>
+<td align="left"><code>python_version_pylint_safety</code></td>
+<td align="left">The Python version to use for the <code>pylint</code> and <code>safety</code> test jobs.</td>
 <td align="center">No</td>
 <td align="center">3.9</td>
 <td align="center"><em>string</em></td>
@@ -977,8 +977,8 @@ For each line in <code>pylint_runs</code>, <code>pylint</code> will be executed.
 <td align="center"><em>boolean</em></td>
 </tr>
 <tr>
-<td align="left"><code>python_version</code></td>
-<td align="left">The Python version to use for the workflow.</td>
+<td align="left"><code>python_version_package</code></td>
+<td align="left">The Python version to use for the <code>build package</code> test job.</td>
 <td align="center">No</td>
 <td align="center">3.9</td>
 <td align="center"><em>string</em></td>
@@ -1044,8 +1044,8 @@ This requires at minimum a <code>mkdocs.yml</code> configuration file.</p>
 <td align="center"><em>boolean</em></td>
 </tr>
 <tr>
-<td align="left"><code>python_version</code></td>
-<td align="left">The Python version to use for the workflow.</td>
+<td align="left"><code>python_version_docs</code></td>
+<td align="left">The Python version to use for the <code>build documentation</code> test job.</td>
 <td align="center">No</td>
 <td align="center">3.9</td>
 <td align="center"><em>string</em></td>
@@ -1145,7 +1145,8 @@ It is meant to be complete as is.</p>
 <span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run basic tests</span><span class="w"></span>
 <span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SINTEF/ci-cd/.github/workflows/ci_tests.yml@v1</span><span class="w"></span>
 <span class="w">    </span><span class="nt">with</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="nt">python_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.8&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="nt">python_version_pylint_safety</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.8&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="nt">python_version_docs</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.7&quot;</span><span class="w"></span>
 <span class="w">      </span><span class="nt">install_extras</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;[dev,docs]&quot;</span><span class="w"></span>
 <span class="w">      </span><span class="nt">skip_pre-commit_hooks</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pylint</span><span class="w"></span>
 <span class="w">      </span><span class="nt">pylint_options</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--rcfile=pyproject.toml</span><span class="w"></span>
@@ -1169,7 +1170,8 @@ It is meant to be complete as is.</p>
 <span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run basic tests</span><span class="w"></span>
 <span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SINTEF/ci-cd/.github/workflows/ci_tests.yml@v1</span><span class="w"></span>
 <span class="w">    </span><span class="nt">with</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="nt">python_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.8&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="nt">python_version_pylint_safety</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.8&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="nt">python_version_docs</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.7&quot;</span><span class="w"></span>
 <span class="w">      </span><span class="nt">install_extras</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;[dev,docs]&quot;</span><span class="w"></span>
 <span class="w">      </span><span class="nt">skip_pre-commit_hooks</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pylint</span><span class="w"></span>
 <span class="w">      </span><span class="nt">pylint_runs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="w"></span>
@@ -1293,8 +1295,29 @@ However, it is recommended to instead refer to the job-specific tables of inputs
 <td align="center"><em>boolean</em></td>
 </tr>
 <tr>
-<td align="left"><code>python_version</code></td>
-<td align="left">The Python version to use for the workflow.</td>
+<td align="left"><code>python_version_pre-commit</code></td>
+<td align="left">The Python version to use for the <code>pre-commit</code> test job.</td>
+<td align="center">No</td>
+<td align="center">3.9</td>
+<td align="center"><em>string</em></td>
+</tr>
+<tr>
+<td align="left"><code>python_version_pylint_safety</code></td>
+<td align="left">The Python version to use for the <code>pylint</code> and <code>safety</code> test jobs.</td>
+<td align="center">No</td>
+<td align="center">3.9</td>
+<td align="center"><em>string</em></td>
+</tr>
+<tr>
+<td align="left"><code>python_version_package</code></td>
+<td align="left">The Python version to use for the <code>build package</code> test job.</td>
+<td align="center">No</td>
+<td align="center">3.9</td>
+<td align="center"><em>string</em></td>
+</tr>
+<tr>
+<td align="left"><code>python_version_docs</code></td>
+<td align="left">The Python version to use for the <code>build documentation</code> test job.</td>
 <td align="center">No</td>
 <td align="center">3.9</td>
 <td align="center"><em>string</em></td>
