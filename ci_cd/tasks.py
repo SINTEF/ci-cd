@@ -1,6 +1,7 @@
 """Repository management tasks powered by `invoke`.
 More information on `invoke` can be found at [pyinvoke.org](http://www.pyinvoke.org/).
 """
+import logging
 import os
 import re
 import shutil
@@ -18,6 +19,10 @@ if TYPE_CHECKING:  # pragma: no cover
     from typing import Optional, Tuple, Union
 
     from invoke import Context, Result
+
+
+LOGGER = logging.getLogger(__file__)
+LOGGER.setLevel(logging.DEBUG)
 
 
 class Emoji(str, Enum):
@@ -232,8 +237,10 @@ def setver(  # pylint: disable=too-many-locals
                     code_base_update_separator
                 )
             except ValueError:
+                msg = traceback.format_exc()
+                LOGGER.error(msg)
                 if test:
-                    print(traceback.format_exc())
+                    print(msg)
                 sys.exit(
                     f"{Emoji.CROSS_MARK.value} Error: Could not properly extract "
                     "'file path', 'pattern', 'replacement string' from the "
@@ -255,10 +262,24 @@ def setver(  # pylint: disable=too-many-locals
                 errors.append(error_msg)
                 continue
 
+            LOGGER.debug(
+                """filepath: %s
+pattern: %r
+replacement (input): %s
+replacement (handled): %s
+""",
+                filepath,
+                pattern,
+                replacement,
+                replacement.format(
+                    **{"package_dir": package_dir, "version": semantic_version}
+                ),
+            )
             if test:
-                print(f"filepath: {filepath}")
-                print(f"pattern: {pattern!r}")
-                print(f"replacement (input): {replacement}")
+                print(
+                    f"filepath: {filepath}\npattern: {pattern!r}\n"
+                    f"replacement (input): {replacement}"
+                )
                 print(
                     "replacement (handled): "
                     f"{replacement.format(**{'package_dir': package_dir, 'version': semantic_version})}"  # pylint: disable=line-too-long
@@ -275,8 +296,10 @@ def setver(  # pylint: disable=too-many-locals
                     ),
                 )
             except re.error:
+                msg = traceback.format_exc()
+                LOGGER.error(msg)
                 if test:
-                    print(traceback.format_exc())
+                    print(msg)
                 sys.exit(
                     f"{Emoji.CROSS_MARK.value} Error: Could not update file {filepath}"
                     f" according to the given input:\n\n  pattern: {pattern}\n  "
@@ -349,6 +372,7 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
         )
         if match is None:
             msg = f"Could not parse package, operator, and version for line:\n  {line}"
+            LOGGER.warning(msg)
             if fail_fast:
                 sys.exit(msg)
             print(msg)
@@ -377,6 +401,7 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
                 "Could not parse package and version from 'pip index versions' output "
                 f"for line:\n  {package_latest_version_line}"
             )
+            LOGGER.warning(msg)
             if fail_fast:
                 sys.exit(msg)
             print(msg)
@@ -388,6 +413,7 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
                 " the name returned from 'pip index versions': "
                 f"{match.group('package')!r}"
             )
+            LOGGER.warning(msg)
             if fail_fast:
                 sys.exit(msg)
             print(msg)
@@ -554,6 +580,22 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
     package_dirs: list[Path] = [root_repo_path / _ for _ in package_dir]
     docs_api_ref_dir = root_repo_path / docs_folder / "api_reference"
 
+    LOGGER.debug(
+        """package_dirs: %s
+docs_api_ref_dir: %s
+unwanted_folder: %s
+unwanted_file: %s
+full_docs_folder: %s
+full_docs_file: %s
+special_option: %s""",
+        package_dirs,
+        docs_api_ref_dir,
+        unwanted_folder,
+        unwanted_file,
+        full_docs_folder,
+        full_docs_file,
+        special_option,
+    )
     if debug:
         print("package_dirs:", package_dirs, flush=True)
         print("docs_api_ref_dir:", docs_api_ref_dir, flush=True)
@@ -566,6 +608,9 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
     special_options_files = defaultdict(list)
     for special_file, option in [_.split(",", maxsplit=1) for _ in special_option]:
         if any("," in _ for _ in (special_file, option)):
+            LOGGER.error(
+                "Failing for special-option: %s", ",".join([special_file, option])
+            )
             if debug:
                 print(
                     "Failing for special-option:",
@@ -578,6 +623,7 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
             )
         special_options_files[special_file].append(option)
 
+    LOGGER.debug("special_options_files: %s", special_options_files)
     if debug:
         print("special_options_files:", special_options_files, flush=True)
 
@@ -594,6 +640,7 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
     )
 
     if docs_api_ref_dir.exists() and pre_clean:
+        LOGGER.debug("Removing %s", docs_api_ref_dir)
         if debug:
             print(f"Removing {docs_api_ref_dir}", flush=True)
         shutil.rmtree(docs_api_ref_dir, ignore_errors=True)
@@ -601,6 +648,7 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
             sys.exit(f"{docs_api_ref_dir} should have been removed!")
     docs_api_ref_dir.mkdir(exist_ok=True)
 
+    LOGGER.debug("Writing file: %s", docs_api_ref_dir / ".pages")
     if debug:
         print(f"Writing file: {docs_api_ref_dir / '.pages'}", flush=True)
     write_file(
@@ -615,6 +663,7 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
     for package in package_dirs:
         for dirpath, dirnames, filenames in os.walk(package):
             for unwanted in unwanted_folder:
+                LOGGER.debug("unwanted: %s\ndirnames: %s", unwanted, dirnames)
                 if debug:
                     print("unwanted:", unwanted, flush=True)
                     print("dirnames:", dirnames, flush=True)
@@ -628,21 +677,25 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
             abspath = (
                 package / relpath if single_package else package.parent / relpath
             ).resolve()
+            LOGGER.debug("relpath: %s\nabspath: %s", relpath, abspath)
             if debug:
                 print("relpath:", relpath, flush=True)
                 print("abspath:", abspath, flush=True)
 
             if not (abspath / "__init__.py").exists():
                 # Avoid paths that are not included in the public Python API
+                LOGGER.debug("does not exist: %s", abspath / "__init__.py")
                 print("does not exist:", abspath / "__init__.py", flush=True)
                 continue
 
             # Create `.pages`
             docs_sub_dir = docs_api_ref_dir / relpath
             docs_sub_dir.mkdir(exist_ok=True)
+            LOGGER.debug("docs_sub_dir: %s", docs_sub_dir)
             if debug:
                 print("docs_sub_dir:", docs_sub_dir, flush=True)
             if str(relpath) != ".":
+                LOGGER.debug("Writing file: %s", docs_sub_dir / ".pages")
                 if debug:
                     print(f"Writing file: {docs_sub_dir / '.pages'}", flush=True)
                 write_file(
@@ -666,6 +719,10 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
                     # Not a Python file: We don't care about it!
                     # Or filename is in the list of unwanted files:
                     # We don't want it!
+                    LOGGER.debug(
+                        "%s is not a Python file or is an unwanted file (through user input). Skipping it.",
+                        filename,
+                    )
                     if debug:
                         print(
                             f"{filename} is not a Python file or is an unwanted file "
@@ -683,6 +740,7 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
                     or (str(relpath) == package.name and not single_package)
                     else f"{py_path_root}/{relpath}/{filename.stem}".replace("/", ".")
                 )
+                LOGGER.debug("filename: %s\npy_path: %s", filename, py_path)
                 if debug:
                     print("filename:", filename, flush=True)
                     print("py_path:", py_path, flush=True)
@@ -710,6 +768,11 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
                     )
                     template += "\n"
 
+                LOGGER.debug(
+                    "template: %s\nWriting file: %s",
+                    template,
+                    docs_sub_dir / filename.with_suffix(".md"),
+                )
                 if debug:
                     print("template:", template, flush=True)
                     print(

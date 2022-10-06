@@ -250,3 +250,84 @@ def test_special_options_multiple_packages(tmp_path: "Path") -> None:
         another line
 """
     )
+
+
+def test_larger_package(tmp_path: "Path") -> None:
+    """Check create_api_reference_docs runs with a more 'complete' package."""
+    import os
+    import shutil
+    from pathlib import Path
+
+    from invoke import MockContext
+
+    from ci_cd.tasks import create_api_reference_docs
+
+    package_dir = tmp_path / "ci_cd"
+    new_submodules = [
+        package_dir / "module",
+        package_dir / "module" / "submodule",
+        package_dir / "second_module",
+    ]
+    for destination in [package_dir] + new_submodules:
+        shutil.copytree(
+            src=Path(__file__).resolve().parent.parent / "ci_cd",
+            dst=destination,
+        )
+
+    docs_folder = tmp_path / "docs"
+    docs_folder.mkdir()
+
+    create_api_reference_docs(
+        MockContext(),
+        [str(package_dir.relative_to(tmp_path))],
+        root_repo_path=str(tmp_path),
+    )
+
+    api_reference_folder = docs_folder / "api_reference"
+
+    assert docs_folder.exists(), f"Parent content: {os.listdir(docs_folder.parent)}"
+    assert (
+        api_reference_folder.exists()
+    ), f"Parent content: {os.listdir(api_reference_folder.parent)}"
+    assert {".pages", "main.md", "tasks.md", "module", "second_module"} == set(
+        os.listdir(api_reference_folder)
+    )
+    for module_dir in [
+        api_reference_folder / _.relative_to(package_dir) for _ in new_submodules
+    ]:
+        extra_dir_content = {"submodule"} if module_dir.name == "module" else set()
+        assert module_dir.exists(), f"Parent content: {os.listdir(module_dir.parent)}"
+        assert {".pages", "main.md", "tasks.md"} | extra_dir_content == set(
+            os.listdir(module_dir)
+        ), f"module_dir: {module_dir.relative_to(api_reference_folder)}"
+
+    assert (api_reference_folder / ".pages").read_text(
+        encoding="utf8"
+    ) == 'title: "API Reference"\n'
+    assert (api_reference_folder / "main.md").read_text(
+        encoding="utf8"
+    ) == "# main\n\n::: ci_cd.main\n"
+    assert (api_reference_folder / "tasks.md").read_text(
+        encoding="utf8"
+    ) == "# tasks\n\n::: ci_cd.tasks\n"
+    for module_dir in [
+        api_reference_folder / _.relative_to(package_dir) for _ in new_submodules
+    ]:
+        py_path = f"{package_dir.name}." + str(
+            module_dir.relative_to(api_reference_folder)
+        ).replace("/", ".")
+        assert (module_dir / ".pages").read_text(
+            encoding="utf8"
+        ) == f'title: "{module_dir.name}"\n', (
+            f"module_dir: {module_dir.relative_to(api_reference_folder)}"
+        )
+        assert (module_dir / "main.md").read_text(
+            encoding="utf8"
+        ) == f"# main\n\n::: {py_path}.main\n", (
+            f"module_dir: {module_dir.relative_to(api_reference_folder)}"
+        )
+        assert (module_dir / "tasks.md").read_text(
+            encoding="utf8"
+        ) == f"# tasks\n\n::: {py_path}.tasks\n", (
+            f"module_dir: {module_dir.relative_to(api_reference_folder)}"
+        )
