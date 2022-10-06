@@ -738,7 +738,9 @@ special_option: %s""",
                     f"{py_path_root}/{filename.stem}".replace("/", ".")
                     if str(relpath) == "."
                     or (str(relpath) == package.name and not single_package)
-                    else f"{py_path_root}/{relpath}/{filename.stem}".replace("/", ".")
+                    else f"{py_path_root}/{relpath if single_package else relpath.relative_to(package.name)}/{filename.stem}".replace(
+                        "/", "."
+                    )
                 )
                 LOGGER.debug("filename: %s\npy_path: %s", filename, py_path)
                 if debug:
