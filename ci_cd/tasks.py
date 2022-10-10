@@ -653,10 +653,7 @@ special_option: %s""",
         print(f"Writing file: {docs_api_ref_dir / '.pages'}", flush=True)
     write_file(
         full_path=docs_api_ref_dir / ".pages",
-        content=(
-            pages_template.format(name="API Reference")
-            + (no_docstring_template_addition if "." in full_docs_folder else "")
-        ),
+        content=pages_template.format(name="API Reference"),
     )
 
     single_package = len(package_dirs) == 1
@@ -700,14 +697,7 @@ special_option: %s""",
                     print(f"Writing file: {docs_sub_dir / '.pages'}", flush=True)
                 write_file(
                     full_path=docs_sub_dir / ".pages",
-                    content=(
-                        pages_template.format(name=relpath.name)
-                        + (
-                            no_docstring_template_addition
-                            if str(relpath) in full_docs_folder
-                            else ""
-                        )
-                    ),
+                    content=pages_template.format(name=relpath.name),
                 )
 
             # Create markdown files
@@ -756,6 +746,7 @@ special_option: %s""",
                 template = md_template + (
                     no_docstring_template_addition
                     if relative_file_path in full_docs_file
+                    or str(relpath) in full_docs_folder
                     else ""
                 )
 
