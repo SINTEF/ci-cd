@@ -81,19 +81,21 @@ pep_508 = [
 
     context = MockContext(
         run={
-            re.compile(r".*invoke$"): "invoke (1.7.1)\n",
-            re.compile(r".*tomlkit$"): "tomlkit (1.0.0)",
-            re.compile(r".*mike$"): "mike (1.0.1)",
-            re.compile(r".*pytest$"): "pytest (7.1.0)",
-            re.compile(r".*pytest-cov$"): "pytest-cov (3.1.0)",
-            re.compile(r".*pre-commit$"): "pre-commit (2.20.0)",
-            re.compile(r".*pylint$"): "pylint (2.14.0)",
-            re.compile(r".* A$"): "A (1.2.3)",
-            re.compile(r".*A.B-C_D$"): "A.B-C_D (1.2.3)",
-            re.compile(r".*aa$"): "aa (1.2.3)",
-            re.compile(r".*name$"): "name (1.2.3)",
+            **{
+                re.compile(r".*invoke$"): "invoke (1.7.1)\n",
+                re.compile(r".*tomlkit$"): "tomlkit (1.0.0)",
+                re.compile(r".*mike$"): "mike (1.0.1)",
+                re.compile(r".*pytest$"): "pytest (7.1.0)",
+                re.compile(r".*pytest-cov$"): "pytest-cov (3.1.0)",
+                re.compile(r".*pre-commit$"): "pre-commit (2.20.0)",
+                re.compile(r".*pylint$"): "pylint (2.14.0)",
+                re.compile(r".* A$"): "A (1.2.3)",
+                re.compile(r".*A.B-C_D$"): "A.B-C_D (1.2.3)",
+                re.compile(r".*aa$"): "aa (1.2.3)",
+                re.compile(r".*name$"): "name (1.2.3)",
+            },
+            **{re.compile(rf".*name{i}$"): f"name{i} (1.2.3)" for i in range(1, 12)},
         }
-        | {re.compile(rf".*name{i}$"): f"name{i} (1.2.3)" for i in range(1, 12)}
     )
 
     update_deps(
