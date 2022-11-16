@@ -143,6 +143,11 @@ on:
         required: false
         type: string
         default: ","
+      warnings_as_errors:
+        description: "Build the documentation in 'strict' mode, treating warnings as errors. **Important**: If this is set to `false`, beware that the documentation may _not_ be rendered or built as one may have intended. Default: `true`."
+        required: false
+        type: boolean
+        default: true
       debug:
         description: "Whether to do print extra debug statements."
         required: false
@@ -351,4 +356,7 @@ jobs:
           "${REPLACEMENTS[@]}"
 
     - name: Build MkDocs documentation
-      run: mkdocs build --strict
+      run: |
+        STRICT=
+        if [ "${{ inputs.warnings_as_errors }}" == "true" ]; then STRICT="--strict"; fi
+        mkdocs build ${STRICT}
