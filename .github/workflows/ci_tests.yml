@@ -351,5 +351,4 @@ jobs:
           "${REPLACEMENTS[@]}"
 
     - name: Build MkDocs documentation
-      #run: mkdocs build --strict
-      run: mkdocs build
+      run: mkdocs build --strict
