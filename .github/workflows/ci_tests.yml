@@ -361,6 +361,6 @@ jobs:
           STRICT="--strict"
         else
           STRICT=
-          echo "::warning file=ci_tests.yml,line=366,col=9,endColumn=31::Beware that the documentation may succeed building, but will not be rendered or built as intended. To ensure this is the case, set `warnings_as_errors` to `true` (using `--strict`)."
+          echo "::warning file=ci_tests.yml,line=366,col=9,endColumn=31::Beware that the documentation may succeed building, but will not be rendered or built as intended. To ensure this is the case, set 'warnings_as_errors' to 'true' (using '--strict')."
         fi
         mkdocs build ${STRICT}
