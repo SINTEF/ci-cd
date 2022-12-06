@@ -2,9 +2,28 @@ name: CI - Activate auto-merging for PRs
 
 on:
   workflow_call:
+    inputs:
+      perform_changes:
+        description: "Whether or not to perform and commit changes to the PR branch prior to activating auto-merge."
+        required: false
+        type: boolean
+        default: false
+      # REQUIRED if perform_changes is True
+      git_username:
+        description: "A git username (used to set the 'user.name' config option). Required if `perform_changes` is 'true'."
+        required: false
+        type: string
+      git_email:
+        description: "A git user's email address (used to set the 'user.email' config option). Required if `perform_changes` is 'true'."
+        required: false
+        type: string
+      changes:
+        description: "A file to run in the local repository (relative path from the root of the repository) or a multi-line string of bash commands to run. Required if `perform_changes` is 'true'."
+        required: false
+        type: string
     secrets:
       PAT:
-        description: "A personal access token (PAT) with rights to update the `release_branch`. This will fallback on `GITHUB_TOKEN`."
+        description: "A personal access token (PAT) with rights to update the PR head branch. This will fallback on `GITHUB_TOKEN`."
         required: false
 
 jobs:
@@ -19,6 +38,37 @@ jobs:
       with:
         fetch-depth: 0
         ref: ${{ github.event.pull_request.head.ref }}
+
+    - name: Perform local changes
+      if: inputs.perform_changes
+      run: |
+        if [ -z "${{ inputs.git_username }}" ] || [ -z "${{ inputs.git_email }}" ] || [ -z "${{ changes }}" ]; then
+          echo "git_username, git_email and changes MUST be supplied."
+          exit 1
+        fi
+
+        TEMP_RUN_FILE=".tmp_${{ github.run_id }}_${{ github.run_number }}_${{ github.run_attempt }}.sh"
+        printf "${{ input.changes }}" >> ${TMP_RUN_FILE}
+
+        chmod +x ${TEMP_RUN_FILE}
+        ./${TEMP_RUN_FILE}
+
+    - name: Set up git user and commit changes
+      if: inputs.perform_changes
+      run: |
+        git config --global user.name "${{ inputs.git_username }}"
+        git config --global user.email "${{ inputs.git_email }}"
+
+        git commit -am "Auto-merge extra changes."
+
+    - name: Push changes to '${{ github.event.pull_request.head.ref }}'
+      if: inputs.perform_changes
+      uses: CasperWA/push-protected@v2
+      with:
+        token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
+        branch: ${{ github.event.pull_request.head.ref }}
+        sleep: 15
+        unprotect_reviews: true
 
     - name: Activate auto-merge
       run: |
