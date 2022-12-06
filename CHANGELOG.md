@@ -1,8 +1,8 @@
 # Changelog
 
-## [Unreleased](https://github.com/SINTEF/ci-cd/tree/HEAD)
+## [v0.0.0](https://github.com/SINTEF/ci-cd/tree/v0.0.0) (2022-12-06)
 
-[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v1.3.5...HEAD)
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v1.3.5...v0.0.0)
 
 **Fixed bugs:**
 
