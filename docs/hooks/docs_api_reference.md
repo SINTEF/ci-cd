@@ -58,7 +58,7 @@ It is meant to be complete as is.
 ```yaml
 repos:
   - repo: https://github.com/SINTEF/ci-cd
-    rev: v0.0.0
+    rev: v1
     hooks:
     - id: docs-api-reference
       args:
