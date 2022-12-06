@@ -6,15 +6,11 @@
 
 **Fixed bugs:**
 
-- Bad usage of backticks in warning message [\#79](https://github.com/SINTEF/ci-cd/issues/79)
+- Undo commit d525ea0f069b6615aa352a7f385c21b31f29b985 [\#77](https://github.com/SINTEF/ci-cd/issues/77)
 
-## [v1.3.5](https://github.com/SINTEF/ci-cd/tree/v1.3.5) (2022-11-17)
+## [v1.3.5](https://github.com/SINTEF/ci-cd/tree/v1.3.5) (2022-11-16)
 
 [Full Changelog](https://github.com/SINTEF/ci-cd/compare/v1.3.4...v1.3.5)
-
-**Fixed bugs:**
-
-- Undo commit d525ea0f069b6615aa352a7f385c21b31f29b985 [\#77](https://github.com/SINTEF/ci-cd/issues/77)
 
 **Merged pull requests:**
 
