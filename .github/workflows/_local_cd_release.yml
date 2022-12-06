@@ -1,10 +1,9 @@
 name: CD - Release
 
 on:
-  push:
-  #release:
-  #  types:
-  #    - "published"
+  release:
+   types:
+     - "published"
 
 jobs:
   publish:
@@ -18,11 +17,10 @@ jobs:
       publish_on_pypi: false
       package_dirs: ci_cd
       release_branch: main
-      build_cmd: ".github/utils/update_tags.sh"
       update_docs: true
       doc_extras: "[docs]"
-      changelog_exclude_tags_regex: "^v[0-9]+.*$"
-      test: true # false
+      changelog_exclude_tags_regex: "^v[0-9]+$"  # Exclude 'v1' tag
+      test: false
       version_update_changes_separator: ","
       version_update_changes: |
         {package_dir}/__init__.py,__version__ *= *(?:'|\").*(?:'|\"),__version__ = \"{version}\"

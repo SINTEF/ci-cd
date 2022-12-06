@@ -100,11 +100,6 @@ jobs:
       if: inputs.update_pre-commit
       run: |
         pre-commit autoupdate
-        if [ -n "$(grep -Pzl 'repo:\s*https://github.com/SINTEF/ci-cd' .pre-commit-config.yaml)" ] \
-        then
-          # Using hooks from this repository
-          pre-commit autoupdate --repo https://github.com/SINTEF/ci-cd --freeze
-        fi
 
         if [ -n "$(git status --porcelain .pre-commit-config.yaml)" ]; then
           # Set environment variable notifying next steps that the hooks changed
