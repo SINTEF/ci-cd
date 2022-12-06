@@ -214,7 +214,7 @@ jobs:
         branch: ${{ inputs.release_branch }}
         sleep: 15
         force: true
-        tags: true
+        tags: false  # true
         unprotect_reviews: true
         debug: ${{ inputs.test }}
 
