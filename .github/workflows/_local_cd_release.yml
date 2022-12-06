@@ -33,9 +33,11 @@ jobs:
         docs/workflows/ci_cd_updated_default_branch.md,uses: SINTEF/ci-cd/\.github/workflows/ci_cd_updated_default_branch\.yml@v[0-9]+.*$,uses: SINTEF/ci-cd/.github/workflows/ci_cd_updated_default_branch.yml@v{version}
         docs/workflows/ci_check_pyproject_dependencies.md,uses: SINTEF/ci-cd/\.github/workflows/ci_check_pyproject_dependencies\.yml@v[0-9]+.*$,uses: SINTEF/ci-cd/.github/workflows/ci_check_pyproject_dependencies.yml@v{version}
         docs/workflows/ci_update_dependencies.md,uses: SINTEF/ci-cd/\.github/workflows/ci_update_dependencies\.yml@v[0-9]+.*$,uses: SINTEF/ci-cd/.github/workflows/ci_update_dependencies.yml@v{version}
+        docs/workflows/ci_tests.md,uses: SINTEF/ci-cd/\.github/workflows/ci_tests\.yml@v[0-9]+.*$,uses: SINTEF/ci-cd/.github/workflows/ci_tests.yml@v{version}
         .github/workflows/cd_release.yml,https://github\.com/SINTEF/ci-cd\.git@v[0-9]+.*$,https://github.com/SINTEF/ci-cd.git@v{version}
         .github/workflows/ci_cd_updated_default_branch.yml,https://github\.com/SINTEF/ci-cd\.git@v[0-9]+.*$,https://github.com/SINTEF/ci-cd.git@v{version}
         .github/workflows/ci_check_pyproject_dependencies.yml,https://github\.com/SINTEF/ci-cd\.git@v[0-9]+.*$,https://github.com/SINTEF/ci-cd.git@v{version}
         docs/workflows/cd_release.md,\(https://github\.com/SINTEF/ci-cd/blob/v[0-9]+.*/\.github/workflows/_local_cd_release\.yml\),(https://github.com/SINTEF/ci-cd/blob/v{version}/.github/workflows/_local_cd_release.yml)
+        .github/workflows/ci_tests.yml,https://github\.com/SINTEF/ci-cd\.git@v[0-9]+.*$,https://github.com/SINTEF/ci-cd.git@v{version}
     secrets:
       PAT: ${{ secrets.RELEASE_PAT }}
