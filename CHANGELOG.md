@@ -2,15 +2,37 @@
 
 ## [Unreleased](https://github.com/SINTEF/ci-cd/tree/HEAD)
 
-[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v1.3.5...HEAD)
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.0.0...HEAD)
+
+**Implemented enhancements:**
+
+- Make `test: true` actually work for "CD - Release" [\#83](https://github.com/SINTEF/ci-cd/issues/83)
+
+**Closed issues:**
+
+- Drop using a `vMAJOR` dynamic tag [\#81](https://github.com/SINTEF/ci-cd/issues/81)
+
+## [v2.0.0](https://github.com/SINTEF/ci-cd/tree/v2.0.0) (2022-12-06)
+
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v1.3.5...v2.0.0)
+
+**Fixed bugs:**
+
+- Bad usage of backticks in warning message [\#79](https://github.com/SINTEF/ci-cd/issues/79)
+
+**Merged pull requests:**
+
+- \[Auto-generated\] Update dependencies [\#85](https://github.com/SINTEF/ci-cd/pull/85) ([TEAM4-0](https://github.com/TEAM4-0))
+- Changed to vMajor tag for pre-commit in ci\_update\_dependencies.yml [\#82](https://github.com/SINTEF/ci-cd/pull/82) ([francescalb](https://github.com/francescalb))
+- Use quotes instead of backticks in warning message [\#80](https://github.com/SINTEF/ci-cd/pull/80) ([CasperWA](https://github.com/CasperWA))
+
+## [v1.3.5](https://github.com/SINTEF/ci-cd/tree/v1.3.5) (2022-11-17)
+
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v1.3.4...v1.3.5)
 
 **Fixed bugs:**
 
 - Undo commit d525ea0f069b6615aa352a7f385c21b31f29b985 [\#77](https://github.com/SINTEF/ci-cd/issues/77)
-
-## [v1.3.5](https://github.com/SINTEF/ci-cd/tree/v1.3.5) (2022-11-16)
-
-[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v1.3.4...v1.3.5)
 
 **Merged pull requests:**
 

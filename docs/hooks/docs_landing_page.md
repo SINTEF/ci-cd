@@ -32,7 +32,7 @@ It is meant to be complete as is.
 ```yaml
 repos:
   - repo: https://github.com/SINTEF/ci-cd
-    rev: v1
+    rev: v2.0.0
     hooks:
     - id: docs-landing-page
       args:
