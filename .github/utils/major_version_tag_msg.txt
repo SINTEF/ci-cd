@@ -1,3 +1,0 @@
-vMAJOR
-
-Tag pointing to the latest vMAJOR.x.y version.
