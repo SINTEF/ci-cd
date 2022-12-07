@@ -602,11 +602,59 @@
 <h1 id="ci-activate-auto-merging-for-prs">CI - Activate auto-merging for PRs<a class="headerlink" href="#ci-activate-auto-merging-for-prs" title="Permanent link">&para;</a></h1>
 <p><strong>File to use:</strong> <code>ci_automerge_prs.yml</code></p>
 <p>Activate auto-merging for a PR.</p>
+<p>It is possible to introduce changes to the PR head branch prior to activating the auto-merging, if so desired.
+This is done by setting <code>perform_changes</code> to <code>'true'</code> and setting the other inputs accordingly, as they are now required.
+See <a href="#inputs">Inputs</a> below for a full overview of the available inputs.</p>
+<p>The <code>changes</code> input can be both a path to a bash file that should be run, or a single or multi-line string of bash commands to run.
+Afterwards any and all changes in the repository will be committed and pushed to the PR head branch.</p>
+<p>The motivation for being able to run changes prior to auto-merging, is to update or affect the repository files according to the specific PR being auto-merged.
+Usually auto-merging is activated for <a href="https://docs.github.com/en/code-security/dependabot">dependabot</a> branches, i.e., when a dependency/requirement is updated.
+Hence, the changes could include updating this dependency in documentation files or similar, where it will not be updated otherwise.</p>
 <h2 id="expectations">Expectations<a class="headerlink" href="#expectations" title="Permanent link">&para;</a></h2>
 <p>The <code>PAT</code> secret must represent a user with the rights to activate auto-merging.</p>
 <p>This workflow can <em>only</em> be called if the triggering event from the caller workflow is <code>pull_request_target</code>.</p>
 <h2 id="inputs">Inputs<a class="headerlink" href="#inputs" title="Permanent link">&para;</a></h2>
-<p>There are no inputs for this workflow.</p>
+<table>
+<thead>
+<tr>
+<th align="left"><strong>Name</strong></th>
+<th align="left"><strong>Description</strong></th>
+<th align="center"><strong>Required</strong></th>
+<th align="center"><strong>Default</strong></th>
+<th align="center"><strong>Type</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>perform_changes</code></td>
+<td align="left">Whether or not to perform and commit changes to the PR branch prior to activating auto-merge.</td>
+<td align="center">No</td>
+<td align="center"></td>
+<td align="center"><em>boolean</em></td>
+</tr>
+<tr>
+<td align="left"><code>git_username</code></td>
+<td align="left">A git username (used to set the 'user.name' config option).</br><strong>Required</strong> if <code>perform_changes</code> is 'true'.</td>
+<td align="center">No</td>
+<td align="center"></td>
+<td align="center"><em>string</em></td>
+</tr>
+<tr>
+<td align="left"><code>git_email</code></td>
+<td align="left">A git user's email address (used to set the 'user.email' config option).</br><strong>Required</strong> if <code>perform_changes</code> is 'true'.</td>
+<td align="center">No</td>
+<td align="center"></td>
+<td align="center"><em>string</em></td>
+</tr>
+<tr>
+<td align="left"><code>changes</code></td>
+<td align="left">A file to run in the local repository (relative path from the root of the repository) or a multi-line string of bash commands to run.</br><strong>Required</strong> if <code>perform_changes</code> is 'true'.</td>
+<td align="center">No</td>
+<td align="center"></td>
+<td align="center"><em>string</em></td>
+</tr>
+</tbody>
+</table>
 <h2 id="secrets">Secrets<a class="headerlink" href="#secrets" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -639,6 +687,68 @@ It is meant to be complete as is.</p>
 <span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Call external workflow</span><span class="w"></span>
 <span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SINTEF/ci-cd/.github/workflows/ci_automerge_prs.yml@v2.0.0</span><span class="w"></span>
 <span class="w">    </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.repository_owner == &#39;SINTEF&#39; &amp;&amp; ( ( startsWith(github.event.pull_request.head.ref, &#39;dependabot/&#39;) &amp;&amp; github.actor == &#39;dependabot[bot]&#39; ) || ( github.event.pull_request.head.ref == &#39;ci/update-pyproject&#39; &amp;&amp; github.actor == &#39;CasperWA&#39; ) )</span><span class="w"></span>
+<span class="w">    </span><span class="nt">secrets</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="nt">PAT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.RELEASE_PAT }}</span><span class="w"></span>
+</code></pre></div>
+<p>A couple of usage examples when adding changes:</p>
+<p>Here, referencing a bash script file for the changes.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CI - Activate auto-merging for Dependabot PRs</span><span class="w"></span>
+
+<span class="nt">on</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">pull_request_target</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ci/dependency-updates</span><span class="w"></span>
+
+<span class="nt">jobs</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">update-dependency-branch</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Call external workflow</span><span class="w"></span>
+<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SINTEF/ci-cd/.github/workflows/ci_automerge_prs.yml@v1</span><span class="w"></span>
+<span class="w">    </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.repository_owner == &#39;SINTEF&#39; &amp;&amp; ( ( startsWith(github.event.pull_request.head.ref, &#39;dependabot/&#39;) &amp;&amp; github.actor == &#39;dependabot[bot]&#39; ) || ( github.event.pull_request.head.ref == &#39;ci/update-pyproject&#39; &amp;&amp; github.actor == &#39;CasperWA&#39; ) )</span><span class="w"></span>
+<span class="w">    </span><span class="nt">with</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="nt">perform_changes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+<span class="w">      </span><span class="nt">git_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Casper</span><span class="nv"> </span><span class="s">Welzel</span><span class="nv"> </span><span class="s">Andersen&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="nt">git_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CasperWA@github.com&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="nt">changes</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;.ci/pre_automerge.sh&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">secrets</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="nt">PAT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.RELEASE_PAT }}</span><span class="w"></span>
+</code></pre></div>
+<p>Here, writing out the changes explicitly in the job.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CI - Activate auto-merging for Dependabot PRs</span><span class="w"></span>
+
+<span class="nt">on</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">pull_request_target</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ci/dependency-updates</span><span class="w"></span>
+
+<span class="nt">jobs</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">update-dependency-branch</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Call external workflow</span><span class="w"></span>
+<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SINTEF/ci-cd/.github/workflows/ci_automerge_prs.yml@v1</span><span class="w"></span>
+<span class="w">    </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.repository_owner == &#39;SINTEF&#39; &amp;&amp; ( ( startsWith(github.event.pull_request.head.ref, &#39;dependabot/&#39;) &amp;&amp; github.actor == &#39;dependabot[bot]&#39; ) || ( github.event.pull_request.head.ref == &#39;ci/update-pyproject&#39; &amp;&amp; github.actor == &#39;CasperWA&#39; ) )</span><span class="w"></span>
+<span class="w">    </span><span class="nt">with</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="nt">perform_changes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+<span class="w">      </span><span class="nt">git_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Casper</span><span class="nv"> </span><span class="s">Welzel</span><span class="nv"> </span><span class="s">Andersen&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="nt">git_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CasperWA@github.com&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="nt">changes</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="w"></span>
+<span class="w">        </span><span class="no">PYTHON=</span><span class="w"></span>
+<span class="w">        </span><span class="no">python --version || PYTHON=NO</span><span class="w"></span>
+<span class="w">        </span><span class="no">if [ -n &quot;${PYTHON} ]; then</span><span class="w"></span>
+<span class="w">          </span><span class="no">echo &quot;Python not detected on the system.&quot;</span><span class="w"></span>
+<span class="w">          </span><span class="no">exit 1</span><span class="w"></span>
+<span class="w">        </span><span class="no">fi</span><span class="w"></span>
+<span class="w">        </span><span class="no">PIP=</span><span class="w"></span>
+<span class="w">        </span><span class="no">python -m pip --version || PIP=NO</span><span class="w"></span>
+<span class="w">        </span><span class="no">if [ -n &quot;${PYTHON} ]; then</span><span class="w"></span>
+<span class="w">          </span><span class="no">echo &quot;pip not detected to be installed for Python.&quot;</span><span class="w"></span>
+<span class="w">          </span><span class="no">exit 1</span><span class="w"></span>
+<span class="w">        </span><span class="no">fi</span><span class="w"></span>
+
+<span class="w">        </span><span class="no">python -m pip install -U pip</span><span class="w"></span>
+<span class="w">        </span><span class="no">pip install -U setuptools wheel</span><span class="w"></span>
+<span class="w">        </span><span class="no">pip install pre-commit</span><span class="w"></span>
+
+<span class="w">        </span><span class="no">pre-commit autoupdate</span><span class="w"></span>
+<span class="w">        </span><span class="no">pre-commit run --all-files || :</span><span class="w"></span>
 <span class="w">    </span><span class="nt">secrets</span><span class="p">:</span><span class="w"></span>
 <span class="w">      </span><span class="nt">PAT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.RELEASE_PAT }}</span><span class="w"></span>
 </code></pre></div>
