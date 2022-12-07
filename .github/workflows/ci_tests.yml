@@ -3,28 +3,16 @@ name: CI - Tests
 on:
   workflow_call:
     inputs:
+      # General
+      install_extras:
+        description: "Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces. Example: `'[dev,pre-commit]'`."
+        required: false
+        type: string
+        default: ""
+
+      # pre-commit
       run_pre-commit:
         description: "Run the `pre-commit` test job."
-        required: false
-        type: boolean
-        default: true
-      run_pylint:
-        description: "Run the `pylint` test job."
-        required: false
-        type: boolean
-        default: true
-      run_safety:
-        description: "Run the `safety` test job."
-        required: false
-        type: boolean
-        default: true
-      run_build_package:
-        description: "Run the 'build package' test job."
-        required: false
-        type: boolean
-        default: true
-      run_build_docs:
-        description: "Run the 'build documentation' test job."
         required: false
         type: boolean
         default: true
@@ -33,36 +21,24 @@ on:
         required: false
         type: string
         default: "3.9"
-      python_version_pylint_safety:
-        description: "The Python version to use for the `pylint` and `safety` test jobs."
-        required: false
-        type: string
-        default: "3.9"
-      python_version_package:
-        description: "The Python version to use for the `build package` test job."
-        required: false
-        type: string
-        default: "3.9"
-      python_version_docs:
-        description: "The Python version to use for the `build documentation` test job."
-        required: false
-        type: string
-        default: "3.9"
-      install_extras:
-        description: "Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces. Example: `'[dev,pre-commit]'`."
-        required: false
-        type: string
-        default: ""
-      relative:
-        description: "Whether or not to use install the local Python package(s) as an editable, _only_ when running the `build_docs` job."
-        required: false
-        type: boolean
-        default: false
       skip_pre-commit_hooks:
         description: "A comma-separated list of pre-commit hook IDs to skip when running `pre-commit` after updating hooks."
         required: false
         type: string
         default: ""
+
+      # pylint & safety
+      python_version_pylint_safety:
+        description: "The Python version to use for the `pylint` and `safety` test jobs."
+        required: false
+        type: string
+        default: "3.9"
+
+      run_pylint:
+        description: "Run the `pylint` test job."
+        required: false
+        type: boolean
+        default: true
       pylint_options:
         description: "Single space-separated or multi-line string of pylint command line options. Note, this is only valid if 'pylint_runs' is not defined."
         required: false
@@ -78,11 +54,29 @@ on:
         required: false
         type: string
         default: ""
+
+      run_safety:
+        description: "Run the `safety` test job."
+        required: false
+        type: boolean
+        default: true
       safety_options:
         description: "Single space-separated or multi-line string of safety command line options."
         required: false
         type: string
         default: ""
+
+      # Build package / distribution
+      run_build_package:
+        description: "Run the 'build package' test job."
+        required: false
+        type: boolean
+        default: true
+      python_version_package:
+        description: "The Python version to use for the `build package` test job."
+        required: false
+        type: string
+        default: "3.9"
       build_libs:
         description: "A space-separated list of packages to install via PyPI (`pip install`)."
         required: false
@@ -93,6 +87,23 @@ on:
         required: false
         type: string
         default: "python -m build"
+
+      # Build documentation
+      run_build_docs:
+        description: "Run the 'build documentation' test job."
+        required: false
+        type: boolean
+        default: true
+      python_version_docs:
+        description: "The Python version to use for the `build documentation` test job."
+        required: false
+        type: string
+        default: "3.9"
+      relative:
+        description: "Whether or not to use the locally installed Python package(s), and install it as an editable, _only_ when running the `build_docs` job."
+        required: false
+        type: boolean
+        default: false
       update_python_api_ref:
         description: "Whether or not to update the Python API documentation reference. **Note**: If this is 'true', 'package_dirs' is _required_."
         required: false
