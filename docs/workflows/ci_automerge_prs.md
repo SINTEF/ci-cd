@@ -34,7 +34,7 @@ This workflow can _only_ be called if the triggering event from the caller workf
 
 | **Name** | **Description** | **Required** |
 |:--- |:--- |:---:|
-| `PAT` | A personal access token (PAT) with rights to update the `permanent_dependencies_branch`. This will fallback on `GITHUB_TOKEN`. | No |
+| `PAT` | A personal access token (PAT) with rights to activate auto-merging. This will fallback on `GITHUB_TOKEN`. | No |
 
 ## Usage example
 
