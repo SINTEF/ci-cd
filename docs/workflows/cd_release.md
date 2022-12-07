@@ -76,10 +76,11 @@ The repository contains the following:
 | `python_version_docs` | The Python version to use for the workflow when building the documentation. | No | 3.9 | _string_ |
 | `version_update_changes` | A single or multi-line string of changes to be implemented in the repository files upon updating the version. The string should be made up of three parts: 'file path', 'pattern', and 'replacement string'. These are separated by the 'version_update_changes_separator' value.</br>The 'file path' must _always_ either be relative to the repository root directory or absolute.</br>The 'pattern' should be given as a 'raw' Python string. | No | _Empty string_ | _string_ |
 | `version_update_changes_separator` | The separator to use for 'version_update_changes' when splitting the three parts of each string. | No | , | _string_ |
-| `build_cmd` | The package build command, e.g., `'pip install flit && flit build'` or `'python -m build'` (default). | No | `python -m build` | _string_ |
+| `build_libs` | A space-separated list of packages to install via PyPI (`pip install`). | No | _Empty string_ | _string_ |
+| `build_cmd` | The package build command, e.g., `'flit build'` or `'python -m build'` (default). | No | `python -m build` | _string_ |
 | `tag_message_file` | Relative path to a release tag message file from the root of the repository.</br></br>Example: `'.github/utils/release_tag_msg.txt'`. | No | _Empty string_ | _string_ |
 | `publish_on_pypi` | Whether or not to publish on PyPI.</br></br>**Note**: This is only relevant if 'python_package' is 'true', which is the default. | No | `true` | _boolean_ |
-| `test` | Whether to use the TestPyPI repository index instead of PyPI. | No | `false` | _boolean_ |
+| `test` | Whether to use the TestPyPI repository index instead of PyPI as well as output debug statements in both workflow jobs. | No | `false` | _boolean_ |
 | `update_docs` | Whether or not to also run the 'docs' workflow job. | No | `false` | _boolean_ |
 | `doc_extras` | Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces.</br></br>Note, if this is empty, 'install_extras' will be used as a fallback.</br></br>Example: `'[docs]'`. | No | _Empty string_ | _string_ |
 | `changelog_exclude_tags_regex` | A regular expression matching any tags that should be excluded from the CHANGELOG.md. | No | _Empty string_ | _string_ |
