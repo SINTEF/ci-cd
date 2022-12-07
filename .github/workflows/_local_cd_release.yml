@@ -2,8 +2,8 @@ name: CD - Release
 
 on:
   release:
-    types:
-      - "published"
+   types:
+     - "published"
 
 jobs:
   publish:
@@ -17,25 +17,26 @@ jobs:
       publish_on_pypi: false
       package_dirs: ci_cd
       release_branch: main
-      build_cmd: ".github/utils/update_tags.sh"
       update_docs: true
       doc_extras: "[docs]"
-      changelog_exclude_tags_regex: "^v[0-9]+$"
+      changelog_exclude_tags_regex: "^v[0-9]+$"  # Exclude 'v1' tag
       test: false
       version_update_changes_separator: ","
       version_update_changes: |
         {package_dir}/__init__.py,__version__ *= *(?:'|\").*(?:'|\"),__version__ = \"{version}\"
-        docs/index.md,^\*\*Current version to use:\*\* \`v[0-9]+\`$,**Current version to use:** \`v{version.major}\`
-        docs/hooks/docs_api_reference.md,rev: v[0-9]+$,rev: v{version.major}
-        docs/hooks/docs_landing_page.md,rev: v[0-9]+$,rev: v{version.major}
-        docs/workflows/cd_release.md,uses: SINTEF/ci-cd/\.github/workflows/cd_release\.yml@v[0-9]+$,uses: SINTEF/ci-cd/.github/workflows/cd_release.yml@v{version.major}
-        docs/workflows/ci_automerge_prs.md,uses: SINTEF/ci-cd/\.github/workflows/ci_automerge_prs\.yml@v[0-9]+$,uses: SINTEF/ci-cd/.github/workflows/ci_automerge_prs.yml@v{version.major}
-        docs/workflows/ci_cd_updated_default_branch.md,uses: SINTEF/ci-cd/\.github/workflows/ci_cd_updated_default_branch\.yml@v[0-9]+$,uses: SINTEF/ci-cd/.github/workflows/ci_cd_updated_default_branch.yml@v{version.major}
-        docs/workflows/ci_check_pyproject_dependencies.md,uses: SINTEF/ci-cd/\.github/workflows/ci_check_pyproject_dependencies\.yml@v[0-9]+$,uses: SINTEF/ci-cd/.github/workflows/ci_check_pyproject_dependencies.yml@v{version.major}
-        docs/workflows/ci_update_dependencies.md,uses: SINTEF/ci-cd/\.github/workflows/ci_update_dependencies\.yml@v[0-9]+$,uses: SINTEF/ci-cd/.github/workflows/ci_update_dependencies.yml@v{version.major}
-        .github/workflows/cd_release.yml,https://github\.com/SINTEF/ci-cd\.git@v[0-9]+$,https://github.com/SINTEF/ci-cd.git@v{version.major}
-        .github/workflows/ci_cd_updated_default_branch.yml,https://github\.com/SINTEF/ci-cd\.git@v[0-9]+$,https://github.com/SINTEF/ci-cd.git@v{version.major}
-        .github/workflows/ci_check_pyproject_dependencies.yml,https://github\.com/SINTEF/ci-cd\.git@v[0-9]+$,https://github.com/SINTEF/ci-cd.git@v{version.major}
-        docs/workflows/cd_release.md,\(https://github\.com/SINTEF/ci-cd/blob/v[0-9]+/\.github/workflows/_local_cd_release\.yml\),(https://github.com/SINTEF/ci-cd/blob/v{version.major}/.github/workflows/_local_cd_release.yml)
+        docs/index.md,^\*\*Current version to use:\*\* \`v[0-9]+.*\`$,**Current version to use:** \`v{version}\`
+        docs/hooks/docs_api_reference.md,rev: v[0-9]+.*$,rev: v{version}
+        docs/hooks/docs_landing_page.md,rev: v[0-9]+.*$,rev: v{version}
+        docs/workflows/cd_release.md,uses: SINTEF/ci-cd/\.github/workflows/cd_release\.yml@v[0-9]+.*$,uses: SINTEF/ci-cd/.github/workflows/cd_release.yml@v{version}
+        docs/workflows/ci_automerge_prs.md,uses: SINTEF/ci-cd/\.github/workflows/ci_automerge_prs\.yml@v[0-9]+.*$,uses: SINTEF/ci-cd/.github/workflows/ci_automerge_prs.yml@v{version}
+        docs/workflows/ci_cd_updated_default_branch.md,uses: SINTEF/ci-cd/\.github/workflows/ci_cd_updated_default_branch\.yml@v[0-9]+.*$,uses: SINTEF/ci-cd/.github/workflows/ci_cd_updated_default_branch.yml@v{version}
+        docs/workflows/ci_check_pyproject_dependencies.md,uses: SINTEF/ci-cd/\.github/workflows/ci_check_pyproject_dependencies\.yml@v[0-9]+.*$,uses: SINTEF/ci-cd/.github/workflows/ci_check_pyproject_dependencies.yml@v{version}
+        docs/workflows/ci_update_dependencies.md,uses: SINTEF/ci-cd/\.github/workflows/ci_update_dependencies\.yml@v[0-9]+.*$,uses: SINTEF/ci-cd/.github/workflows/ci_update_dependencies.yml@v{version}
+        docs/workflows/ci_tests.md,uses: SINTEF/ci-cd/\.github/workflows/ci_tests\.yml@v[0-9]+.*$,uses: SINTEF/ci-cd/.github/workflows/ci_tests.yml@v{version}
+        .github/workflows/cd_release.yml,https://github\.com/SINTEF/ci-cd\.git@v[0-9]+.*$,https://github.com/SINTEF/ci-cd.git@v{version}
+        .github/workflows/ci_cd_updated_default_branch.yml,https://github\.com/SINTEF/ci-cd\.git@v[0-9]+.*$,https://github.com/SINTEF/ci-cd.git@v{version}
+        .github/workflows/ci_check_pyproject_dependencies.yml,https://github\.com/SINTEF/ci-cd\.git@v[0-9]+.*$,https://github.com/SINTEF/ci-cd.git@v{version}
+        docs/workflows/cd_release.md,\(https://github\.com/SINTEF/ci-cd/blob/v[0-9]+.*/\.github/workflows/_local_cd_release\.yml\),(https://github.com/SINTEF/ci-cd/blob/v{version}/.github/workflows/_local_cd_release.yml)
+        .github/workflows/ci_tests.yml,https://github\.com/SINTEF/ci-cd\.git@v[0-9]+.*$,https://github.com/SINTEF/ci-cd.git@v{version}
     secrets:
       PAT: ${{ secrets.RELEASE_PAT }}
