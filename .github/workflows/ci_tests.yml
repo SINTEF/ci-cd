@@ -115,28 +115,6 @@ on:
         type: boolean
         default: true
 
-      # Sphinx
-      use_sphinx:
-        description: "Whether or not to build the documentation using the Sphinx framework. Mutually exclusive with `use_mkdocs`."
-        required: false
-        type: boolean
-        default: false
-      sphinx-build_options:
-        description: "Single (space-separated) or multi-line string of command-line options to use when calling `sphinx-build`. Note, the `-W` option will be added if 'warnings_as_errors' is 'true' (default)."
-        required: false
-        type: string
-        default: ""
-      docs_folder:
-        description: "The path to the root documentation folder relative to the repository root. Defaults to 'docs'."
-        required: false
-        type: string
-        default: "docs"
-      build_target_folder:
-        description: "The path to the target folder for the documentation build relative to the repository root. Defaults to 'site'."
-        required: false
-        type: string
-        default: "site"
-
       # MkDocs
       use_mkdocs:
         description: "Whether or not to build the documentation using the MkDocs framework. Mutually exclusive with `use_sphinx`."
@@ -198,6 +176,28 @@ on:
         required: false
         type: boolean
         default: false
+
+      # Sphinx
+      use_sphinx:
+        description: "Whether or not to build the documentation using the Sphinx framework. Mutually exclusive with `use_mkdocs`."
+        required: false
+        type: boolean
+        default: false
+      sphinx-build_options:
+        description: "Single (space-separated) or multi-line string of command-line options to use when calling `sphinx-build`. Note, the `-W` option will be added if 'warnings_as_errors' is 'true' (default)."
+        required: false
+        type: string
+        default: ""
+      docs_folder:
+        description: "The path to the root documentation folder relative to the repository root. Defaults to 'docs'."
+        required: false
+        type: string
+        default: "docs"
+      build_target_folder:
+        description: "The path to the target folder for the documentation build relative to the repository root. Defaults to 'site'."
+        required: false
+        type: string
+        default: "site"
 
 jobs:
   pre-commit:
@@ -442,6 +442,7 @@ jobs:
             echo "Unknown framework: ${{ env.framework }}"
             exit 1
           fi
+
         else
           STRICT=
           echo "::warning file=ci_tests.yml,line=446,col=11,endColumn=18::Beware that the documentation may succeed building, but will not be rendered or built as intended. To ensure this is the case, set 'warnings_as_errors' to 'true' (using '--strict' (MkDocs) or '-W' (Sphinx))."
@@ -451,6 +452,7 @@ jobs:
 
         if [ "${{ env.framework }}" == "mkdocs" ]; then
           mkdocs build ${STRICT}
+
         elif [ "${{ env.framework }}" == "sphinx" ]; then
           SPHINX_OPTIONS=()
           while IFS= read -r line; do
@@ -460,6 +462,7 @@ jobs:
           sphinx-build ${STRICT} \
             "${SPHINX_OPTIONS[@]}" \
             ${{ inputs.docs_folder }} ${{ inputs.build_target_folder }}
+
         else
           echo "Unknown framework: ${{ env.framework }}"
           exit 1
