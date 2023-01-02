@@ -46,7 +46,7 @@ testing = [
     "pytest-cov ~=4.0",
 ]
 dev = [
-    "pre-commit ~=2.20",
+    "pre-commit ~=2.21",
     "pylint ~=2.13",
 ]
 
