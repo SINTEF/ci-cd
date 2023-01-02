@@ -816,34 +816,34 @@ See the <a href="../../hooks/docs_api_reference/#using-it-together-with-cicd-wor
 <h2 id="usage-example">Usage example<a class="headerlink" href="#usage-example" title="Permanent link">&para;</a></h2>
 <p>The following is an example of how a workflow may look that calls <em>CI/CD - New updates to default branch</em>.
 It is meant to be complete as is.</p>
-<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CI - Activate auto-merging for Dependabot PRs</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CI - Activate auto-merging for Dependabot PRs</span>
 
-<span class="nt">on</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">push</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stable</span><span class="w"></span>
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">push</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stable</span>
 
-<span class="nt">jobs</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">updates-to-stable</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Call external workflow</span><span class="w"></span>
-<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SINTEF/ci-cd/.github/workflows/ci_cd_updated_default_branch.yml@v2.0.0</span><span class="w"></span>
-<span class="w">    </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.repository_owner == &#39;SINTEF&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">with</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="nt">git_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Casper</span><span class="nv"> </span><span class="s">Welzel</span><span class="nv"> </span><span class="s">Andersen&quot;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">git_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CasperWA@github.com&quot;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">default_repo_branch</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stable</span><span class="w"></span>
-<span class="w">      </span><span class="nt">permanent_dependencies_branch</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ci/dependency-updates&quot;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">update_docs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
-<span class="w">      </span><span class="nt">package_dirs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="w"></span>
-<span class="w">        </span><span class="no">my_python_package</span><span class="w"></span>
-<span class="w">        </span><span class="no">my_other_python_package</span><span class="w"></span>
-<span class="w">      </span><span class="nt">doc_extras</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;[docs]&quot;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">exclude_files</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">__init__.py,config.py</span><span class="w"></span>
-<span class="w">      </span><span class="nt">full_docs_dirs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">models</span><span class="w"></span>
-<span class="w">      </span><span class="nt">landing_page_replacements</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;(LICENSE);(LICENSE.md)|(tools);(../tools)&quot;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">landing_page_replacements_mapping_separator</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;;&quot;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">secrets</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="nt">PAT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.PAT }}</span><span class="w"></span>
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">updates-to-stable</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Call external workflow</span>
+<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SINTEF/ci-cd/.github/workflows/ci_cd_updated_default_branch.yml@v2.0.0</span>
+<span class="w">    </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.repository_owner == &#39;SINTEF&#39;</span>
+<span class="w">    </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">git_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Casper</span><span class="nv"> </span><span class="s">Welzel</span><span class="nv"> </span><span class="s">Andersen&quot;</span>
+<span class="w">      </span><span class="nt">git_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CasperWA@github.com&quot;</span>
+<span class="w">      </span><span class="nt">default_repo_branch</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stable</span>
+<span class="w">      </span><span class="nt">permanent_dependencies_branch</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ci/dependency-updates&quot;</span>
+<span class="w">      </span><span class="nt">update_docs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">      </span><span class="nt">package_dirs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">        </span><span class="no">my_python_package</span>
+<span class="w">        </span><span class="no">my_other_python_package</span>
+<span class="w">      </span><span class="nt">doc_extras</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;[docs]&quot;</span>
+<span class="w">      </span><span class="nt">exclude_files</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">__init__.py,config.py</span>
+<span class="w">      </span><span class="nt">full_docs_dirs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">models</span>
+<span class="w">      </span><span class="nt">landing_page_replacements</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;(LICENSE);(LICENSE.md)|(tools);(../tools)&quot;</span>
+<span class="w">      </span><span class="nt">landing_page_replacements_mapping_separator</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;;&quot;</span>
+<span class="w">    </span><span class="nt">secrets</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">PAT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.PAT }}</span>
 </code></pre></div>
 
 

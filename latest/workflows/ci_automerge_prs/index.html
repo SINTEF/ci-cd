@@ -675,82 +675,82 @@ Hence, the changes could include updating this dependency in documentation files
 <h2 id="usage-example">Usage example<a class="headerlink" href="#usage-example" title="Permanent link">&para;</a></h2>
 <p>The following is an example of how a workflow may look that calls <em>CI - Activate auto-merging for PRs</em>.
 It is meant to be complete as is.</p>
-<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CI - Activate auto-merging for Dependabot PRs</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CI - Activate auto-merging for Dependabot PRs</span>
 
-<span class="nt">on</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">pull_request_target</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ci/dependency-updates</span><span class="w"></span>
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">pull_request_target</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ci/dependency-updates</span>
 
-<span class="nt">jobs</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">update-dependency-branch</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Call external workflow</span><span class="w"></span>
-<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SINTEF/ci-cd/.github/workflows/ci_automerge_prs.yml@v2.0.0</span><span class="w"></span>
-<span class="w">    </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.repository_owner == &#39;SINTEF&#39; &amp;&amp; ( ( startsWith(github.event.pull_request.head.ref, &#39;dependabot/&#39;) &amp;&amp; github.actor == &#39;dependabot[bot]&#39; ) || ( github.event.pull_request.head.ref == &#39;ci/update-pyproject&#39; &amp;&amp; github.actor == &#39;CasperWA&#39; ) )</span><span class="w"></span>
-<span class="w">    </span><span class="nt">secrets</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="nt">PAT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.RELEASE_PAT }}</span><span class="w"></span>
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">update-dependency-branch</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Call external workflow</span>
+<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SINTEF/ci-cd/.github/workflows/ci_automerge_prs.yml@v2.0.0</span>
+<span class="w">    </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.repository_owner == &#39;SINTEF&#39; &amp;&amp; ( ( startsWith(github.event.pull_request.head.ref, &#39;dependabot/&#39;) &amp;&amp; github.actor == &#39;dependabot[bot]&#39; ) || ( github.event.pull_request.head.ref == &#39;ci/update-pyproject&#39; &amp;&amp; github.actor == &#39;CasperWA&#39; ) )</span>
+<span class="w">    </span><span class="nt">secrets</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">PAT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.RELEASE_PAT }}</span>
 </code></pre></div>
 <p>A couple of usage examples when adding changes:</p>
 <p>Here, referencing a bash script file for the changes.</p>
-<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CI - Activate auto-merging for Dependabot PRs</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CI - Activate auto-merging for Dependabot PRs</span>
 
-<span class="nt">on</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">pull_request_target</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ci/dependency-updates</span><span class="w"></span>
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">pull_request_target</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ci/dependency-updates</span>
 
-<span class="nt">jobs</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">update-dependency-branch</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Call external workflow</span><span class="w"></span>
-<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SINTEF/ci-cd/.github/workflows/ci_automerge_prs.yml@v1</span><span class="w"></span>
-<span class="w">    </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.repository_owner == &#39;SINTEF&#39; &amp;&amp; ( ( startsWith(github.event.pull_request.head.ref, &#39;dependabot/&#39;) &amp;&amp; github.actor == &#39;dependabot[bot]&#39; ) || ( github.event.pull_request.head.ref == &#39;ci/update-pyproject&#39; &amp;&amp; github.actor == &#39;CasperWA&#39; ) )</span><span class="w"></span>
-<span class="w">    </span><span class="nt">with</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="nt">perform_changes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
-<span class="w">      </span><span class="nt">git_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Casper</span><span class="nv"> </span><span class="s">Welzel</span><span class="nv"> </span><span class="s">Andersen&quot;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">git_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CasperWA@github.com&quot;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">changes</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;.ci/pre_automerge.sh&quot;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">secrets</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="nt">PAT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.RELEASE_PAT }}</span><span class="w"></span>
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">update-dependency-branch</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Call external workflow</span>
+<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SINTEF/ci-cd/.github/workflows/ci_automerge_prs.yml@v1</span>
+<span class="w">    </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.repository_owner == &#39;SINTEF&#39; &amp;&amp; ( ( startsWith(github.event.pull_request.head.ref, &#39;dependabot/&#39;) &amp;&amp; github.actor == &#39;dependabot[bot]&#39; ) || ( github.event.pull_request.head.ref == &#39;ci/update-pyproject&#39; &amp;&amp; github.actor == &#39;CasperWA&#39; ) )</span>
+<span class="w">    </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">perform_changes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">      </span><span class="nt">git_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Casper</span><span class="nv"> </span><span class="s">Welzel</span><span class="nv"> </span><span class="s">Andersen&quot;</span>
+<span class="w">      </span><span class="nt">git_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CasperWA@github.com&quot;</span>
+<span class="w">      </span><span class="nt">changes</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;.ci/pre_automerge.sh&quot;</span>
+<span class="w">    </span><span class="nt">secrets</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">PAT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.RELEASE_PAT }}</span>
 </code></pre></div>
 <p>Here, writing out the changes explicitly in the job.</p>
-<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CI - Activate auto-merging for Dependabot PRs</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CI - Activate auto-merging for Dependabot PRs</span>
 
-<span class="nt">on</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">pull_request_target</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ci/dependency-updates</span><span class="w"></span>
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">pull_request_target</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ci/dependency-updates</span>
 
-<span class="nt">jobs</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">update-dependency-branch</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Call external workflow</span><span class="w"></span>
-<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SINTEF/ci-cd/.github/workflows/ci_automerge_prs.yml@v1</span><span class="w"></span>
-<span class="w">    </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.repository_owner == &#39;SINTEF&#39; &amp;&amp; ( ( startsWith(github.event.pull_request.head.ref, &#39;dependabot/&#39;) &amp;&amp; github.actor == &#39;dependabot[bot]&#39; ) || ( github.event.pull_request.head.ref == &#39;ci/update-pyproject&#39; &amp;&amp; github.actor == &#39;CasperWA&#39; ) )</span><span class="w"></span>
-<span class="w">    </span><span class="nt">with</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="nt">perform_changes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
-<span class="w">      </span><span class="nt">git_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Casper</span><span class="nv"> </span><span class="s">Welzel</span><span class="nv"> </span><span class="s">Andersen&quot;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">git_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CasperWA@github.com&quot;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">changes</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="w"></span>
-<span class="w">        </span><span class="no">PYTHON=</span><span class="w"></span>
-<span class="w">        </span><span class="no">python --version || PYTHON=NO</span><span class="w"></span>
-<span class="w">        </span><span class="no">if [ -n &quot;${PYTHON} ]; then</span><span class="w"></span>
-<span class="w">          </span><span class="no">echo &quot;Python not detected on the system.&quot;</span><span class="w"></span>
-<span class="w">          </span><span class="no">exit 1</span><span class="w"></span>
-<span class="w">        </span><span class="no">fi</span><span class="w"></span>
-<span class="w">        </span><span class="no">PIP=</span><span class="w"></span>
-<span class="w">        </span><span class="no">python -m pip --version || PIP=NO</span><span class="w"></span>
-<span class="w">        </span><span class="no">if [ -n &quot;${PYTHON} ]; then</span><span class="w"></span>
-<span class="w">          </span><span class="no">echo &quot;pip not detected to be installed for Python.&quot;</span><span class="w"></span>
-<span class="w">          </span><span class="no">exit 1</span><span class="w"></span>
-<span class="w">        </span><span class="no">fi</span><span class="w"></span>
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">update-dependency-branch</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Call external workflow</span>
+<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SINTEF/ci-cd/.github/workflows/ci_automerge_prs.yml@v1</span>
+<span class="w">    </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.repository_owner == &#39;SINTEF&#39; &amp;&amp; ( ( startsWith(github.event.pull_request.head.ref, &#39;dependabot/&#39;) &amp;&amp; github.actor == &#39;dependabot[bot]&#39; ) || ( github.event.pull_request.head.ref == &#39;ci/update-pyproject&#39; &amp;&amp; github.actor == &#39;CasperWA&#39; ) )</span>
+<span class="w">    </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">perform_changes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">      </span><span class="nt">git_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Casper</span><span class="nv"> </span><span class="s">Welzel</span><span class="nv"> </span><span class="s">Andersen&quot;</span>
+<span class="w">      </span><span class="nt">git_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CasperWA@github.com&quot;</span>
+<span class="w">      </span><span class="nt">changes</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">        </span><span class="no">PYTHON=</span>
+<span class="w">        </span><span class="no">python --version || PYTHON=NO</span>
+<span class="w">        </span><span class="no">if [ -n &quot;${PYTHON} ]; then</span>
+<span class="w">          </span><span class="no">echo &quot;Python not detected on the system.&quot;</span>
+<span class="w">          </span><span class="no">exit 1</span>
+<span class="w">        </span><span class="no">fi</span>
+<span class="w">        </span><span class="no">PIP=</span>
+<span class="w">        </span><span class="no">python -m pip --version || PIP=NO</span>
+<span class="w">        </span><span class="no">if [ -n &quot;${PYTHON} ]; then</span>
+<span class="w">          </span><span class="no">echo &quot;pip not detected to be installed for Python.&quot;</span>
+<span class="w">          </span><span class="no">exit 1</span>
+<span class="w">        </span><span class="no">fi</span>
 
-<span class="w">        </span><span class="no">python -m pip install -U pip</span><span class="w"></span>
-<span class="w">        </span><span class="no">pip install -U setuptools wheel</span><span class="w"></span>
-<span class="w">        </span><span class="no">pip install pre-commit</span><span class="w"></span>
+<span class="w">        </span><span class="no">python -m pip install -U pip</span>
+<span class="w">        </span><span class="no">pip install -U setuptools wheel</span>
+<span class="w">        </span><span class="no">pip install pre-commit</span>
 
-<span class="w">        </span><span class="no">pre-commit autoupdate</span><span class="w"></span>
-<span class="w">        </span><span class="no">pre-commit run --all-files || :</span><span class="w"></span>
-<span class="w">    </span><span class="nt">secrets</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="nt">PAT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.RELEASE_PAT }}</span><span class="w"></span>
+<span class="w">        </span><span class="no">pre-commit autoupdate</span>
+<span class="w">        </span><span class="no">pre-commit run --all-files || :</span>
+<span class="w">    </span><span class="nt">secrets</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">PAT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.RELEASE_PAT }}</span>
 </code></pre></div>
 
 

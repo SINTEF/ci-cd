@@ -838,32 +838,32 @@ E.g., <code>{package_dir}/__init__.py</code> will become <code>ci_cd/__init__.py
 <h2 id="usage-example">Usage example<a class="headerlink" href="#usage-example" title="Permanent link">&para;</a></h2>
 <p>The following is an example of how a workflow may look that calls <em>CD - Release</em>.
 It is meant to be complete as is.</p>
-<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CD - Publish</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CD - Publish</span>
 
-<span class="nt">on</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">release</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">types</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">published</span><span class="w"></span>
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">release</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">types</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">published</span>
 
-<span class="nt">jobs</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">publish</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Publish package and documentation</span><span class="w"></span>
-<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SINTEF/ci-cd/.github/workflows/cd_release.yml@v2.0.0</span><span class="w"></span>
-<span class="w">    </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.repository == &#39;SINTEF/my-python-package&#39; &amp;&amp; startsWith(github.ref, &#39;refs/tags/v&#39;)</span><span class="w"></span>
-<span class="w">    </span><span class="nt">with</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="nt">git_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Casper</span><span class="nv"> </span><span class="s">Welzel</span><span class="nv"> </span><span class="s">Andersen&quot;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">git_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CasperWA@github.com&quot;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">release_branch</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stable</span><span class="w"></span>
-<span class="w">      </span><span class="nt">package_dirs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my_python_package</span><span class="w"></span>
-<span class="w">      </span><span class="nt">install_extras</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;[dev,build]&quot;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">build_cmd</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;pip</span><span class="nv"> </span><span class="s">install</span><span class="nv"> </span><span class="s">flit</span><span class="nv"> </span><span class="s">&amp;&amp;</span><span class="nv"> </span><span class="s">flit</span><span class="nv"> </span><span class="s">build&quot;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">tag_message_file</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;.github/utils/release_tag_msg.txt&quot;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">update_docs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
-<span class="w">      </span><span class="nt">doc_extras</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;[docs]&quot;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">exclude_labels</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;skip_changelog,duplicate&quot;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">secrets</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="nt">PyPI_token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.PYPI_TOKEN }}</span><span class="w"></span>
-<span class="w">      </span><span class="nt">PAT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.PAT }}</span><span class="w"></span>
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">publish</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Publish package and documentation</span>
+<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SINTEF/ci-cd/.github/workflows/cd_release.yml@v2.0.0</span>
+<span class="w">    </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.repository == &#39;SINTEF/my-python-package&#39; &amp;&amp; startsWith(github.ref, &#39;refs/tags/v&#39;)</span>
+<span class="w">    </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">git_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Casper</span><span class="nv"> </span><span class="s">Welzel</span><span class="nv"> </span><span class="s">Andersen&quot;</span>
+<span class="w">      </span><span class="nt">git_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CasperWA@github.com&quot;</span>
+<span class="w">      </span><span class="nt">release_branch</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stable</span>
+<span class="w">      </span><span class="nt">package_dirs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my_python_package</span>
+<span class="w">      </span><span class="nt">install_extras</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;[dev,build]&quot;</span>
+<span class="w">      </span><span class="nt">build_cmd</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;pip</span><span class="nv"> </span><span class="s">install</span><span class="nv"> </span><span class="s">flit</span><span class="nv"> </span><span class="s">&amp;&amp;</span><span class="nv"> </span><span class="s">flit</span><span class="nv"> </span><span class="s">build&quot;</span>
+<span class="w">      </span><span class="nt">tag_message_file</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;.github/utils/release_tag_msg.txt&quot;</span>
+<span class="w">      </span><span class="nt">update_docs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">      </span><span class="nt">doc_extras</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;[docs]&quot;</span>
+<span class="w">      </span><span class="nt">exclude_labels</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;skip_changelog,duplicate&quot;</span>
+<span class="w">    </span><span class="nt">secrets</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">PyPI_token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.PYPI_TOKEN }}</span>
+<span class="w">      </span><span class="nt">PAT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.PAT }}</span>
 </code></pre></div>
 
 

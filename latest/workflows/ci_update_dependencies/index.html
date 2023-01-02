@@ -731,31 +731,31 @@ Indeed, it is recommended to not supply a <code>pr_body_file</code> in this case
 <h2 id="usage-example">Usage example<a class="headerlink" href="#usage-example" title="Permanent link">&para;</a></h2>
 <p>The following is an example of how a workflow may look that calls <em>CI - Update dependencies PR</em>.
 It is meant to be complete as is.</p>
-<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CI - Update dependencies</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CI - Update dependencies</span>
 
-<span class="nt">on</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">schedule</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">cron</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;30</span><span class="nv"> </span><span class="s">6</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">3&quot;</span><span class="w"></span>
-<span class="w">  </span><span class="nt">workflow_dispatch</span><span class="p">:</span><span class="w"></span>
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">schedule</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">cron</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;30</span><span class="nv"> </span><span class="s">6</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">3&quot;</span>
+<span class="w">  </span><span class="nt">workflow_dispatch</span><span class="p">:</span>
 
-<span class="nt">jobs</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">check-dependencies</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Call external workflow</span><span class="w"></span>
-<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SINTEF/ci-cd/.github/workflows/ci_update_dependencies.yml@v2.0.0</span><span class="w"></span>
-<span class="w">    </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.repository_owner == &#39;SINTEF&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">with</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="nt">git_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Casper</span><span class="nv"> </span><span class="s">Welzel</span><span class="nv"> </span><span class="s">Andersen&quot;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">git_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CasperWA@github.com&quot;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">permanent_dependencies_branch</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ci/dependency-updates&quot;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">default_repo_branch</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stable</span><span class="w"></span>
-<span class="w">      </span><span class="nt">pr_labels</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CI/CD&quot;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">extra_to_dos</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;-</span><span class="nv"> </span><span class="s">[</span><span class="nv"> </span><span class="s">]</span><span class="nv"> </span><span class="s">Make</span><span class="nv"> </span><span class="s">sure</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">PR</span><span class="nv"> </span><span class="s">is</span><span class="nv"> </span><span class="s">**squash**</span><span class="nv"> </span><span class="s">merged,</span><span class="nv"> </span><span class="s">with</span><span class="nv"> </span><span class="s">a</span><span class="nv"> </span><span class="s">sensible</span><span class="nv"> </span><span class="s">commit</span><span class="nv"> </span><span class="s">message.\n-</span><span class="nv"> </span><span class="s">[</span><span class="nv"> </span><span class="s">]</span><span class="nv"> </span><span class="s">Check</span><span class="nv"> </span><span class="s">related</span><span class="nv"> </span><span class="s">`requirements*.txt`</span><span class="nv"> </span><span class="s">files</span><span class="nv"> </span><span class="s">are</span><span class="nv"> </span><span class="s">updated</span><span class="nv"> </span><span class="s">accordingly.&quot;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">update_pre-commit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
-<span class="w">      </span><span class="nt">python_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.9&quot;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">install_extras</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;[pre-commit]&quot;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">skip_pre-commit_hooks</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;pylint,pylint-models&quot;</span><span class="w"></span>
-<span class="w">    </span><span class="nt">secrets</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="nt">PAT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.PAT }}</span><span class="w"></span>
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">check-dependencies</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Call external workflow</span>
+<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SINTEF/ci-cd/.github/workflows/ci_update_dependencies.yml@v2.0.0</span>
+<span class="w">    </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.repository_owner == &#39;SINTEF&#39;</span>
+<span class="w">    </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">git_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Casper</span><span class="nv"> </span><span class="s">Welzel</span><span class="nv"> </span><span class="s">Andersen&quot;</span>
+<span class="w">      </span><span class="nt">git_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CasperWA@github.com&quot;</span>
+<span class="w">      </span><span class="nt">permanent_dependencies_branch</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ci/dependency-updates&quot;</span>
+<span class="w">      </span><span class="nt">default_repo_branch</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stable</span>
+<span class="w">      </span><span class="nt">pr_labels</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CI/CD&quot;</span>
+<span class="w">      </span><span class="nt">extra_to_dos</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;-</span><span class="nv"> </span><span class="s">[</span><span class="nv"> </span><span class="s">]</span><span class="nv"> </span><span class="s">Make</span><span class="nv"> </span><span class="s">sure</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">PR</span><span class="nv"> </span><span class="s">is</span><span class="nv"> </span><span class="s">**squash**</span><span class="nv"> </span><span class="s">merged,</span><span class="nv"> </span><span class="s">with</span><span class="nv"> </span><span class="s">a</span><span class="nv"> </span><span class="s">sensible</span><span class="nv"> </span><span class="s">commit</span><span class="nv"> </span><span class="s">message.\n-</span><span class="nv"> </span><span class="s">[</span><span class="nv"> </span><span class="s">]</span><span class="nv"> </span><span class="s">Check</span><span class="nv"> </span><span class="s">related</span><span class="nv"> </span><span class="s">`requirements*.txt`</span><span class="nv"> </span><span class="s">files</span><span class="nv"> </span><span class="s">are</span><span class="nv"> </span><span class="s">updated</span><span class="nv"> </span><span class="s">accordingly.&quot;</span>
+<span class="w">      </span><span class="nt">update_pre-commit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">      </span><span class="nt">python_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.9&quot;</span>
+<span class="w">      </span><span class="nt">install_extras</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;[pre-commit]&quot;</span>
+<span class="w">      </span><span class="nt">skip_pre-commit_hooks</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;pylint,pylint-models&quot;</span>
+<span class="w">    </span><span class="nt">secrets</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">PAT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.PAT }}</span>
 </code></pre></div>
 
 

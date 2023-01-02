@@ -1139,55 +1139,55 @@ This requires at minimum a <code>mkdocs.yml</code> configuration file.</p>
 <h2 id="usage-example">Usage example<a class="headerlink" href="#usage-example" title="Permanent link">&para;</a></h2>
 <p>The following is an example of how a workflow may look that calls <em>CI - Tests</em>.
 It is meant to be complete as is.</p>
-<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CI - Tests</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CI - Tests</span>
 
-<span class="nt">on</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">pull</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;main&#39;</span><span class="w"></span>
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">pull</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;main&#39;</span>
 
-<span class="nt">jobs</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">tests</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run basic tests</span><span class="w"></span>
-<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SINTEF/ci-cd/.github/workflows/ci_tests.yml@v2.0.0</span><span class="w"></span>
-<span class="w">    </span><span class="nt">with</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="nt">python_version_pylint_safety</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.8&quot;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">python_version_docs</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.7&quot;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">install_extras</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;[dev,docs]&quot;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">skip_pre-commit_hooks</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pylint</span><span class="w"></span>
-<span class="w">      </span><span class="nt">pylint_options</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--rcfile=pyproject.toml</span><span class="w"></span>
-<span class="w">      </span><span class="nt">pylint_targets</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my_python_package</span><span class="w"></span>
-<span class="w">      </span><span class="nt">build_libs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">flit</span><span class="w"></span>
-<span class="w">      </span><span class="nt">build_cmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">flit build</span><span class="w"></span>
-<span class="w">      </span><span class="nt">update_python_api_ref</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w"></span>
-<span class="w">      </span><span class="nt">update_docs_landing_page</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w"></span>
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">tests</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run basic tests</span>
+<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SINTEF/ci-cd/.github/workflows/ci_tests.yml@v2.0.0</span>
+<span class="w">    </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">python_version_pylint_safety</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.8&quot;</span>
+<span class="w">      </span><span class="nt">python_version_docs</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.7&quot;</span>
+<span class="w">      </span><span class="nt">install_extras</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;[dev,docs]&quot;</span>
+<span class="w">      </span><span class="nt">skip_pre-commit_hooks</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pylint</span>
+<span class="w">      </span><span class="nt">pylint_options</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--rcfile=pyproject.toml</span>
+<span class="w">      </span><span class="nt">pylint_targets</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my_python_package</span>
+<span class="w">      </span><span class="nt">build_libs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">flit</span>
+<span class="w">      </span><span class="nt">build_cmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">flit build</span>
+<span class="w">      </span><span class="nt">update_python_api_ref</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">      </span><span class="nt">update_docs_landing_page</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 </code></pre></div>
 <p>Here is another example using <code>pylint_runs</code> instead of <code>pylint_targets</code> and <code>pylint_options</code>.</p>
-<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CI - Tests</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CI - Tests</span>
 
-<span class="nt">on</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">pull</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;main&#39;</span><span class="w"></span>
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">pull</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;main&#39;</span>
 
-<span class="nt">jobs</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">tests</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run basic tests</span><span class="w"></span>
-<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SINTEF/ci-cd/.github/workflows/ci_tests.yml@v2.0.0</span><span class="w"></span>
-<span class="w">    </span><span class="nt">with</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="nt">python_version_pylint_safety</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.8&quot;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">python_version_docs</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.7&quot;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">install_extras</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;[dev,docs]&quot;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">skip_pre-commit_hooks</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pylint</span><span class="w"></span>
-<span class="w">      </span><span class="nt">pylint_runs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="w"></span>
-<span class="w">        </span><span class="no">--rcfile=pyproject.toml --ignore-paths=tests/ my_python_package</span><span class="w"></span>
-<span class="w">        </span><span class="no">--rcfile=pyproject.toml --disable=import-outside-toplevel,redefined-outer-name tests</span><span class="w"></span>
-<span class="w">      </span><span class="nt">build_libs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">flit</span><span class="w"></span>
-<span class="w">      </span><span class="nt">build_cmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">flit build</span><span class="w"></span>
-<span class="w">      </span><span class="nt">update_python_api_ref</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w"></span>
-<span class="w">      </span><span class="nt">update_docs_landing_page</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w"></span>
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">tests</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run basic tests</span>
+<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SINTEF/ci-cd/.github/workflows/ci_tests.yml@v2.0.0</span>
+<span class="w">    </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">python_version_pylint_safety</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.8&quot;</span>
+<span class="w">      </span><span class="nt">python_version_docs</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.7&quot;</span>
+<span class="w">      </span><span class="nt">install_extras</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;[dev,docs]&quot;</span>
+<span class="w">      </span><span class="nt">skip_pre-commit_hooks</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pylint</span>
+<span class="w">      </span><span class="nt">pylint_runs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">        </span><span class="no">--rcfile=pyproject.toml --ignore-paths=tests/ my_python_package</span>
+<span class="w">        </span><span class="no">--rcfile=pyproject.toml --disable=import-outside-toplevel,redefined-outer-name tests</span>
+<span class="w">      </span><span class="nt">build_libs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">flit</span>
+<span class="w">      </span><span class="nt">build_cmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">flit build</span>
+<span class="w">      </span><span class="nt">update_python_api_ref</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">      </span><span class="nt">update_docs_landing_page</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 </code></pre></div>
 <h2 id="full-list-of-inputs">Full list of inputs<a class="headerlink" href="#full-list-of-inputs" title="Permanent link">&para;</a></h2>
 <p>Here follows the full list of inputs available for this workflow.
