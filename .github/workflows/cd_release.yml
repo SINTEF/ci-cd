@@ -356,6 +356,13 @@ jobs:
       run: |
         REF=${{ github.ref }}
 
+        if [ "${{ inputs.docs_framework }}" == "sphinx" ]; then
+          SPHINX_OPTIONS=()
+          while IFS= read -r line; do
+            if [ -n "${line}" ]; then SPHINX_OPTIONS+=("${line}"); fi
+          done <<< "${{ inputs.sphinx-build_options }}"
+        fi
+
         if [ "${{ inputs.test }}" == "true" ]; then
           if [ "${{ inputs.docs_framework }}" == "mkdocs" ]; then
             echo "Will here deploy documentation using 'mike', first one called '${REF#refs/tags/v}' with alias 'stable'"
@@ -363,7 +370,7 @@ jobs:
           elif [ "${{ inputs.docs_framework }}" == "sphinx" ]; then
             echo "Will here deploy documentation using 'sphinx-build'."
             echo "sphinx-build options: ${SPHINX_OPTIONS[@]}"
-            echo "SOURCEDIR=${{ inputs.docs_fodler }}"
+            echo "SOURCEDIR=${{ inputs.docs_folder }}"
             echo "OUTPUTDIR=${{ inputs.build_target_folder }}"
             echo "Then '${{ inputs.build_target_folder }}' would replace all content in the 'gh-pages' branch."
           else
@@ -376,11 +383,6 @@ jobs:
           mike deploy --push --remote origin --branch gh-pages --update-aliases --config-file mkdocs.yml latest ${{ inputs.release_branch }}
 
         elif [ "${{ inputs.docs_framework }}" == "sphinx" ]; then
-          SPHINX_OPTIONS=()
-          while IFS= read -r line; do
-            if [ -n "${line}" ]; then SPHINX_OPTIONS+=("${line}"); fi
-          done <<< "${{ inputs.sphinx-build_options }}"
-
           sphinx-build \
             "${SPHINX_OPTIONS[@]}" \
             ${{ inputs.docs_folder }} ${{ inputs.build_target_folder }}

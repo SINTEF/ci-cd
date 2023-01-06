@@ -9,7 +9,7 @@ First, an update & publish job, which updates the version in the package's root 
 The newly created tag (created due to the caller workflow running `on.release.types.published`) will be updated accordingly, as will the publish branch (defaults to `main`).
 
 Secondly, a job to update the documentation is run, however, this can be deactivated.
-The job expects the documentation to be setup with the [mike](https://github.com/jimporter/mike)+[MkDocs](https://www.mkdocs.org)+[GitHub Pages](https://pages.github.com/) framework.
+The job expects the documentation to be setup with either the [mike](https://github.com/jimporter/mike)+[MkDocs](https://www.mkdocs.org)+[GitHub Pages](https://pages.github.com/) framework or the [Sphinx](https://www.sphinx-doc.org/) framework.
 
 For more information about the specific changelog inputs, see the related [changelog generator](https://github.com/github-changelog-generator/github-changelog-generator) actually used, specifically the [list of configuration options](https://github.com/github-changelog-generator/github-changelog-generator/wiki/Advanced-change-log-generation-examples).
 

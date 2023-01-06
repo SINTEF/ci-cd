@@ -365,7 +365,7 @@ jobs:
       if: env.framework == 'mkdocs' && inputs.update_python_api_ref
       run: |
         if [ -z "${{ inputs.package_dirs }}" ]; then
-          echo "'package_dirs' MUST be supplied, since 'update_docs' and 'update_python_api_ref' were set to 'true' and using the Mkdocs framework."
+          echo "'package_dirs' MUST be supplied, since 'update_docs' and 'update_python_api_ref' were set to 'true' and using the MkDocs framework."
           exit 1
         fi
 
@@ -412,8 +412,8 @@ jobs:
     - name: Update landing page
       if: env.framework == 'mkdocs' && inputs.update_docs_landing_page
       run: |
-        # Ensure the default replacement for LICENSE linking works
-        # with a custom separator
+        # Ensure the default replacement for LICENSE linking works with a custom
+        # separator
         LANDING_PAGE_REPLACEMENTS="${{ inputs.landing_page_replacements }}"
         if [ "${{ inputs.landing_page_replacement_separator }}" != "," ] && [ "${{ inputs.landing_page_replacements }}" == "(LICENSE),(LICENSE.md)" ]; then
           LANDING_PAGE_REPLACEMENTS="${LANDING_PAGE_REPLACEMENTS/,/${{ inputs.landing_page_replacement_separator }}}"

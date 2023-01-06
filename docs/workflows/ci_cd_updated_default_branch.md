@@ -5,6 +5,7 @@
 Keep your `permanent_dependencies_branch` branch up-to-date with changes in your main development branch, i.e., the `default_repo_branch`.
 
 Furthermore, this workflow can optionally update the `latest` [mike](https://github.com/jimporter/mike)+[MkDocs](https://www.mkdocs.org)+[GitHub Pages](https://pages.github.com/)-framework documentation release alias, which represents the `default_repo_branch`.
+The workflow also alternatively supports the [Sphinx](https://www.sphinx-doc.org/) framework.
 
 !!! warning
     If a PAT is not passed through for the `PAT` secret and `GITHUB_TOKEN` is used, beware that any other CI/CD jobs that run for, e.g., pull request events, may not run since `GITHUB_TOKEN`-generated PRs are designed to not start more workflows to avoid escalation.
@@ -32,13 +33,26 @@ The repository contains the following:
 
 ## Inputs
 
+The following inputs are general inputs for the workflow as a whole.
+
 | **Name** | **Description** | **Required** | **Default** | **Type** |
 |:--- |:--- |:---:|:---:|:---:|
 | `git_username` | A git username (used to set the 'user.name' config option). | **_Yes_** | | _string_ |
 | `git_email` | A git user's email address (used to set the 'user.email' config option). | **_Yes_** | | _string_ |
-| `permanent_dependencies_branch` | The branch name for the permanent dependency updates branch. | No | ci/dependency-updates | _string_ |
 | `default_repo_branch` | The branch name of the repository's default branch. More specifically, the branch the PR should target. | No | main | _string_ |
+| `test` | Whether to do a "dry run", i.e., run the workflow, but avoid pushing to 'permanent_dependencies_branch' branch and deploying documentation (if 'update_docs' is 'true'). | No | `false` | _boolean_ |
+
+Inputs related to updating the permanent dependencies branch.
+
+| **Name** | **Description** | **Required** | **Default** | **Type** |
+|:--- |:--- |:---:|:---:|:---:|
+| `permanent_dependencies_branch` | The branch name for the permanent dependency updates branch. | No | ci/dependency-updates | _string_ |
 | `update_dependencies_pr_body_file` | Relative path to a PR body file from the root of the repository, which is used in the 'CI - Update dependencies PR' workflow, if used.</br></br>Example: `'.github/utils/pr_body_update_deps.txt'`. | No | _Empty string_ | _string_ |
+
+Inputs related to building and releasing the documentation.
+
+| **Name** | **Description** | **Required** | **Default** | **Type** |
+|:--- |:--- |:---:|:---:|:---:|
 | `update_docs` | Whether or not to also run the 'docs' workflow job. | No | `false` | _boolean_ |
 | `update_python_api_ref` | Whether or not to update the Python API documentation reference.</br></br>**Note**: If this is 'true', 'package_dirs' is _required_. | No | `true` | _boolean_ |
 | `package_dirs` | A single or multi-line string of paths to Python package directories relative to the repository directory to be considered for creating the Python API reference documentation.</br></br>Example: `'src/my_package'`.</br></br>**Important**: This is _required_ if 'update_docs' and 'update_python_api_ref' are 'true'. | **_Yes_ (if 'update_docs' and 'update_python_api_ref' are 'true')** | | _string_ |
@@ -53,9 +67,18 @@ The repository contains the following:
 | `special_file_api_ref_options` | A single or multi-line string of combinations of a relative path to a Python file and a fully formed mkdocstrings option that should be added to the generated MarkDown file for the Python API reference documentation.</br>Example: `my_module/py_file.py,show_bases:false`.</br></br>Encapsulate the value in double quotation marks (`"`) if including spaces ( ).</br></br>**Important**: If multiple `package_dirs` are supplied, the relative path MUST include/start with the appropriate 'package_dir' value, e.g., `"my_package/my_module/py_file.py,show_bases: false"`. | No | _Empty string_ | _string_ |
 | `landing_page_replacements` | A single or multi-line string of replacements (mappings) to be performed on README.md when creating the documentation's landing page (index.md). This list _always_ includes replacing `'docs/'` with an empty string to correct relative links, i.e., this cannot be overwritten. By default `'(LICENSE)'` is replaced by `'(LICENSE.md)'`. | No | (LICENSE),(LICENSE.md) | _string_ |
 | `landing_page_replacement_separator` | String to separate a mapping's 'old' to 'new' parts. Defaults to a comma (`,`). | No | , | _string_ |
-| `test` | Whether to do a "dry run", i.e., run the workflow, but avoid pushing to 'permanent_dependencies_branch' branch and deploying documentation (if 'update_docs' is 'true'). | No | `false` | _boolean_ |
 | `changelog_exclude_tags_regex` | A regular expression matching any tags that should be excluded from the CHANGELOG.md. | No | _Empty string_ | _string_ |
 | `changelog_exclude_labels` | Comma-separated list of labels to exclude from the CHANGELOG.md. | No | _Empty string_ | _string_ |
+| `docs_framework` | The documentation framework to use. This can only be either `'mkdocs'` or `'sphinx'`. | No | mkdocs | _string_ |
+| `system_dependencies` | A single (space-separated) or multi-line string of Ubuntu APT packages to install prior to building the documentation. | No | _Empty string_ | _string_ |
+
+Finally, inputs related _only_ to the Sphinx framework when building and releasing the documentation.
+
+| **Name** | **Description** | **Required** | **Default** | **Type** |
+|:--- |:--- |:---:|:---:|:---:|
+| `sphinx-build_options` | Single (space-separated) or multi-line string of command-line options to use when calling `sphinx-build`. | No | _Empty string_ | _string_ |
+| `docs_folder` | The path to the root documentation folder relative to the repository root. | No | docs | _string_ |
+| `build_target_folder` | The path to the target folder for the documentation build relative to the repository root. | No | site | _string_ |
 
 ## Secrets
 
