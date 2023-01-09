@@ -112,6 +112,7 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
             print(msg)
             error = True
             continue
+
         version_spec = VersionSpec(**match.groupdict())
         LOGGER.debug("version_spec: %s", version_spec)
 
