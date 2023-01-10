@@ -84,6 +84,8 @@ nav:
     - ... | flat | hooks/**
   - License: LICENSE.md
   - Changelog: CHANGELOG.md
+  - Developers:
+    - ... | api_reference/**
 
 watch:
   - "ci_cd"

@@ -53,6 +53,13 @@ repos:
     hooks:
     - id: mypy
 
+  - repo: https://github.com/SINTEF/ci-cd
+    rev: v2.0.0
+    hooks:
+    - id: docs-api-reference
+      args:
+      - "--package-dir=ci_cd"
+
   - repo: local
     hooks:
     # pylint is a Python linter
