@@ -29,7 +29,7 @@ requires-python = "~=3.7"
 dynamic = ["version", "description"]
 
 dependencies = [
-    "invoke ~=1.7",
+    "invoke ~=2.0",
     "tomlkit ~=0.11.6",
 ]
 
@@ -39,7 +39,7 @@ docs = [
     "mkdocs ~=1.4",
     "mkdocs-awesome-pages-plugin ~=2.8",
     "mkdocs-material ~=9.0",
-    "mkdocstrings[python-legacy] ~=0.19.1",
+    "mkdocstrings[python-legacy] ~=0.20.0",
 ]
 testing = [
     "pytest ~=7.2",
