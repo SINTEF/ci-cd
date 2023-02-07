@@ -39,10 +39,10 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
 ):
     """Update dependencies in specified Python package's `pyproject.toml`."""
     if TYPE_CHECKING:  # pragma: no cover
-        context: "Context" = context
-        root_repo_path: str = root_repo_path
-        fail_fast: bool = fail_fast
-        pre_commit: bool = pre_commit
+        context: "Context" = context  # type: ignore[no-redef]
+        root_repo_path: str = root_repo_path  # type: ignore[no-redef]
+        fail_fast: bool = fail_fast  # type: ignore[no-redef]
+        pre_commit: bool = pre_commit  # type: ignore[no-redef]
 
     VersionSpec = namedtuple(
         "VersionSpec",
@@ -71,10 +71,15 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
 
     pyproject = tomlkit.loads(pyproject_path.read_bytes())
 
-    py_version = re.match(
+    match = re.match(
         r"^.*(?P<version>3\.[0-9]+)$",
         pyproject.get("project", {}).get("requires-python", ""),
-    ).group("version")
+    )
+    if not match:
+        raise ValueError(
+            "No minimum Python version requirement given in pyproject.toml!"
+        )
+    py_version = match.group("version")
 
     already_handled_packages = set()
     updated_packages = {}

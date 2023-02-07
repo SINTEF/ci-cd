@@ -60,13 +60,13 @@ def setver(  # pylint: disable=too-many-locals
 ):
     """Sets the specified version of specified Python package."""
     if TYPE_CHECKING:  # pragma: no cover
-        package_dir: str = package_dir
-        version: str = version
-        root_repo_path: str = root_repo_path
-        code_base_update: list[str] = code_base_update
-        code_base_update_separator: str = code_base_update_separator
-        test: bool = test
-        fail_fast: bool = fail_fast
+        package_dir: str = package_dir  # type: ignore[no-redef]
+        version: str = version  # type: ignore[no-redef]
+        root_repo_path: str = root_repo_path  # type: ignore[no-redef]
+        code_base_update: list[str] = code_base_update  # type: ignore[no-redef]
+        code_base_update_separator: str = code_base_update_separator  # type: ignore[no-redef]  # pylint: disable=line-too-long
+        test: bool = test  # type: ignore[no-redef]
+        fail_fast: bool = fail_fast  # type: ignore[no-redef]
 
     match = re.fullmatch(
         (
