@@ -227,10 +227,9 @@ def test_special_options(tmp_path: "Path") -> None:
         another line
 """
     )
-    assert (
-        (api_reference_folder / "exceptions.md").read_text(encoding="utf8")
-        == "# exceptions\n\n::: ci_cd.exceptions\n"
-    )
+    assert (api_reference_folder / "exceptions.md").read_text(
+        encoding="utf8"
+    ) == "# exceptions\n\n::: ci_cd.exceptions\n"
 
     assert (api_reference_folder / "tasks" / ".pages").read_text(
         encoding="utf8"
@@ -352,7 +351,9 @@ def test_special_options_multiple_packages(tmp_path: "Path") -> None:
 """
     )
     assert (
-        (api_reference_folder / "ci_cd_again" / "exceptions.md").read_text(encoding="utf8")
+        (api_reference_folder / "ci_cd_again" / "exceptions.md").read_text(
+            encoding="utf8"
+        )
         == """# exceptions
 
 ::: ci_cd_again.exceptions
@@ -420,15 +421,27 @@ def test_larger_package(tmp_path: "Path") -> None:
     assert (
         api_reference_folder.exists()
     ), f"Parent content: {os.listdir(api_reference_folder.parent)}"
-    assert {".pages", "main.md", "utils.md", "tasks", "exceptions.md", "module", "second_module"} == set(
-        os.listdir(api_reference_folder)
-    )
+    assert {
+        ".pages",
+        "main.md",
+        "utils.md",
+        "tasks",
+        "exceptions.md",
+        "module",
+        "second_module",
+    } == set(os.listdir(api_reference_folder))
     for module_dir in [
         api_reference_folder / _.relative_to(package_dir) for _ in new_submodules
     ]:
         extra_dir_content = {"submodule"} if module_dir.name == "module" else set()
         assert module_dir.exists(), f"Parent content: {os.listdir(module_dir.parent)}"
-        assert {".pages", "main.md", "utils.md", "tasks", "exceptions.md"} | extra_dir_content == set(
+        assert {
+            ".pages",
+            "main.md",
+            "utils.md",
+            "tasks",
+            "exceptions.md",
+        } | extra_dir_content == set(
             os.listdir(module_dir)
         ), f"module_dir: {module_dir.relative_to(api_reference_folder)}"
 
