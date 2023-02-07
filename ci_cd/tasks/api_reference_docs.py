@@ -111,24 +111,24 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
 ):
     """Create the Python API Reference in the documentation."""
     if TYPE_CHECKING:  # pragma: no cover
-        context: "Context" = context
-        pre_clean: bool = pre_clean
-        pre_commit: bool = pre_commit
-        root_repo_path: str = root_repo_path
-        docs_folder: str = docs_folder
-        relative: bool = relative
-        debug: bool = debug
+        context: "Context" = context  # type: ignore[no-redef]
+        pre_clean: bool = pre_clean  # type: ignore[no-redef]
+        pre_commit: bool = pre_commit  # type: ignore[no-redef]
+        root_repo_path: str = root_repo_path  # type: ignore[no-redef]
+        docs_folder: str = docs_folder  # type: ignore[no-redef]
+        relative: bool = relative  # type: ignore[no-redef]
+        debug: bool = debug  # type: ignore[no-redef]
 
     if not unwanted_folder:
-        unwanted_folder: list[str] = ["__pycache__"]
+        unwanted_folder: list[str] = ["__pycache__"]  # type: ignore[no-redef]
     if not unwanted_file:
-        unwanted_file: list[str] = ["__init__.py"]
+        unwanted_file: list[str] = ["__init__.py"]  # type: ignore[no-redef]
     if not full_docs_folder:
-        full_docs_folder: list[str] = []
+        full_docs_folder: list[str] = []  # type: ignore[no-redef]
     if not full_docs_file:
-        full_docs_file: list[str] = []
+        full_docs_file: list[str] = []  # type: ignore[no-redef]
     if not special_option:
-        special_option: list[str] = []
+        special_option: list[str] = []  # type: ignore[no-redef]
 
     def write_file(full_path: Path, content: str) -> None:
         """Write file with `content` to `full_path`"""
@@ -145,7 +145,7 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
         result: "Result" = context.run("git rev-parse --show-toplevel", hide=True)
         root_repo_path = result.stdout.strip("\n")
 
-    root_repo_path: Path = Path(root_repo_path).resolve()
+    root_repo_path: Path = Path(root_repo_path).resolve()  # type: ignore[no-redef]
     package_dirs: list[Path] = [root_repo_path / _ for _ in package_dir]
     docs_api_ref_dir = root_repo_path / docs_folder / "api_reference"
 
@@ -355,7 +355,7 @@ special_option: %s""",
         # (which will be good in this case).
         # Concerning the weird last grep command see:
         # http://manpages.ubuntu.com/manpages/precise/en/man1/git-status.1.html
-        result: "Result" = context.run(
+        result: "Result" = context.run(  # type: ignore[no-redef]
             f'git -C "{root_repo_path}" status --porcelain '
             f"{docs_api_ref_dir.relative_to(root_repo_path)} | "
             "grep -E '^[? MARC][?MD]' || exit 0",

@@ -47,15 +47,15 @@ def create_docs_index(  # pylint: disable=too-many-locals
 ):
     """Create the documentation index page from README.md."""
     if TYPE_CHECKING:  # pragma: no cover
-        context: "Context" = context
-        pre_commit: bool = pre_commit
-        root_repo_path: str = root_repo_path
-        replacement_separator: str = replacement_separator
+        context: "Context" = context  # type: ignore[no-redef]
+        pre_commit: bool = pre_commit  # type: ignore[no-redef]
+        root_repo_path: str = root_repo_path  # type: ignore[no-redef]
+        replacement_separator: str = replacement_separator  # type: ignore[no-redef]
 
     docs_folder: Path = Path(docs_folder)
 
     if not replacement:
-        replacement: list[str] = []
+        replacement: list[str] = []  # type: ignore[no-redef]
     replacement.append(f"{docs_folder.name}/{replacement_separator}")
 
     if pre_commit and root_repo_path == ".":
@@ -91,7 +91,7 @@ def create_docs_index(  # pylint: disable=too-many-locals
         # (which will be good in this case).
         # Concerning the weird last grep command see:
         # http://manpages.ubuntu.com/manpages/precise/en/man1/git-status.1.html
-        result: "Result" = context.run(
+        result: "Result" = context.run(  # type: ignore[no-redef]
             f'git -C "{root_repo_path}" status --porcelain '
             f"{docs_index.relative_to(root_repo_path)} | "
             "grep -E '^[? MARC][?MD]' || exit 0",
