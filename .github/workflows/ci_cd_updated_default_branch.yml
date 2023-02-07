@@ -136,7 +136,7 @@ jobs:
           echo "RELEASE_RUN=false" >> $GITHUB_ENV
         fi
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
 
     - name: Checkout ${{ github.repository }}
       if: env.RELEASE_RUN == 'false'
@@ -159,7 +159,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -U setuptools wheel
         pip install ${EDITABLE}.${{ inputs.doc_extras }}
-        pip install git+https://github.com/SINTEF/ci-cd.git@v2.0.0
+        pip install git+https://github.com/SINTEF/ci-cd.git@v2.1.0
 
     - name: Set up git user
       if: env.RELEASE_RUN == 'false'
@@ -278,7 +278,7 @@ jobs:
       if: env.RELEASE_RUN == 'false'
       uses: CharMixer/auto-changelog-action@v1
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
         release_branch: ${{ inputs.default_repo_branch }}
         exclude_tags_regex: "${{ inputs.changelog_exclude_tags_regex }}"
         exclude_labels: "${{ inputs.changelog_exclude_labels }}"
@@ -342,7 +342,7 @@ jobs:
         fi
         if [ -f ".tmp_file.txt" ]; then rm -f .tmp_file.txt; fi
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
 
     - name: Push to '${{ inputs.permanent_dependencies_branch }}'
       if: "! inputs.test"

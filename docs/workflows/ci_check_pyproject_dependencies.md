@@ -88,7 +88,7 @@ on:
 jobs:
   check-dependencies:
     name: Call external workflow
-    uses: SINTEF/ci-cd/.github/workflows/ci_check_pyproject_dependencies.yml@v2.0.0
+    uses: SINTEF/ci-cd/.github/workflows/ci_check_pyproject_dependencies.yml@v2.1.0
     if: github.repository_owner == 'SINTEF'
     with:
       git_username: "Casper Welzel Andersen"

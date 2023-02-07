@@ -2,23 +2,46 @@
 
 ## [Unreleased](https://github.com/SINTEF/ci-cd/tree/HEAD)
 
-[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.0.0...HEAD)
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.1.0...HEAD)
 
 **Implemented enhancements:**
 
-- Make `test: true` actually work for "CD - Release" [\#83](https://github.com/SINTEF/ci-cd/issues/83)
+- Use custom token when possible [\#104](https://github.com/SINTEF/ci-cd/issues/104)
+
+## [v2.1.0](https://github.com/SINTEF/ci-cd/tree/v2.1.0) (2023-02-07)
+
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.0.0...v2.1.0)
+
+**Implemented enhancements:**
+
+- Extend "automerge" workflow with changes [\#69](https://github.com/SINTEF/ci-cd/issues/69)
 
 **Closed issues:**
 
-- Drop using a `vMAJOR` dynamic tag [\#81](https://github.com/SINTEF/ci-cd/issues/81)
+- Acknowledge testing dependencies in pyproject.toml [\#93](https://github.com/SINTEF/ci-cd/issues/93)
+
+**Merged pull requests:**
+
+- Always try to use `PAT` prior to `GITHUB_TOKEN` [\#105](https://github.com/SINTEF/ci-cd/pull/105) ([CasperWA](https://github.com/CasperWA))
+- \[Auto-generated\] Update dependencies [\#103](https://github.com/SINTEF/ci-cd/pull/103) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[Auto-generated\] Update dependencies [\#97](https://github.com/SINTEF/ci-cd/pull/97) ([TEAM4-0](https://github.com/TEAM4-0))
+- Changes prior to auto-merge [\#88](https://github.com/SINTEF/ci-cd/pull/88) ([CasperWA](https://github.com/CasperWA))
 
 ## [v2.0.0](https://github.com/SINTEF/ci-cd/tree/v2.0.0) (2022-12-06)
 
 [Full Changelog](https://github.com/SINTEF/ci-cd/compare/v1.3.5...v2.0.0)
 
+**Implemented enhancements:**
+
+- Make `test: true` actually work for "CD - Release" [\#83](https://github.com/SINTEF/ci-cd/issues/83)
+
 **Fixed bugs:**
 
 - Bad usage of backticks in warning message [\#79](https://github.com/SINTEF/ci-cd/issues/79)
+
+**Closed issues:**
+
+- Drop using a `vMAJOR` dynamic tag [\#81](https://github.com/SINTEF/ci-cd/issues/81)
 
 **Merged pull requests:**
 
