@@ -3,6 +3,8 @@
 Update dependencies in a `pyproject.toml` file.
 """
 # pylint: disable=duplicate-code
+from __future__ import annotations
+
 import logging
 import operator
 import re
