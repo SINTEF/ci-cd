@@ -2,6 +2,8 @@
 
 Update dependencies in a `pyproject.toml` file.
 """
+from __future__ import annotations
+
 import logging
 import operator
 import re
