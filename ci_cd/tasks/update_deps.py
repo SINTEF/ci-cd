@@ -88,6 +88,8 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
         pyproject.get("project", {}).get("optional-dependencies", {}).values()
     ):
         dependencies.extend(optional_deps)
+
+    error = False
     for line in dependencies:
         match = re.match(
             r"^(?P<full_dependency>(?P<package>[a-zA-Z0-9_.-]+)(?:\s*\[.*\])?)\s*"
@@ -107,6 +109,7 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
             if fail_fast:
                 sys.exit(msg)
             print(msg)
+            error = True
             continue
         version_spec = VersionSpec(**match.groupdict())
         LOGGER.debug("version_spec: %s", version_spec)
@@ -154,6 +157,9 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
             if fail_fast:
                 sys.exit(msg)
             print(msg)
+            already_handled_packages.add(version_spec.package)
+            error = True
+            continue
 
         # Sanity check
         if version_spec.package != match.group("package"):
@@ -166,6 +172,9 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
             if fail_fast:
                 sys.exit(msg)
             print(msg)
+            already_handled_packages.add(version_spec.package)
+            error = True
+            continue
 
         latest_version = match.group("version").split(".")
         for index, version_part in enumerate(version_spec.version.split(".")):
@@ -175,27 +184,31 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
             already_handled_packages.add(version_spec.package)
             continue
 
-        # Update pyproject.toml
-        updated_version = ".".join(
-            latest_version[: len(version_spec.version.split("."))]
-        )
-        escaped_full_dependency_name = version_spec.full_dependency.replace(
-            "[", r"\["
-        ).replace("]", r"\]")
-        update_file(
-            pyproject_path,
-            (
-                rf'"{escaped_full_dependency_name} {version_spec.operator}.*"',
-                f'"{version_spec.full_dependency} '
-                f"{version_spec.operator}{updated_version}"
-                f'{version_spec.extra_operator_version if version_spec.extra_operator_version else ""}'  # pylint: disable=line-too-long
-                f'{version_spec.environment_marker if version_spec.environment_marker else ""}"',  # pylint: disable=line-too-long
-            ),
-        )
-        already_handled_packages.add(version_spec.package)
-        updated_packages[
-            version_spec.full_dependency
-        ] = f"{version_spec.operator}{updated_version}"
+        if not error:
+            # Update pyproject.toml
+            updated_version = ".".join(
+                latest_version[: len(version_spec.version.split("."))]
+            )
+            escaped_full_dependency_name = version_spec.full_dependency.replace(
+                "[", r"\["
+            ).replace("]", r"\]")
+            update_file(
+                pyproject_path,
+                (
+                    rf'"{escaped_full_dependency_name} {version_spec.operator}.*"',
+                    f'"{version_spec.full_dependency} '
+                    f"{version_spec.operator}{updated_version}"
+                    f'{version_spec.extra_operator_version if version_spec.extra_operator_version else ""}'  # pylint: disable=line-too-long
+                    f'{version_spec.environment_marker if version_spec.environment_marker else ""}"',  # pylint: disable=line-too-long
+                ),
+            )
+            already_handled_packages.add(version_spec.package)
+            updated_packages[
+                version_spec.full_dependency
+            ] = f"{version_spec.operator}{updated_version}"
+
+    if error:
+        sys.exit("Errors occurred! See printed statements above.")
 
     if updated_packages:
         print(
