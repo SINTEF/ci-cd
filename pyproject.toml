@@ -71,7 +71,7 @@ check_untyped_defs = true
 
 [tool.pylint.messages_control]
 max-line-length = 90
-disable = ["duplicate-code"]
+disable = []
 max-args = 15
 max-branches = 15
 

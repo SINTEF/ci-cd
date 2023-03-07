@@ -3,6 +3,7 @@
 Create Python API reference in the documentation.
 This is specifically to be used with the MkDocs and mkdocstrings framework.
 """
+# pylint: disable=duplicate-code
 import logging
 import os
 import re

@@ -2,6 +2,7 @@
 
 Update dependencies in a `pyproject.toml` file.
 """
+# pylint: disable=duplicate-code
 import logging
 import re
 import sys
