@@ -16,8 +16,9 @@ jobs:
       default_repo_branch: main
       update_docs: true
       doc_extras: "[docs]"
-      update_python_api_ref: false
+      update_python_api_ref: true
       update_docs_landing_page: false
+      package_dirs: ci_cd
       changelog_exclude_tags_regex: "^v[0-9]+$"
       test: false
     secrets:

@@ -28,8 +28,9 @@ jobs:
       build_cmd: flit build
 
       # build docs
-      update_python_api_ref: false
+      update_python_api_ref: true
       update_docs_landing_page: false
+      package_dirs: ci_cd
       debug: false
 
   pytest:
