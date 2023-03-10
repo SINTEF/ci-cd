@@ -153,14 +153,6 @@ jobs:
       with:
         args: --user "${{ github.repository_owner }}" ${{ env.CHANGELOG_PROJECT }} --token "${{ secrets.PAT || secrets.GITHUB_TOKEN }}" --release-branch "${{ inputs.release_branch }}" ${{ env.CHANGELOG_EXCLUDE_TAGS_REGEX }} ${{ env.CHANGELOG_EXCLUDE_LABELS }}
 
-    # - name: Update changelog
-    #   uses: CharMixer/auto-changelog-action@v1
-    #   with:
-    #     token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
-    #     release_branch: ${{ inputs.release_branch }}
-    #     exclude_tags_regex: "${{ inputs.changelog_exclude_tags_regex }}"
-    #     exclude_labels: "${{ inputs.changelog_exclude_labels }}"
-
     - name: Set up git user
       run: |
         git config --global user.name "${{ inputs.git_username }}"
@@ -249,16 +241,6 @@ jobs:
       uses: docker://githubchangeloggenerator/github-changelog-generator:1.16.2
       with:
         args: --user "${{ github.repository_owner }}" ${{ env.CHANGELOG_PROJECT }} --token "${{ secrets.PAT || secrets.GITHUB_TOKEN }}" --release-branch "${{ inputs.release_branch }}" --since-tag "${{ env.PREVIOUS_VERSION }}" --output release_changelog.md --usernames-as-github-logins ${{ env.CHANGELOG_EXCLUDE_TAGS_REGEX }} ${{ env.CHANGELOG_EXCLUDE_LABELS }}
-
-    # - name: Create release-specific changelog
-    #   uses: CharMixer/auto-changelog-action@v1
-    #   with:
-    #     token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
-    #     release_branch: ${{ inputs.release_branch }}
-    #     since_tag: "${{ env.PREVIOUS_VERSION }}"
-    #     output: "release_changelog.md"
-    #     exclude_tags_regex: "${{ inputs.changelog_exclude_tags_regex }}"
-    #     exclude_labels: "${{ inputs.changelog_exclude_labels }}"
 
     - name: Append changelog to release body
       run: |
