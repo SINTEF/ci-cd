@@ -249,7 +249,7 @@ jobs:
     - name: Create release-specific changelog
       uses: docker://githubchangeloggenerator/github-changelog-generator:1.16.2
       with:
-        args: --user "${{ github.repository_owner }}" ${{ env.CHANGELOG_PROJECT }} --token "${{ secrets.PAT || secrets.GITHUB_TOKEN }}" --release-branch "${{ inputs.release_branch }}" --since-tag "${{ env.PREVIOUS_VERSION }}" --output release_changelog.md ${{ env.CHANGELOG_EXCLUDE_TAGS_REGEX }} ${{ env.CHANGELOG_EXCLUDE_LABELS }}
+        args: --user "${{ github.repository_owner }}" ${{ env.CHANGELOG_PROJECT }} --token "${{ secrets.PAT || secrets.GITHUB_TOKEN }}" --release-branch "${{ inputs.release_branch }}" --since-tag "${{ env.PREVIOUS_VERSION }}" --output release_changelog.md --usernames-as-github-logins ${{ env.CHANGELOG_EXCLUDE_TAGS_REGEX }} ${{ env.CHANGELOG_EXCLUDE_LABELS }}
 
     # - name: Create release-specific changelog
     #   uses: CharMixer/auto-changelog-action@v1
