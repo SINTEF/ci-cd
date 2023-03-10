@@ -145,7 +145,8 @@ jobs:
         else
           echo 'CHANGELOG_EXCLUDE_LABELS=' >> $GITHUB_ENV
         fi
-        echo 'CHANGELOG_PROJECT=--project "$(echo $GITHUB_REPOSITORY | cut -d/ -f2- )"' >> $GITHUB_ENV
+        PROJECT=$(echo $GITHUB_REPOSITORY | cut -d/ -f2- )
+        echo "CHANGELOG_PROJECT=--project ${PROJECT}" >> $GITHUB_ENV
 
     - name: Update changelog
       uses: docker://githubchangeloggenerator/github-changelog-generator:1.16.2
