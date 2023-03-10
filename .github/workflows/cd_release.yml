@@ -109,7 +109,7 @@ on:
 jobs:
   update-and-publish:
     name: Update CHANGELOG and version and publish to PyPI
-    # if: startsWith(github.ref, 'refs/tags/v')
+    if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
 
     steps:
@@ -168,9 +168,8 @@ jobs:
 
     - name: Update version and tag
       run: |
-        # REF=${{ github.ref }}
-        # REF=${REF#refs/tags/}
-        REF=v10.0.0
+        REF=${{ github.ref }}
+        REF=${REF#refs/tags/}
 
         if [ "${{ inputs.python_package }}" == "true" ]; then
           if [ -z "${{ inputs.package_dirs }}" ]; then
@@ -227,16 +226,16 @@ jobs:
         git checkout -- .
         ${{ inputs.build_cmd }}
 
-    # - name: Update '${{ inputs.release_branch }}'
-    #   uses: CasperWA/push-protected@v2
-    #   with:
-    #     token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
-    #     branch: ${{ inputs.release_branch }}
-    #     sleep: 15
-    #     force: true
-    #     tags: true
-    #     unprotect_reviews: true
-    #     debug: ${{ inputs.test }}
+    - name: Update '${{ inputs.release_branch }}'
+      uses: CasperWA/push-protected@v2
+      with:
+        token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
+        branch: ${{ inputs.release_branch }}
+        sleep: 15
+        force: true
+        tags: true
+        unprotect_reviews: true
+        debug: ${{ inputs.test }}
 
     - name: Get tagged versions
       run: |
@@ -261,28 +260,28 @@ jobs:
     #     exclude_tags_regex: "${{ inputs.changelog_exclude_tags_regex }}"
     #     exclude_labels: "${{ inputs.changelog_exclude_labels }}"
 
-    # - name: Append changelog to release body
-    #   run: |
-    #     gh api /repos/${{ github.repository }}/releases/${{ github.event.release.id }} --jq '.body' > release_body.md
-    #     cat release_changelog.md >> release_body.md
-    #     gh api /repos/${{ github.repository }}/releases/${{ github.event.release.id }} -X PATCH -F body='@release_body.md'
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
+    - name: Append changelog to release body
+      run: |
+        gh api /repos/${{ github.repository }}/releases/${{ github.event.release.id }} --jq '.body' > release_body.md
+        cat release_changelog.md >> release_body.md
+        gh api /repos/${{ github.repository }}/releases/${{ github.event.release.id }} -X PATCH -F body='@release_body.md'
+      env:
+        GITHUB_TOKEN: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
 
-    # - name: Publish package to TestPyPI
-    #   if: inputs.test && inputs.publish_on_pypi && inputs.python_package
-    #   uses: pypa/gh-action-pypi-publish@v1.6.4
-    #   with:
-    #     user: __token__
-    #     password: ${{ secrets.PyPI_token }}
-    #     repository_url: https://test.pypi.org/legacy/
+    - name: Publish package to TestPyPI
+      if: inputs.test && inputs.publish_on_pypi && inputs.python_package
+      uses: pypa/gh-action-pypi-publish@v1.6.4
+      with:
+        user: __token__
+        password: ${{ secrets.PyPI_token }}
+        repository_url: https://test.pypi.org/legacy/
 
-    # - name: Publish package to PyPI
-    #   if: ( ! inputs.test ) && inputs.publish_on_pypi && inputs.python_package
-    #   uses: pypa/gh-action-pypi-publish@v1.6.4
-    #   with:
-    #     user: __token__
-    #     password: ${{ secrets.PyPI_token }}
+    - name: Publish package to PyPI
+      if: ( ! inputs.test ) && inputs.publish_on_pypi && inputs.python_package
+      uses: pypa/gh-action-pypi-publish@v1.6.4
+      with:
+        user: __token__
+        password: ${{ secrets.PyPI_token }}
 
   docs:
     name: Deploy release documentation
