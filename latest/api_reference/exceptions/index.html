@@ -10,20 +10,20 @@
       
       
       
-        <link rel="canonical" href="https://SINTEF.github.io/ci-cd/latest/workflows/ci_automerge_prs/">
+        <link rel="canonical" href="https://SINTEF.github.io/ci-cd/latest/api_reference/exceptions/">
       
       
-        <link rel="prev" href="../cd_release/">
+        <link rel="prev" href="../../CHANGELOG/">
       
       
-        <link rel="next" href="../ci_cd_updated_default_branch/">
+        <link rel="next" href="../main/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.2">
     
     
       
-        <title>CI - Activate auto-merging for PRs - GH Action Reusable Workflows</title>
+        <title>exceptions - GH Action Reusable Workflows</title>
       
     
     
@@ -75,7 +75,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#ci-activate-auto-merging-for-prs" class="md-skip">
+        <a href="#exceptions" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              CI - Activate auto-merging for PRs
+              exceptions
             
           </span>
         </div>
@@ -237,16 +237,14 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
       
       
       
@@ -255,7 +253,7 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_2">
           <span class="md-nav__icon md-icon"></span>
           Workflows
@@ -268,7 +266,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../" class="md-nav__link">
+      <a href="../../workflows/" class="md-nav__link">
         Overview
       </a>
     </li>
@@ -282,7 +280,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../cd_release/" class="md-nav__link">
+      <a href="../../workflows/cd_release/" class="md-nav__link">
         CD - Release
       </a>
     </li>
@@ -294,73 +292,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          CI - Activate auto-merging for PRs
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../workflows/ci_automerge_prs/" class="md-nav__link">
         CI - Activate auto-merging for PRs
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#expectations" class="md-nav__link">
-    Expectations
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#inputs" class="md-nav__link">
-    Inputs
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#secrets" class="md-nav__link">
-    Secrets
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#usage-example" class="md-nav__link">
-    Usage example
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -372,7 +308,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ci_cd_updated_default_branch/" class="md-nav__link">
+      <a href="../../workflows/ci_cd_updated_default_branch/" class="md-nav__link">
         CI/CD - New updates to default branch
       </a>
     </li>
@@ -386,7 +322,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ci_check_pyproject_dependencies/" class="md-nav__link">
+      <a href="../../workflows/ci_check_pyproject_dependencies/" class="md-nav__link">
         CI - Check pyproject.toml dependencies
       </a>
     </li>
@@ -400,7 +336,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ci_tests/" class="md-nav__link">
+      <a href="../../workflows/ci_tests/" class="md-nav__link">
         CI - Tests
       </a>
     </li>
@@ -414,7 +350,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ci_update_dependencies/" class="md-nav__link">
+      <a href="../../workflows/ci_update_dependencies/" class="md-nav__link">
         CI - Update dependencies PR
       </a>
     </li>
@@ -541,14 +477,16 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
       
       
       
@@ -557,7 +495,7 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_6">
           <span class="md-nav__icon md-icon"></span>
           Developers
@@ -568,14 +506,16 @@
               
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1" checked>
       
       
       
@@ -584,7 +524,7 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_1_label" aria-expanded="false">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_1_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_6_1">
           <span class="md-nav__icon md-icon"></span>
           API Reference
@@ -595,11 +535,73 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../../api_reference/exceptions/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          exceptions
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         exceptions
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#ci_cd.exceptions" class="md-nav__link">
+    ci_cd.exceptions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ci_cd.exceptions.CICDException" class="md-nav__link">
+    CICDException
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ci_cd.exceptions.InputError" class="md-nav__link">
+    InputError
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ci_cd.exceptions.InputParserError" class="md-nav__link">
+    InputParserError
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -611,7 +613,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/main/" class="md-nav__link">
+      <a href="../main/" class="md-nav__link">
         main
       </a>
     </li>
@@ -625,7 +627,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/utils/" class="md-nav__link">
+      <a href="../utils/" class="md-nav__link">
         utils
       </a>
     </li>
@@ -666,7 +668,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/tasks/api_reference_docs/" class="md-nav__link">
+      <a href="../tasks/api_reference_docs/" class="md-nav__link">
         api_reference_docs
       </a>
     </li>
@@ -680,7 +682,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/tasks/docs_index/" class="md-nav__link">
+      <a href="../tasks/docs_index/" class="md-nav__link">
         docs_index
       </a>
     </li>
@@ -694,7 +696,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/tasks/setver/" class="md-nav__link">
+      <a href="../tasks/setver/" class="md-nav__link">
         setver
       </a>
     </li>
@@ -708,7 +710,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api_reference/tasks/update_deps/" class="md-nav__link">
+      <a href="../tasks/update_deps/" class="md-nav__link">
         update_deps
       </a>
     </li>
@@ -763,29 +765,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#expectations" class="md-nav__link">
-    Expectations
+  <a href="#ci_cd.exceptions" class="md-nav__link">
+    ci_cd.exceptions
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#inputs" class="md-nav__link">
-    Inputs
+  <a href="#ci_cd.exceptions.CICDException" class="md-nav__link">
+    CICDException
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#secrets" class="md-nav__link">
-    Secrets
+  <a href="#ci_cd.exceptions.InputError" class="md-nav__link">
+    InputError
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#usage-example" class="md-nav__link">
-    Usage example
+  <a href="#ci_cd.exceptions.InputParserError" class="md-nav__link">
+    InputParserError
   </a>
   
 </li>
@@ -805,159 +807,128 @@
                   
 
 
-<h1 id="ci-activate-auto-merging-for-prs">CI - Activate auto-merging for PRs<a class="headerlink" href="#ci-activate-auto-merging-for-prs" title="Permanent link">&para;</a></h1>
-<p><strong>File to use:</strong> <code>ci_automerge_prs.yml</code></p>
-<p>Activate auto-merging for a PR.</p>
-<p>It is possible to introduce changes to the PR head branch prior to activating the auto-merging, if so desired.
-This is done by setting <code>perform_changes</code> to <code>'true'</code> and setting the other inputs accordingly, as they are now required.
-See <a href="#inputs">Inputs</a> below for a full overview of the available inputs.</p>
-<p>The <code>changes</code> input can be both a path to a bash file that should be run, or a single or multi-line string of bash commands to run.
-Afterwards any and all changes in the repository will be committed and pushed to the PR head branch.</p>
-<p>The motivation for being able to run changes prior to auto-merging, is to update or affect the repository files according to the specific PR being auto-merged.
-Usually auto-merging is activated for <a href="https://docs.github.com/en/code-security/dependabot">dependabot</a> branches, i.e., when a dependency/requirement is updated.
-Hence, the changes could include updating this dependency in documentation files or similar, where it will not be updated otherwise.</p>
-<h2 id="expectations">Expectations<a class="headerlink" href="#expectations" title="Permanent link">&para;</a></h2>
-<p>The <code>PAT</code> secret must represent a user with the rights to activate auto-merging.</p>
-<p>This workflow can <em>only</em> be called if the triggering event from the caller workflow is <code>pull_request_target</code>.</p>
-<h2 id="inputs">Inputs<a class="headerlink" href="#inputs" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th align="left"><strong>Name</strong></th>
-<th align="left"><strong>Description</strong></th>
-<th align="center"><strong>Required</strong></th>
-<th align="center"><strong>Default</strong></th>
-<th align="center"><strong>Type</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left"><code>perform_changes</code></td>
-<td align="left">Whether or not to perform and commit changes to the PR branch prior to activating auto-merge.</td>
-<td align="center">No</td>
-<td align="center"></td>
-<td align="center"><em>boolean</em></td>
-</tr>
-<tr>
-<td align="left"><code>git_username</code></td>
-<td align="left">A git username (used to set the 'user.name' config option).</br><strong>Required</strong> if <code>perform_changes</code> is 'true'.</td>
-<td align="center">No</td>
-<td align="center"></td>
-<td align="center"><em>string</em></td>
-</tr>
-<tr>
-<td align="left"><code>git_email</code></td>
-<td align="left">A git user's email address (used to set the 'user.email' config option).</br><strong>Required</strong> if <code>perform_changes</code> is 'true'.</td>
-<td align="center">No</td>
-<td align="center"></td>
-<td align="center"><em>string</em></td>
-</tr>
-<tr>
-<td align="left"><code>changes</code></td>
-<td align="left">A file to run in the local repository (relative path from the root of the repository) or a multi-line string of bash commands to run.</br><strong>Required</strong> if <code>perform_changes</code> is 'true'.</td>
-<td align="center">No</td>
-<td align="center"></td>
-<td align="center"><em>string</em></td>
-</tr>
-</tbody>
-</table>
-<h2 id="secrets">Secrets<a class="headerlink" href="#secrets" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th align="left"><strong>Name</strong></th>
-<th align="left"><strong>Description</strong></th>
-<th align="center"><strong>Required</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left"><code>PAT</code></td>
-<td align="left">A personal access token (PAT) with rights to update the <code>permanent_dependencies_branch</code>. This will fallback on <code>GITHUB_TOKEN</code>.</td>
-<td align="center">No</td>
-</tr>
-</tbody>
-</table>
-<h2 id="usage-example">Usage example<a class="headerlink" href="#usage-example" title="Permanent link">&para;</a></h2>
-<p>The following is an example of how a workflow may look that calls <em>CI - Activate auto-merging for PRs</em>.
-It is meant to be complete as is.</p>
-<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CI - Activate auto-merging for Dependabot PRs</span>
+<h1 id="exceptions">exceptions<a class="headerlink" href="#exceptions" title="Permanent link">&para;</a></h1>
 
-<span class="nt">on</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">pull_request_target</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">branches</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ci/dependency-updates</span>
 
-<span class="nt">jobs</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">update-dependency-branch</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Call external workflow</span>
-<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SINTEF/ci-cd/.github/workflows/ci_automerge_prs.yml@v2.1.0</span>
-<span class="w">    </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.repository_owner == &#39;SINTEF&#39; &amp;&amp; ( ( startsWith(github.event.pull_request.head.ref, &#39;dependabot/&#39;) &amp;&amp; github.actor == &#39;dependabot[bot]&#39; ) || ( github.event.pull_request.head.ref == &#39;ci/update-pyproject&#39; &amp;&amp; github.actor == &#39;CasperWA&#39; ) )</span>
-<span class="w">    </span><span class="nt">secrets</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">PAT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.RELEASE_PAT }}</span>
+  <div class="doc doc-object doc-module">
+
+<a id="ci_cd.exceptions"></a>
+    <div class="doc doc-contents first">
+
+      <p>CI/CD-specific exceptions.</p>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h3 id="ci_cd.exceptions.CICDException" class="doc doc-heading">
+        <code>
+CICDException            (<span title="Exception">Exception</span>)
+        </code>
+
+
+
+<a href="#ci_cd.exceptions.CICDException" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Top-level package exception class.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>ci_cd/exceptions.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">CICDException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Top-level package exception class.&quot;&quot;&quot;</span>
 </code></pre></div>
-<p>A couple of usage examples when adding changes:</p>
-<p>Here, referencing a bash script file for the changes.</p>
-<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CI - Activate auto-merging for Dependabot PRs</span>
+        </details>
 
-<span class="nt">on</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">pull_request_target</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">branches</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ci/dependency-updates</span>
 
-<span class="nt">jobs</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">update-dependency-branch</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Call external workflow</span>
-<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SINTEF/ci-cd/.github/workflows/ci_automerge_prs.yml@v2.1.0</span>
-<span class="w">    </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.repository_owner == &#39;SINTEF&#39; &amp;&amp; ( ( startsWith(github.event.pull_request.head.ref, &#39;dependabot/&#39;) &amp;&amp; github.actor == &#39;dependabot[bot]&#39; ) || ( github.event.pull_request.head.ref == &#39;ci/update-pyproject&#39; &amp;&amp; github.actor == &#39;CasperWA&#39; ) )</span>
-<span class="w">    </span><span class="nt">with</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">perform_changes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">      </span><span class="nt">git_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Casper</span><span class="nv"> </span><span class="s">Welzel</span><span class="nv"> </span><span class="s">Andersen&quot;</span>
-<span class="w">      </span><span class="nt">git_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CasperWA@github.com&quot;</span>
-<span class="w">      </span><span class="nt">changes</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;.ci/pre_automerge.sh&quot;</span>
-<span class="w">    </span><span class="nt">secrets</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">PAT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.RELEASE_PAT }}</span>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h3 id="ci_cd.exceptions.InputError" class="doc doc-heading">
+        <code>
+InputError            (<span title="ValueError">ValueError</span>, <a class="autorefs autorefs-internal" title="ci_cd.exceptions.CICDException" href="#ci_cd.exceptions.CICDException">CICDException</a>)
+        </code>
+
+
+
+<a href="#ci_cd.exceptions.InputError" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>There is an error with the input given to a task.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>ci_cd/exceptions.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">InputError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">CICDException</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;There is an error with the input given to a task.&quot;&quot;&quot;</span>
 </code></pre></div>
-<p>Here, writing out the changes explicitly in the job.</p>
-<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CI - Activate auto-merging for Dependabot PRs</span>
+        </details>
 
-<span class="nt">on</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">pull_request_target</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">branches</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ci/dependency-updates</span>
 
-<span class="nt">jobs</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">update-dependency-branch</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Call external workflow</span>
-<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SINTEF/ci-cd/.github/workflows/ci_automerge_prs.yml@v2.1.0</span>
-<span class="w">    </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.repository_owner == &#39;SINTEF&#39; &amp;&amp; ( ( startsWith(github.event.pull_request.head.ref, &#39;dependabot/&#39;) &amp;&amp; github.actor == &#39;dependabot[bot]&#39; ) || ( github.event.pull_request.head.ref == &#39;ci/update-pyproject&#39; &amp;&amp; github.actor == &#39;CasperWA&#39; ) )</span>
-<span class="w">    </span><span class="nt">with</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">perform_changes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">      </span><span class="nt">git_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Casper</span><span class="nv"> </span><span class="s">Welzel</span><span class="nv"> </span><span class="s">Andersen&quot;</span>
-<span class="w">      </span><span class="nt">git_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CasperWA@github.com&quot;</span>
-<span class="w">      </span><span class="nt">changes</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<span class="w">        </span><span class="no">PYTHON=</span>
-<span class="w">        </span><span class="no">python --version || PYTHON=NO</span>
-<span class="w">        </span><span class="no">if [ -n &quot;${PYTHON} ]; then</span>
-<span class="w">          </span><span class="no">echo &quot;Python not detected on the system.&quot;</span>
-<span class="w">          </span><span class="no">exit 1</span>
-<span class="w">        </span><span class="no">fi</span>
-<span class="w">        </span><span class="no">PIP=</span>
-<span class="w">        </span><span class="no">python -m pip --version || PIP=NO</span>
-<span class="w">        </span><span class="no">if [ -n &quot;${PYTHON} ]; then</span>
-<span class="w">          </span><span class="no">echo &quot;pip not detected to be installed for Python.&quot;</span>
-<span class="w">          </span><span class="no">exit 1</span>
-<span class="w">        </span><span class="no">fi</span>
+    </div>
 
-<span class="w">        </span><span class="no">python -m pip install -U pip</span>
-<span class="w">        </span><span class="no">pip install -U setuptools wheel</span>
-<span class="w">        </span><span class="no">pip install pre-commit</span>
+  </div>
 
-<span class="w">        </span><span class="no">pre-commit autoupdate</span>
-<span class="w">        </span><span class="no">pre-commit run --all-files || :</span>
-<span class="w">    </span><span class="nt">secrets</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">PAT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.RELEASE_PAT }}</span>
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h3 id="ci_cd.exceptions.InputParserError" class="doc doc-heading">
+        <code>
+InputParserError            (<a class="autorefs autorefs-internal" title="ci_cd.exceptions.InputError" href="#ci_cd.exceptions.InputError">InputError</a>)
+        </code>
+
+
+
+<a href="#ci_cd.exceptions.InputParserError" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>The input could not be parsed, it may be wrongly formatted.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>ci_cd/exceptions.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">InputParserError</span><span class="p">(</span><span class="n">InputError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The input could not be parsed, it may be wrongly formatted.&quot;&quot;&quot;</span>
 </code></pre></div>
+        </details>
+
+
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
 
 
 
