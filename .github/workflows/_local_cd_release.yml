@@ -1,14 +1,15 @@
 name: CD - Release
 
 on:
-  release:
-   types:
-     - "published"
+  # release:
+  #  types:
+  #    - "published"
+  push:
 
 jobs:
   publish:
     name: Call reusable workflow
-    if: github.repository == 'SINTEF/ci-cd' && startsWith(github.ref, 'refs/tags/v')
+    # if: github.repository == 'SINTEF/ci-cd' && startsWith(github.ref, 'refs/tags/v')
     uses: ./.github/workflows/cd_release.yml
     with:
       git_username: "TEAM 4.0[bot]"
@@ -17,10 +18,11 @@ jobs:
       publish_on_pypi: false
       package_dirs: ci_cd
       release_branch: main
-      update_docs: true
+      update_docs: false
       doc_extras: "[docs]"
       changelog_exclude_tags_regex: "^v[0-9]+$"  # Exclude 'v1' tag
-      test: false
+      changelog_exclude_labels: "CI/CD"
+      test: true
       version_update_changes_separator: ","
       version_update_changes: |
         {package_dir}/__init__.py,__version__ *= *(?:'|\").*(?:'|\"),__version__ = \"{version}\"
