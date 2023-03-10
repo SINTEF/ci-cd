@@ -12,6 +12,11 @@ on:
         description: "A git user's email address (used to set the 'user.email' config option)."
         required: true
         type: string
+      release_branch:
+        description: "The branch name to release/publish from."
+        required: true
+        type: string
+        default: main
       # OPTIONAL
       python_package:
         description: "Whether or not this is a Python package, where the version should be updated in the 'package_dir'/__init__.py for the possibly several 'package_dir' lines given in the 'package_dirs' input and a build and release to PyPI should be performed."
@@ -23,11 +28,6 @@ on:
         required: false
         type: string
         default: ""
-      release_branch:
-        description: "The branch name to release/publish from."
-        required: false
-        type: string
-        default: main
       install_extras:
         description: "Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces. Example: `'[dev,release]'`."
         required: false
@@ -133,13 +133,31 @@ jobs:
         pip install ${EDITABLE}.${{ inputs.install_extras }}
         pip install git+https://github.com/SINTEF/ci-cd.git@v2.1.0
 
+    - name: Parse changelog configuration
+      run: |
+        if [ -n "${{ inputs.changelog_exclude_tags_regex }}" ]; then
+          echo 'CHANGELOG_EXCLUDE_TAGS_REGEX=--exclude-tags-regex "${{ inputs.changelog_exclude_tags_regex }}"' >> $GITHUB_ENV
+        else
+          echo 'CHANGELOG_EXCLUDE_TAGS_REGEX=' >> $GITHUB_ENV
+        fi
+        if [ -n "${{ inputs.changelog_exclude_labels}}" ]; then
+          echo 'CHANGELOG_EXCLUDE_LABELS=--exclude-labels "${{ inputs.changelog_exclude_labels }}"' >> $GITHUB_ENV
+        else
+          echo 'CHANGELOG_EXCLUDE_LABELS=' >> $GITHUB_ENV
+        fi
+
     - name: Update changelog
-      uses: CharMixer/auto-changelog-action@v1
+      uses: docker://githubchangeloggenerator/github-changelog-generator:1.16.2
       with:
-        token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
-        release_branch: ${{ inputs.release_branch }}
-        exclude_tags_regex: "${{ inputs.changelog_exclude_tags_regex }}"
-        exclude_labels: "${{ inputs.changelog_exclude_labels }}"
+        args: --user "${{ github.repository_owner }}" --project "$(echo $GITHUB_REPOSITORY | cut -d/ -f2- )" --token "${{ secrets.PAT || secrets.GITHUB_TOKEN }}" --release-branch "${{ inputs.release_branch }}" ${{ env.CHANGELOG_EXCLUDE_TAGS_REGEX }} ${{ env.CHANGELOG_EXCLUDE_LABELS }}
+
+    # - name: Update changelog
+    #   uses: CharMixer/auto-changelog-action@v1
+    #   with:
+    #     token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
+    #     release_branch: ${{ inputs.release_branch }}
+    #     exclude_tags_regex: "${{ inputs.changelog_exclude_tags_regex }}"
+    #     exclude_labels: "${{ inputs.changelog_exclude_labels }}"
 
     - name: Set up git user
       run: |
@@ -226,14 +244,19 @@ jobs:
         fi
 
     - name: Create release-specific changelog
-      uses: CharMixer/auto-changelog-action@v1
+      uses: docker://githubchangeloggenerator/github-changelog-generator:1.16.2
       with:
-        token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
-        release_branch: ${{ inputs.release_branch }}
-        since_tag: "${{ env.PREVIOUS_VERSION }}"
-        output: "release_changelog.md"
-        exclude_tags_regex: "${{ inputs.changelog_exclude_tags_regex }}"
-        exclude_labels: "${{ inputs.changelog_exclude_labels }}"
+        args: --user "${{ github.repository_owner }}" --project "$(echo $GITHUB_REPOSITORY | cut -d/ -f2- )" --token "${{ secrets.PAT || secrets.GITHUB_TOKEN }}" --release-branch "${{ inputs.release_branch }}" --since-tag "${{ env.PREVIOUS_VERSION }}" --output release_changelog.md ${{ env.CHANGELOG_EXCLUDE_TAGS_REGEX }} ${{ env.CHANGELOG_EXCLUDE_LABELS }}
+
+    # - name: Create release-specific changelog
+    #   uses: CharMixer/auto-changelog-action@v1
+    #   with:
+    #     token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
+    #     release_branch: ${{ inputs.release_branch }}
+    #     since_tag: "${{ env.PREVIOUS_VERSION }}"
+    #     output: "release_changelog.md"
+    #     exclude_tags_regex: "${{ inputs.changelog_exclude_tags_regex }}"
+    #     exclude_labels: "${{ inputs.changelog_exclude_labels }}"
 
     - name: Append changelog to release body
       run: |
