@@ -37,7 +37,7 @@ def test_default_run(tmp_path: "Path") -> None:
     assert (
         api_reference_folder.exists()
     ), f"Parent content: {os.listdir(api_reference_folder.parent)}"
-    assert {".pages", "main.md", "utils.md", "tasks"} == set(
+    assert {".pages", "main.md", "utils.md", "tasks", "exceptions.md"} == set(
         os.listdir(api_reference_folder)
     )
     assert {
@@ -57,6 +57,9 @@ def test_default_run(tmp_path: "Path") -> None:
     assert (api_reference_folder / "utils.md").read_text(
         encoding="utf8"
     ) == "# utils\n\n::: ci_cd.utils\n"
+    assert (api_reference_folder / "exceptions.md").read_text(
+        encoding="utf8"
+    ) == "# exceptions\n\n::: ci_cd.exceptions\n"
 
     assert (api_reference_folder / "tasks" / ".pages").read_text(
         encoding="utf8"
@@ -108,7 +111,7 @@ def test_nested_package(tmp_path: "Path") -> None:
     assert (
         api_reference_folder.exists()
     ), f"Parent content: {os.listdir(api_reference_folder.parent)}"
-    assert {".pages", "main.md", "utils.md", "tasks"} == set(
+    assert {".pages", "main.md", "utils.md", "tasks", "exceptions.md"} == set(
         os.listdir(api_reference_folder)
     )
     assert {
@@ -128,6 +131,9 @@ def test_nested_package(tmp_path: "Path") -> None:
     assert (api_reference_folder / "utils.md").read_text(
         encoding="utf8"
     ) == "# utils\n\n::: src.ci_cd.ci_cd.utils\n"
+    assert (api_reference_folder / "exceptions.md").read_text(
+        encoding="utf8"
+    ) == "# exceptions\n\n::: src.ci_cd.ci_cd.exceptions\n"
 
     assert (api_reference_folder / "tasks" / ".pages").read_text(
         encoding="utf8"
@@ -185,7 +191,7 @@ def test_special_options(tmp_path: "Path") -> None:
     assert (
         api_reference_folder.exists()
     ), f"Parent content: {os.listdir(api_reference_folder.parent)}"
-    assert {".pages", "main.md", "utils.md", "tasks"} == set(
+    assert {".pages", "main.md", "utils.md", "tasks", "exceptions.md"} == set(
         os.listdir(api_reference_folder)
     )
     assert {
@@ -221,6 +227,9 @@ def test_special_options(tmp_path: "Path") -> None:
         another line
 """
     )
+    assert (api_reference_folder / "exceptions.md").read_text(
+        encoding="utf8"
+    ) == "# exceptions\n\n::: ci_cd.exceptions\n"
 
     assert (api_reference_folder / "tasks" / ".pages").read_text(
         encoding="utf8"
@@ -284,7 +293,7 @@ def test_special_options_multiple_packages(tmp_path: "Path") -> None:
     ), f"Parent content: {os.listdir(api_reference_folder.parent)}"
     assert {".pages", "ci_cd", "ci_cd_again"} == set(os.listdir(api_reference_folder))
     for package_dir in [api_reference_folder / _.name for _ in package_dirs]:
-        assert {".pages", "main.md", "utils.md", "tasks"} == set(
+        assert {".pages", "main.md", "utils.md", "tasks", "exceptions.md"} == set(
             os.listdir(package_dir)
         )
         assert {
@@ -316,6 +325,13 @@ def test_special_options_multiple_packages(tmp_path: "Path") -> None:
 """
     )
     assert (
+        (api_reference_folder / "ci_cd" / "exceptions.md").read_text(encoding="utf8")
+        == """# exceptions
+
+::: ci_cd.exceptions
+"""
+    )
+    assert (
         (api_reference_folder / "ci_cd_again" / "main.md").read_text(encoding="utf8")
         == """# main
 
@@ -332,6 +348,15 @@ def test_special_options_multiple_packages(tmp_path: "Path") -> None:
       my_special_option: |
         multi-line-thing
         another line
+"""
+    )
+    assert (
+        (api_reference_folder / "ci_cd_again" / "exceptions.md").read_text(
+            encoding="utf8"
+        )
+        == """# exceptions
+
+::: ci_cd_again.exceptions
 """
     )
 
@@ -396,15 +421,27 @@ def test_larger_package(tmp_path: "Path") -> None:
     assert (
         api_reference_folder.exists()
     ), f"Parent content: {os.listdir(api_reference_folder.parent)}"
-    assert {".pages", "main.md", "utils.md", "tasks", "module", "second_module"} == set(
-        os.listdir(api_reference_folder)
-    )
+    assert {
+        ".pages",
+        "main.md",
+        "utils.md",
+        "tasks",
+        "exceptions.md",
+        "module",
+        "second_module",
+    } == set(os.listdir(api_reference_folder))
     for module_dir in [
         api_reference_folder / _.relative_to(package_dir) for _ in new_submodules
     ]:
         extra_dir_content = {"submodule"} if module_dir.name == "module" else set()
         assert module_dir.exists(), f"Parent content: {os.listdir(module_dir.parent)}"
-        assert {".pages", "main.md", "utils.md", "tasks"} | extra_dir_content == set(
+        assert {
+            ".pages",
+            "main.md",
+            "utils.md",
+            "tasks",
+            "exceptions.md",
+        } | extra_dir_content == set(
             os.listdir(module_dir)
         ), f"module_dir: {module_dir.relative_to(api_reference_folder)}"
 
@@ -417,6 +454,9 @@ def test_larger_package(tmp_path: "Path") -> None:
     assert (api_reference_folder / "utils.md").read_text(
         encoding="utf8"
     ) == "# utils\n\n::: ci_cd.utils\n"
+    assert (api_reference_folder / "exceptions.md").read_text(
+        encoding="utf8"
+    ) == "# exceptions\n\n::: ci_cd.exceptions\n"
 
     assert (api_reference_folder / "tasks" / ".pages").read_text(
         encoding="utf8"
@@ -453,6 +493,11 @@ def test_larger_package(tmp_path: "Path") -> None:
         assert (module_dir / "utils.md").read_text(
             encoding="utf8"
         ) == f"# utils\n\n::: {py_path}.utils\n", (
+            f"module_dir: {module_dir.relative_to(api_reference_folder)}"
+        )
+        assert (module_dir / "exceptions.md").read_text(
+            encoding="utf8"
+        ) == f"# exceptions\n\n::: {py_path}.exceptions\n", (
             f"module_dir: {module_dir.relative_to(api_reference_folder)}"
         )
 
@@ -533,6 +578,7 @@ def test_larger_multi_packages(tmp_path: "Path") -> None:
             "main.md",
             "utils.md",
             "tasks",
+            "exceptions.md",
             "module",
             "second_module",
         } == set(
@@ -548,6 +594,7 @@ def test_larger_multi_packages(tmp_path: "Path") -> None:
                 "main.md",
                 "utils.md",
                 "tasks",
+                "exceptions.md",
             } | extra_dir_content == set(
                 os.listdir(module_dir)
             ), f"module_dir: {module_dir.relative_to(api_reference_folder)}"
@@ -567,6 +614,9 @@ def test_larger_multi_packages(tmp_path: "Path") -> None:
         assert (package_dir / "utils.md").read_text(
             encoding="utf8"
         ) == f"# utils\n\n::: {package_dir.name}.utils\n"
+        assert (package_dir / "exceptions.md").read_text(
+            encoding="utf8"
+        ) == f"# exceptions\n\n::: {package_dir.name}.exceptions\n"
 
         assert (package_dir / "tasks" / ".pages").read_text(
             encoding="utf8"
@@ -601,6 +651,11 @@ def test_larger_multi_packages(tmp_path: "Path") -> None:
             assert (module_dir / "utils.md").read_text(
                 encoding="utf8"
             ) == f"# utils\n\n::: {py_path}.utils\n", (
+                f"module_dir: {module_dir.relative_to(api_reference_folder)}"
+            )
+            assert (module_dir / "exceptions.md").read_text(
+                encoding="utf8"
+            ) == f"# exceptions\n\n::: {py_path}.exceptions\n", (
                 f"module_dir: {module_dir.relative_to(api_reference_folder)}"
             )
 
