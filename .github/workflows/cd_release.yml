@@ -284,6 +284,15 @@ jobs:
     #     user: __token__
     #     password: ${{ secrets.PyPI_token }}
 
+    - name: TEMP - Upload changelogs as artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: changelogs
+        path: |
+          ./CHANGELOG.md
+          ./release_changelog.md
+        retention-days: 1
+
   docs:
     name: Deploy release documentation
     needs: update-and-publish
