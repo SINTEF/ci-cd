@@ -42,7 +42,7 @@ jobs:
     - name: Perform local changes
       if: inputs.perform_changes
       run: |
-        if [ -z "${{ inputs.git_username }}" ] || [ -z "${{ inputs.git_email }}" ] || [ -z "${{ changes }}" ]; then
+        if [ -z "${{ inputs.git_username }}" ] || [ -z "${{ inputs.git_email }}" ] || [ -z "${{ inputs.changes }}" ]; then
           echo "git_username, git_email and changes MUST be supplied."
           exit 1
         fi
