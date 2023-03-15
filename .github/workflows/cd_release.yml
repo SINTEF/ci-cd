@@ -131,7 +131,7 @@ jobs:
         python -m pip install -U pip
         pip install -U setuptools wheel build
         pip install ${EDITABLE}.${{ inputs.install_extras }}
-        pip install git+https://github.com/SINTEF/ci-cd.git@v2.1.0
+        pip install git+https://github.com/SINTEF/ci-cd.git@v2.2.0
 
     - name: Parse changelog configuration
       run: |

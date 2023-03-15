@@ -2,11 +2,30 @@
 
 ## [Unreleased](https://github.com/SINTEF/ci-cd/tree/HEAD)
 
-[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.1.0...HEAD)
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.2.0...HEAD)
 
 **Implemented enhancements:**
 
-- Use custom token when possible [\#104](https://github.com/SINTEF/ci-cd/issues/104)
+- Allow to skip or keep dependency at certain level [\#95](https://github.com/SINTEF/ci-cd/issues/95)
+
+## [v2.2.0](https://github.com/SINTEF/ci-cd/tree/v2.2.0) (2023-03-10)
+
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.1.0...v2.2.0)
+
+**Implemented enhancements:**
+
+- Add API reference documentation for this repository [\#113](https://github.com/SINTEF/ci-cd/issues/113)
+
+**Fixed bugs:**
+
+- `fail_fast` should still make `update-deps` task fail [\#112](https://github.com/SINTEF/ci-cd/issues/112)
+
+**Merged pull requests:**
+
+- Implement `ignore` option for `update-deps` task [\#111](https://github.com/SINTEF/ci-cd/pull/111) ([CasperWA](https://github.com/CasperWA))
+- Add API reference documentation for `ci-cd` [\#110](https://github.com/SINTEF/ci-cd/pull/110) ([CasperWA](https://github.com/CasperWA))
+- Update Python API [\#109](https://github.com/SINTEF/ci-cd/pull/109) ([CasperWA](https://github.com/CasperWA))
+- \[Auto-generated\] Update dependencies [\#107](https://github.com/SINTEF/ci-cd/pull/107) ([TEAM4-0](https://github.com/TEAM4-0))
 
 ## [v2.1.0](https://github.com/SINTEF/ci-cd/tree/v2.1.0) (2023-02-07)
 
@@ -14,6 +33,7 @@
 
 **Implemented enhancements:**
 
+- Use custom token when possible [\#104](https://github.com/SINTEF/ci-cd/issues/104)
 - Extend "automerge" workflow with changes [\#69](https://github.com/SINTEF/ci-cd/issues/69)
 
 **Closed issues:**

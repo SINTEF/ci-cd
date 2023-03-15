@@ -136,7 +136,7 @@ on:
 jobs:
   tests:
     name: Run basic tests
-    uses: SINTEF/ci-cd/.github/workflows/ci_tests.yml@v2.1.0
+    uses: SINTEF/ci-cd/.github/workflows/ci_tests.yml@v2.2.0
     with:
       python_version_pylint_safety: "3.8"
       python_version_docs: "3.7"
@@ -164,7 +164,7 @@ on:
 jobs:
   tests:
     name: Run basic tests
-    uses: SINTEF/ci-cd/.github/workflows/ci_tests.yml@v2.1.0
+    uses: SINTEF/ci-cd/.github/workflows/ci_tests.yml@v2.2.0
     with:
       python_version_pylint_safety: "3.8"
       python_version_docs: "3.7"
