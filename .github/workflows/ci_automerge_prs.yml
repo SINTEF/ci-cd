@@ -48,7 +48,7 @@ jobs:
         fi
 
         TEMP_RUN_FILE=".tmp_${{ github.run_id }}_${{ github.run_number }}_${{ github.run_attempt }}.sh"
-        printf "${{ input.changes }}" >> ${TMP_RUN_FILE}
+        printf "${{ inputs.changes }}" >> ${TMP_RUN_FILE}
 
         chmod +x ${TEMP_RUN_FILE}
         ./${TEMP_RUN_FILE}
