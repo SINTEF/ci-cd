@@ -1,12 +1,18 @@
 # Changelog
 
-## [Unreleased](https://github.com/SINTEF/ci-cd/tree/HEAD)
+## [v2.2.1](https://github.com/SINTEF/ci-cd/tree/v2.2.1) (2023-03-15)
 
-[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.2.0...HEAD)
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.2.0...v2.2.1)
 
-**Implemented enhancements:**
+**Fixed bugs:**
 
-- Allow to skip or keep dependency at certain level [\#95](https://github.com/SINTEF/ci-cd/issues/95)
+- Typo in auto-merge callable workflow [\#117](https://github.com/SINTEF/ci-cd/issues/117)
+- Fix GH Actions variable naming [\#120](https://github.com/SINTEF/ci-cd/pull/120) ([CasperWA](https://github.com/CasperWA))
+- Fix typo in auto merge workflow [\#118](https://github.com/SINTEF/ci-cd/pull/118) ([CasperWA](https://github.com/CasperWA))
+
+**Merged pull requests:**
+
+- \[Auto-generated\] Update dependencies [\#121](https://github.com/SINTEF/ci-cd/pull/121) ([TEAM4-0](https://github.com/TEAM4-0))
 
 ## [v2.2.0](https://github.com/SINTEF/ci-cd/tree/v2.2.0) (2023-03-10)
 
@@ -15,6 +21,7 @@
 **Implemented enhancements:**
 
 - Add API reference documentation for this repository [\#113](https://github.com/SINTEF/ci-cd/issues/113)
+- Allow to skip or keep dependency at certain level [\#95](https://github.com/SINTEF/ci-cd/issues/95)
 
 **Fixed bugs:**
 
