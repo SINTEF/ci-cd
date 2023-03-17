@@ -1,24 +1,74 @@
 # Changelog
 
-## [Unreleased](https://github.com/SINTEF/ci-cd/tree/HEAD)
+## [v2.2.1](https://github.com/SINTEF/ci-cd/tree/v2.2.1) (2023-03-15)
 
-[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.0.0...HEAD)
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.2.0...v2.2.1)
+
+**Fixed bugs:**
+
+- Typo in auto-merge callable workflow [\#117](https://github.com/SINTEF/ci-cd/issues/117)
+- Fix GH Actions variable naming [\#120](https://github.com/SINTEF/ci-cd/pull/120) ([CasperWA](https://github.com/CasperWA))
+- Fix typo in auto merge workflow [\#118](https://github.com/SINTEF/ci-cd/pull/118) ([CasperWA](https://github.com/CasperWA))
+
+**Merged pull requests:**
+
+- \[Auto-generated\] Update dependencies [\#121](https://github.com/SINTEF/ci-cd/pull/121) ([TEAM4-0](https://github.com/TEAM4-0))
+
+## [v2.2.0](https://github.com/SINTEF/ci-cd/tree/v2.2.0) (2023-03-10)
+
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.1.0...v2.2.0)
 
 **Implemented enhancements:**
 
-- Make `test: true` actually work for "CD - Release" [\#83](https://github.com/SINTEF/ci-cd/issues/83)
+- Add API reference documentation for this repository [\#113](https://github.com/SINTEF/ci-cd/issues/113)
+- Allow to skip or keep dependency at certain level [\#95](https://github.com/SINTEF/ci-cd/issues/95)
+
+**Fixed bugs:**
+
+- `fail_fast` should still make `update-deps` task fail [\#112](https://github.com/SINTEF/ci-cd/issues/112)
+
+**Merged pull requests:**
+
+- Implement `ignore` option for `update-deps` task [\#111](https://github.com/SINTEF/ci-cd/pull/111) ([CasperWA](https://github.com/CasperWA))
+- Add API reference documentation for `ci-cd` [\#110](https://github.com/SINTEF/ci-cd/pull/110) ([CasperWA](https://github.com/CasperWA))
+- Update Python API [\#109](https://github.com/SINTEF/ci-cd/pull/109) ([CasperWA](https://github.com/CasperWA))
+- \[Auto-generated\] Update dependencies [\#107](https://github.com/SINTEF/ci-cd/pull/107) ([TEAM4-0](https://github.com/TEAM4-0))
+
+## [v2.1.0](https://github.com/SINTEF/ci-cd/tree/v2.1.0) (2023-02-07)
+
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.0.0...v2.1.0)
+
+**Implemented enhancements:**
+
+- Use custom token when possible [\#104](https://github.com/SINTEF/ci-cd/issues/104)
+- Extend "automerge" workflow with changes [\#69](https://github.com/SINTEF/ci-cd/issues/69)
 
 **Closed issues:**
 
-- Drop using a `vMAJOR` dynamic tag [\#81](https://github.com/SINTEF/ci-cd/issues/81)
+- Acknowledge testing dependencies in pyproject.toml [\#93](https://github.com/SINTEF/ci-cd/issues/93)
+
+**Merged pull requests:**
+
+- Always try to use `PAT` prior to `GITHUB_TOKEN` [\#105](https://github.com/SINTEF/ci-cd/pull/105) ([CasperWA](https://github.com/CasperWA))
+- \[Auto-generated\] Update dependencies [\#103](https://github.com/SINTEF/ci-cd/pull/103) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[Auto-generated\] Update dependencies [\#97](https://github.com/SINTEF/ci-cd/pull/97) ([TEAM4-0](https://github.com/TEAM4-0))
+- Changes prior to auto-merge [\#88](https://github.com/SINTEF/ci-cd/pull/88) ([CasperWA](https://github.com/CasperWA))
 
 ## [v2.0.0](https://github.com/SINTEF/ci-cd/tree/v2.0.0) (2022-12-06)
 
 [Full Changelog](https://github.com/SINTEF/ci-cd/compare/v1.3.5...v2.0.0)
 
+**Implemented enhancements:**
+
+- Make `test: true` actually work for "CD - Release" [\#83](https://github.com/SINTEF/ci-cd/issues/83)
+
 **Fixed bugs:**
 
 - Bad usage of backticks in warning message [\#79](https://github.com/SINTEF/ci-cd/issues/79)
+
+**Closed issues:**
+
+- Drop using a `vMAJOR` dynamic tag [\#81](https://github.com/SINTEF/ci-cd/issues/81)
 
 **Merged pull requests:**
 

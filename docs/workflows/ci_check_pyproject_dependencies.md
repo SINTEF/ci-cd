@@ -10,6 +10,42 @@ The reason for having this workflow and not using [Dependabot](https://github.co
     If a PAT is not passed through for the `PAT` secret and `GITHUB_TOKEN` is used, beware that any other CI/CD jobs that run for, e.g., pull request events, may not run since `GITHUB_TOKEN`-generated PRs are designed to not start more workflows to avoid escalation.
     Hence, if it is important to run CI/CD workflows for pull requests, consider passing a PAT as a secret to this workflow represented by the `PAT` secret.
 
+## Ignoring dependencies
+
+To ignore or configure how specific dependencies should be updated, the `ignore` input option can be utilized.
+This is done by specifying a line per dependency that contains ellipsis-separated (`...`) key/value-pairs of:
+
+| **Key** | **Description** |
+|:---:|:--- |
+| `dependency-name` | Ignore updates for dependencies with matching names, optionally using `*` to match zero or more characters. |
+| `versions` | Ignore specific versions or ranges of versions. Examples: `~=1.0.5`, `>= 1.0.5,<2`, `>=0.1.1`. |
+| `update-types` | Ignore types of updates, such as [SemVer](https://semver.org) `major`, `minor`, `patch` updates on version updates (for example: `version-update:semver-patch` will ignore patch updates). This can be combined with `dependency-name=*` to ignore particular `update-types` for all dependencies. |
+
+!!! note "Supported `update-types` values"
+    Currently, only `version-update:semver-major`, `version-update:semver-minor`, and `version-update:semver-patch` are supported options for `update-types`.
+
+The `ignore` option is essentially similar to [the `ignore` option of Dependabot](https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file#ignore).
+If `versions` and `update-types` are used together, they will both be respected jointly.
+
+Here is an example of different lines given as value for the `ignore` option that accomplishes different things:
+
+```yaml
+# ...
+jobs:
+  check-dependencies:
+    uses: SINTEF/ci-cd/.github/workflows/ci_check_pyproject_dependencies.yml@v2.2.1
+    with:
+      # ...
+      # For Sphinx, ignore all updates for/from version 4.5.0 and up / keep the minimum version for Sphinx at 4.5.0.
+      # For pydantic, ignore all patch updates
+      # For numpy, ignore any and all updates
+      ignore: |
+        dependency-name=Sphinx...versions=>=4.5.0
+        dependency-name=pydantic...update-types=version-update:semver-patch
+        dependency-name=numpy
+# ...
+```
+
 ## Expectations
 
 The repository contains the following:
@@ -28,6 +64,7 @@ The repository contains the following:
 | `pr_body_file` | Relative path to PR body file from the root of the repository.</br></br>Example: `'.github/utils/pr_body_deps_check.txt'`. | No | _Empty string_ | _string_ |
 | `fail_fast` | Whether the task to update dependencies should fail if any error occurs. | No | `false` | _boolean_ |
 | `pr_labels` | A comma separated list of strings of GitHub labels to use for the created PR. | No | _Empty string_ | _string_ |
+| `ignore` | Create ignore conditions for certain dependencies. A multi-line string of ignore rules, where each line is an ellipsis-separated (`...`) string of key/value-pairs. One line per dependency. This option is similar to [the `ignore` option of Dependabot](https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file#ignore). | No | _Empty string_ | _string_
 
 ## Secrets
 
@@ -51,7 +88,7 @@ on:
 jobs:
   check-dependencies:
     name: Call external workflow
-    uses: SINTEF/ci-cd/.github/workflows/ci_check_pyproject_dependencies.yml@v2.0.0
+    uses: SINTEF/ci-cd/.github/workflows/ci_check_pyproject_dependencies.yml@v2.2.1
     if: github.repository_owner == 'SINTEF'
     with:
       git_username: "Casper Welzel Andersen"

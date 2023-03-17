@@ -41,6 +41,11 @@ on:
         required: false
         type: string
         default: ""
+      ignore:
+        description: "Create ignore conditions for certain dependencies. A multi-line string of ignore rules, where each line is an ellipsis-separated (`...`) string of key/value-pairs. One line per dependency. This option is similar to the `ignore` option of Dependabot."
+        required: false
+        type: string
+        default: ""
     secrets:
       PAT:
         description: "A personal access token (PAT) with rights to update the `permanent_dependencies_branch`. This will fallback on `GITHUB_TOKEN`."
@@ -68,7 +73,7 @@ jobs:
         python -m pip install -U pip
         pip install -U setuptools wheel
         pip install .${{ inputs.install_extras }}
-        pip install git+https://github.com/SINTEF/ci-cd.git@v2.0.0
+        pip install git+https://github.com/SINTEF/ci-cd.git@v2.2.1
 
     - name: Set up git user
       run: |
@@ -83,7 +88,14 @@ jobs:
           FAIL_FAST=
         fi
 
-        ci-cd update-deps --root-repo-path="${PWD}" ${FAIL_FAST}
+        IGNORE_OPTIONS=()
+        while IFS= read -r line; do
+          if [ -n "${line}" ]; then IGNORE_OPTIONS+=(--ignore-options="${line}"); fi
+        done <<< "${{ inputs.ignore }}"
+
+        ci-cd update-deps ${FAIL_FAST} \
+          --root-repo-path="${PWD}" \
+          "${IGNORE_OPTIONS[@]}"
 
         if [ -n "$(git status --porcelain pyproject.toml)" ]; then
           echo "UPDATE_DEPS=true" >> $GITHUB_ENV
