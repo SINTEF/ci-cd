@@ -90,7 +90,7 @@ jobs:
 
         IGNORE_OPTIONS=()
         while IFS= read -r line; do
-          if [ -n "${line}" ]; then IGNORE_OPTIONS+=(--ignore-options="${line}"); fi
+          if [ -n "${line}" ]; then IGNORE_OPTIONS+=(--ignore="${line}"); fi
         done <<< "${{ inputs.ignore }}"
 
         ci-cd update-deps ${FAIL_FAST} \
