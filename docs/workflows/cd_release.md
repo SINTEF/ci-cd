@@ -67,9 +67,9 @@ The repository contains the following:
 |:--- |:--- |:---:|:---:|:---:|
 | `git_username` | A git username (used to set the 'user.name' config option). | **_Yes_** | | _string_ |
 | `git_email` | A git user's email address (used to set the 'user.email' config option). | **_Yes_** | | _string_ |
+| `release_branch` | The branch name to release/publish from. | **_Yes_** | main | _string_ |
 | `python_package` | Whether or not this is a Python package, where the version should be updated in the `'package_dir'/__init__.py` for the possibly several 'package_dir' lines given in the `package_dirs` input and a build and release to PyPI should be performed. | No | `true` | _boolean_ |
 | `package_dirs` |  single or multi-line string of paths to Python package directories relative to the repository directory to have its `__version__` value updated.</br></br>Example: `'src/my_package'`.</br></br>**Important**: This is _required_ if 'python_package' is 'true', which is the default. | **_Yes_ (if 'python_package' is 'true'** | | _string_ |
-| `release_branch` | The branch name to release/publish from. | No | main | _string_ |
 | `install_extras` | Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces.</br></br>Example: `'[dev,release]'`. | No | _Empty string_ | _string_ |
 | `relative` | Whether or not to use install the local Python package(s) as an editable. | No | `false` | _boolean_ |
 | `python_version_build` | The Python version to use for the workflow when building the package. | No | 3.9 | _string_ |
