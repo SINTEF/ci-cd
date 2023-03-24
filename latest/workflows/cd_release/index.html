@@ -899,6 +899,13 @@ E.g., <code>{package_dir}/__init__.py</code> will become <code>ci_cd/__init__.py
 <td align="center"><em>string</em></td>
 </tr>
 <tr>
+<td align="left"><code>release_branch</code></td>
+<td align="left">The branch name to release/publish from.</td>
+<td align="center"><strong><em>Yes</em></strong></td>
+<td align="center">main</td>
+<td align="center"><em>string</em></td>
+</tr>
+<tr>
 <td align="left"><code>python_package</code></td>
 <td align="left">Whether or not this is a Python package, where the version should be updated in the <code>'package_dir'/__init__.py</code> for the possibly several 'package_dir' lines given in the <code>package_dirs</code> input and a build and release to PyPI should be performed.</td>
 <td align="center">No</td>
@@ -910,13 +917,6 @@ E.g., <code>{package_dir}/__init__.py</code> will become <code>ci_cd/__init__.py
 <td align="left">single or multi-line string of paths to Python package directories relative to the repository directory to have its <code>__version__</code> value updated.</br></br>Example: <code>'src/my_package'</code>.</br></br><strong>Important</strong>: This is <em>required</em> if 'python_package' is 'true', which is the default.</td>
 <td align="center"><strong><em>Yes</em> (if 'python_package' is 'true'</strong></td>
 <td align="center"></td>
-<td align="center"><em>string</em></td>
-</tr>
-<tr>
-<td align="left"><code>release_branch</code></td>
-<td align="left">The branch name to release/publish from.</td>
-<td align="center">No</td>
-<td align="center">main</td>
 <td align="center"><em>string</em></td>
 </tr>
 <tr>
