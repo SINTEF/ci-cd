@@ -1,5 +1,28 @@
 # Changelog
 
+## [Unreleased](https://github.com/SINTEF/ci-cd/tree/HEAD)
+
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.3.0...HEAD)
+
+**Implemented enhancements:**
+
+- Use GH usernames for release changelogs [\#102](https://github.com/SINTEF/ci-cd/issues/102)
+
+## [v2.3.0](https://github.com/SINTEF/ci-cd/tree/v2.3.0) (2023-03-24)
+
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.2.1...v2.3.0)
+
+**Fixed bugs:**
+
+- Wrongly named option used in callable workflow [\#125](https://github.com/SINTEF/ci-cd/issues/125)
+- Use codecov upload token [\#119](https://github.com/SINTEF/ci-cd/issues/119)
+
+**Merged pull requests:**
+
+- Use CODECOV\_TOKEN secret in CI [\#127](https://github.com/SINTEF/ci-cd/pull/127) ([CasperWA](https://github.com/CasperWA))
+- Use the proper "ignore" option name for update-deps [\#126](https://github.com/SINTEF/ci-cd/pull/126) ([CasperWA](https://github.com/CasperWA))
+- Use GitHub usernames in changelogs for releases [\#115](https://github.com/SINTEF/ci-cd/pull/115) ([CasperWA](https://github.com/CasperWA))
+
 ## [v2.2.1](https://github.com/SINTEF/ci-cd/tree/v2.2.1) (2023-03-15)
 
 [Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.2.0...v2.2.1)
