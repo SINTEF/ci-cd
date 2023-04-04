@@ -252,7 +252,7 @@ jobs:
 
     - name: Publish package to TestPyPI
       if: inputs.test && inputs.publish_on_pypi && inputs.python_package
-      uses: pypa/gh-action-pypi-publish@v1.8.4
+      uses: pypa/gh-action-pypi-publish@v1.8.5
       with:
         user: __token__
         password: ${{ secrets.PyPI_token }}
@@ -260,7 +260,7 @@ jobs:
 
     - name: Publish package to PyPI
       if: ( ! inputs.test ) && inputs.publish_on_pypi && inputs.python_package
-      uses: pypa/gh-action-pypi-publish@v1.8.4
+      uses: pypa/gh-action-pypi-publish@v1.8.5
       with:
         user: __token__
         password: ${{ secrets.PyPI_token }}
