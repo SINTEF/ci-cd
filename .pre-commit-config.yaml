@@ -29,7 +29,7 @@ repos:
   # Black is a code style and formatter
   # It works on files in-place
   - repo: https://github.com/ambv/black
-    rev: 23.1.0
+    rev: 23.3.0
     hooks:
     - id: black
 
@@ -54,7 +54,7 @@ repos:
     - id: mypy
 
   - repo: https://github.com/SINTEF/ci-cd
-    rev: v2.2.0
+    rev: v2.3.0
     hooks:
     - id: docs-api-reference
       args:
