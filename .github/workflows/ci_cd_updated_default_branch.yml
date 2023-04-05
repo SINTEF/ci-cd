@@ -216,7 +216,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -U setuptools wheel
         pip install ${EDITABLE}.${{ inputs.doc_extras }}
-        pip install git+https://github.com/SINTEF/ci-cd.git@v2.2.1
+        pip install git+https://github.com/SINTEF/ci-cd.git@v2.3.0
 
     - name: Set up git user
       if: env.RELEASE_RUN == 'false'
@@ -328,17 +328,29 @@ jobs:
         tags: true
         unprotect_reviews: true
 
+    - name: Parse changelog configuration
+      if: env.RELEASE_RUN == 'false'
+      run: |
+        if [ -n "${{ inputs.changelog_exclude_tags_regex }}" ]; then
+          echo 'CHANGELOG_EXCLUDE_TAGS_REGEX=--exclude-tags-regex "${{ inputs.changelog_exclude_tags_regex }}"' >> $GITHUB_ENV
+        else
+          echo 'CHANGELOG_EXCLUDE_TAGS_REGEX=' >> $GITHUB_ENV
+        fi
+        if [ -n "${{ inputs.changelog_exclude_labels}}" ]; then
+          echo 'CHANGELOG_EXCLUDE_LABELS=--exclude-labels "${{ inputs.changelog_exclude_labels }}"' >> $GITHUB_ENV
+        else
+          echo 'CHANGELOG_EXCLUDE_LABELS=' >> $GITHUB_ENV
+        fi
+        PROJECT=$(echo $GITHUB_REPOSITORY | cut -d/ -f2- )
+        echo "CHANGELOG_PROJECT=--project ${PROJECT}" >> $GITHUB_ENV
+
     # Note: This updated changelog will only exist for the `latest` documentation
     # release.
     - name: Update changelog with unreleased changes
       if: env.RELEASE_RUN == 'false'
-      uses: CharMixer/auto-changelog-action@v1
+      uses: docker://githubchangeloggenerator/github-changelog-generator:1.16.2
       with:
-        token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
-        release_branch: ${{ inputs.default_repo_branch }}
-        exclude_tags_regex: "${{ inputs.changelog_exclude_tags_regex }}"
-        exclude_labels: "${{ inputs.changelog_exclude_labels }}"
-        future_release: "Unreleased changes"
+        args: --user "${{ github.repository_owner }}" ${{ env.CHANGELOG_PROJECT }} --token "${{ secrets.PAT || secrets.GITHUB_TOKEN }}" --release-branch "${{ inputs.default_repo_branch }}" --future-release "Unreleased changes" ${{ env.CHANGELOG_EXCLUDE_TAGS_REGEX }} ${{ env.CHANGELOG_EXCLUDE_LABELS }}
 
     - name: Build (& deploy MkDocs) documentation
       if: env.RELEASE_RUN == 'false' && ( ! inputs.test )
