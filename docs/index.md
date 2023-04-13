@@ -1,6 +1,6 @@
 # CI/CD tools
 
-**Current version to use:** `v2.3.0`
+**Current version to use:** `v2.3.1`
 
 Use tried and tested continuous integration (CI) and continuous deployment (CD) tools from this repository.
 

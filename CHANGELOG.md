@@ -1,16 +1,21 @@
 # Changelog
 
-## [Unreleased](https://github.com/SINTEF/ci-cd/tree/HEAD)
+## [v2.3.1](https://github.com/SINTEF/ci-cd/tree/v2.3.1) (2023-04-13)
 
-[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.3.0...HEAD)
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.3.0...v2.3.1)
 
-**Implemented enhancements:**
+**Merged pull requests:**
 
-- Use GH usernames for release changelogs [\#102](https://github.com/SINTEF/ci-cd/issues/102)
+- \[Auto-generated\] Update dependencies [\#138](https://github.com/SINTEF/ci-cd/pull/138) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[Auto-generated\] Update dependencies [\#131](https://github.com/SINTEF/ci-cd/pull/131) ([TEAM4-0](https://github.com/TEAM4-0))
 
 ## [v2.3.0](https://github.com/SINTEF/ci-cd/tree/v2.3.0) (2023-03-24)
 
 [Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.2.1...v2.3.0)
+
+**Implemented enhancements:**
+
+- Use GH usernames for release changelogs [\#102](https://github.com/SINTEF/ci-cd/issues/102)
 
 **Fixed bugs:**
 
