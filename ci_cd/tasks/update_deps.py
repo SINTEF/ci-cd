@@ -268,9 +268,11 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
                 ),
             )
             already_handled_packages.add(version_spec.package)
-            updated_packages[
-                version_spec.full_dependency
-            ] = f"{version_spec.operator}{updated_version}"
+            updated_packages[version_spec.full_dependency] = (
+                f"{version_spec.operator}{updated_version}"
+                f"{version_spec.extra_operator_version if version_spec.extra_operator_version else ''}"  # pylint: disable=line-too-long
+                f"{' ' + version_spec.environment_marker if version_spec.environment_marker else ''}"  # pylint: disable=line-too-long
+            )
 
     if error:
         sys.exit("Errors occurred! See printed statements above.")
@@ -279,9 +281,7 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
         print(
             "Successfully updated the following dependencies:\n"
             + "\n".join(
-                f"  {package} ({version}"
-                f"{version_spec.extra_operator_version if version_spec.extra_operator_version else ''}"  # pylint: disable=line-too-long
-                f"{' ' + version_spec.environment_marker if version_spec.environment_marker else ''})"  # pylint: disable=line-too-long
+                f"  {package} ({version})"
                 for package, version in updated_packages.items()
             )
             + "\n"
