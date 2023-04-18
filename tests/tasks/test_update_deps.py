@@ -935,7 +935,9 @@ def test_ignore_version_fails() -> None:
     from ci_cd.exceptions import InputError, InputParserError
     from ci_cd.tasks.update_deps import ignore_version
 
-    with pytest.raises(InputParserError, match=r"^Unknown ignore options 'versions'.*"):
+    with pytest.raises(
+        InputParserError, match="only supports the following operators:"
+    ):
         ignore_version(
             current="1.1.1".split("."),
             latest="2.2.2".split("."),
@@ -954,7 +956,7 @@ def test_ignore_version_fails() -> None:
         )
 
     with pytest.raises(
-        InputError, match=r"Ignore option value error. For the 'versions' config key.*"
+        InputError, match="when using the '~=' operator more than a single version part"
     ):
         ignore_version(
             current="1.1.1".split("."),
@@ -1029,9 +1031,9 @@ def test_ignore_version_fails() -> None:
                 "tomlkit[test,docs]": "tomlkit[test,docs] ~=1.0.0",
                 "mike": "mike >=1.0,<3",
                 "pytest": "pytest ~=7.1",
-                "pytest-cov": "pytest-cov ~=3.0",
+                "pytest-cov": "pytest-cov ~=3.1",
                 "pre-commit": "pre-commit ~=2.20",
-                "pylint": "pylint ~=2.13",
+                "pylint": "pylint ~=2.14",
                 "Sphinx": "Sphinx >=6.1.3,<6",
             },
         ),
@@ -1044,8 +1046,8 @@ def test_ignore_version_fails() -> None:
                 "pytest": "pytest ~=7.2",
                 "pytest-cov": "pytest-cov ~=3.0",
                 "pre-commit": "pre-commit ~=2.20",
-                "pylint": "pylint ~=2.13",
-                "Sphinx": "Sphinx >=6.1.3,<6",
+                "pylint": "pylint ~=2.14",
+                "Sphinx": "Sphinx >=6.1.3,<6",  # This should be fixed!
             },
         ),
         (
@@ -1055,9 +1057,9 @@ def test_ignore_version_fails() -> None:
                 "tomlkit[test,docs]": "tomlkit[test,docs] ~=1.0.0",
                 "mike": "mike >=1.0,<3",
                 "pytest": "pytest ~=7.2",
-                "pytest-cov": "pytest-cov ~=3.0",
+                "pytest-cov": "pytest-cov ~=3.1",
                 "pre-commit": "pre-commit ~=2.20",
-                "pylint": "pylint ~=2.13",
+                "pylint": "pylint ~=2.14",
                 "Sphinx": "Sphinx >=4.5.0,<6",
             },
         ),

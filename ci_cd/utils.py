@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:  # pragma: no cover
-    from typing import Any, Optional, Tuple, Union
+    from typing import Any, Literal, Optional, Tuple, Union
 
 
 LOGGER = logging.getLogger(__file__)
@@ -271,6 +271,32 @@ class SemanticVersion(str):
                         return False
                     return self.pre_release > other_semver.pre_release
         return False
+
+    def next_version(self, version_part: str) -> "SemanticVersion":
+        """Return the next version for the specified version part.
+
+        Parameters:
+            version_part: The version part to increment.
+
+        Returns:
+            The next version.
+
+        Raises:
+            ValueError: If the version part is not one of `major`, `minor`, or `patch`.
+
+        """
+        if version_part not in ("major", "minor", "patch"):
+            raise ValueError(
+                "version_part must be one of 'major', 'minor', or 'patch', not "
+                f"{version_part!r}"
+            )
+
+        if version_part == "major":
+            return self.__class__(f"{self.major + 1}.0.0")
+        if version_part == "minor":
+            return self.__class__(f"{self.major}.{self.minor + 1}.0")
+
+        return self.__class__(f"{self.major}.{self.minor}.{self.patch + 1}")
 
 
 def update_file(
