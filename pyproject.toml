@@ -74,7 +74,7 @@ max-line-length = 90
 disable = []
 max-args = 15
 max-branches = 15
-max-return = 10
+max-returns = 10
 
 [tool.pytest.ini_options]
 minversion = "7.0"
