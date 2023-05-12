@@ -99,8 +99,8 @@ class SemanticVersion(str):
             match = re.match(self._REGEX, version)
             if match is None:
                 raise ValueError(
-                    "version cannot be parsed as a semantic version according to the "
-                    "SemVer.org regular expression"
+                    f"version ({version}) cannot be parsed as a semantic version "
+                    "according to the SemVer.org regular expression"
                 )
             major, minor, patch, pre_release, build = match.groups()
 
@@ -159,8 +159,8 @@ class SemanticVersion(str):
     def __hash__(self) -> int:
         return hash(self.__str__())
 
-    def _check_other_comparison(self, other: "Any") -> "SemanticVersion":
-        """Initial check/validation before rich comparisons."""
+    def _validate_other_type(self, other: "Any") -> "SemanticVersion":
+        """Initial check/validation of `other` before rich comparisons."""
         not_implemented_exc = NotImplementedError(
             f"Rich comparison not implemented between {self.__class__.__name__} and "
             f"{type(other)}"
@@ -179,7 +179,7 @@ class SemanticVersion(str):
 
     def __lt__(self, other: "Any") -> bool:
         """Less than (`<`) rich comparison."""
-        other_semver = self._check_other_comparison(other)
+        other_semver = self._validate_other_type(other)
 
         if self.major < other_semver.major:
             return True
@@ -199,27 +199,11 @@ class SemanticVersion(str):
 
     def __le__(self, other: "Any") -> bool:
         """Less than or equal to (`<=`) rich comparison."""
-        other_semver = self._check_other_comparison(other)
-
-        if self.major < other_semver.major:
-            return True
-        if self.major == other_semver.major:
-            if self.minor < other_semver.minor:
-                return True
-            if self.minor == other_semver.minor:
-                if self.patch < other_semver.patch:
-                    return True
-                if self.patch == other_semver.patch:
-                    if self.pre_release is None:
-                        return True
-                    if other_semver.pre_release is None:
-                        return True
-                    return self.pre_release <= other_semver.pre_release
-        return False
+        return self.__lt__(other) or self.__eq__(other)
 
     def __eq__(self, other: "Any") -> bool:
         """Equal to (`==`) rich comparison."""
-        other_semver = self._check_other_comparison(other)
+        other_semver = self._validate_other_type(other)
 
         return (
             self.major == other_semver.major
@@ -234,43 +218,11 @@ class SemanticVersion(str):
 
     def __ge__(self, other: "Any") -> bool:
         """Greater than or equal to (`>=`) rich comparison."""
-        other_semver = self._check_other_comparison(other)
-
-        if self.major > other_semver.major:
-            return True
-        if self.major == other_semver.major:
-            if self.minor > other_semver.minor:
-                return True
-            if self.minor == other_semver.minor:
-                if self.patch > other_semver.patch:
-                    return True
-                if self.patch == other_semver.patch:
-                    if self.pre_release is None:
-                        return True
-                    if other_semver.pre_release is None:
-                        return False
-                    return self.pre_release >= other_semver.pre_release
-        return False
+        return not self.__lt__(other)
 
     def __gt__(self, other: "Any") -> bool:
         """Greater than (`>`) rich comparison."""
-        other_semver = self._check_other_comparison(other)
-
-        if self.major > other_semver.major:
-            return True
-        if self.major == other_semver.major:
-            if self.minor > other_semver.minor:
-                return True
-            if self.minor == other_semver.minor:
-                if self.patch > other_semver.patch:
-                    return True
-                if self.patch == other_semver.patch:
-                    if self.pre_release is None:
-                        return False
-                    if other_semver.pre_release is None:
-                        return False
-                    return self.pre_release > other_semver.pre_release
-        return False
+        return not self.__le__(other)
 
     def next_version(self, version_part: str) -> "SemanticVersion":
         """Return the next version for the specified version part.
