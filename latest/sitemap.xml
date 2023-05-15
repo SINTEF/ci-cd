@@ -66,6 +66,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://SINTEF.github.io/ci-cd/latest/hooks/update_pyproject/</loc>
+         <lastmod>2023-05-15</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://SINTEF.github.io/ci-cd/latest/workflows/</loc>
          <lastmod>2023-05-15</lastmod>
          <changefreq>daily</changefreq>
