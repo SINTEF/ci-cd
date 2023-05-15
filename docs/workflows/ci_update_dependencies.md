@@ -12,6 +12,9 @@ The main point of having this workflow is to have a single PR, which can be squa
 
 As a "bonus" this workflow supports updating [pre-commit](https://pre-commit.com) hooks.
 
+!!! note "PR branch name"
+    The generated branch for the PR will be named `ci/update-dependencies`.
+
 !!! warning
     If a PAT is not passed through for the `PAT` secret and `GITHUB_TOKEN` is used, beware that any other CI/CD jobs that run for, e.g., pull request events, may not run since `GITHUB_TOKEN`-generated PRs are designed to not start more workflows to avoid escalation.
     Hence, if it is important to run CI/CD workflows for pull requests, consider passing a PAT as a secret to this workflow represented by the `PAT` secret.
