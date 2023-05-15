@@ -15,6 +15,9 @@ The motivation for being able to run changes prior to auto-merging, is to update
 Usually auto-merging is activated for [dependabot](https://docs.github.com/en/code-security/dependabot) branches, i.e., when a dependency/requirement is updated.
 Hence, the changes could include updating this dependency in documentation files or similar, where it will not be updated otherwise.
 
+!!! note "PR branch name"
+    The generated branch for the PR will be named `ci/update-pyproject`.
+
 ## Expectations
 
 The `PAT` secret must represent a user with the rights to activate auto-merging.
