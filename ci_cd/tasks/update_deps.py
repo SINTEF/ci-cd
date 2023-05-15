@@ -17,7 +17,7 @@ import tomlkit
 from invoke import task
 
 from ci_cd.exceptions import CICDException, InputError, InputParserError
-from ci_cd.utils import update_file
+from ci_cd.utils import Emoji, update_file
 
 if TYPE_CHECKING:  # pragma: no cover
     from typing import Literal
@@ -90,7 +90,10 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
     try:
         ignore_rules = parse_ignore_entries(ignore, ignore_separator)
     except InputError as exc:
-        sys.exit(f"Error: Could not parse ignore options.\nException: {exc}")
+        sys.exit(
+            f"{Emoji.CROSS_MARK.value} Error: Could not parse ignore options.\n"
+            f"Exception: {exc}"
+        )
     LOGGER.debug("Parsed ignore rules: %s", ignore_rules)
 
     if pre_commit and root_repo_path == ".":
@@ -101,8 +104,8 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
     pyproject_path = Path(root_repo_path).resolve() / "pyproject.toml"
     if not pyproject_path.exists():
         sys.exit(
-            "Error: Could not find the Python package repository's 'pyproject.toml' "
-            f"file at: {pyproject_path}"
+            f"{Emoji.CROSS_MARK.value} Error: Could not find the Python package "
+            f"repository's 'pyproject.toml' file at: {pyproject_path}"
         )
 
     pyproject = tomlkit.loads(pyproject_path.read_bytes())
@@ -145,7 +148,7 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
             )
             LOGGER.warning(msg)
             if fail_fast:
-                sys.exit(msg)
+                sys.exit(f"{Emoji.CROSS_MARK.value} {msg}")
             print(msg)
             error = True
             continue
@@ -194,7 +197,7 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
             )
             LOGGER.warning(msg)
             if fail_fast:
-                sys.exit(msg)
+                sys.exit(f"{Emoji.CROSS_MARK.value} {msg}")
             print(msg)
             already_handled_packages.add(version_spec.package)
             error = True
@@ -209,7 +212,7 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
             )
             LOGGER.warning(msg)
             if fail_fast:
-                sys.exit(msg)
+                sys.exit(f"{Emoji.CROSS_MARK.value} {msg}")
             print(msg)
             already_handled_packages.add(version_spec.package)
             error = True
@@ -273,11 +276,14 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
             ] = f"{version_spec.operator}{updated_version}"
 
     if error:
-        sys.exit("Errors occurred! See printed statements above.")
+        sys.exit(
+            f"{Emoji.CROSS_MARK.value} Errors occurred! See printed statements above."
+        )
 
     if updated_packages:
         print(
-            "Successfully updated the following dependencies:\n"
+            f"{Emoji.PARTY_POPPER.value} Successfully updated the following "
+            "dependencies:\n"
             + "\n".join(
                 f"  {package} ({version}"
                 f"{version_spec.extra_operator_version if version_spec.extra_operator_version else ''}"  # pylint: disable=line-too-long
@@ -287,7 +293,7 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
             + "\n"
         )
     else:
-        print("No dependency updates available.")
+        print(f"{Emoji.CHECK_MARK.value} No dependency updates available.")
 
 
 def parse_ignore_entries(

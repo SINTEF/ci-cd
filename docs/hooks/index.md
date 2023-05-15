@@ -10,3 +10,4 @@ This section contains all the available pre-commit hooks:
 
 - [Update API Reference in Documentation](./docs_api_reference.md)
 - [Update Landing Page (index.md) for Documentation](./docs_landing_page.md)
+- [Update dependencies in `pyproject.toml`](./update_pyproject.md)
