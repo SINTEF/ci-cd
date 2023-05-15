@@ -19,7 +19,7 @@
         <link rel="next" href="../ci_cd_updated_default_branch/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.11">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.12">
     
     
       
@@ -818,6 +818,10 @@ Afterwards any and all changes in the repository will be committed and pushed to
 <p>The motivation for being able to run changes prior to auto-merging, is to update or affect the repository files according to the specific PR being auto-merged.
 Usually auto-merging is activated for <a href="https://docs.github.com/en/code-security/dependabot">dependabot</a> branches, i.e., when a dependency/requirement is updated.
 Hence, the changes could include updating this dependency in documentation files or similar, where it will not be updated otherwise.</p>
+<div class="admonition note">
+<p class="admonition-title">PR branch name</p>
+<p>The generated branch for the PR will be named <code>ci/update-pyproject</code>.</p>
+</div>
 <h2 id="expectations">Expectations<a class="headerlink" href="#expectations" title="Permanent link">&para;</a></h2>
 <p>The <code>PAT</code> secret must represent a user with the rights to activate auto-merging.</p>
 <p>This workflow can <em>only</em> be called if the triggering event from the caller workflow is <code>pull_request_target</code>.</p>
@@ -1029,7 +1033,7 @@ It is meant to be complete as is.</p>
     <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.fac441b0.min.js"></script>
+      <script src="../../assets/javascripts/bundle.c2be25ad.min.js"></script>
       
     
   </body>
