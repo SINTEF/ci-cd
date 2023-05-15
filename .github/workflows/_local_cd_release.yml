@@ -27,6 +27,7 @@ jobs:
         docs/index.md,^\*\*Current version to use:\*\* \`v[0-9]+.*\`$,**Current version to use:** \`v{version}\`
         docs/hooks/docs_api_reference.md,rev: v[0-9]+.*$,rev: v{version}
         docs/hooks/docs_landing_page.md,rev: v[0-9]+.*$,rev: v{version}
+        docs/hooks/update_pyproject.md,rev: v[0-9]+.*$,rev: v{version}
         docs/workflows/cd_release.md,uses: SINTEF/ci-cd/\.github/workflows/cd_release\.yml@v[0-9]+.*$,uses: SINTEF/ci-cd/.github/workflows/cd_release.yml@v{version}
         docs/workflows/ci_automerge_prs.md,uses: SINTEF/ci-cd/\.github/workflows/ci_automerge_prs\.yml@v[0-9]+.*$,uses: SINTEF/ci-cd/.github/workflows/ci_automerge_prs.yml@v{version}
         docs/workflows/ci_cd_updated_default_branch.md,uses: SINTEF/ci-cd/\.github/workflows/ci_cd_updated_default_branch\.yml@v[0-9]+.*$,uses: SINTEF/ci-cd/.github/workflows/ci_cd_updated_default_branch.yml@v{version}

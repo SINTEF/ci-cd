@@ -39,3 +39,22 @@
   args:
     - '--replacement'
     - '(LICENSE),(LICENSE.md)'
+
+- id: update-pyproject
+  name: Update dependencies in pyproject.toml.
+  entry: "ci-cd update-deps --pre-commit"
+  language: python
+  files: ""
+  exclude: ^$
+  types: []
+  types_or: []
+  exclude_types: []
+  always_run: true
+  fail_fast: false
+  verbose: false
+  pass_filenames: false
+  require_serial: false
+  description: "Update dependencies in pyproject.toml according to the latest version on PyPI."
+  language_version: default
+  minimum_pre_commit_version: "2.16.0"
+  args: []
