@@ -166,7 +166,7 @@ jobs:
     steps:
     - name: Check input
       run: |
-        if [[ "${{ inputs.docs_framework }}" != "mkdocs" || "${{ inputs.docs_framework" != "sphinx" ]]; then
+        if [[ "${{ inputs.docs_framework }}" != "mkdocs" || "${{ inputs.docs_framework }}" != "sphinx" ]]; then
           echo "The input 'docs_framework' must be either 'mkdocs' or 'sphinx' !"
           echo "Found value: ${{ inputs.docs_framework }}"
           exit 1
@@ -454,7 +454,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
 
     - name: Push to '${{ inputs.permanent_dependencies_branch }}'
-      if: "! inputs.test"
+      if: ( ! inputs.test )
       uses: CasperWA/push-protected@v2
       with:
         token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
