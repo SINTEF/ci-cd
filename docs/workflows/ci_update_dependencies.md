@@ -47,7 +47,7 @@ There are no expectations of the repo when using this workflow.
 
 | **Name** | **Description** | **Required** |
 |:--- |:--- |:---:|
-| `PAT` | A personal access token (PAT) with rights to update the `permanent_dependencies_branch`. This will fallback on `GITHUB_TOKEN`. | No |
+| `PAT` | A personal access token (PAT) with rights to create PRs. This will fallback on `GITHUB_TOKEN`. | No |
 
 ## Usage example
 

@@ -3,7 +3,7 @@ name: CI/CD - New updates to default branch
 on:
   workflow_call:
     inputs:
-      # REQUIRED
+      # General - REQUIRED
       git_username:
         description: "A git username (used to set the 'user.name' config option)."
         required: true
@@ -12,22 +12,32 @@ on:
         description: "A git user's email address (used to set the 'user.email' config option)."
         required: true
         type: string
-      # OPTIONAL
-      permanent_dependencies_branch:
-        description: "The branch name for the permanent dependency updates branch."
-        required: false
-        type: string
-        default: "ci/dependency-updates"
+
+      # General - OPTIONAL
       default_repo_branch:
         description: "The branch name of the repository's default branch. More specifically, the branch that triggered this workflow."
         required: false
         type: string
         default: main
+      test:
+        description: "Whether to do a \"dry run\", i.e., run the workflow, but avoid pushing to 'permanent_dependencies_branch' branch and deploying documentation (if 'update_docs' is 'true')."
+        required: false
+        type: boolean
+        default: false
+
+      # Update permanent dependencies branch
+      permanent_dependencies_branch:
+        description: "The branch name for the permanent dependency updates branch."
+        required: false
+        type: string
+        default: "ci/dependency-updates"
       update_dependencies_pr_body_file:
         description: "Relative path to a PR body file from the root of the repository, which is used in the 'CI - Update dependencies PR' workflow, if used. Example: `'.github/utils/pr_body_update_deps.txt'`."
         required: false
         type: string
         default: ""
+
+      # Update `latest` documentation
       update_docs:
         description: "Whether or not to also update the documentation."
         required: false
@@ -98,11 +108,6 @@ on:
         required: false
         type: string
         default: ","
-      test:
-        description: "Whether to do a \"dry run\", i.e., run the workflow, but avoid pushing to 'permanent_dependencies_branch' branch and deploying documentation (if 'update_docs' is 'true')."
-        required: false
-        type: boolean
-        default: false
       changelog_exclude_tags_regex:
         description: "A regular expression matching any tags that should be excluded from the CHANGELOG.md."
         required: false
@@ -113,6 +118,34 @@ on:
         required: false
         type: string
         default: ""
+      docs_framework:
+        description: "The documentation framework to use. This can only be either `'mkdocs'` or `'sphinx'`. Defaults to `'mkdocs'`."
+        required: false
+        type: string
+        default: "mkdocs"
+      system_dependencies:
+        description: "A single (space-separated) or multi-line string of Ubuntu APT packages to install prior to building the documentation."
+        required: false
+        type: string
+        default: ""
+
+      # Sphinx
+      sphinx-build_options:
+        description: "Single (space-separated) or multi-line string of command-line options to use when calling `sphinx-build`."
+        required: false
+        type: string
+        default: ""
+      docs_folder:
+        description: "The path to the root documentation folder relative to the repository root. Defaults to 'docs'."
+        required: false
+        type: string
+        default: "docs"
+      build_target_folder:
+        description: "The path to the target folder for the documentation build relative to the repository root. Defaults to 'site'."
+        required: false
+        type: string
+        default: "site"
+
     secrets:
       PAT:
         description: "A personal access token (PAT) with rights to update the `permanent_dependencies_branch`. This will fallback on `GITHUB_TOKEN`."
@@ -124,7 +157,21 @@ jobs:
     runs-on: ubuntu-latest
     if: inputs.update_docs
 
+    permissions:
+      contents: write
+
+    env:
+      UPDATE_DEFAULT_BRANCH: false
+
     steps:
+    - name: Check input
+      run: |
+        if [[ "${{ inputs.docs_framework }}" != "mkdocs" || "${{ inputs.docs_framework }}" != "sphinx" ]]; then
+          echo "The input 'docs_framework' must be either 'mkdocs' or 'sphinx' !"
+          echo "Found value: ${{ inputs.docs_framework }}"
+          exit 1
+        fi
+
     - name: Release check
       run: |
         COMMIT_MSG="$(gh api /repos/${{ github.repository}}/commits/${{ inputs.default_repo_branch }} --jq '.commit.message')"
@@ -150,6 +197,16 @@ jobs:
       with:
         python-version: "${{ inputs.python_version }}"
 
+    - name: Install system dependencies
+      if: env.RELEASE_RUN == 'false' && inputs.system_dependencies != ''
+      run: |
+        SYSTEM_PACKAGES=()
+        while IFS= read -r line; do
+          if [ -n "${line}" ]; then SYSTEM_PACKAGES+=("${line}"); fi
+        done <<< "${{ inputs.system_dependencies }}"
+
+        sudo apt update && sudo apt install -y "${SYSTEM_PACKAGES[@]}"
+
     - name: Install Python dependencies
       if: env.RELEASE_RUN == 'false'
       run: |
@@ -172,10 +229,10 @@ jobs:
       run: git checkout -- .
 
     - name: Update API Reference
-      if: env.RELEASE_RUN == 'false' && inputs.update_python_api_ref
+      if: env.RELEASE_RUN == 'false' && inputs.docs_framework == 'mkdocs' && inputs.update_python_api_ref
       run: |
         if [ -z "${{ inputs.package_dirs }}" ]; then
-          echo "package_dirs MUST be supplied, since update_docs and update_python_api_ref were set to 'true'."
+          echo "'package_dirs' MUST be supplied, since 'update_docs' and 'update_python_api_ref' were set to 'true' and using the MkDocs framework."
           exit 1
         fi
 
@@ -220,10 +277,10 @@ jobs:
           "${SPECIAL_OPTIONS[@]}"
 
     - name: Update landing page
-      if: env.RELEASE_RUN == 'false' && inputs.update_docs_landing_page
+      if: env.RELEASE_RUN == 'false' && inputs.docs_framework == 'mkdocs' && inputs.update_docs_landing_page
       run: |
-        # Ensure the default replacement for LICENSE linking works
-        # with a custom separator
+        # Ensure the default replacement for LICENSE linking works with a custom
+        # separator
         LANDING_PAGE_REPLACEMENTS="${{ inputs.landing_page_replacements }}"
         if [ "${{ inputs.landing_page_replacement_separator }}" != "," ] && [ "${{ inputs.landing_page_replacements }}" == "(LICENSE),(LICENSE.md)" ]; then
           LANDING_PAGE_REPLACEMENTS="${LANDING_PAGE_REPLACEMENTS/,/${{ inputs.landing_page_replacement_separator }}}"
@@ -239,8 +296,8 @@ jobs:
           --replacement-separator="${{ inputs.landing_page_replacement_separator }}" \
           "${REPLACEMENTS[@]}"
 
-    - name: Determine if documentation was updated
-      if: env.RELEASE_RUN == 'false'
+    - name: Determine if (MkDocs) documentation was updated
+      if: env.RELEASE_RUN == 'false' && inputs.docs_framework == 'mkdocs'
       run: |
         if [ -n "$(git status --porcelain docs/api_reference docs/index.md)" ]; then
           echo -e "\u27b0 Discrepancies found !"
@@ -258,7 +315,6 @@ jobs:
           echo "UPDATE_DEFAULT_BRANCH=true" >> $GITHUB_ENV
         else
           echo -e "\u2714 All good !"
-          echo "UPDATE_DEFAULT_BRANCH=false" >> $GITHUB_ENV
         fi
 
     - name: Update '${{ inputs.default_repo_branch }}'
@@ -296,9 +352,50 @@ jobs:
       with:
         args: --user "${{ github.repository_owner }}" ${{ env.CHANGELOG_PROJECT }} --token "${{ secrets.PAT || secrets.GITHUB_TOKEN }}" --release-branch "${{ inputs.default_repo_branch }}" --future-release "Unreleased changes" ${{ env.CHANGELOG_EXCLUDE_TAGS_REGEX }} ${{ env.CHANGELOG_EXCLUDE_LABELS }}
 
-    - name: Deploy documentation
+    - name: Build (& deploy MkDocs) documentation
       if: env.RELEASE_RUN == 'false' && ( ! inputs.test )
-      run: mike deploy --push --remote origin --branch gh-pages --update-aliases --config-file mkdocs.yml latest ${{ inputs.default_repo_branch }}
+      run: |
+        if [ "${{ inputs.docs_framework }}" == "sphinx" ]; then
+          SPHINX_OPTIONS=()
+          while IFS= read -r line; do
+            if [ -n "${line}" ]; then SPHINX_OPTIONS+=("${line}"); fi
+          done <<< "${{ inputs.sphinx-build_options }}"
+        fi
+
+        if [ "${{ inputs.test }}" == "true" ]; then
+          if [ "${{ inputs.docs_framework }}" == "mkdocs" ]; then
+            echo "Will here deploy documentation using 'mike' called 'latest' with alias '${{ inputs.release_branch }}'"
+          elif [ "${{ inputs.docs_framework }}" == "sphinx" ]; then
+            echo "Will here deploy documentation using 'sphinx-build'."
+            echo "sphinx-build options: ${SPHINX_OPTIONS[@]}"
+            echo "SOURCEDIR=${{ inputs.docs_folder }}"
+            echo "OUTPUTDIR=${{ inputs.build_target_folder }}"
+            echo "Then '${{ inputs.build_target_folder }}' would replace all content in the 'gh-pages' branch."
+          else
+            echo "Unknown framework: ${{ inputs.docs_framework }}"
+            exit 1
+          fi
+
+        elif [ "${{ inputs.docs_framework }}" == "mkdocs" ]; then
+          mike deploy --push --remote origin --branch gh-pages --update-aliases --config-file mkdocs.yml latest ${{ inputs.default_repo_branch }}
+
+        elif [ "${{ inputs.docs_framework }}" == "sphinx" ]; then
+          sphinx-build \
+            "${SPHINX_OPTIONS[@]}" \
+            ${{ inputs.docs_folder }} ${{ inputs.build_target_folder }}
+
+        else
+          echo "Unknown framework: ${{ inputs.docs_framework }}"
+          exit 1
+        fi
+
+    - name: Deploy Sphinx documentation
+      if: env.RELEASE_RUN == 'false' && inputs.docs_framework == 'sphinx' && ( ! inputs.test )
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        folder: ${{ inputs.build_target_folder }}
+        git-config-name: ${{ inputs.git_username }}
+        git-config-email: ${{ inputs.git_email }}
 
   update-dependencies-branch:
     name: Update permanent dependencies branch
@@ -357,7 +454,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
 
     - name: Push to '${{ inputs.permanent_dependencies_branch }}'
-      if: "! inputs.test"
+      if: ( ! inputs.test )
       uses: CasperWA/push-protected@v2
       with:
         token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}

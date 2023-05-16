@@ -3,7 +3,7 @@ name: CD - Release
 on:
   workflow_call:
     inputs:
-      # REQUIRED
+      # General - REQUIRED
       git_username:
         description: "A git username (used to set the 'user.name' config option)."
         required: true
@@ -17,17 +17,8 @@ on:
         required: true
         type: string
         default: main
-      # OPTIONAL
-      python_package:
-        description: "Whether or not this is a Python package, where the version should be updated in the 'package_dir'/__init__.py for the possibly several 'package_dir' lines given in the 'package_dirs' input and a build and release to PyPI should be performed."
-        required: false
-        type: boolean
-        default: true
-      package_dirs:
-        description: "A single or multi-line string of paths to Python package directories relative to the repository directory to have its `__version__` value updated. Example: `'src/my_package'`. **Important**: This is _required_ if 'python_package' is 'true', which is the default."
-        required: false
-        type: string
-        default: ""
+
+      # General - OPTIONAL
       install_extras:
         description: "Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces. Example: `'[dev,release]'`."
         required: false
@@ -38,16 +29,28 @@ on:
         required: false
         type: boolean
         default: false
+      test:
+        description: "Whether to use the TestPyPI repository index instead of PyPI as well as output debug statements in both workflow jobs."
+        required: false
+        type: boolean
+        default: false
+
+      # Update Python package version, build and release on PyPI
+      python_package:
+        description: "Whether or not this is a Python package, where the version should be updated in the 'package_dir'/__init__.py for the possibly several 'package_dir' lines given in the 'package_dirs' input and a build and release to PyPI should be performed."
+        required: false
+        type: boolean
+        default: true
       python_version_build:
         description: "The Python version to use for the workflow when building the package."
         required: false
         type: string
         default: "3.9"
-      python_version_docs:
-        description: "The Python version to use for the workflow when building the documentation."
+      package_dirs:
+        description: "A single or multi-line string of paths to Python package directories relative to the repository directory to have its `__version__` value updated. Example: `'src/my_package'`. **Important**: This is _required_ if 'python_package' is 'true', which is the default."
         required: false
         type: string
-        default: "3.9"
+        default: ""
       version_update_changes:
         description: "A single or multi-line string of changes to be implemented in the repository files upon updating the version. The string should be made up of three parts: 'file path', 'pattern', and 'replacement string'. These are separated by the 'version_update_changes_separator' value. The 'file path' must _always_ either be relative to the repository root directory or absolute. The 'pattern' should be given as a 'raw' Python string."
         required: false
@@ -58,18 +61,13 @@ on:
         required: false
         type: string
         default: ","
-      update_docs:
-        description: "Whether or not to also run the 'docs' workflow job."
-        required: false
-        type: boolean
-        default: false
-      doc_extras:
-        description: "Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces. Note, if this is empty, 'install_extras' will be used as a fallback. Example: `'[docs]'`."
+      build_libs:
+        description: "A space-separated list of packages to install via PyPI (`pip install`)."
         required: false
         type: string
         default: ""
       build_cmd:
-        description: "The package build command, e.g., `'pip install flit && flit build'` or `'python -m build'` (default)."
+        description: "The package build command, e.g., `'flit build'` or `'python -m build'` (default)."
         required: false
         type: string
         default: "python -m build"
@@ -78,16 +76,6 @@ on:
         required: false
         type: string
         default: ""
-      test:
-        description: "Whether to use the TestPyPI repository index instead of PyPI as well as output debug statements."
-        required: false
-        type: boolean
-        default: false
-      publish_on_pypi:
-        description: "Whether or not to publish on PyPI. **Note**: This is only relevant if 'python_package' is 'true', which is the default."
-        required: false
-        type: boolean
-        default: true
       changelog_exclude_tags_regex:
         description: "A regular expression matching any tags that should be excluded from the CHANGELOG.md."
         required: false
@@ -98,6 +86,56 @@ on:
         required: false
         type: string
         default: ""
+      publish_on_pypi:
+        description: "Whether or not to publish on PyPI. **Note**: This is only relevant if 'python_package' is 'true', which is the default."
+        required: false
+        type: boolean
+        default: true
+
+      # Build and release documentation
+      update_docs:
+        description: "Whether or not to also run the 'docs' workflow job."
+        required: false
+        type: boolean
+        default: false
+      python_version_docs:
+        description: "The Python version to use for the workflow when building the documentation."
+        required: false
+        type: string
+        default: "3.9"
+      doc_extras:
+        description: "Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces. Note, if this is empty, 'install_extras' will be used as a fallback. Example: `'[docs]'`."
+        required: false
+        type: string
+        default: ""
+      docs_framework:
+        description: "The documentation framework to use. This can only be either `'mkdocs'` or `'sphinx'`. Defaults to `'mkdocs'`."
+        required: false
+        type: string
+        default: "mkdocs"
+      system_dependencies:
+        description: "A single (space-separated) or multi-line string of Ubuntu APT packages to install prior to building the documentation."
+        required: false
+        type: string
+        default: ""
+
+      # Sphinx
+      sphinx-build_options:
+        description: "Single (space-separated) or multi-line string of command-line options to use when calling `sphinx-build`."
+        required: false
+        type: string
+        default: ""
+      docs_folder:
+        description: "The path to the root documentation folder relative to the repository root. Defaults to 'docs'."
+        required: false
+        type: string
+        default: "docs"
+      build_target_folder:
+        description: "The path to the target folder for the documentation build relative to the repository root. Defaults to 'site'."
+        required: false
+        type: string
+        default: "site"
+
     secrets:
       PyPI_token:
         description: "A PyPI token for publishing the built package to PyPI. **Important**: This is _required_ if both 'python_package' and 'publish_on_pypi' are 'true'. Both are 'true' by default."
@@ -131,6 +169,9 @@ jobs:
         python -m pip install -U pip
         pip install -U setuptools wheel build
         pip install ${EDITABLE}.${{ inputs.install_extras }}
+        if [ -n "${{ inputs.build_libs }}" ]; then
+          pip install ${{ inputs.build_libs }}
+        fi
         pip install git+https://github.com/SINTEF/ci-cd.git@v2.3.1
 
     - name: Parse changelog configuration
@@ -271,7 +312,18 @@ jobs:
     runs-on: ubuntu-latest
     if: inputs.update_docs
 
+    permissions:
+      contents: write
+
     steps:
+    - name: Check input
+      run: |
+        if [[ "${{ inputs.docs_framework }}" != "mkdocs" || "${{ inputs.docs_framework }}" != "sphinx" ]]; then
+          echo "The input 'docs_framework' must be either 'mkdocs' or 'sphinx' !"
+          echo "Found value: ${{ inputs.docs_framework }}"
+          exit 1
+        fi
+
     - name: Checkout ${{ github.repository }}
       uses: actions/checkout@v3
       with:
@@ -282,6 +334,16 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: "${{ inputs.python_version_docs }}"
+
+    - name: Install system dependencies
+      if: inputs.system_dependencies != ''
+      run: |
+        SYSTEM_PACKAGES=()
+        while IFS= read -r line; do
+          if [ -n "${line}" ]; then SYSTEM_PACKAGES+=("${line}"); fi
+        done <<< "${{ inputs.system_dependencies }}"
+
+        sudo apt update && sudo apt install -y "${SYSTEM_PACKAGES[@]}"
 
     - name: Install Python dependencies
       run: |
@@ -297,13 +359,50 @@ jobs:
         git config --global user.name "${{ inputs.git_username }}"
         git config --global user.email "${{ inputs.git_email }}"
 
-    - name: Deploy documentation
+    - name: Build (& deploy MkDocs) documentation
       run: |
         REF=${{ github.ref }}
+
+        if [ "${{ inputs.docs_framework }}" == "sphinx" ]; then
+          SPHINX_OPTIONS=()
+          while IFS= read -r line; do
+            if [ -n "${line}" ]; then SPHINX_OPTIONS+=("${line}"); fi
+          done <<< "${{ inputs.sphinx-build_options }}"
+        fi
+
         if [ "${{ inputs.test }}" == "true" ]; then
-          echo "Will here deploy documentation using 'mike', first one called '${REF#refs/tags/v}' with alias 'stable'"
-          echo "Then one called 'latest' with alias '${{ inputs.release_branch }}'"
-        else
+          if [ "${{ inputs.docs_framework }}" == "mkdocs" ]; then
+            echo "Will here deploy documentation using 'mike', first one called '${REF#refs/tags/v}' with alias 'stable'"
+            echo "Then one called 'latest' with alias '${{ inputs.release_branch }}'"
+          elif [ "${{ inputs.docs_framework }}" == "sphinx" ]; then
+            echo "Will here deploy documentation using 'sphinx-build'."
+            echo "sphinx-build options: ${SPHINX_OPTIONS[@]}"
+            echo "SOURCEDIR=${{ inputs.docs_folder }}"
+            echo "OUTPUTDIR=${{ inputs.build_target_folder }}"
+            echo "Then '${{ inputs.build_target_folder }}' would replace all content in the 'gh-pages' branch."
+          else
+            echo "Unknown framework: ${{ inputs.docs_framework }}"
+            exit 1
+          fi
+
+        elif [ "${{ inputs.docs_framework }}" == "mkdocs" ]; then
           mike deploy --push --remote origin --branch gh-pages --update-aliases --config-file mkdocs.yml ${REF#refs/tags/v} stable
           mike deploy --push --remote origin --branch gh-pages --update-aliases --config-file mkdocs.yml latest ${{ inputs.release_branch }}
+
+        elif [ "${{ inputs.docs_framework }}" == "sphinx" ]; then
+          sphinx-build \
+            "${SPHINX_OPTIONS[@]}" \
+            ${{ inputs.docs_folder }} ${{ inputs.build_target_folder }}
+
+        else
+          echo "Unknown framework: ${{ inputs.docs_framework }}"
+          exit 1
         fi
+
+    - name: Deploy Sphinx documentation
+      if: inputs.docs_framework == 'sphinx'
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        folder: ${{ inputs.build_target_folder }}
+        git-config-name: ${{ inputs.git_username }}
+        git-config-email: ${{ inputs.git_email }}
