@@ -1,5 +1,5 @@
 # CI - Tests
-<!-- markdownlint-disable MD024 -->
+<!-- markdownlint-disable MD024 MD046 -->
 
 **File to use:** `ci_tests.yml`
 
@@ -83,31 +83,51 @@ The repository should be a "buildable" Python package.
 | `build_libs` | A space-separated list of packages to install via PyPI (`pip install`). | No | _Empty string_ | _string_ |
 | `build_cmd` | The package build command, e.g., `'flit build'` or `'python -m build'` (default). | No | `python -m build` | _string_ |
 
-### Build MkDocs Documentation
+### Build Documentation
 
-Test building the documentation within the [MkDocs](https://www.mkdocs.org) framework.
+Test building the documentation.
 
-!!! note
+Two frameworks are supported: [MkDocs](https://www.mkdocs.org) and [Sphinx](https://www.sphinx-doc.org/).
+
+By **default** the MkDocs framework is used.
+To use the Sphinx framework set the input `use_sphinx` to `true`.
+The input `use_mkdocs` can also explicitly be set to `true` for more transparent documentation in your workflow.
+
+Note, if both `use_sphinx` and `use_mkdocs` are `false` (as is the default value for both), the workflow will fallback to using MkDocs, i.e., it is equivalent to setting `use_mkdocs` to `true`.
+
+!!! note "For _MkDocs_ users"
     If using [mike](https://github.com/jimporter/mike), note that this will _not_ be tested, as this would be equivalent to testing mike itself and whether it can build a MkDocs documentation, which should never be part of a repository that uses these tools.
 
-If used together with the [Update API Reference in Documentation](../hooks/docs_api_reference.md#using-it-together-with-cicd-workflows), please align the `relative` input with the `--relative` option, when running the hook.
-See the [proper section](../hooks/docs_api_reference.md#using-it-together-with-cicd-workflows) to understand why and how these options and inputs should be aligned.
+    If used together with the [Update API Reference in Documentation](../hooks/docs_api_reference.md#using-it-together-with-cicd-workflows), please align the `relative` input with the `--relative` option, when running the hook.
+    See the [proper section](../hooks/docs_api_reference.md#using-it-together-with-cicd-workflows) to understand why and how these options and inputs should be aligned.
 
 #### Expectations
 
-Is is expected that documentation exists, which is using the MkDocs framework.
-This requires at minimum a `mkdocs.yml` configuration file.
+Is is expected that documentation exists, which is using either the MkDocs framework or the Sphinx framework.
+For MkDocs, this requires at minimum a `mkdocs.yml` configuration file.
+For Sphinx, it requires at minimum the files created from running `sphinx-quickstart`.
 
 #### Inputs
+
+General inputs for building the documentation:
 
 | **Name** | **Description** | **Required** | **Default** | **Type** |
 |:--- |:--- |:---:|:---:|:---:|
 | `run_build_docs` | Run the `build package` test job. | No | `true` | _boolean_ |
+| `python_version_docs` | The Python version to use for the `build documentation` test job. | No | 3.9 | _string_ |
+| `relative` | Whether or not to use the locally installed Python package(s), and install it as an editable. | No | `false` | _boolean_ |
+| `system_dependencies` | A single or multi-line string of Ubuntu APT packages to install prior to building the documentation. | No | _Empty string_ | _string_ |
+| `warnings_as_errors` | Build the documentation in 'strict' mode, treating warnings as errors.</br></br>**Important**: If this is set to `false`, beware that the documentation may _not_ be rendered or built as one may have intended.</br></br>Default: `true`. | No | `true` | _boolean_ |
+| `use_mkdocs` | Whether or not to build the documentation using the MkDocs framework. Mutually exclusive with `use_sphinx`. | No | `false` | _boolean_ |
+| `use_sphinx` | Whether or not to build the documentation using the Sphinx framework. Mutually exclusive with `use_mkdocs`. | No | `false` | _boolean_ |
+
+MkDocs-specific inputs:
+
+| **Name** | **Description** | **Required** | **Default** | **Type** |
+|:--- |:--- |:---:|:---:|:---:|
 | `update_python_api_ref` | Whether or not to update the Python API documentation reference.</br></br>**Note**: If this is `true`, `package_dirs` is _required_. | No | `true` | _boolean_ |
 | `update_docs_landing_page` | Whether or not to update the documentation landing page. The landing page will be based on the root README.md file. | No | `true` | _boolean_ |
-| `python_version_docs` | The Python version to use for the `build documentation` test job. | No | 3.9 | _string_ |
 | `install_extras` | Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces.</br></br>**Example**: `'[dev,docs]'`. | No | _Empty string_ | _string_ |
-| `relative` | Whether or not to use install the local Python package(s) as an editable. | No | `false` | _boolean_ |
 | `package_dirs` | A single or multi-line string of path to Python package directories relative to the repository directory to be considered for creating the Python API reference documentation.</br></br>**Example**: `'src/my_package'`. | **Yes, if `update_python_api_ref` is `true` (default)** | _Empty string_ | _string_ |
 | `exclude_dirs` | A single or multi-line string of directories to exclude in the Python API reference documentation. Note, only directory names, not paths, may be included. Note, all folders and their contents with these names will be excluded. Defaults to `'__pycache__'`.</br></br>**Important**: When a user value is set, the preset value is overwritten - hence `'__pycache__'` should be included in the user value if one wants to exclude these directories. | No | \_\_pycache\_\_ | _string_ |
 | `exclude_files` | A single or multi-line string of files to exclude in the Python API reference documentation. Note, only full file names, not paths, may be included, i.e., filename + file extension. Note, all files with these names will be excluded. Defaults to `'__init__.py'`.</br></br>**Important**: When a user value is set, the preset value is overwritten - hence `'__init__.py'` should be included in the user value if one wants to exclude these files. | No | \_\_init\_\_.py | _string_ |
@@ -116,8 +136,15 @@ This requires at minimum a `mkdocs.yml` configuration file.
 | `special_file_api_ref_options` | A single or multi-line string of combinations of a relative path to a Python file and a fully formed mkdocstrings option that should be added to the generated MarkDown file for the Python API reference documentation.</br>Example: `my_module/py_file.py,show_bases:false`.</br></br>Encapsulate the value in double quotation marks (`"`) if including spaces ( ).</br></br>**Important**: If multiple `package_dirs` are supplied, the relative path MUST include/start with the appropriate 'package_dir' value, e.g., `"my_package/my_module/py_file.py,show_bases: false"`. | No | _Empty string_ | _string_ |
 | `landing_page_replacements` | A single or multi-line string of replacements (mappings) to be performed on README.md when creating the documentation's landing page (index.md). This list _always_ includes replacing `'docs/'` with an empty string to correct relative links, i.e., this cannot be overwritten. By default `'(LICENSE)'` is replaced by `'(LICENSE.md)'`. | No | (LICENSE),(LICENSE.md) | _string_ |
 | `landing_page_replacement_separator` | String to separate a mapping's 'old' to 'new' parts. Defaults to a comma (`,`). | No | , | _string_ |
-| `warnings_as_errors` | Build the documentation in 'strict' mode, treating warnings as errors.</br></br>**Important**: If this is set to `false`, beware that the documentation may _not_ be rendered or built as one may have intended.</br></br>Default: `true`. | No | `true` | _boolean_ |
 | `debug` | Whether to do print extra debug statements. | No | `false` | _boolean_ |
+
+Sphinx-specific inputs:
+
+| **Name** | **Description** | **Required** | **Default** | **Type** |
+|:--- |:--- |:---:|:---:|:---:|
+| `sphinx-build_options` | Single or multi-line string of command-line options to use when calling `sphinx-build`.</br></br>**Note**: The `-W` option will be added if `warnings_as_errors` is `true` (default). | No | _Empty string_ | _string_ |
+| `docs_folder` | The path to the root documentation folder relative to the repository root. | No | docs | _string_ |
+| `build_target_folder` | The path to the target folder for the documentation build relative to the repository root. | No | site | _string_ |
 
 ## Usage example
 
@@ -186,6 +213,7 @@ However, it is recommended to instead refer to the job-specific tables of inputs
 
 | **Name** | **Description** | **Required** | **Default** | **Type** |
 |:--- |:--- |:---:|:---:|:---:|
+| `install_extras` | Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces.</br></br>Example: `'[dev,pre-commit]'`. | No | _Empty string_ | _string_ |
 | `run_pre-commit` | Run the `pre-commit` test job. | No | `true` | _boolean_ |
 | `skip_pre-commit_hooks` | A comma-separated list of pre-commit hook IDs to skip when running `pre-commit` after updating hooks. | No | _Empty string_ | _string_ |
 | `run_pylint` | Run the `pylint` test job. | No | `true` | _boolean_ |
@@ -198,14 +226,14 @@ However, it is recommended to instead refer to the job-specific tables of inputs
 | `build_libs` | A space-separated list of packages to install via PyPI (`pip install`). | No | _Empty string_ | _string_ |
 | `build_cmd` | The package build command, e.g., `'flit build'` or `'python -m build'` (default). | No | `python -m build` | _string_ |
 | `run_build_docs` | Run the `build package` test job. | No | `true` | _boolean_ |
+| `python_version_docs` | The Python version to use for the `build documentation` test job. | No | 3.9 | _string_ |
+| `relative` | Whether or not to use the locally installed Python package(s), and install it as an editable. | No | `false` | _boolean_ |
+| `system_dependencies` | A single or multi-line string of Ubuntu APT packages to install prior to building the documentation. | No | _Empty string_ | _string_ |
+| `warnings_as_errors` | Build the documentation in 'strict' mode, treating warnings as errors.</br></br>**Important**: If this is set to `false`, beware that the documentation may _not_ be rendered or built as one may have intended.</br></br>Default: `true`. | No | `true` | _boolean_ |
+| `use_mkdocs` | Whether or not to build the documentation using the MkDocs framework. Mutually exclusive with `use_sphinx`. | No | `false` | _boolean_ |
+| `use_sphinx` | Whether or not to build the documentation using the Sphinx framework. Mutually exclusive with `use_mkdocs`. | No | `false` | _boolean_ |
 | `update_python_api_ref` | Whether or not to update the Python API documentation reference.</br></br>**Note**: If this is `true`, `package_dirs` is _required_. | No | `true` | _boolean_ |
 | `update_docs_landing_page` | Whether or not to update the documentation landing page. The landing page will be based on the root README.md file. | No | `true` | _boolean_ |
-| `python_version_pre-commit` | The Python version to use for the `pre-commit` test job. | No | 3.9 | _string_ |
-| `python_version_pylint_safety` | The Python version to use for the `pylint` and `safety` test jobs. | No | 3.9 | _string_ |
-| `python_version_package` | The Python version to use for the `build package` test job. | No | 3.9 | _string_ |
-| `python_version_docs` | The Python version to use for the `build documentation` test job. | No | 3.9 | _string_ |
-| `install_extras` | Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces.</br></br>**Example**: `'[dev,docs]'`. | No | _Empty string_ | _string_ |
-| `relative` | Whether or not to use install the local Python package(s) as an editable, _only_ when running the `build_docs` job. | No | `false` | _boolean_ |
 | `package_dirs` | A single or multi-line string of path to Python package directories relative to the repository directory to be considered for creating the Python API reference documentation.</br></br>**Example**: `'src/my_package'`. | **Yes, if `update_python_api_ref` is `true` (default)** | _Empty string_ | _string_ |
 | `exclude_dirs` | A single or multi-line string of directories to exclude in the Python API reference documentation. Note, only directory names, not paths, may be included. Note, all folders and their contents with these names will be excluded. Defaults to `'__pycache__'`.</br></br>**Important**: When a user value is set, the preset value is overwritten - hence `'__pycache__'` should be included in the user value if one wants to exclude these directories. | No | \_\_pycache\_\_ | _string_ |
 | `exclude_files` | A single or multi-line string of files to exclude in the Python API reference documentation. Note, only full file names, not paths, may be included, i.e., filename + file extension. Note, all files with these names will be excluded. Defaults to `'__init__.py'`.</br></br>**Important**: When a user value is set, the preset value is overwritten - hence `'__init__.py'` should be included in the user value if one wants to exclude these files. | No | \_\_init\_\_.py | _string_ |
@@ -214,5 +242,7 @@ However, it is recommended to instead refer to the job-specific tables of inputs
 | `special_file_api_ref_options` | A single or multi-line string of combinations of a relative path to a Python file and a fully formed mkdocstrings option that should be added to the generated MarkDown file for the Python API reference documentation.</br>Example: `my_module/py_file.py,show_bases:false`.</br></br>Encapsulate the value in double quotation marks (`"`) if including spaces ( ).</br></br>**Important**: If multiple `package_dirs` are supplied, the relative path MUST include/start with the appropriate 'package_dir' value, e.g., `"my_package/my_module/py_file.py,show_bases: false"`. | No | _Empty string_ | _string_ |
 | `landing_page_replacements` | A single or multi-line string of replacements (mappings) to be performed on README.md when creating the documentation's landing page (index.md). This list _always_ includes replacing `'docs/'` with an empty string to correct relative links, i.e., this cannot be overwritten. By default `'(LICENSE)'` is replaced by `'(LICENSE.md)'`. | No | (LICENSE),(LICENSE.md) | _string_ |
 | `landing_page_replacement_separator` | String to separate a mapping's 'old' to 'new' parts. Defaults to a comma (`,`). | No | , | _string_ |
-| `warnings_as_errors` | Build the documentation in 'strict' mode, treating warnings as errors.</br></br>**Important**: If this is set to `false`, beware that the documentation may _not_ be rendered or built as one may have intended.</br></br>Default: `true`. | No | `true` | _boolean_ |
 | `debug` | Whether to do print extra debug statements. | No | `false` | _boolean_ |
+| `sphinx-build_options` | Single or multi-line string of command-line options to use when calling `sphinx-build`.</br></br>**Note**: The `-W` option will be added if `warnings_as_errors` is `true` (default). | No | _Empty string_ | _string_ |
+| `docs_folder` | The path to the root documentation folder relative to the repository root. | No | docs | _string_ |
+| `build_target_folder` | The path to the target folder for the documentation build relative to the repository root. | No | site | _string_ |

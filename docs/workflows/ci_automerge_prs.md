@@ -15,6 +15,9 @@ The motivation for being able to run changes prior to auto-merging, is to update
 Usually auto-merging is activated for [dependabot](https://docs.github.com/en/code-security/dependabot) branches, i.e., when a dependency/requirement is updated.
 Hence, the changes could include updating this dependency in documentation files or similar, where it will not be updated otherwise.
 
+!!! note "PR branch name"
+    The generated branch for the PR will be named `ci/update-pyproject`.
+
 ## Expectations
 
 The `PAT` secret must represent a user with the rights to activate auto-merging.
@@ -34,7 +37,7 @@ This workflow can _only_ be called if the triggering event from the caller workf
 
 | **Name** | **Description** | **Required** |
 |:--- |:--- |:---:|
-| `PAT` | A personal access token (PAT) with rights to update the `permanent_dependencies_branch`. This will fallback on `GITHUB_TOKEN`. | No |
+| `PAT` | A personal access token (PAT) with rights to activate auto-merging. This will fallback on `GITHUB_TOKEN`. | No |
 
 ## Usage example
 
