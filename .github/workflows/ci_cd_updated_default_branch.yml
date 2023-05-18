@@ -166,10 +166,11 @@ jobs:
     steps:
     - name: Check input
       run: |
-        if [[ "${{ inputs.docs_framework }}" != "mkdocs" || "${{ inputs.docs_framework }}" != "sphinx" ]]; then
-          echo "The input 'docs_framework' must be either 'mkdocs' or 'sphinx' !"
-          echo "Found value: ${{ inputs.docs_framework }}"
-          exit 1
+        valid_frameworks=("mkdocs sphinx")
+        if [[ ! " ${valid_frameworks[*]} " =~ " ${{ inputs.docs_framework}} " ]]; then
+            echo "The input '${{ inputs.docs_framework}}' is not supported."
+            echo "Valid inputs are: ${valid_frameworks[*]}"
+            exit 1
         fi
 
     - name: Release check
