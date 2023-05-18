@@ -75,9 +75,17 @@ class SemanticVersion(str):
         r"(?:\+(?P<build>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$"
     )
 
+    def __new__(
+        cls, version: "Optional[str]" = None, **kwargs: "Union[str, int]"
+    ) -> "SemanticVersion":
+        return super().__new__(
+            cls, version if version else cls._build_version(**kwargs)
+        )
+
     def __init__(
         self,
         version: "Optional[str]" = None,
+        *,
         major: "Optional[Union[str, int]]" = None,
         minor: "Optional[Union[str, int]]" = None,
         patch: "Optional[Union[str, int]]" = None,
@@ -112,6 +120,29 @@ class SemanticVersion(str):
         self._patch = int(patch) if patch else 0
         self._pre_release = pre_release if pre_release else None
         self._build = build if build else None
+
+    @classmethod
+    def _build_version(
+        cls,
+        major: "Optional[Union[str, int]]" = None,
+        minor: "Optional[Union[str, int]]" = None,
+        patch: "Optional[Union[str, int]]" = None,
+        pre_release: "Optional[str]" = None,
+        build: "Optional[str]" = None,
+    ) -> str:
+        """Build a version from the given parameters."""
+        if not major:
+            raise ValueError("At least major must be given")
+        version = str(major)
+        if minor:
+            version += f".{minor}"
+        if patch:
+            version += f".{patch}"
+        if pre_release:
+            version += f"-{pre_release}"
+        if build:
+            version += f"+{build}"
+        return version
 
     @property
     def major(self) -> int:
