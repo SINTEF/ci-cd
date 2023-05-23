@@ -17,7 +17,7 @@ import tomlkit
 from invoke import task
 
 from ci_cd.exceptions import CICDException, InputError, InputParserError
-from ci_cd.utils import Emoji, update_file
+from ci_cd.utils import Emoji, SemanticVersion, update_file
 
 if TYPE_CHECKING:  # pragma: no cover
     from typing import Literal
@@ -243,6 +243,10 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
                 versions.extend(parsed_rules[0])
                 update_types.update(parsed_rules[1])
 
+            LOGGER.debug(
+                "Ignore rules:\nversions: %s\nupdate_types: %s", versions, update_types
+            )
+
             if ignore_version(
                 current=version_spec.version.split("."),
                 latest=latest_version,
@@ -271,9 +275,11 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
                 ),
             )
             already_handled_packages.add(version_spec.package)
-            updated_packages[
-                version_spec.full_dependency
-            ] = f"{version_spec.operator}{updated_version}"
+            updated_packages[version_spec.full_dependency] = (
+                f"{version_spec.operator}{updated_version}"
+                f"{version_spec.extra_operator_version if version_spec.extra_operator_version else ''}"  # pylint: disable=line-too-long
+                f"{' ' + version_spec.environment_marker if version_spec.environment_marker else ''}"  # pylint: disable=line-too-long
+            )
 
     if error:
         sys.exit(
@@ -285,9 +291,7 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
             f"{Emoji.PARTY_POPPER.value} Successfully updated the following "
             "dependencies:\n"
             + "\n".join(
-                f"  {package} ({version}"
-                f"{version_spec.extra_operator_version if version_spec.extra_operator_version else ''}"  # pylint: disable=line-too-long
-                f"{' ' + version_spec.environment_marker if version_spec.environment_marker else ''})"  # pylint: disable=line-too-long
+                f"  {package} ({version})"
                 for package, version in updated_packages.items()
             )
             + "\n"
@@ -428,6 +432,7 @@ def _ignore_version_rules(
     version_rules: "list[dict[Literal['operator', 'version'], str]]",
 ) -> bool:
     """Determine whether to ignore package based on `versions` input."""
+    semver_latest = SemanticVersion(".".join(latest))
     operators_mapping = {
         ">": operator.gt,
         "<": operator.lt,
@@ -440,31 +445,15 @@ def _ignore_version_rules(
     decision_version_rules = []
     for version_rule in version_rules:
         decision_version_rule = False
-        split_version_rule = version_rule.get("version", "").split(".")
+        semver_version_rule = SemanticVersion(version_rule["version"])
 
-        if version_rule.get("operator", "") in operators_mapping:
-            # Extend version rule with zeros if needed
-            if len(split_version_rule) < len(latest):
-                split_version_rule.extend(
-                    ["0"] * (len(latest) - len(split_version_rule))
-                )
-            if len(split_version_rule) != len(latest):
-                raise CICDException("Zero-filling failed for version.")
-
-            any_all_logic = (
-                all
-                if "=" in version_rule["operator"] and version_rule["operator"] != "!="
-                else any
-            )
-            if any_all_logic(
-                operators_mapping[version_rule["operator"]](
-                    latest_part, version_rule_part
-                )
-                for latest_part, version_rule_part in zip(latest, split_version_rule)
+        if version_rule["operator"] in operators_mapping:
+            if operators_mapping[version_rule["operator"]](
+                semver_latest, semver_version_rule
             ):
                 decision_version_rule = True
-        elif "~=" == version_rule.get("operator", ""):
-            if len(split_version_rule) == 1:
+        elif "~=" == version_rule["operator"]:
+            if "." not in version_rule["version"]:
                 raise InputError(
                     "Ignore option value error. For the 'versions' config key, when "
                     "using the '~=' operator more than a single version part MUST be "
@@ -472,23 +461,24 @@ def _ignore_version_rules(
                     "similar."
                 )
 
-            if all(
-                latest_part >= version_rule_part
-                for latest_part, version_rule_part in zip(latest, split_version_rule)
-            ) and all(
-                latest_part == version_rule_part
-                for latest_part, version_rule_part in zip(
-                    latest[:-1], split_version_rule[:-1]
-                )
+            upper_limit = (
+                "major" if version_rule["version"].count(".") == 1 else "minor"
+            )
+
+            if (
+                semver_version_rule
+                <= semver_latest
+                < semver_version_rule.next_version(upper_limit)
             ):
                 decision_version_rule = True
-        elif version_rule.get("operator", ""):
-            # Should not be possible to reach if using `parse_ignore_rules()`
-            # But for completion, and understanding, this is still kept.
+        else:
             raise InputParserError(
-                "Unknown ignore options 'versions' config value operator: "
-                f"{version_rule['operator']}"
+                "Ignore option value error. The 'versions' config key only "
+                "supports the following operators: '>', '<', '<=', '>=', '==', "
+                "'!=', '~='.\n"
+                f"Unparseable 'versions' value: {version_rule!r}"
             )
+
         decision_version_rules.append(decision_version_rule)
 
     # If ALL version rules AND'ed together are True, ignore the version.

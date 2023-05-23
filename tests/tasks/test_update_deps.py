@@ -1,5 +1,5 @@
 """Test `ci_cd.tasks.update_deps()`."""
-# pylint: disable=line-too-long,too-many-lines
+# pylint: disable=line-too-long,too-many-lines,too-many-locals
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -935,7 +935,9 @@ def test_ignore_version_fails() -> None:
     from ci_cd.exceptions import InputError, InputParserError
     from ci_cd.tasks.update_deps import ignore_version
 
-    with pytest.raises(InputParserError, match=r"^Unknown ignore options 'versions'.*"):
+    with pytest.raises(
+        InputParserError, match="only supports the following operators:"
+    ):
         ignore_version(
             current="1.1.1".split("."),
             latest="2.2.2".split("."),
@@ -954,7 +956,7 @@ def test_ignore_version_fails() -> None:
         )
 
     with pytest.raises(
-        InputError, match=r"Ignore option value error. For the 'versions' config key.*"
+        InputError, match="when using the '~=' operator more than a single version part"
     ):
         ignore_version(
             current="1.1.1".split("."),
@@ -964,7 +966,117 @@ def test_ignore_version_fails() -> None:
         )
 
 
-def test_ignore_rules_logic(tmp_path: "Path") -> None:
+@pytest.mark.parametrize(
+    ("ignore_rules", "expected_result"),
+    [
+        (
+            ["dependency-name=*...update-types=version-update:semver-major"],
+            {
+                "invoke": "invoke ~=1.7",
+                "tomlkit[test,docs]": "tomlkit[test,docs] ~=0.11.4",
+                "mike": "mike >=1.0,<3",
+                "pytest": "pytest ~=7.2",
+                "pytest-cov": "pytest-cov ~=3.1",
+                "pre-commit": "pre-commit ~=2.20",
+                "pylint": "pylint ~=2.14",
+                "Sphinx": "Sphinx >=4.5.0,<6",
+            },
+        ),
+        (
+            ["dependency-name=invoke...versions=>=2"],
+            {
+                "invoke": "invoke ~=1.7",
+                "tomlkit[test,docs]": "tomlkit[test,docs] ~=1.0.0",
+                "mike": "mike >=1.0,<3",
+                "pytest": "pytest ~=7.2",
+                "pytest-cov": "pytest-cov ~=3.1",
+                "pre-commit": "pre-commit ~=2.20",
+                "pylint": "pylint ~=2.14",
+                "Sphinx": "Sphinx >=6.1.3,<6",
+            },
+        ),
+        (
+            [
+                "dependency-name=mike...versions=<1",
+                "dependency-name=mike...versions=<=1.0.0",
+            ],
+            {
+                "invoke": "invoke ~=1.7",
+                "tomlkit[test,docs]": "tomlkit[test,docs] ~=1.0.0",
+                "mike": "mike >=1.0,<3",
+                "pytest": "pytest ~=7.2",
+                "pytest-cov": "pytest-cov ~=3.1",
+                "pre-commit": "pre-commit ~=2.20",
+                "pylint": "pylint ~=2.14",
+                "Sphinx": "Sphinx >=6.1.3,<6",
+            },
+        ),
+        (
+            ["dependency-name=pylint...versions=~=2.14"],
+            {
+                "invoke": "invoke ~=1.7",
+                "tomlkit[test,docs]": "tomlkit[test,docs] ~=1.0.0",
+                "mike": "mike >=1.0,<3",
+                "pytest": "pytest ~=7.2",
+                "pytest-cov": "pytest-cov ~=3.1",
+                "pre-commit": "pre-commit ~=2.20",
+                "pylint": "pylint ~=2.13",
+                "Sphinx": "Sphinx >=6.1.3,<6",
+            },
+        ),
+        (
+            ["dependency-name=pytest"],
+            {
+                "invoke": "invoke ~=1.7",
+                "tomlkit[test,docs]": "tomlkit[test,docs] ~=1.0.0",
+                "mike": "mike >=1.0,<3",
+                "pytest": "pytest ~=7.1",
+                "pytest-cov": "pytest-cov ~=3.1",
+                "pre-commit": "pre-commit ~=2.20",
+                "pylint": "pylint ~=2.14",
+                "Sphinx": "Sphinx >=6.1.3,<6",
+            },
+        ),
+        (
+            ["dependency-name=pytest-cov...update-types=version-update:semver-minor"],
+            {
+                "invoke": "invoke ~=1.7",
+                "tomlkit[test,docs]": "tomlkit[test,docs] ~=1.0.0",
+                "mike": "mike >=1.0,<3",
+                "pytest": "pytest ~=7.2",
+                "pytest-cov": "pytest-cov ~=3.0",
+                "pre-commit": "pre-commit ~=2.20",
+                "pylint": "pylint ~=2.14",
+                "Sphinx": "Sphinx >=6.1.3,<6",  # This should be fixed!
+            },
+        ),
+        (
+            ["dependency-name=Sphinx...versions=>=4.5.0"],
+            {
+                "invoke": "invoke ~=1.7",
+                "tomlkit[test,docs]": "tomlkit[test,docs] ~=1.0.0",
+                "mike": "mike >=1.0,<3",
+                "pytest": "pytest ~=7.2",
+                "pytest-cov": "pytest-cov ~=3.1",
+                "pre-commit": "pre-commit ~=2.20",
+                "pylint": "pylint ~=2.14",
+                "Sphinx": "Sphinx >=4.5.0,<6",
+            },
+        ),
+    ],
+    ids=[
+        "* semver-major",
+        "invoke >=2",
+        "mike <1 <=1.0.0",
+        "pylint ~=2.14",
+        "pytest",
+        "pytest-cov semver-minor",
+        "Sphinx >=4.5.0",
+    ],
+)
+def test_ignore_rules_logic(
+    tmp_path: "Path", ignore_rules: list[str], expected_result: dict[str, str]
+) -> None:
     """Check the workflow of multiple interconnecting ignore rules are respected."""
     import re
 
@@ -981,6 +1093,7 @@ def test_ignore_rules_logic(tmp_path: "Path") -> None:
         "pytest-cov": "3.0",
         "pre-commit": "2.20",
         "pylint": "2.13",
+        "Sphinx": "4.5.0",
     }
 
     pyproject_file = tmp_path / "pyproject.toml"
@@ -997,6 +1110,7 @@ dependencies = [
 [project.optional-dependencies]
 docs = [
     "mike >={original_dependencies['mike']},<3",
+    "Sphinx >={original_dependencies['Sphinx']},<6",
 ]
 testing = [
     "pytest ~={original_dependencies['pytest']}",
@@ -1008,6 +1122,7 @@ dev = [
     "pytest-cov ~={original_dependencies['pytest-cov']}",
     "pre-commit ~={original_dependencies['pre-commit']}",
     "pylint ~={original_dependencies['pylint']}",
+    "Sphinx >={original_dependencies['Sphinx']},<6",
 ]
 """,
         encoding="utf8",
@@ -1022,21 +1137,14 @@ dev = [
             re.compile(r".*pytest-cov$"): "pytest-cov (3.1.0)",
             re.compile(r".*pre-commit$"): "pre-commit (2.20.0)",
             re.compile(r".*pylint$"): "pylint (2.14.0)",
+            re.compile(r".*Sphinx$"): "Sphinx (6.1.3)",
         },
     )
 
     update_deps(
         context,
         root_repo_path=str(tmp_path),
-        ignore=[
-            "dependency-name=*...update-types=version-update:semver-major",
-            "dependency-name=invoke...versions=>=2",
-            "dependency-name=mike...versions=<1",
-            "dependency-name=mike...versions=<=1.0.0",
-            "dependency-name=pylint...versions=~=2.14",
-            "dependency-name=pytest-cov...update-types=version-update:semver-minor",
-            "dependency-name=pytest",
-        ],
+        ignore=ignore_rules,
         ignore_separator="...",
     )
 
@@ -1049,26 +1157,9 @@ dev = [
         dependencies.extend(optional_deps)
 
     for line in dependencies:
-        if "invoke" in line:
-            # Not affected by package-specific rule
-            assert line == "invoke ~=1.7"
-        elif "tomlkit" in line:
-            # Affected by "*" rule
-            assert line == "tomlkit[test,docs] ~=0.11.4"
-        elif "mike" in line:
-            # Not affected by any of its package-specific rules
-            assert line == "mike >=1.0,<3"
-        elif "pytest-cov" in line:
-            # Affected by its package-specific update-types rule
-            assert line == "pytest-cov ~=3.0"
-        elif "pytest" in line:
-            # Affected by package-specific rule (ignore all updates)
-            assert line == "pytest ~=7.1"
-        elif "pre-commit" in line:
-            # Not affected by "*" rule - no updates
-            assert line == "pre-commit ~=2.20"
-        elif "pylint" in line:
-            # Affected by its package-specific version rule
-            assert line == "pylint ~=2.13"
+        for dependency, dependency_requirement in expected_result.items():
+            if f"{dependency} " in line:
+                assert line == dependency_requirement
+                break
         else:
             pytest.fail(f"Unknown package in line: {line}")
