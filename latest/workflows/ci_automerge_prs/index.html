@@ -911,7 +911,7 @@ It is meant to be complete as is.</p>
 <span class="nt">jobs</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">update-dependency-branch</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Call external workflow</span>
-<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SINTEF/ci-cd/.github/workflows/ci_automerge_prs.yml@v2.3.1</span>
+<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SINTEF/ci-cd/.github/workflows/ci_automerge_prs.yml@v2.4.0</span>
 <span class="w">    </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.repository_owner == &#39;SINTEF&#39; &amp;&amp; ( ( startsWith(github.event.pull_request.head.ref, &#39;dependabot/&#39;) &amp;&amp; github.actor == &#39;dependabot[bot]&#39; ) || ( github.event.pull_request.head.ref == &#39;ci/update-pyproject&#39; &amp;&amp; github.actor == &#39;CasperWA&#39; ) )</span>
 <span class="w">    </span><span class="nt">secrets</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">PAT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.RELEASE_PAT }}</span>
@@ -928,7 +928,7 @@ It is meant to be complete as is.</p>
 <span class="nt">jobs</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">update-dependency-branch</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Call external workflow</span>
-<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SINTEF/ci-cd/.github/workflows/ci_automerge_prs.yml@v2.3.1</span>
+<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SINTEF/ci-cd/.github/workflows/ci_automerge_prs.yml@v2.4.0</span>
 <span class="w">    </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.repository_owner == &#39;SINTEF&#39; &amp;&amp; ( ( startsWith(github.event.pull_request.head.ref, &#39;dependabot/&#39;) &amp;&amp; github.actor == &#39;dependabot[bot]&#39; ) || ( github.event.pull_request.head.ref == &#39;ci/update-pyproject&#39; &amp;&amp; github.actor == &#39;CasperWA&#39; ) )</span>
 <span class="w">    </span><span class="nt">with</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">perform_changes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
@@ -949,7 +949,7 @@ It is meant to be complete as is.</p>
 <span class="nt">jobs</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">update-dependency-branch</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Call external workflow</span>
-<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SINTEF/ci-cd/.github/workflows/ci_automerge_prs.yml@v2.3.1</span>
+<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SINTEF/ci-cd/.github/workflows/ci_automerge_prs.yml@v2.4.0</span>
 <span class="w">    </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.repository_owner == &#39;SINTEF&#39; &amp;&amp; ( ( startsWith(github.event.pull_request.head.ref, &#39;dependabot/&#39;) &amp;&amp; github.actor == &#39;dependabot[bot]&#39; ) || ( github.event.pull_request.head.ref == &#39;ci/update-pyproject&#39; &amp;&amp; github.actor == &#39;CasperWA&#39; ) )</span>
 <span class="w">    </span><span class="nt">with</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">perform_changes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
