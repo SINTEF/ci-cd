@@ -1,5 +1,42 @@
 # Changelog
 
+## [Unreleased](https://github.com/SINTEF/ci-cd/tree/HEAD)
+
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.4.0...HEAD)
+
+**Fixed bugs:**
+
+- Issues with the ignore-functionality of `ci-cd update-deps` [\#130](https://github.com/SINTEF/ci-cd/issues/130)
+
+## [v2.4.0](https://github.com/SINTEF/ci-cd/tree/v2.4.0) (2023-05-23)
+
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.3.1...v2.4.0)
+
+**Implemented enhancements:**
+
+- Automatically merge CI workflow to update deps [\#101](https://github.com/SINTEF/ci-cd/issues/101)
+- Support Sphinx for documentation building [\#90](https://github.com/SINTEF/ci-cd/issues/90)
+- Add hook for using the `update-deps` task [\#24](https://github.com/SINTEF/ci-cd/issues/24)
+
+**Fixed bugs:**
+
+- Flawed logic [\#152](https://github.com/SINTEF/ci-cd/issues/152)
+- Error in workflow [\#150](https://github.com/SINTEF/ci-cd/issues/150)
+
+**Closed issues:**
+
+- Error in .github/workflows/ci\_automerge\_prs.yml which makes automerging fail in outside repos [\#139](https://github.com/SINTEF/ci-cd/issues/139)
+
+**Merged pull requests:**
+
+- Fix logic for checking documentation framework [\#153](https://github.com/SINTEF/ci-cd/pull/153) ([CasperWA](https://github.com/CasperWA))
+- Fix typos in workflows [\#151](https://github.com/SINTEF/ci-cd/pull/151) ([CasperWA](https://github.com/CasperWA))
+- \[Auto-generated\] Update dependencies [\#143](https://github.com/SINTEF/ci-cd/pull/143) ([TEAM4-0](https://github.com/TEAM4-0))
+- Fix ignore functionality \(especially for 'version' rules\) [\#140](https://github.com/SINTEF/ci-cd/pull/140) ([CasperWA](https://github.com/CasperWA))
+- Add `update-pyproject` pre-commit hook [\#128](https://github.com/SINTEF/ci-cd/pull/128) ([CasperWA](https://github.com/CasperWA))
+- Activate auto-merge for pyproject.toml update PRs [\#114](https://github.com/SINTEF/ci-cd/pull/114) ([CasperWA](https://github.com/CasperWA))
+- Support Sphinx [\#92](https://github.com/SINTEF/ci-cd/pull/92) ([CasperWA](https://github.com/CasperWA))
+
 ## [v2.3.1](https://github.com/SINTEF/ci-cd/tree/v2.3.1) (2023-04-13)
 
 [Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.3.0...v2.3.1)
