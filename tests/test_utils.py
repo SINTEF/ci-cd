@@ -109,3 +109,58 @@ def test_semanticversion_invalid() -> None:
             SemanticVersion(  # pylint: disable=expression-not-assigned
                 **input_
             ) if isinstance(input_, dict) else SemanticVersion(input_)
+
+
+def test_semanticversion_invalid_comparisons() -> None:
+    """Test invalid comparisons with SemanticVersion class."""
+    import operator
+
+    from ci_cd.utils import SemanticVersion
+
+    operators_mapping = {
+        ">": operator.gt,
+        "<": operator.lt,
+        "<=": operator.le,
+        ">=": operator.ge,
+        "==": operator.eq,
+        "!=": operator.ne,
+    }
+
+    for operator_ in ("<", "<=", ">", ">=", "==", "!="):
+        with pytest.raises(
+            NotImplementedError, match="comparison not implemented between"
+        ):
+            operators_mapping[operator_](SemanticVersion("1.0.0"), 1)
+        with pytest.raises(
+            NotImplementedError, match="comparison not implemented between"
+        ):
+            operators_mapping[operator_](SemanticVersion("1.0.0"), "test")
+
+
+def test_semanticversion_next_version() -> None:
+    """Test the next_version method of SemanticVersion class."""
+    from ci_cd.utils import SemanticVersion
+
+    valid_inputs = [
+        ("1.0.0", "major", "2.0.0"),
+        ("1.0.0", "minor", "1.1.0"),
+        ("1.0.0", "patch", "1.0.1"),
+    ]
+
+    for version, version_part, next_version in valid_inputs:
+        assert SemanticVersion(version).next_version(version_part) == next_version
+
+
+def test_semanticversion_next_version_invalid() -> None:
+    """Test the next_version method of SemanticVersion class with invalid inputs."""
+    from ci_cd.utils import SemanticVersion
+
+    invalid_inputs = [
+        "invalid",
+        "pre_release",
+        "build",
+    ]
+
+    for version_part in invalid_inputs:
+        with pytest.raises(ValueError, match="version_part must be one of"):
+            SemanticVersion("1.0.0").next_version(version_part)

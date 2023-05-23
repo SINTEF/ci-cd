@@ -99,9 +99,6 @@ class SemanticVersion(str):
                     "version cannot be specified along with other parameters"
                 )
 
-            if not isinstance(version, str):
-                version = str(version)
-
             match = re.match(self._REGEX, version)
             if match is None:
                 raise ValueError(
