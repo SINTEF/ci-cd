@@ -672,6 +672,55 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#ci_cd.utils.SemanticVersion.__eq__" class="md-nav__link">
+    __eq__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ci_cd.utils.SemanticVersion.__ge__" class="md-nav__link">
+    __ge__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ci_cd.utils.SemanticVersion.__gt__" class="md-nav__link">
+    __gt__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ci_cd.utils.SemanticVersion.__le__" class="md-nav__link">
+    __le__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ci_cd.utils.SemanticVersion.__lt__" class="md-nav__link">
+    __lt__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ci_cd.utils.SemanticVersion.__ne__" class="md-nav__link">
+    __ne__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ci_cd.utils.SemanticVersion.__new__" class="md-nav__link">
+    __new__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ci_cd.utils.SemanticVersion.__repr__" class="md-nav__link">
     __repr__()
   </a>
@@ -681,6 +730,13 @@
           <li class="md-nav__item">
   <a href="#ci_cd.utils.SemanticVersion.__str__" class="md-nav__link">
     __str__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ci_cd.utils.SemanticVersion.next_version" class="md-nav__link">
+    next_version()
   </a>
   
 </li>
@@ -893,6 +949,55 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#ci_cd.utils.SemanticVersion.__eq__" class="md-nav__link">
+    __eq__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ci_cd.utils.SemanticVersion.__ge__" class="md-nav__link">
+    __ge__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ci_cd.utils.SemanticVersion.__gt__" class="md-nav__link">
+    __gt__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ci_cd.utils.SemanticVersion.__le__" class="md-nav__link">
+    __le__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ci_cd.utils.SemanticVersion.__lt__" class="md-nav__link">
+    __lt__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ci_cd.utils.SemanticVersion.__ne__" class="md-nav__link">
+    __ne__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ci_cd.utils.SemanticVersion.__new__" class="md-nav__link">
+    __new__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ci_cd.utils.SemanticVersion.__repr__" class="md-nav__link">
     __repr__()
   </a>
@@ -902,6 +1007,13 @@
           <li class="md-nav__item">
   <a href="#ci_cd.utils.SemanticVersion.__str__" class="md-nav__link">
     __str__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ci_cd.utils.SemanticVersion.next_version" class="md-nav__link">
+    next_version()
   </a>
   
 </li>
@@ -1016,7 +1128,8 @@ Emoji            (<span title="str">str</span>, <span title="enum.Enum">Enum</sp
 
 <h3 id="ci_cd.utils.SemanticVersion" class="doc doc-heading">
         <code>
-SemanticVersion        </code>
+SemanticVersion            (<span title="str">str</span>)
+        </code>
 
 
 
@@ -1038,6 +1151,8 @@ returned, i.e., as shown above, with a minimum of major.minor.patch.</p>
 representation will be the full major.minor.patch version: <code>1.5.0</code>.
 The <code>patch</code> attribute will default to <code>0</code> while <code>pre_release</code> and <code>build</code> will be
 <code>None</code>, when asked for explicitly.</p>
+<p>Precedence for comparing versions is done according to the rules outlined in point
+11 of the specification found at <a href="https://semver.org/#spec-item-11">SemVer.org</a>.</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1054,7 +1169,7 @@ The <code>patch</code> attribute will default to <code>0</code> while <code>pre_
         <td><code>major</code></td>
         <td><code>Union[str, int]</code></td>
         <td><p>The major version.</p></td>
-        <td><em>required</em></td>
+        <td><code>&#39;&#39;</code></td>
       </tr>
       <tr>
         <td><code>minor</code></td>
@@ -1125,7 +1240,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 </table>
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">SemanticVersion</span><span class="p">:</span>
+          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">SemanticVersion</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A semantic version.</span>
 
 <span class="sd">    See [SemVer.org](https://semver.org) for more information about semantic</span>
@@ -1145,6 +1260,9 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 <span class="sd">    representation will be the full major.minor.patch version: `1.5.0`.</span>
 <span class="sd">    The `patch` attribute will default to `0` while `pre_release` and `build` will be</span>
 <span class="sd">    `None`, when asked for explicitly.</span>
+
+<span class="sd">    Precedence for comparing versions is done according to the rules outlined in point</span>
+<span class="sd">    11 of the specification found at [SemVer.org](https://semver.org/#spec-item-11).</span>
 
 <span class="sd">    Parameters:</span>
 <span class="sd">        major (Union[str, int]): The major version.</span>
@@ -1166,19 +1284,87 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="n">_REGEX</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="sa">r</span><span class="s2">&quot;^(?P&lt;major&gt;0|[1-9]\d*)(?:\.(?P&lt;minor&gt;0|[1-9]\d*))?(?:\.(?P&lt;patch&gt;0|[1-9]\d*))?&quot;</span>
+        <span class="sa">r</span><span class="s2">&quot;(?:-(?P&lt;pre_release&gt;(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)&quot;</span>
+        <span class="sa">r</span><span class="s2">&quot;(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?&quot;</span>
+        <span class="sa">r</span><span class="s2">&quot;(?:\+(?P&lt;build&gt;[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$&quot;</span>
+    <span class="p">)</span>
+
+    <span class="nd">@no_type_check</span>
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="s2">&quot;Optional[str]&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="s2">&quot;Union[str, int]&quot;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;SemanticVersion&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span>
+            <span class="bp">cls</span><span class="p">,</span> <span class="n">version</span> <span class="k">if</span> <span class="n">version</span> <span class="k">else</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_build_version</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="p">)</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">major</span><span class="p">:</span> <span class="s2">&quot;Union[str, int]&quot;</span><span class="p">,</span>
+        <span class="n">version</span><span class="p">:</span> <span class="s2">&quot;Optional[str]&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">major</span><span class="p">:</span> <span class="s2">&quot;Union[str, int]&quot;</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
         <span class="n">minor</span><span class="p">:</span> <span class="s2">&quot;Optional[Union[str, int]]&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">patch</span><span class="p">:</span> <span class="s2">&quot;Optional[Union[str, int]]&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">pre_release</span><span class="p">:</span> <span class="s2">&quot;Optional[str]&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">build</span><span class="p">:</span> <span class="s2">&quot;Optional[str]&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">version</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">major</span> <span class="ow">or</span> <span class="n">minor</span> <span class="ow">or</span> <span class="n">patch</span> <span class="ow">or</span> <span class="n">pre_release</span> <span class="ow">or</span> <span class="n">build</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;version cannot be specified along with other parameters&quot;</span>
+                <span class="p">)</span>
+
+            <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_REGEX</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">match</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;version (</span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s2">) cannot be parsed as a semantic version &quot;</span>
+                    <span class="s2">&quot;according to the SemVer.org regular expression&quot;</span>
+                <span class="p">)</span>
+            <span class="n">major</span><span class="p">,</span> <span class="n">minor</span><span class="p">,</span> <span class="n">patch</span><span class="p">,</span> <span class="n">pre_release</span><span class="p">,</span> <span class="n">build</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">_major</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">major</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_minor</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">minor</span><span class="p">)</span> <span class="k">if</span> <span class="n">minor</span> <span class="k">else</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_patch</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">patch</span><span class="p">)</span> <span class="k">if</span> <span class="n">patch</span> <span class="k">else</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_pre_release</span> <span class="o">=</span> <span class="n">pre_release</span> <span class="k">if</span> <span class="n">pre_release</span> <span class="k">else</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_build</span> <span class="o">=</span> <span class="n">build</span> <span class="k">if</span> <span class="n">build</span> <span class="k">else</span> <span class="kc">None</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_build_version</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">major</span><span class="p">:</span> <span class="s2">&quot;Optional[Union[str, int]]&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">minor</span><span class="p">:</span> <span class="s2">&quot;Optional[Union[str, int]]&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">patch</span><span class="p">:</span> <span class="s2">&quot;Optional[Union[str, int]]&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">pre_release</span><span class="p">:</span> <span class="s2">&quot;Optional[str]&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">build</span><span class="p">:</span> <span class="s2">&quot;Optional[str]&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build a version from the given parameters.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">major</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;At least major must be given&quot;</span><span class="p">)</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">major</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">minor</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">version</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;.</span><span class="si">{</span><span class="n">minor</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="n">patch</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">minor</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Minor must be given if patch is given&quot;</span><span class="p">)</span>
+            <span class="n">version</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;.</span><span class="si">{</span><span class="n">patch</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="n">pre_release</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># semver spec #9: A pre-release version MAY be denoted by appending a</span>
+            <span class="c1"># hyphen and a series of dot separated identifiers immediately following</span>
+            <span class="c1"># the patch version.</span>
+            <span class="c1"># https://semver.org/#spec-item-9</span>
+            <span class="k">if</span> <span class="n">patch</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Patch must be given if pre_release is given&quot;</span><span class="p">)</span>
+            <span class="n">version</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;-</span><span class="si">{</span><span class="n">pre_release</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="n">build</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># semver spec #10: Build metadata MAY be denoted by appending a plus sign</span>
+            <span class="c1"># and a series of dot separated identifiers immediately following the patch</span>
+            <span class="c1"># or pre-release version.</span>
+            <span class="c1"># https://semver.org/#spec-item-10</span>
+            <span class="k">if</span> <span class="n">patch</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Patch must be given if build is given&quot;</span><span class="p">)</span>
+            <span class="n">version</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;+</span><span class="si">{</span><span class="n">build</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="n">version</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">major</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -1222,6 +1408,97 @@ the end of the version, after a plus (<code>+</code>).</p></td>
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the string representation of the object.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="fm">__str__</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">_validate_other_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Any&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;SemanticVersion&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initial check/validation of `other` before rich comparisons.&quot;&quot;&quot;</span>
+        <span class="n">not_implemented_exc</span> <span class="o">=</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Rich comparison not implemented between </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> and &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">other</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">not_implemented_exc</span> <span class="kn">from</span> <span class="nn">exc</span>
+
+        <span class="k">raise</span> <span class="n">not_implemented_exc</span>
+
+    <span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Any&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Less than (`&lt;`) rich comparison.&quot;&quot;&quot;</span>
+        <span class="n">other_semver</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_other_type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">major</span> <span class="o">&lt;</span> <span class="n">other_semver</span><span class="o">.</span><span class="n">major</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">major</span> <span class="o">==</span> <span class="n">other_semver</span><span class="o">.</span><span class="n">major</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">minor</span> <span class="o">&lt;</span> <span class="n">other_semver</span><span class="o">.</span><span class="n">minor</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">minor</span> <span class="o">==</span> <span class="n">other_semver</span><span class="o">.</span><span class="n">minor</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch</span> <span class="o">&lt;</span> <span class="n">other_semver</span><span class="o">.</span><span class="n">patch</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">True</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch</span> <span class="o">==</span> <span class="n">other_semver</span><span class="o">.</span><span class="n">patch</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_release</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="kc">False</span>
+                    <span class="k">if</span> <span class="n">other_semver</span><span class="o">.</span><span class="n">pre_release</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="kc">True</span>
+                    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_release</span> <span class="o">&lt;</span> <span class="n">other_semver</span><span class="o">.</span><span class="n">pre_release</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="fm">__le__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Any&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Less than or equal to (`&lt;=`) rich comparison.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__lt__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Any&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Equal to (`==`) rich comparison.&quot;&quot;&quot;</span>
+        <span class="n">other_semver</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_other_type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">major</span> <span class="o">==</span> <span class="n">other_semver</span><span class="o">.</span><span class="n">major</span>
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">minor</span> <span class="o">==</span> <span class="n">other_semver</span><span class="o">.</span><span class="n">minor</span>
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch</span> <span class="o">==</span> <span class="n">other_semver</span><span class="o">.</span><span class="n">patch</span>
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_release</span> <span class="o">==</span> <span class="n">other_semver</span><span class="o">.</span><span class="n">pre_release</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Any&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Not equal to (`!=`) rich comparison.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__ge__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Any&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Greater than or equal to (`&gt;=`) rich comparison.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__lt__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__gt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Any&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Greater than (`&gt;`) rich comparison.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__le__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">next_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version_part</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;SemanticVersion&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the next version for the specified version part.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            version_part: The version part to increment.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The next version.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the version part is not one of `major`, `minor`, or `patch`.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">version_part</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;major&quot;</span><span class="p">,</span> <span class="s2">&quot;minor&quot;</span><span class="p">,</span> <span class="s2">&quot;patch&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;version_part must be one of &#39;major&#39;, &#39;minor&#39;, or &#39;patch&#39;, not &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">version_part</span><span class="si">!r}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">version_part</span> <span class="o">==</span> <span class="s2">&quot;major&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">major</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">.0.0&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">version_part</span> <span class="o">==</span> <span class="s2">&quot;minor&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">major</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">minor</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">.0&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">major</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">minor</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">patch</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>
         </details>
 
@@ -1354,6 +1631,244 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 
 
 
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="ci_cd.utils.SemanticVersion.__eq__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
+
+<a href="#ci_cd.utils.SemanticVersion.__eq__" class="headerlink" title="Permanent link">&para;</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Equal to (<code>==</code>) rich comparison.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>ci_cd/utils.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Any&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Equal to (`==`) rich comparison.&quot;&quot;&quot;</span>
+    <span class="n">other_semver</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_other_type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">major</span> <span class="o">==</span> <span class="n">other_semver</span><span class="o">.</span><span class="n">major</span>
+        <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">minor</span> <span class="o">==</span> <span class="n">other_semver</span><span class="o">.</span><span class="n">minor</span>
+        <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch</span> <span class="o">==</span> <span class="n">other_semver</span><span class="o">.</span><span class="n">patch</span>
+        <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_release</span> <span class="o">==</span> <span class="n">other_semver</span><span class="o">.</span><span class="n">pre_release</span>
+    <span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="ci_cd.utils.SemanticVersion.__ge__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__ge__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
+
+<a href="#ci_cd.utils.SemanticVersion.__ge__" class="headerlink" title="Permanent link">&para;</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Greater than or equal to (<code>&gt;=</code>) rich comparison.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>ci_cd/utils.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__ge__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Any&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Greater than or equal to (`&gt;=`) rich comparison.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__lt__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="ci_cd.utils.SemanticVersion.__gt__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__gt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
+
+<a href="#ci_cd.utils.SemanticVersion.__gt__" class="headerlink" title="Permanent link">&para;</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Greater than (<code>&gt;</code>) rich comparison.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>ci_cd/utils.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__gt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Any&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Greater than (`&gt;`) rich comparison.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__le__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="ci_cd.utils.SemanticVersion.__le__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__le__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
+
+<a href="#ci_cd.utils.SemanticVersion.__le__" class="headerlink" title="Permanent link">&para;</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Less than or equal to (<code>&lt;=</code>) rich comparison.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>ci_cd/utils.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__le__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Any&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Less than or equal to (`&lt;=`) rich comparison.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__lt__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="ci_cd.utils.SemanticVersion.__lt__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
+
+<a href="#ci_cd.utils.SemanticVersion.__lt__" class="headerlink" title="Permanent link">&para;</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Less than (<code>&lt;</code>) rich comparison.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>ci_cd/utils.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Any&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Less than (`&lt;`) rich comparison.&quot;&quot;&quot;</span>
+    <span class="n">other_semver</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_other_type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">major</span> <span class="o">&lt;</span> <span class="n">other_semver</span><span class="o">.</span><span class="n">major</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">major</span> <span class="o">==</span> <span class="n">other_semver</span><span class="o">.</span><span class="n">major</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">minor</span> <span class="o">&lt;</span> <span class="n">other_semver</span><span class="o">.</span><span class="n">minor</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">minor</span> <span class="o">==</span> <span class="n">other_semver</span><span class="o">.</span><span class="n">minor</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch</span> <span class="o">&lt;</span> <span class="n">other_semver</span><span class="o">.</span><span class="n">patch</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch</span> <span class="o">==</span> <span class="n">other_semver</span><span class="o">.</span><span class="n">patch</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_release</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+                <span class="k">if</span> <span class="n">other_semver</span><span class="o">.</span><span class="n">pre_release</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">True</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_release</span> <span class="o">&lt;</span> <span class="n">other_semver</span><span class="o">.</span><span class="n">pre_release</span>
+    <span class="k">return</span> <span class="kc">False</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="ci_cd.utils.SemanticVersion.__ne__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
+
+<a href="#ci_cd.utils.SemanticVersion.__ne__" class="headerlink" title="Permanent link">&para;</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Not equal to (<code>!=</code>) rich comparison.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>ci_cd/utils.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Any&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Not equal to (`!=`) rich comparison.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="ci_cd.utils.SemanticVersion.__new__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+      <small class="doc doc-property doc-property-staticmethod"><code>staticmethod</code></small>
+  </span>
+
+<a href="#ci_cd.utils.SemanticVersion.__new__" class="headerlink" title="Permanent link">&para;</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Create and return a new object.  See help(type) for accurate signature.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>ci_cd/utils.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="nd">@no_type_check</span>
+<span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
+    <span class="bp">cls</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="s2">&quot;Optional[str]&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="s2">&quot;Union[str, int]&quot;</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;SemanticVersion&quot;</span><span class="p">:</span>
+    <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">version</span> <span class="k">if</span> <span class="n">version</span> <span class="k">else</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_build_version</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
 
   <div class="doc doc-object doc-method">
 
@@ -1411,6 +1926,104 @@ the end of the version, after a plus (<code>+</code>).</p></td>
         <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="sa">f</span><span class="s1">&#39;-</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pre_release</span><span class="si">}</span><span class="s1">&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">pre_release</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="sa">f</span><span class="s1">&#39;+</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">build</span><span class="si">}</span><span class="s1">&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">build</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="si">}</span><span class="s2">&quot;</span>
     <span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="ci_cd.utils.SemanticVersion.next_version" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">next_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version_part</span><span class="p">)</span></code>
+
+
+<a href="#ci_cd.utils.SemanticVersion.next_version" class="headerlink" title="Permanent link">&para;</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Return the next version for the specified version part.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>version_part</code></td>
+        <td><code>str</code></td>
+        <td><p>The version part to increment.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>SemanticVersion</code></td>
+      <td><p>The next version.</p></td>
+    </tr>
+  </tbody>
+</table>
+<p><strong>Exceptions:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>ValueError</code></td>
+        <td><p>If the version part is not one of <code>major</code>, <code>minor</code>, or <code>patch</code>.</p></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>ci_cd/utils.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">next_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version_part</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;SemanticVersion&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the next version for the specified version part.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        version_part: The version part to increment.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The next version.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If the version part is not one of `major`, `minor`, or `patch`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">version_part</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;major&quot;</span><span class="p">,</span> <span class="s2">&quot;minor&quot;</span><span class="p">,</span> <span class="s2">&quot;patch&quot;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;version_part must be one of &#39;major&#39;, &#39;minor&#39;, or &#39;patch&#39;, not &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">version_part</span><span class="si">!r}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">version_part</span> <span class="o">==</span> <span class="s2">&quot;major&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">major</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">.0.0&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">version_part</span> <span class="o">==</span> <span class="s2">&quot;minor&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">major</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">minor</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">.0&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">major</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">minor</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">patch</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
