@@ -100,10 +100,7 @@ class SemanticVersion(str):
                 )
 
             if not isinstance(version, str):
-                try:
-                    version = str(version)
-                except (TypeError, ValueError) as exc:
-                    raise TypeError("version must be a str") from exc
+                version = str(version)
 
             match = re.match(self._REGEX, version)
             if match is None:
