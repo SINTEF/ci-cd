@@ -2,7 +2,7 @@
 import pytest
 
 
-def test_SemanticVersion() -> None:
+def test_semanticversion() -> None:
     """Test SemanticVersion class."""
     from ci_cd.utils import SemanticVersion
 
@@ -59,7 +59,7 @@ def test_SemanticVersion() -> None:
     )
 
 
-def test_SemanticVersion_invalid() -> None:
+def test_semanticversion_invalid() -> None:
     """Test SemanticVersion class with invalid inputs."""
     from ci_cd.utils import SemanticVersion
 
@@ -77,6 +77,6 @@ def test_SemanticVersion_invalid() -> None:
     ]
     for input_, exc_msg in invalid_inputs:
         with pytest.raises(ValueError, match=exc_msg):
-            SemanticVersion(**input_) if isinstance(input_, dict) else SemanticVersion(
-                input_
-            )
+            SemanticVersion(  # pylint: disable=expression-not-assigned
+                **input_
+            ) if isinstance(input_, dict) else SemanticVersion(input_)

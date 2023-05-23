@@ -5,10 +5,10 @@ import logging
 import re
 from enum import Enum
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, no_type_check
 
 if TYPE_CHECKING:  # pragma: no cover
-    from typing import Any, Literal, Optional, Tuple, Union
+    from typing import Any, Optional, Tuple, Union
 
 
 LOGGER = logging.getLogger(__file__)
@@ -75,6 +75,7 @@ class SemanticVersion(str):
         r"(?:\+(?P<build>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$"
     )
 
+    @no_type_check
     def __new__(
         cls, version: "Optional[str]" = None, **kwargs: "Union[str, int]"
     ) -> "SemanticVersion":
