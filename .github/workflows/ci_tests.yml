@@ -318,9 +318,11 @@ jobs:
           ("${{ inputs.use_mkdocs }}" == "false" && "${{ inputs.use_sphinx }}" == "false") || \
           ("${{ inputs.use_mkdocs }}" == "true" && "${{ inputs.use_sphinx }}" == "false") ]]; then
           # (Default to) using MkDocs
+          echo "Framework determined: MkDocs"
           echo "framework=mkdocs" >> $GITHUB_ENV
         elif [[ "${{ inputs.use_mkdocs }}" == "false" && "${{ inputs.use_sphinx }}" == "true" ]]; then
           # Use Sphinx
+          echo "Framework determined: Sphinx"
           echo "framework=sphinx" >> $GITHUB_ENV
         else
           echo "Could not determine what documentation framework to use."
