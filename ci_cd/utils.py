@@ -129,10 +129,24 @@ class SemanticVersion(str):
         if minor is not None:
             version += f".{minor}"
         if patch is not None:
+            if minor is None:
+                raise ValueError("Minor must be given if patch is given")
             version += f".{patch}"
         if pre_release is not None:
+            # semver spec #9: A pre-release version MAY be denoted by appending a
+            # hyphen and a series of dot separated identifiers immediately following
+            # the patch version.
+            # https://semver.org/#spec-item-9
+            if patch is None:
+                raise ValueError("Patch must be given if pre_release is given")
             version += f"-{pre_release}"
         if build is not None:
+            # semver spec #10: Build metadata MAY be denoted by appending a plus sign
+            # and a series of dot separated identifiers immediately following the patch
+            # or pre-release version.
+            # https://semver.org/#spec-item-10
+            if patch is None:
+                raise ValueError("Patch must be given if build is given")
             version += f"+{build}"
         return version
 

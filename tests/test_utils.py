@@ -101,6 +101,26 @@ def test_semanticversion_invalid() -> None:
             {"version": "1.0.0", "major": 1, "minor": 0, "patch": 0},
             "version cannot be specified along with other parameters",
         ),
+        (
+            {"major": 1, "patch": 0},
+            "Minor must be given if patch is given",
+        ),
+        (
+            {
+                "major": 1,
+                "minor": 0,
+                "pre_release": "alpha",
+            },
+            "Patch must be given if pre_release is given",
+        ),
+        (
+            {
+                "major": 1,
+                "minor": 0,
+                "build": "001",
+            },
+            "Patch must be given if build is given",
+        ),
         ("", "At least major must be given"),
         ({}, "At least major must be given"),
     ]
