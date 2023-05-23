@@ -19,7 +19,7 @@
         <link rel="next" href="../ci_automerge_prs/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.12">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.14">
     
     
       
@@ -843,7 +843,7 @@
 <p>First, an update &amp; publish job, which updates the version in the package's root <code>__init__.py</code> file through an <a href="https://pyinvoke.org">Invoke</a> task.
 The newly created tag (created due to the caller workflow running <code>on.release.types.published</code>) will be updated accordingly, as will the publish branch (defaults to <code>main</code>).</p>
 <p>Secondly, a job to update the documentation is run, however, this can be deactivated.
-The job expects the documentation to be setup with the <a href="https://github.com/jimporter/mike">mike</a>+<a href="https://www.mkdocs.org">MkDocs</a>+<a href="https://pages.github.com/">GitHub Pages</a> framework.</p>
+The job expects the documentation to be setup with either the <a href="https://github.com/jimporter/mike">mike</a>+<a href="https://www.mkdocs.org">MkDocs</a>+<a href="https://pages.github.com/">GitHub Pages</a> framework or the <a href="https://www.sphinx-doc.org/">Sphinx</a> framework.</p>
 <p>For more information about the specific changelog inputs, see the related <a href="https://github.com/github-changelog-generator/github-changelog-generator">changelog generator</a> actually used, specifically the <a href="https://github.com/github-changelog-generator/github-changelog-generator/wiki/Advanced-change-log-generation-examples">list of configuration options</a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -889,6 +889,7 @@ E.g., <code>{package_dir}/__init__.py</code> will become <code>ci_cd/__init__.py
   See <a href="https://semver.org">SemVer.org</a> for more information about semantic versioning.</li>
 </ul>
 <h2 id="inputs">Inputs<a class="headerlink" href="#inputs" title="Permanent link">&para;</a></h2>
+<p>The following inputs are general inputs for the workflow as a whole.</p>
 <table>
 <thead>
 <tr>
@@ -922,20 +923,6 @@ E.g., <code>{package_dir}/__init__.py</code> will become <code>ci_cd/__init__.py
 <td align="center"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>python_package</code></td>
-<td align="left">Whether or not this is a Python package, where the version should be updated in the <code>'package_dir'/__init__.py</code> for the possibly several 'package_dir' lines given in the <code>package_dirs</code> input and a build and release to PyPI should be performed.</td>
-<td align="center">No</td>
-<td align="center"><code>true</code></td>
-<td align="center"><em>boolean</em></td>
-</tr>
-<tr>
-<td align="left"><code>package_dirs</code></td>
-<td align="left">single or multi-line string of paths to Python package directories relative to the repository directory to have its <code>__version__</code> value updated.</br></br>Example: <code>'src/my_package'</code>.</br></br><strong>Important</strong>: This is <em>required</em> if 'python_package' is 'true', which is the default.</td>
-<td align="center"><strong><em>Yes</em> (if 'python_package' is 'true'</strong></td>
-<td align="center"></td>
-<td align="center"><em>string</em></td>
-</tr>
-<tr>
 <td align="left"><code>install_extras</code></td>
 <td align="left">Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (<code>[]</code>) and be separated by commas (<code>,</code>) without any spaces.</br></br>Example: <code>'[dev,release]'</code>.</td>
 <td align="center">No</td>
@@ -950,6 +937,34 @@ E.g., <code>{package_dir}/__init__.py</code> will become <code>ci_cd/__init__.py
 <td align="center"><em>boolean</em></td>
 </tr>
 <tr>
+<td align="left"><code>test</code></td>
+<td align="left">Whether to use the TestPyPI repository index instead of PyPI as well as output debug statements in both workflow jobs.</td>
+<td align="center">No</td>
+<td align="center"><code>false</code></td>
+<td align="center"><em>boolean</em></td>
+</tr>
+</tbody>
+</table>
+<p>Inputs related to updating the version, building and releasing the Python package to PyPI.</p>
+<table>
+<thead>
+<tr>
+<th align="left"><strong>Name</strong></th>
+<th align="left"><strong>Description</strong></th>
+<th align="center"><strong>Required</strong></th>
+<th align="center"><strong>Default</strong></th>
+<th align="center"><strong>Type</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>python_package</code></td>
+<td align="left">Whether or not this is a Python package, where the version should be updated in the <code>'package_dir'/__init__.py</code> for the possibly several 'package_dir' lines given in the <code>package_dirs</code> input and a build and release to PyPI should be performed.</td>
+<td align="center">No</td>
+<td align="center"><code>true</code></td>
+<td align="center"><em>boolean</em></td>
+</tr>
+<tr>
 <td align="left"><code>python_version_build</code></td>
 <td align="left">The Python version to use for the workflow when building the package.</td>
 <td align="center">No</td>
@@ -957,10 +972,10 @@ E.g., <code>{package_dir}/__init__.py</code> will become <code>ci_cd/__init__.py
 <td align="center"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>python_version_docs</code></td>
-<td align="left">The Python version to use for the workflow when building the documentation.</td>
-<td align="center">No</td>
-<td align="center">3.9</td>
+<td align="left"><code>package_dirs</code></td>
+<td align="left">single or multi-line string of paths to Python package directories relative to the repository directory to have its <code>__version__</code> value updated.</br></br>Example: <code>'src/my_package'</code>.</br></br><strong>Important</strong>: This is <em>required</em> if 'python_package' is 'true', which is the default.</td>
+<td align="center"><strong><em>Yes</em> (if 'python_package' is 'true'</strong></td>
+<td align="center"></td>
 <td align="center"><em>string</em></td>
 </tr>
 <tr>
@@ -978,8 +993,15 @@ E.g., <code>{package_dir}/__init__.py</code> will become <code>ci_cd/__init__.py
 <td align="center"><em>string</em></td>
 </tr>
 <tr>
+<td align="left"><code>build_libs</code></td>
+<td align="left">A space-separated list of packages to install via PyPI (<code>pip install</code>).</td>
+<td align="center">No</td>
+<td align="center"><em>Empty string</em></td>
+<td align="center"><em>string</em></td>
+</tr>
+<tr>
 <td align="left"><code>build_cmd</code></td>
-<td align="left">The package build command, e.g., <code>'pip install flit &amp;&amp; flit build'</code> or <code>'python -m build'</code> (default).</td>
+<td align="left">The package build command, e.g., <code>'flit build'</code> or <code>'python -m build'</code> (default).</td>
 <td align="center">No</td>
 <td align="center"><code>python -m build</code></td>
 <td align="center"><em>string</em></td>
@@ -987,34 +1009,6 @@ E.g., <code>{package_dir}/__init__.py</code> will become <code>ci_cd/__init__.py
 <tr>
 <td align="left"><code>tag_message_file</code></td>
 <td align="left">Relative path to a release tag message file from the root of the repository.</br></br>Example: <code>'.github/utils/release_tag_msg.txt'</code>.</td>
-<td align="center">No</td>
-<td align="center"><em>Empty string</em></td>
-<td align="center"><em>string</em></td>
-</tr>
-<tr>
-<td align="left"><code>publish_on_pypi</code></td>
-<td align="left">Whether or not to publish on PyPI.</br></br><strong>Note</strong>: This is only relevant if 'python_package' is 'true', which is the default.</td>
-<td align="center">No</td>
-<td align="center"><code>true</code></td>
-<td align="center"><em>boolean</em></td>
-</tr>
-<tr>
-<td align="left"><code>test</code></td>
-<td align="left">Whether to use the TestPyPI repository index instead of PyPI.</td>
-<td align="center">No</td>
-<td align="center"><code>false</code></td>
-<td align="center"><em>boolean</em></td>
-</tr>
-<tr>
-<td align="left"><code>update_docs</code></td>
-<td align="left">Whether or not to also run the 'docs' workflow job.</td>
-<td align="center">No</td>
-<td align="center"><code>false</code></td>
-<td align="center"><em>boolean</em></td>
-</tr>
-<tr>
-<td align="left"><code>doc_extras</code></td>
-<td align="left">Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (<code>[]</code>) and be separated by commas (<code>,</code>) without any spaces.</br></br>Note, if this is empty, 'install_extras' will be used as a fallback.</br></br>Example: <code>'[docs]'</code>.</td>
 <td align="center">No</td>
 <td align="center"><em>Empty string</em></td>
 <td align="center"><em>string</em></td>
@@ -1031,6 +1025,97 @@ E.g., <code>{package_dir}/__init__.py</code> will become <code>ci_cd/__init__.py
 <td align="left">Comma-separated list of labels to exclude from the CHANGELOG.md.</td>
 <td align="center">No</td>
 <td align="center"><em>Empty string</em></td>
+<td align="center"><em>string</em></td>
+</tr>
+<tr>
+<td align="left"><code>publish_on_pypi</code></td>
+<td align="left">Whether or not to publish on PyPI.</br></br><strong>Note</strong>: This is only relevant if 'python_package' is 'true', which is the default.</td>
+<td align="center">No</td>
+<td align="center"><code>true</code></td>
+<td align="center"><em>boolean</em></td>
+</tr>
+</tbody>
+</table>
+<p>Inputs related to building and releasing the documentation.</p>
+<table>
+<thead>
+<tr>
+<th align="left"><strong>Name</strong></th>
+<th align="left"><strong>Description</strong></th>
+<th align="center"><strong>Required</strong></th>
+<th align="center"><strong>Default</strong></th>
+<th align="center"><strong>Type</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>update_docs</code></td>
+<td align="left">Whether or not to also run the 'docs' workflow job.</td>
+<td align="center">No</td>
+<td align="center"><code>false</code></td>
+<td align="center"><em>boolean</em></td>
+</tr>
+<tr>
+<td align="left"><code>python_version_docs</code></td>
+<td align="left">The Python version to use for the workflow when building the documentation.</td>
+<td align="center">No</td>
+<td align="center">3.9</td>
+<td align="center"><em>string</em></td>
+</tr>
+<tr>
+<td align="left"><code>doc_extras</code></td>
+<td align="left">Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (<code>[]</code>) and be separated by commas (<code>,</code>) without any spaces.</br></br>Note, if this is empty, 'install_extras' will be used as a fallback.</br></br>Example: <code>'[docs]'</code>.</td>
+<td align="center">No</td>
+<td align="center"><em>Empty string</em></td>
+<td align="center"><em>string</em></td>
+</tr>
+<tr>
+<td align="left"><code>docs_framework</code></td>
+<td align="left">The documentation framework to use. This can only be either <code>'mkdocs'</code> or <code>'sphinx'</code>.</td>
+<td align="center">No</td>
+<td align="center">mkdocs</td>
+<td align="center"><em>string</em></td>
+</tr>
+<tr>
+<td align="left"><code>system_dependencies</code></td>
+<td align="left">A single (space-separated) or multi-line string of Ubuntu APT packages to install prior to building the documentation.</td>
+<td align="center">No</td>
+<td align="center"><em>Empty string</em></td>
+<td align="center"><em>string</em></td>
+</tr>
+</tbody>
+</table>
+<p>Finally, inputs related <em>only</em> to the Sphinx framework when building and releasing the documentation.</p>
+<table>
+<thead>
+<tr>
+<th align="left"><strong>Name</strong></th>
+<th align="left"><strong>Description</strong></th>
+<th align="center"><strong>Required</strong></th>
+<th align="center"><strong>Default</strong></th>
+<th align="center"><strong>Type</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>sphinx-build_options</code></td>
+<td align="left">Single (space-separated) or multi-line string of command-line options to use when calling <code>sphinx-build</code>.</td>
+<td align="center">No</td>
+<td align="center"><em>Empty string</em></td>
+<td align="center"><em>string</em></td>
+</tr>
+<tr>
+<td align="left"><code>docs_folder</code></td>
+<td align="left">The path to the root documentation folder relative to the repository root.</td>
+<td align="center">No</td>
+<td align="center">docs</td>
+<td align="center"><em>string</em></td>
+</tr>
+<tr>
+<td align="left"><code>build_target_folder</code></td>
+<td align="left">The path to the target folder for the documentation build relative to the repository root.</td>
+<td align="center">No</td>
+<td align="center">site</td>
 <td align="center"><em>string</em></td>
 </tr>
 </tbody>
@@ -1156,7 +1241,7 @@ It is meant to be complete as is.</p>
     <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.c2be25ad.min.js"></script>
+      <script src="../../assets/javascripts/bundle.b4d07000.min.js"></script>
       
     
   </body>

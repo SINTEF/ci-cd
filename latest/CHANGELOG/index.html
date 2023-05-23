@@ -19,7 +19,7 @@
         <link rel="next" href="../api_reference/exceptions/">
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.12">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.14">
     
     
       
@@ -514,8 +514,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#unreleased-changes-2023-05-15" class="md-nav__link">
-    Unreleased changes (2023-05-15)
+  <a href="#unreleased-changes-2023-05-23" class="md-nav__link">
+    Unreleased changes (2023-05-23)
   </a>
   
 </li>
@@ -903,8 +903,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#unreleased-changes-2023-05-15" class="md-nav__link">
-    Unreleased changes (2023-05-15)
+  <a href="#unreleased-changes-2023-05-23" class="md-nav__link">
+    Unreleased changes (2023-05-23)
   </a>
   
 </li>
@@ -1072,12 +1072,18 @@
 
 
 <h1 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">&para;</a></h1>
-<h2 id="unreleased-changes-2023-05-15"><a href="https://github.com/SINTEF/ci-cd/tree/Unreleased changes">Unreleased changes</a> (2023-05-15)<a class="headerlink" href="#unreleased-changes-2023-05-15" title="Permanent link">&para;</a></h2>
+<h2 id="unreleased-changes-2023-05-23"><a href="https://github.com/SINTEF/ci-cd/tree/Unreleased changes">Unreleased changes</a> (2023-05-23)<a class="headerlink" href="#unreleased-changes-2023-05-23" title="Permanent link">&para;</a></h2>
 <p><a href="https://github.com/SINTEF/ci-cd/compare/v2.3.1...Unreleased changes">Full Changelog</a></p>
 <p><strong>Implemented enhancements:</strong></p>
 <ul>
 <li>Automatically merge CI workflow to update deps <a href="https://github.com/SINTEF/ci-cd/issues/101">#101</a></li>
+<li>Support Sphinx for documentation building <a href="https://github.com/SINTEF/ci-cd/issues/90">#90</a></li>
 <li>Add hook for using the <code>update-deps</code> task <a href="https://github.com/SINTEF/ci-cd/issues/24">#24</a></li>
+</ul>
+<p><strong>Fixed bugs:</strong></p>
+<ul>
+<li>Flawed logic <a href="https://github.com/SINTEF/ci-cd/issues/152">#152</a></li>
+<li>Error in workflow <a href="https://github.com/SINTEF/ci-cd/issues/150">#150</a></li>
 </ul>
 <p><strong>Closed issues:</strong></p>
 <ul>
@@ -1085,9 +1091,12 @@
 </ul>
 <p><strong>Merged pull requests:</strong></p>
 <ul>
+<li>Fix logic for checking documentation framework <a href="https://github.com/SINTEF/ci-cd/pull/153">#153</a> (<a href="https://github.com/CasperWA">CasperWA</a>)</li>
+<li>Fix typos in workflows <a href="https://github.com/SINTEF/ci-cd/pull/151">#151</a> (<a href="https://github.com/CasperWA">CasperWA</a>)</li>
 <li>[Auto-generated] Update dependencies <a href="https://github.com/SINTEF/ci-cd/pull/143">#143</a> (<a href="https://github.com/TEAM4-0">TEAM4-0</a>)</li>
 <li>Add <code>update-pyproject</code> pre-commit hook <a href="https://github.com/SINTEF/ci-cd/pull/128">#128</a> (<a href="https://github.com/CasperWA">CasperWA</a>)</li>
 <li>Activate auto-merge for pyproject.toml update PRs <a href="https://github.com/SINTEF/ci-cd/pull/114">#114</a> (<a href="https://github.com/CasperWA">CasperWA</a>)</li>
+<li>Support Sphinx <a href="https://github.com/SINTEF/ci-cd/pull/92">#92</a> (<a href="https://github.com/CasperWA">CasperWA</a>)</li>
 </ul>
 <h2 id="v231-2023-04-13"><a href="https://github.com/SINTEF/ci-cd/tree/v2.3.1">v2.3.1</a> (2023-04-13)<a class="headerlink" href="#v231-2023-04-13" title="Permanent link">&para;</a></h2>
 <p><a href="https://github.com/SINTEF/ci-cd/compare/v2.3.0...v2.3.1">Full Changelog</a></p>
@@ -1456,7 +1465,7 @@
     <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top"], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.c2be25ad.min.js"></script>
+      <script src="../assets/javascripts/bundle.b4d07000.min.js"></script>
       
     
   </body>
