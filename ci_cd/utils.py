@@ -87,13 +87,13 @@ class SemanticVersion(str):
         self,
         version: "Optional[str]" = None,
         *,
-        major: "Optional[Union[str, int]]" = None,
+        major: "Union[str, int]" = "",
         minor: "Optional[Union[str, int]]" = None,
         patch: "Optional[Union[str, int]]" = None,
         pre_release: "Optional[str]" = None,
         build: "Optional[str]" = None,
     ) -> None:
-        if version:
+        if version is not None:
             if major or minor or patch or pre_release or build:
                 raise ValueError(
                     "version cannot be specified along with other parameters"
@@ -109,9 +109,6 @@ class SemanticVersion(str):
                     "according to the SemVer.org regular expression"
                 )
             major, minor, patch, pre_release, build = match.groups()
-
-        elif not major:
-            raise ValueError("At least major or version must be given")
 
         self._major = int(major)
         self._minor = int(minor) if minor else 0
@@ -129,16 +126,16 @@ class SemanticVersion(str):
         build: "Optional[str]" = None,
     ) -> str:
         """Build a version from the given parameters."""
-        if not major:
+        if major is None:
             raise ValueError("At least major must be given")
         version = str(major)
-        if minor:
+        if minor is not None:
             version += f".{minor}"
-        if patch:
+        if patch is not None:
             version += f".{patch}"
-        if pre_release:
+        if pre_release is not None:
             version += f"-{pre_release}"
-        if build:
+        if build is not None:
             version += f"+{build}"
         return version
 
