@@ -182,9 +182,6 @@ class SemanticVersion(str):
         """Return the string representation of the object."""
         return repr(self.__str__())
 
-    def __hash__(self) -> int:
-        return hash(self.__str__())
-
     def _validate_other_type(self, other: "Any") -> "SemanticVersion":
         """Initial check/validation of `other` before rich comparisons."""
         not_implemented_exc = NotImplementedError(
