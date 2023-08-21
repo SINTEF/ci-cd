@@ -301,8 +301,9 @@ special_option: %s""",
                     else f"{py_path_root}/{relpath if single_package else relpath.relative_to(package.name)}/{filename.stem}"
                 )
 
-                # Cast py_path to Path to ensure correct formatting (forward slashes)
-                py_path = str(Path(py_path)).replace("/", ".")
+                # Replace OS specific path separators with forward slashes before
+                # replacing that with dots (for Python import paths).
+                py_path = py_path.replace(os.sep, "/").replace("/", ".")
 
                 LOGGER.debug("filename: %s\npy_path: %s", filename, py_path)
                 if debug:
