@@ -295,13 +295,15 @@ special_option: %s""",
                     package.relative_to(root_repo_path) if relative else package.name
                 )
                 py_path = (
-                    f"{py_path_root}/{filename.stem}".replace("/", ".")
+                    f"{py_path_root}/{filename.stem}"
                     if str(relpath) == "."
                     or (str(relpath) == package.name and not single_package)
-                    else f"{py_path_root}/{relpath if single_package else relpath.relative_to(package.name)}/{filename.stem}".replace(
-                        "/", "."
-                    )
+                    else f"{py_path_root}/{relpath if single_package else relpath.relative_to(package.name)}/{filename.stem}"
                 )
+
+                # Cast py_path to Path to ensure correct formatting (forward slashes)
+                py_path = str(Path(py_path)).replace("/", ".")
+
                 LOGGER.debug("filename: %s\npy_path: %s", filename, py_path)
                 if debug:
                     print("filename:", filename, flush=True)
