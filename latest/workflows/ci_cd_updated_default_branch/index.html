@@ -19,7 +19,7 @@
         <link rel="next" href="../ci_check_pyproject_dependencies/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.15">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.1.21">
     
     
       
@@ -27,7 +27,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.26e3688c.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.eebd395e.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ecc896b0.min.css">
@@ -508,7 +508,7 @@
   
     <li class="md-nav__item">
       <a href="../../hooks/update_pyproject/" class="md-nav__link">
-        Update dependencies in `pyproject.toml`
+        Update dependencies in pyproject.toml
       </a>
     </li>
   
@@ -856,41 +856,41 @@ See the <a href="../../hooks/docs_api_reference/#using-it-together-with-cicd-wor
 <table>
 <thead>
 <tr>
-<th align="left"><strong>Name</strong></th>
-<th align="left"><strong>Description</strong></th>
-<th align="center"><strong>Required</strong></th>
-<th align="center"><strong>Default</strong></th>
-<th align="center"><strong>Type</strong></th>
+<th style="text-align: left;"><strong>Name</strong></th>
+<th style="text-align: left;"><strong>Description</strong></th>
+<th style="text-align: center;"><strong>Required</strong></th>
+<th style="text-align: center;"><strong>Default</strong></th>
+<th style="text-align: center;"><strong>Type</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left"><code>git_username</code></td>
-<td align="left">A git username (used to set the 'user.name' config option).</td>
-<td align="center"><strong><em>Yes</em></strong></td>
-<td align="center"></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>git_username</code></td>
+<td style="text-align: left;">A git username (used to set the 'user.name' config option).</td>
+<td style="text-align: center;"><strong><em>Yes</em></strong></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>git_email</code></td>
-<td align="left">A git user's email address (used to set the 'user.email' config option).</td>
-<td align="center"><strong><em>Yes</em></strong></td>
-<td align="center"></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>git_email</code></td>
+<td style="text-align: left;">A git user's email address (used to set the 'user.email' config option).</td>
+<td style="text-align: center;"><strong><em>Yes</em></strong></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>default_repo_branch</code></td>
-<td align="left">The branch name of the repository's default branch. More specifically, the branch the PR should target.</td>
-<td align="center">No</td>
-<td align="center">main</td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>default_repo_branch</code></td>
+<td style="text-align: left;">The branch name of the repository's default branch. More specifically, the branch the PR should target.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">main</td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>test</code></td>
-<td align="left">Whether to do a "dry run", i.e., run the workflow, but avoid pushing to 'permanent_dependencies_branch' branch and deploying documentation (if 'update_docs' is 'true').</td>
-<td align="center">No</td>
-<td align="center"><code>false</code></td>
-<td align="center"><em>boolean</em></td>
+<td style="text-align: left;"><code>test</code></td>
+<td style="text-align: left;">Whether to do a "dry run", i.e., run the workflow, but avoid pushing to 'permanent_dependencies_branch' branch and deploying documentation (if 'update_docs' is 'true').</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>false</code></td>
+<td style="text-align: center;"><em>boolean</em></td>
 </tr>
 </tbody>
 </table>
@@ -898,27 +898,27 @@ See the <a href="../../hooks/docs_api_reference/#using-it-together-with-cicd-wor
 <table>
 <thead>
 <tr>
-<th align="left"><strong>Name</strong></th>
-<th align="left"><strong>Description</strong></th>
-<th align="center"><strong>Required</strong></th>
-<th align="center"><strong>Default</strong></th>
-<th align="center"><strong>Type</strong></th>
+<th style="text-align: left;"><strong>Name</strong></th>
+<th style="text-align: left;"><strong>Description</strong></th>
+<th style="text-align: center;"><strong>Required</strong></th>
+<th style="text-align: center;"><strong>Default</strong></th>
+<th style="text-align: center;"><strong>Type</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left"><code>permanent_dependencies_branch</code></td>
-<td align="left">The branch name for the permanent dependency updates branch.</td>
-<td align="center">No</td>
-<td align="center">ci/dependency-updates</td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>permanent_dependencies_branch</code></td>
+<td style="text-align: left;">The branch name for the permanent dependency updates branch.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">ci/dependency-updates</td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>update_dependencies_pr_body_file</code></td>
-<td align="left">Relative path to a PR body file from the root of the repository, which is used in the 'CI - Update dependencies PR' workflow, if used.</br></br>Example: <code>'.github/utils/pr_body_update_deps.txt'</code>.</td>
-<td align="center">No</td>
-<td align="center"><em>Empty string</em></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>update_dependencies_pr_body_file</code></td>
+<td style="text-align: left;">Relative path to a PR body file from the root of the repository, which is used in the 'CI - Update dependencies PR' workflow, if used.</br></br>Example: <code>'.github/utils/pr_body_update_deps.txt'</code>.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 </tbody>
 </table>
@@ -926,139 +926,139 @@ See the <a href="../../hooks/docs_api_reference/#using-it-together-with-cicd-wor
 <table>
 <thead>
 <tr>
-<th align="left"><strong>Name</strong></th>
-<th align="left"><strong>Description</strong></th>
-<th align="center"><strong>Required</strong></th>
-<th align="center"><strong>Default</strong></th>
-<th align="center"><strong>Type</strong></th>
+<th style="text-align: left;"><strong>Name</strong></th>
+<th style="text-align: left;"><strong>Description</strong></th>
+<th style="text-align: center;"><strong>Required</strong></th>
+<th style="text-align: center;"><strong>Default</strong></th>
+<th style="text-align: center;"><strong>Type</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left"><code>update_docs</code></td>
-<td align="left">Whether or not to also run the 'docs' workflow job.</td>
-<td align="center">No</td>
-<td align="center"><code>false</code></td>
-<td align="center"><em>boolean</em></td>
+<td style="text-align: left;"><code>update_docs</code></td>
+<td style="text-align: left;">Whether or not to also run the 'docs' workflow job.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>false</code></td>
+<td style="text-align: center;"><em>boolean</em></td>
 </tr>
 <tr>
-<td align="left"><code>update_python_api_ref</code></td>
-<td align="left">Whether or not to update the Python API documentation reference.</br></br><strong>Note</strong>: If this is 'true', 'package_dirs' is <em>required</em>.</td>
-<td align="center">No</td>
-<td align="center"><code>true</code></td>
-<td align="center"><em>boolean</em></td>
+<td style="text-align: left;"><code>update_python_api_ref</code></td>
+<td style="text-align: left;">Whether or not to update the Python API documentation reference.</br></br><strong>Note</strong>: If this is 'true', 'package_dirs' is <em>required</em>.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>true</code></td>
+<td style="text-align: center;"><em>boolean</em></td>
 </tr>
 <tr>
-<td align="left"><code>package_dirs</code></td>
-<td align="left">A single or multi-line string of paths to Python package directories relative to the repository directory to be considered for creating the Python API reference documentation.</br></br>Example: <code>'src/my_package'</code>.</br></br><strong>Important</strong>: This is <em>required</em> if 'update_docs' and 'update_python_api_ref' are 'true'.</td>
-<td align="center"><strong><em>Yes</em> (if 'update_docs' and 'update_python_api_ref' are 'true')</strong></td>
-<td align="center"></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>package_dirs</code></td>
+<td style="text-align: left;">A single or multi-line string of paths to Python package directories relative to the repository directory to be considered for creating the Python API reference documentation.</br></br>Example: <code>'src/my_package'</code>.</br></br><strong>Important</strong>: This is <em>required</em> if 'update_docs' and 'update_python_api_ref' are 'true'.</td>
+<td style="text-align: center;"><strong><em>Yes</em> (if 'update_docs' and 'update_python_api_ref' are 'true')</strong></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>update_docs_landing_page</code></td>
-<td align="left">Whether or not to update the documentation landing page. The landing page will be based on the root README.md file.</td>
-<td align="center">No</td>
-<td align="center"><code>true</code></td>
-<td align="center"><em>boolean</em></td>
+<td style="text-align: left;"><code>update_docs_landing_page</code></td>
+<td style="text-align: left;">Whether or not to update the documentation landing page. The landing page will be based on the root README.md file.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>true</code></td>
+<td style="text-align: center;"><em>boolean</em></td>
 </tr>
 <tr>
-<td align="left"><code>python_version</code></td>
-<td align="left">The Python version to use for the workflow.</br></br><strong>Note</strong>: This is only relevant if <code>update_pre-commit</code> is <code>true</code>.</td>
-<td align="center">No</td>
-<td align="center">3.9</td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>python_version</code></td>
+<td style="text-align: left;">The Python version to use for the workflow.</br></br><strong>Note</strong>: This is only relevant if <code>update_pre-commit</code> is <code>true</code>.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">3.9</td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>doc_extras</code></td>
-<td align="left">Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (<code>[]</code>) and be separated by commas (<code>,</code>) without any spaces.</br></br>Example: <code>'[docs]'</code>.</td>
-<td align="center">No</td>
-<td align="center"><em>Empty string</em></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>doc_extras</code></td>
+<td style="text-align: left;">Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (<code>[]</code>) and be separated by commas (<code>,</code>) without any spaces.</br></br>Example: <code>'[docs]'</code>.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>relative</code></td>
-<td align="left">Whether or not to use install the local Python package(s) as an editable.</td>
-<td align="center">No</td>
-<td align="center"><code>false</code></td>
-<td align="center"><em>boolean</em></td>
+<td style="text-align: left;"><code>relative</code></td>
+<td style="text-align: left;">Whether or not to use install the local Python package(s) as an editable.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>false</code></td>
+<td style="text-align: center;"><em>boolean</em></td>
 </tr>
 <tr>
-<td align="left"><code>exclude_dirs</code></td>
-<td align="left">A single or multi-line string of directories to exclude in the Python API reference documentation. Note, only directory names, not paths, may be included. Note, all folders and their contents with these names will be excluded. Defaults to <code>'__pycache__'</code>.</br></br><strong>Important</strong>: When a user value is set, the preset value is overwritten - hence <code>'__pycache__'</code> should be included in the user value if one wants to exclude these directories.</td>
-<td align="center">No</td>
-<td align="center">__pycache__</td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>exclude_dirs</code></td>
+<td style="text-align: left;">A single or multi-line string of directories to exclude in the Python API reference documentation. Note, only directory names, not paths, may be included. Note, all folders and their contents with these names will be excluded. Defaults to <code>'__pycache__'</code>.</br></br><strong>Important</strong>: When a user value is set, the preset value is overwritten - hence <code>'__pycache__'</code> should be included in the user value if one wants to exclude these directories.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">__pycache__</td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>exclude_files</code></td>
-<td align="left">A single or multi-line string of files to exclude in the Python API reference documentation. Note, only full file names, not paths, may be included, i.e., filename + file extension. Note, all files with these names will be excluded. Defaults to <code>'__init__.py'</code>.</br></br><strong>Important</strong>: When a user value is set, the preset value is overwritten - hence <code>'__init__.py'</code> should be included in the user value if one wants to exclude these files.</td>
-<td align="center">No</td>
-<td align="center">__init__.py</td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>exclude_files</code></td>
+<td style="text-align: left;">A single or multi-line string of files to exclude in the Python API reference documentation. Note, only full file names, not paths, may be included, i.e., filename + file extension. Note, all files with these names will be excluded. Defaults to <code>'__init__.py'</code>.</br></br><strong>Important</strong>: When a user value is set, the preset value is overwritten - hence <code>'__init__.py'</code> should be included in the user value if one wants to exclude these files.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">__init__.py</td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>full_docs_dirs</code></td>
-<td align="left">A single or multi-line string of directories in which to include everything - even those without documentation strings. This may be useful for a module full of data models or to ensure all class attributes are listed.</td>
-<td align="center">No</td>
-<td align="center"><em>Empty string</em></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>full_docs_dirs</code></td>
+<td style="text-align: left;">A single or multi-line string of directories in which to include everything - even those without documentation strings. This may be useful for a module full of data models or to ensure all class attributes are listed.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>full_docs_files</code></td>
-<td align="left">A single or multi-line string of relative paths to files in which to include everything - even those without documentation strings. This may be useful for a file full of data models or to ensure all class attributes are listed.</td>
-<td align="center">No</td>
-<td align="center"><em>Empty string</em></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>full_docs_files</code></td>
+<td style="text-align: left;">A single or multi-line string of relative paths to files in which to include everything - even those without documentation strings. This may be useful for a file full of data models or to ensure all class attributes are listed.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>special_file_api_ref_options</code></td>
-<td align="left">A single or multi-line string of combinations of a relative path to a Python file and a fully formed mkdocstrings option that should be added to the generated MarkDown file for the Python API reference documentation.</br>Example: <code>my_module/py_file.py,show_bases:false</code>.</br></br>Encapsulate the value in double quotation marks (<code>"</code>) if including spaces ( ).</br></br><strong>Important</strong>: If multiple <code>package_dirs</code> are supplied, the relative path MUST include/start with the appropriate 'package_dir' value, e.g., <code>"my_package/my_module/py_file.py,show_bases: false"</code>.</td>
-<td align="center">No</td>
-<td align="center"><em>Empty string</em></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>special_file_api_ref_options</code></td>
+<td style="text-align: left;">A single or multi-line string of combinations of a relative path to a Python file and a fully formed mkdocstrings option that should be added to the generated MarkDown file for the Python API reference documentation.</br>Example: <code>my_module/py_file.py,show_bases:false</code>.</br></br>Encapsulate the value in double quotation marks (<code>"</code>) if including spaces ( ).</br></br><strong>Important</strong>: If multiple <code>package_dirs</code> are supplied, the relative path MUST include/start with the appropriate 'package_dir' value, e.g., <code>"my_package/my_module/py_file.py,show_bases: false"</code>.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>landing_page_replacements</code></td>
-<td align="left">A single or multi-line string of replacements (mappings) to be performed on README.md when creating the documentation's landing page (index.md). This list <em>always</em> includes replacing <code>'docs/'</code> with an empty string to correct relative links, i.e., this cannot be overwritten. By default <code>'(LICENSE)'</code> is replaced by <code>'(LICENSE.md)'</code>.</td>
-<td align="center">No</td>
-<td align="center">(LICENSE),(LICENSE.md)</td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>landing_page_replacements</code></td>
+<td style="text-align: left;">A single or multi-line string of replacements (mappings) to be performed on README.md when creating the documentation's landing page (index.md). This list <em>always</em> includes replacing <code>'docs/'</code> with an empty string to correct relative links, i.e., this cannot be overwritten. By default <code>'(LICENSE)'</code> is replaced by <code>'(LICENSE.md)'</code>.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">(LICENSE),(LICENSE.md)</td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>landing_page_replacement_separator</code></td>
-<td align="left">String to separate a mapping's 'old' to 'new' parts. Defaults to a comma (<code>,</code>).</td>
-<td align="center">No</td>
-<td align="center">,</td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>landing_page_replacement_separator</code></td>
+<td style="text-align: left;">String to separate a mapping's 'old' to 'new' parts. Defaults to a comma (<code>,</code>).</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">,</td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>changelog_exclude_tags_regex</code></td>
-<td align="left">A regular expression matching any tags that should be excluded from the CHANGELOG.md.</td>
-<td align="center">No</td>
-<td align="center"><em>Empty string</em></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>changelog_exclude_tags_regex</code></td>
+<td style="text-align: left;">A regular expression matching any tags that should be excluded from the CHANGELOG.md.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>changelog_exclude_labels</code></td>
-<td align="left">Comma-separated list of labels to exclude from the CHANGELOG.md.</td>
-<td align="center">No</td>
-<td align="center"><em>Empty string</em></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>changelog_exclude_labels</code></td>
+<td style="text-align: left;">Comma-separated list of labels to exclude from the CHANGELOG.md.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>docs_framework</code></td>
-<td align="left">The documentation framework to use. This can only be either <code>'mkdocs'</code> or <code>'sphinx'</code>.</td>
-<td align="center">No</td>
-<td align="center">mkdocs</td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>docs_framework</code></td>
+<td style="text-align: left;">The documentation framework to use. This can only be either <code>'mkdocs'</code> or <code>'sphinx'</code>.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">mkdocs</td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>system_dependencies</code></td>
-<td align="left">A single (space-separated) or multi-line string of Ubuntu APT packages to install prior to building the documentation.</td>
-<td align="center">No</td>
-<td align="center"><em>Empty string</em></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>system_dependencies</code></td>
+<td style="text-align: left;">A single (space-separated) or multi-line string of Ubuntu APT packages to install prior to building the documentation.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 </tbody>
 </table>
@@ -1066,34 +1066,34 @@ See the <a href="../../hooks/docs_api_reference/#using-it-together-with-cicd-wor
 <table>
 <thead>
 <tr>
-<th align="left"><strong>Name</strong></th>
-<th align="left"><strong>Description</strong></th>
-<th align="center"><strong>Required</strong></th>
-<th align="center"><strong>Default</strong></th>
-<th align="center"><strong>Type</strong></th>
+<th style="text-align: left;"><strong>Name</strong></th>
+<th style="text-align: left;"><strong>Description</strong></th>
+<th style="text-align: center;"><strong>Required</strong></th>
+<th style="text-align: center;"><strong>Default</strong></th>
+<th style="text-align: center;"><strong>Type</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left"><code>sphinx-build_options</code></td>
-<td align="left">Single (space-separated) or multi-line string of command-line options to use when calling <code>sphinx-build</code>.</td>
-<td align="center">No</td>
-<td align="center"><em>Empty string</em></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>sphinx-build_options</code></td>
+<td style="text-align: left;">Single (space-separated) or multi-line string of command-line options to use when calling <code>sphinx-build</code>.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>docs_folder</code></td>
-<td align="left">The path to the root documentation folder relative to the repository root.</td>
-<td align="center">No</td>
-<td align="center">docs</td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>docs_folder</code></td>
+<td style="text-align: left;">The path to the root documentation folder relative to the repository root.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">docs</td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>build_target_folder</code></td>
-<td align="left">The path to the target folder for the documentation build relative to the repository root.</td>
-<td align="center">No</td>
-<td align="center">site</td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>build_target_folder</code></td>
+<td style="text-align: left;">The path to the target folder for the documentation build relative to the repository root.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">site</td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 </tbody>
 </table>
@@ -1101,16 +1101,16 @@ See the <a href="../../hooks/docs_api_reference/#using-it-together-with-cicd-wor
 <table>
 <thead>
 <tr>
-<th align="left"><strong>Name</strong></th>
-<th align="left"><strong>Description</strong></th>
-<th align="center"><strong>Required</strong></th>
+<th style="text-align: left;"><strong>Name</strong></th>
+<th style="text-align: left;"><strong>Description</strong></th>
+<th style="text-align: center;"><strong>Required</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left"><code>PAT</code></td>
-<td align="left">A personal access token (PAT) with rights to update the <code>permanent_dependencies_branch</code>. This will fallback on <code>GITHUB_TOKEN</code>.</td>
-<td align="center">No</td>
+<td style="text-align: left;"><code>PAT</code></td>
+<td style="text-align: left;">A personal access token (PAT) with rights to update the <code>permanent_dependencies_branch</code>. This will fallback on <code>GITHUB_TOKEN</code>.</td>
+<td style="text-align: center;">No</td>
 </tr>
 </tbody>
 </table>
@@ -1212,10 +1212,10 @@ It is meant to be complete as is.</p>
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top"], "search": "../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.b4d07000.min.js"></script>
+      <script src="../../assets/javascripts/bundle.220ee61c.min.js"></script>
       
     
   </body>

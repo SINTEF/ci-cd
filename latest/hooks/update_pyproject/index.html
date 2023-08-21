@@ -19,15 +19,15 @@
         <link rel="next" href="../../LICENSE/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.15">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.1.21">
     
     
       
-        <title>Update dependencies in `pyproject.toml` - GH Action Reusable Workflows</title>
+        <title>Update dependencies in pyproject.toml - GH Action Reusable Workflows</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.26e3688c.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.eebd395e.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ecc896b0.min.css">
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Update dependencies in `pyproject.toml`
+              Update dependencies in pyproject.toml
             
           </span>
         </div>
@@ -455,12 +455,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Update dependencies in `pyproject.toml`
+          Update dependencies in pyproject.toml
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Update dependencies in `pyproject.toml`
+        Update dependencies in pyproject.toml
       </a>
       
         
@@ -832,22 +832,22 @@ This is done by specifying a line per dependency that contains <code>--ignore-se
 <table>
 <thead>
 <tr>
-<th align="center"><strong>Key</strong></th>
-<th align="left"><strong>Description</strong></th>
+<th style="text-align: center;"><strong>Key</strong></th>
+<th style="text-align: left;"><strong>Description</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="center"><code>dependency-name</code></td>
-<td align="left">Ignore updates for dependencies with matching names, optionally using <code>*</code> to match zero or more characters.</td>
+<td style="text-align: center;"><code>dependency-name</code></td>
+<td style="text-align: left;">Ignore updates for dependencies with matching names, optionally using <code>*</code> to match zero or more characters.</td>
 </tr>
 <tr>
-<td align="center"><code>versions</code></td>
-<td align="left">Ignore specific versions or ranges of versions. Examples: <code>~=1.0.5</code>, <code>&gt;= 1.0.5,&lt;2</code>, <code>&gt;=0.1.1</code>.</td>
+<td style="text-align: center;"><code>versions</code></td>
+<td style="text-align: left;">Ignore specific versions or ranges of versions. Examples: <code>~=1.0.5</code>, <code>&gt;= 1.0.5,&lt;2</code>, <code>&gt;=0.1.1</code>.</td>
 </tr>
 <tr>
-<td align="center"><code>update-types</code></td>
-<td align="left">Ignore types of updates, such as <a href="https://semver.org">SemVer</a> <code>major</code>, <code>minor</code>, <code>patch</code> updates on version updates (for example: <code>version-update:semver-patch</code> will ignore patch updates). This can be combined with <code>dependency-name=*</code> to ignore particular <code>update-types</code> for all dependencies.</td>
+<td style="text-align: center;"><code>update-types</code></td>
+<td style="text-align: left;">Ignore types of updates, such as <a href="https://semver.org">SemVer</a> <code>major</code>, <code>minor</code>, <code>patch</code> updates on version updates (for example: <code>version-update:semver-patch</code> will ignore patch updates). This can be combined with <code>dependency-name=*</code> to ignore particular <code>update-types</code> for all dependencies.</td>
 </tr>
 </tbody>
 </table>
@@ -882,41 +882,41 @@ If <code>versions</code> and <code>update-types</code> are used together, they w
 <table>
 <thead>
 <tr>
-<th align="left"><strong>Name</strong></th>
-<th align="left"><strong>Description</strong></th>
-<th align="center"><strong>Required</strong></th>
-<th align="center"><strong>Default</strong></th>
-<th align="center"><strong>Type</strong></th>
+<th style="text-align: left;"><strong>Name</strong></th>
+<th style="text-align: left;"><strong>Description</strong></th>
+<th style="text-align: center;"><strong>Required</strong></th>
+<th style="text-align: center;"><strong>Default</strong></th>
+<th style="text-align: center;"><strong>Type</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left"><code>--root-repo-path</code></td>
-<td align="left">A resolvable path to the root directory of the repository folder, where the <code>pyproject.toml</code> file can be found.</td>
-<td align="center">No</td>
-<td align="center"><code>.</code></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>--root-repo-path</code></td>
+<td style="text-align: left;">A resolvable path to the root directory of the repository folder, where the <code>pyproject.toml</code> file can be found.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>.</code></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>--fail-fast</code></td>
-<td align="left">Fail immediately if an error occurs. Otherwise, print and ignore all non-critical errors.</td>
-<td align="center">No</td>
-<td align="center"><code>False</code></td>
-<td align="center"><em>boolean</em></td>
+<td style="text-align: left;"><code>--fail-fast</code></td>
+<td style="text-align: left;">Fail immediately if an error occurs. Otherwise, print and ignore all non-critical errors.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>False</code></td>
+<td style="text-align: center;"><em>boolean</em></td>
 </tr>
 <tr>
-<td align="left"><code>--ignore</code></td>
-<td align="left">Ignore-rules based on the <code>ignore</code> config option of Dependabot.</br></br>It should be of the format: <code>key=value...key=value</code>, i.e., an ellipsis (<code>...</code>) separator and then equal-sign-separated key/value-pairs.</br>Alternatively, the <code>--ignore-separator</code> can be set to something else to overwrite the ellipsis.</br></br>The only supported keys are: <code>dependency-name</code>, <code>versions</code>, and <code>update-types</code>.</br></br>Can be supplied multiple times per <code>dependency-name</code>.</td>
-<td align="center">No</td>
-<td align="center"></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>--ignore</code></td>
+<td style="text-align: left;">Ignore-rules based on the <code>ignore</code> config option of Dependabot.</br></br>It should be of the format: <code>key=value...key=value</code>, i.e., an ellipsis (<code>...</code>) separator and then equal-sign-separated key/value-pairs.</br>Alternatively, the <code>--ignore-separator</code> can be set to something else to overwrite the ellipsis.</br></br>The only supported keys are: <code>dependency-name</code>, <code>versions</code>, and <code>update-types</code>.</br></br>Can be supplied multiple times per <code>dependency-name</code>.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>--ignore-separator</code></td>
-<td align="left">Value to use instead of ellipsis (<code>...</code>) as a separator in <code>--ignore</code> key/value-pairs.</td>
-<td align="center">No</td>
-<td align="center"></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>--ignore-separator</code></td>
+<td style="text-align: left;">Value to use instead of ellipsis (<code>...</code>) as a separator in <code>--ignore</code> key/value-pairs.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 </tbody>
 </table>
@@ -1002,10 +1002,10 @@ It is meant to be complete as is.</p>
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top"], "search": "../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.b4d07000.min.js"></script>
+      <script src="../../assets/javascripts/bundle.220ee61c.min.js"></script>
       
     
   </body>

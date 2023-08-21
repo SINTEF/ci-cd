@@ -19,7 +19,7 @@
         <link rel="next" href="../ci_cd_updated_default_branch/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.15">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.1.21">
     
     
       
@@ -27,7 +27,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.26e3688c.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.eebd395e.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ecc896b0.min.css">
@@ -508,7 +508,7 @@
   
     <li class="md-nav__item">
       <a href="../../hooks/update_pyproject/" class="md-nav__link">
-        Update dependencies in `pyproject.toml`
+        Update dependencies in pyproject.toml
       </a>
     </li>
   
@@ -843,41 +843,41 @@ Hence, the changes could include updating this dependency in documentation files
 <table>
 <thead>
 <tr>
-<th align="left"><strong>Name</strong></th>
-<th align="left"><strong>Description</strong></th>
-<th align="center"><strong>Required</strong></th>
-<th align="center"><strong>Default</strong></th>
-<th align="center"><strong>Type</strong></th>
+<th style="text-align: left;"><strong>Name</strong></th>
+<th style="text-align: left;"><strong>Description</strong></th>
+<th style="text-align: center;"><strong>Required</strong></th>
+<th style="text-align: center;"><strong>Default</strong></th>
+<th style="text-align: center;"><strong>Type</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left"><code>perform_changes</code></td>
-<td align="left">Whether or not to perform and commit changes to the PR branch prior to activating auto-merge.</td>
-<td align="center">No</td>
-<td align="center"></td>
-<td align="center"><em>boolean</em></td>
+<td style="text-align: left;"><code>perform_changes</code></td>
+<td style="text-align: left;">Whether or not to perform and commit changes to the PR branch prior to activating auto-merge.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><em>boolean</em></td>
 </tr>
 <tr>
-<td align="left"><code>git_username</code></td>
-<td align="left">A git username (used to set the 'user.name' config option).</br><strong>Required</strong> if <code>perform_changes</code> is 'true'.</td>
-<td align="center">No</td>
-<td align="center"></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>git_username</code></td>
+<td style="text-align: left;">A git username (used to set the 'user.name' config option).</br><strong>Required</strong> if <code>perform_changes</code> is 'true'.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>git_email</code></td>
-<td align="left">A git user's email address (used to set the 'user.email' config option).</br><strong>Required</strong> if <code>perform_changes</code> is 'true'.</td>
-<td align="center">No</td>
-<td align="center"></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>git_email</code></td>
+<td style="text-align: left;">A git user's email address (used to set the 'user.email' config option).</br><strong>Required</strong> if <code>perform_changes</code> is 'true'.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td align="left"><code>changes</code></td>
-<td align="left">A file to run in the local repository (relative path from the root of the repository) or a multi-line string of bash commands to run.</br><strong>Required</strong> if <code>perform_changes</code> is 'true'.</td>
-<td align="center">No</td>
-<td align="center"></td>
-<td align="center"><em>string</em></td>
+<td style="text-align: left;"><code>changes</code></td>
+<td style="text-align: left;">A file to run in the local repository (relative path from the root of the repository) or a multi-line string of bash commands to run.</br><strong>Required</strong> if <code>perform_changes</code> is 'true'.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 </tbody>
 </table>
@@ -885,16 +885,16 @@ Hence, the changes could include updating this dependency in documentation files
 <table>
 <thead>
 <tr>
-<th align="left"><strong>Name</strong></th>
-<th align="left"><strong>Description</strong></th>
-<th align="center"><strong>Required</strong></th>
+<th style="text-align: left;"><strong>Name</strong></th>
+<th style="text-align: left;"><strong>Description</strong></th>
+<th style="text-align: center;"><strong>Required</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left"><code>PAT</code></td>
-<td align="left">A personal access token (PAT) with rights to activate auto-merging. This will fallback on <code>GITHUB_TOKEN</code>.</td>
-<td align="center">No</td>
+<td style="text-align: left;"><code>PAT</code></td>
+<td style="text-align: left;">A personal access token (PAT) with rights to activate auto-merging. This will fallback on <code>GITHUB_TOKEN</code>.</td>
+<td style="text-align: center;">No</td>
 </tr>
 </tbody>
 </table>
@@ -1044,10 +1044,10 @@ It is meant to be complete as is.</p>
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top"], "search": "../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.b4d07000.min.js"></script>
+      <script src="../../assets/javascripts/bundle.220ee61c.min.js"></script>
       
     
   </body>
