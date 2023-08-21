@@ -479,7 +479,7 @@ def test_larger_package(tmp_path: "Path") -> None:
     ]:
         py_path = f"{package_dir.name}." + str(
             module_dir.relative_to(api_reference_folder)
-        ).replace("/", ".")
+        ).replace(os.sep, "/").replace("/", ".")
         assert (module_dir / ".pages").read_text(
             encoding="utf8"
         ) == f'title: "{module_dir.name}"\n', (
@@ -637,7 +637,7 @@ def test_larger_multi_packages(tmp_path: "Path") -> None:
         for module_dir in [package_dir / _ for _ in new_submodules]:
             py_path = f"{package_dir.name}." + str(
                 module_dir.relative_to(package_dir)
-            ).replace("/", ".")
+            ).replace(os.sep, "/").replace("/", ".")
             assert (module_dir / ".pages").read_text(
                 encoding="utf8"
             ) == f'title: "{module_dir.name}"\n', (
