@@ -30,5 +30,5 @@ repos:
       minimum_pre_commit_version: "2.16.0"
       args:
       - "--package-dir=ci_cd"
-      - "--version=9.8.7"
+      - "--version=0.0.0"
       - "--test"

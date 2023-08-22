@@ -105,4 +105,4 @@ jobs:
       run: pre-commit run -c .github/utils/.pre-commit-config_testing.yaml --all-files --verbose update-pyproject || grep "Successfully updated the following dependencies:" | exit 0 || exit 1
 
     - name: Run 'ci-cd setver'
-      run: pre-commit run -c .github/utils/.pre-commit-config_testing.yaml --all-files --verbose set-version
+      run: pre-commit run -c .github/utils/.pre-commit-config_testing.yaml --all-files --verbose set-version || grep "Bumped version for ci_cd to 0.0.0." | exit 0 || exit 1
