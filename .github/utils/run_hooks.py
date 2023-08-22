@@ -17,18 +17,14 @@ SUCCESSFUL_FAILURES_MAPPING = {
 
 def main(hook: str, options: list[str]) -> None:
     """Run pre-commit hooks on all files in the repository."""
-    run_pre_commit = [
-        "pre-commit",
-        "run",
-        "-c",
-        ".github/utils/.pre-commit-config_testing.yaml",
-        "--all-files",
-        "--verbose",
-    ]
+    run_pre_commit = (
+        "pre-commit run -c .github/utils/.pre-commit-config_testing.yaml "
+        "--all-files --verbose"
+    )
 
     if platform.system() == "Windows":
         result = subprocess.run(
-            ["py", "-m"] + run_pre_commit + options + [hook],
+            f"py -m {run_pre_commit} {options} {hook}",
             check=False,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
@@ -36,7 +32,7 @@ def main(hook: str, options: list[str]) -> None:
         )
     else:
         result = subprocess.run(
-            run_pre_commit + options + [hook],
+            f"{run_pre_commit} {options} {hook}",
             check=False,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
