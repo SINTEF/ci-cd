@@ -321,9 +321,9 @@ special_option: %s""",
                     print("filename:", filename, flush=True)
                     print("py_path:", py_path, flush=True)
 
-                relative_file_path = (
+                relative_file_path = Path(
                     str(filename) if str(relpath) == "." else str(relpath / filename)
-                )
+                ).as_posix()
 
                 # For special files we want to include EVERYTHING, even if it doesn't
                 # have a doc-string
