@@ -1,0 +1,34 @@
+repos:
+  - repo: .
+    rev: HEAD
+    hooks:
+    - id: docs-api-reference
+      args:
+      - "--package-dir=ci_cd"
+      - "--debug"
+    - id: docs-landing-page
+    - id: update-pyproject
+
+  - repo: local
+    hooks:
+    - id: set-version
+      name: Set package version
+      entry: "ci-cd setver"
+      language: python
+      files: ""
+      exclude: ^$
+      types: []
+      types_or: []
+      exclude_types: []
+      always_run: false
+      fail_fast: false
+      verbose: false
+      pass_filenames: false
+      require_serial: false
+      description: "Sets the specified version of specified Python package."
+      language_version: default
+      minimum_pre_commit_version: "2.16.0"
+      args:
+      - "--package-dir=ci_cd"
+      - "--version=9.8.7"
+      - "--test"

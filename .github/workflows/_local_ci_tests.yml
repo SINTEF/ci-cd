@@ -67,3 +67,41 @@ jobs:
       with:
         fail_ci_if_error: true
         token: ${{ secrets.CODECOV_TOKEN }}
+
+  # These jobs are mainly to test a default run of the hooks including `--pre-commit`
+  run_hooks:
+    name: Run custom pre-commit hooks
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.7", "3.10"]
+        os: ["ubuntu-latest", "windows-latest"]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python ${{ matrix.python-version}}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version}}
+
+    - name: Install Python dependencies
+      run: |
+        python -m pip install -U pip
+        pip install -U setuptools wheel flit
+        pip install -U pre-commit
+
+    - name: Run docs-api-reference
+      run: pre-commit run -c .github/utils/.pre-commit-config_testing.yaml --all-files --verbose docs-api-reference
+
+    - name: Run docs-api-reference
+      run: pre-commit run -c .github/utils/.pre-commit-config_testing.yaml --all-files --verbose docs-landing-page
+
+    - name: Run docs-api-reference
+      run: pre-commit run -c .github/utils/.pre-commit-config_testing.yaml --all-files --verbose update-pyproject
+
+    - name: Run docs-api-reference
+      run: pre-commit run -c .github/utils/.pre-commit-config_testing.yaml --all-files --verbose set-version
