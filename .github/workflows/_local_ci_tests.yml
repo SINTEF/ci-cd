@@ -92,6 +92,7 @@ jobs:
       run: |
         python -m pip install -U pip
         pip install -U setuptools wheel flit
+        pip install -e .
         pip install -U pre-commit
 
     - name: Run docs-api-reference ('ci-cd create-api-reference-docs')
