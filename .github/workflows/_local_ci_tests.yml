@@ -97,131 +97,36 @@ jobs:
 
     # docs-api-reference
     - name: Run docs-api-reference ('ci-cd create-api-reference-docs')
-      continue-on-error: true
-      id: docs_api_reference
-      run: |
-        {
-          echo 'docs_api_reference_output<<EOF'
-          pre-commit run -c .github/utils/.pre-commit-config_testing.yaml --all-files --verbose docs-api-reference
-          echo EOF
-        } >> "$GITHUB_ENV"
-
-    - name: Check if failure is expected/acceptible
-      if: steps.docs_api_reference.outcome == 'failure'
-      run: printf '%s\n' "$docs_api_reference_output" | grep "The following files have been changed/added/removed:" | exit 0 || exit 1
-      shell: bash
+      run: python .github/utils/run_hooks.py docs-api-reference
 
     - name: Run docs-api-reference ('ci-cd create-api-reference-docs') (cmd)
       if: runner.os == 'Windows'
-      continue-on-error: true
-      id: docs_api_reference_cmd
-      run: |
-        {
-          echo 'docs_api_reference_output<<EOF'
-          pre-commit run -c .github/utils/.pre-commit-config_testing.yaml --all-files --verbose docs-api-reference
-          echo EOF
-        } >> "$GITHUB_ENV"
+      run: python .github/utils/run_hooks.py docs-api-reference
       shell: cmd
-
-    - name: Check if failure is expected/acceptible
-      if: runner.os == 'Windows' && steps.docs_api_reference_cmd.outcome == 'failure'
-      run: printf '%s\n' "$docs_api_reference_output" | grep "The following files have been changed/added/removed:" | exit 0 || exit 1
-      shell: bash
 
     # docs-landing-page
     - name: Run docs-landing-page ('ci-cd create-docs-index')
-      continue-on-error: true
-      id: docs_landing_page
-      run: |
-        {
-          echo 'docs_landing_page_output<<EOF'
-          pre-commit run -c .github/utils/.pre-commit-config_testing.yaml --all-files --verbose docs-landing-page
-          echo EOF
-        } >> "$GITHUB_ENV"
-
-    - name: Check if failure is expected/acceptible
-      if: steps.docs_landing_page.outcome == 'failure'
-      run: printf '%s\n' "$docs_landing_page_output" | grep "The landing page has been updated." | exit 0 || exit 1
-      shell: bash
+      run: python .github/utils/run_hooks.py docs-landing-page
 
     - name: Run docs-landing-page ('ci-cd create-docs-index') (cmd)
       if: runner.os == 'Windows'
-      continue-on-error: true
-      id: docs_landing_page_cmd
-      run: |
-        {
-          echo 'docs_landing_page_output<<EOF'
-          pre-commit run -c .github/utils/.pre-commit-config_testing.yaml --all-files --verbose docs-landing-page
-          echo EOF
-        } >> "$GITHUB_ENV"
+      run: python .github/utils/run_hooks.py docs-landing-page
       shell: cmd
-
-    - name: Check if failure is expected/acceptible
-      if: runner.os == 'Windows' && steps.docs_landing_page_cmd.outcome == 'failure'
-      run: printf '%s\n' "$docs_landing_page_output" | grep "The landing page has been updated." | exit 0 || exit 1
-      shell: bash
 
     # update-pyproject
     - name: Run update-pyproject ('ci-cd update-deps')
-      continue-on-error: true
-      id: update_pyproject
-      run: |
-        {
-          echo 'update_pyproject_output<<EOF'
-          pre-commit run -c .github/utils/.pre-commit-config_testing.yaml --all-files --verbose update-pyproject
-          echo EOF
-        } >> "$GITHUB_ENV"
-
-    - name: Check if failure is expected/acceptible
-      if: steps.update_pyproject.outcome == 'failure'
-      run: printf '%s\n' "$update_pyproject_output" | grep "Successfully updated the following dependencies:" | exit 0 || exit 1
-      shell: bash
+      run: python .github/utils/run_hooks.py update-pyproject
 
     - name: Run update-pyproject ('ci-cd update-deps') (cmd)
       if: runner.os == 'Windows'
-      continue-on-error: true
-      id: update_pyproject_cmd
-      run: |
-        {
-          echo 'update_pyproject_output<<EOF'
-          pre-commit run -c .github/utils/.pre-commit-config_testing.yaml --all-files --verbose update-pyproject
-          echo EOF
-        } >> "$GITHUB_ENV"
+      run: python .github/utils/run_hooks.py update-pyproject
       shell: cmd
-
-    - name: Check if failure is expected/acceptible
-      if: runner.os == 'Windows' && steps.update_pyproject_cmd.outcome == 'failure'
-      run: printf '%s\n' "$update_pyproject_output" | grep "Successfully updated the following dependencies:" | exit 0 || exit 1
-      shell: bash
 
     # set-version
     - name: Run 'ci-cd setver'
-      continue-on-error: true
-      id: set_version
-      run: |
-        {
-          echo 'set_version_output<<EOF'
-          pre-commit run -c .github/utils/.pre-commit-config_testing.yaml --all-files --verbose set-version
-          echo EOF
-        } >> "$GITHUB_ENV"
-
-    - name: Check if failure is expected/acceptible
-      if: steps.set_version.outcome == 'failure'
-      run: printf '%s\n' "$set_version_output" | grep "Bumped version for ci_cd to 0.0.0." | exit 0 || exit 1
-      shell: bash
+      run: python .github/utils/run_hooks.py set-version
 
     - name: Run 'ci-cd setver' (cmd)
       if: runner.os == 'Windows'
-      continue-on-error: true
-      id: set_version_cmd
-      run: |
-        {
-          echo 'set_version_output<<EOF'
-          pre-commit run -c .github/utils/.pre-commit-config_testing.yaml --all-files --verbose set-version
-          echo EOF
-        } >> "$GITHUB_ENV"
-
-    - name: Check if failure is expected/acceptible
-      if: runner.os == 'Windows' && steps.set_version_cmd.outcome == 'failure'
-      run: printf '%s\n' "$set_version_output" | grep "Bumped version for ci_cd to 0.0.0." | exit 0 || exit 1
-      shell: bash
+      run: python .github/utils/run_hooks.py set-version
+      shell: cmd
