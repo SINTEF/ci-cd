@@ -2,6 +2,7 @@
 More information on `invoke` can be found at [pyinvoke.org](http://www.pyinvoke.org/).
 """
 import logging
+import platform
 import re
 from enum import Enum
 from pathlib import Path
@@ -17,6 +18,16 @@ LOGGER.setLevel(logging.DEBUG)
 
 class Emoji(str, Enum):
     """Unicode strings for certain emojis."""
+
+    def __new__(cls, value: str) -> "Emoji":
+        obj = str.__new__(cls, value)
+        if platform.system() == "Windows":
+            # Windows does not support unicode emojis, so we replace them with
+            # their corresponding unicode escape sequences
+            obj._value_ = value.encode("unicode_escape").decode("utf-8")
+        else:
+            obj._value_ = value
+        return obj
 
     PARTY_POPPER = "\U0001f389"
     CHECK_MARK = "\u2714"

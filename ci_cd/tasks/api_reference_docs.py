@@ -10,7 +10,7 @@ import re
 import shutil
 import sys
 from collections import defaultdict
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from typing import TYPE_CHECKING
 
 from invoke import task
@@ -131,6 +131,12 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
     if not special_option:
         special_option: list[str] = []  # type: ignore[no-redef]
 
+    # Initialize user-given paths as pure POSIX paths
+    package_dir: list[PurePosixPath] = [PurePosixPath(_) for _ in package_dir]
+    root_repo_path: PurePosixPath = PurePosixPath(root_repo_path)  # type: ignore[no-redef]
+    docs_folder: PurePosixPath = PurePosixPath(docs_folder)  # type: ignore[no-redef]
+    full_docs_folder: list[PurePosixPath] = [PurePosixPath(_) for _ in full_docs_folder]  # type: ignore[no-redef]
+
     def write_file(full_path: Path, content: str) -> None:
         """Write file with `content` to `full_path`"""
         if full_path.exists():
@@ -141,14 +147,22 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
             del cached_content
         full_path.write_text(content, encoding="utf8")
 
+    if pre_commit:
+        # Ensure git is installed
+        result: "Result" = context.run("git --version", hide=True)
+        if result.exited != 0:
+            sys.exit(
+                "Git is not installed. Please install it before running this task."
+            )
+
     if pre_commit and root_repo_path == ".":
         # Use git to determine repo root
-        result: "Result" = context.run("git rev-parse --show-toplevel", hide=True)
-        root_repo_path = result.stdout.strip("\n")
+        result = context.run("git rev-parse --show-toplevel", hide=True)
+        root_repo_path = result.stdout.strip("\n")  # type: ignore[no-redef]
 
     root_repo_path: Path = Path(root_repo_path).resolve()  # type: ignore[no-redef]
-    package_dirs: list[Path] = [root_repo_path / _ for _ in package_dir]
-    docs_api_ref_dir = root_repo_path / docs_folder / "api_reference"
+    package_dirs: list[Path] = [Path(root_repo_path / _) for _ in package_dir]
+    docs_api_ref_dir = Path(root_repo_path / docs_folder / "api_reference")
 
     LOGGER.debug(
         """package_dirs: %s
@@ -197,11 +211,8 @@ special_option: %s""",
     if debug:
         print("special_options_files:", special_options_files, flush=True)
 
-    if any("/" in _ for _ in unwanted_folder + unwanted_file):
-        sys.exit(
-            "Unwanted folders and files may NOT be paths. A forward slash (/) was "
-            "found in some of them."
-        )
+    if any(os.sep in _ or "/" in _ for _ in unwanted_folder + unwanted_file):
+        sys.exit("Unwanted folders and files may NOT be paths.")
 
     pages_template = 'title: "{name}"\n'
     md_template = "# {name}\n\n::: {py_path}\n"
@@ -359,7 +370,7 @@ special_option: %s""",
         # (which will be good in this case).
         # Concerning the weird last grep command see:
         # http://manpages.ubuntu.com/manpages/precise/en/man1/git-status.1.html
-        result: "Result" = context.run(  # type: ignore[no-redef]
+        result = context.run(
             f'git -C "{root_repo_path}" status --porcelain '
             f"{docs_api_ref_dir.relative_to(root_repo_path)} | "
             "grep -E '^[? MARC][?MD]' || exit 0",
