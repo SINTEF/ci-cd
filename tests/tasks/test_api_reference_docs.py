@@ -2,14 +2,11 @@
 # pylint: disable=too-many-locals
 from typing import TYPE_CHECKING
 
-import pytest
-
 if TYPE_CHECKING:
     from pathlib import Path
 
 
-@pytest.mark.parametrize("pre_commit", [True, False])
-def test_default_run(tmp_path: "Path", pre_commit: bool) -> None:
+def test_default_run(tmp_path: "Path") -> None:
     """Check create_api_reference_docs runs with defaults."""
     import os
     import shutil
@@ -32,7 +29,6 @@ def test_default_run(tmp_path: "Path", pre_commit: bool) -> None:
         MockContext(),
         [str(package_dir.relative_to(tmp_path))],
         root_repo_path=str(tmp_path),
-        pre_commit=pre_commit,
     )
 
     api_reference_folder = docs_folder / "api_reference"
