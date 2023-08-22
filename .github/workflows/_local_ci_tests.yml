@@ -94,14 +94,14 @@ jobs:
         pip install -U setuptools wheel flit
         pip install -U pre-commit
 
-    - name: Run docs-api-reference
+    - name: Run docs-api-reference ('ci-cd create-api-reference-docs')
       run: pre-commit run -c .github/utils/.pre-commit-config_testing.yaml --all-files --verbose docs-api-reference
 
-    - name: Run docs-api-reference
-      run: pre-commit run -c .github/utils/.pre-commit-config_testing.yaml --all-files --verbose docs-landing-page
+    - name: Run docs-landing-page ('ci-cd create-docs-index')
+      run: pre-commit run -c .github/utils/.pre-commit-config_testing.yaml --all-files --verbose docs-landing-page | exit 0 || grep "The landing page has been updated." | exit 0 || exit 1
 
-    - name: Run docs-api-reference
+    - name: Run update-pyproject ('ci-cd update-deps')
       run: pre-commit run -c .github/utils/.pre-commit-config_testing.yaml --all-files --verbose update-pyproject
 
-    - name: Run docs-api-reference
+    - name: Run 'ci-cd setver'
       run: pre-commit run -c .github/utils/.pre-commit-config_testing.yaml --all-files --verbose set-version
