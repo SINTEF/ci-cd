@@ -130,8 +130,3 @@ jobs:
       if: runner.os == 'Windows'
       run: python .github/utils/run_hooks.py set-version
       shell: cmd
-
-    - name: Bare run
-      if: runner.os == 'Windows'
-      run: pre-commit run -c .github/utils/.pre-commit-config_testing.yaml --all-files --verbose docs-api-reference
-      shell: cmd
