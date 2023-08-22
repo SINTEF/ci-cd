@@ -25,7 +25,7 @@ def main(hook: str, options: list[str]) -> None:
     )
 
     result = subprocess.run(
-        f"{run_pre_commit} {options} {hook}",
+        f"{run_pre_commit} {' '.join(_ for _ in options)} {hook}",
         check=False,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
