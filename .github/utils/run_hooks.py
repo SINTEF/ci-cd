@@ -5,7 +5,7 @@ File used to test running the hooks in the CI/CD pipeline independently of the s
 """
 from __future__ import annotations
 
-import platform
+# import platform
 import subprocess  # nosec
 import sys
 
@@ -24,22 +24,13 @@ def main(hook: str, options: list[str]) -> None:
         "--all-files --verbose"
     )
 
-    if platform.system() == "Windows":
-        result = subprocess.run(
-            f"py -m {run_pre_commit} {options} {hook}",
-            check=False,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            shell=True,  # nosec
-        )
-    else:
-        result = subprocess.run(
-            f"{run_pre_commit} {options} {hook}",
-            check=False,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            shell=True,  # nosec
-        )
+    result = subprocess.run(
+        f"{run_pre_commit} {options} {hook}",
+        check=False,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        shell=True,  # nosec
+    )
 
     if result.returncode != 0:
         if SUCCESSFUL_FAILURES_MAPPING[hook] in result.stdout.decode():
