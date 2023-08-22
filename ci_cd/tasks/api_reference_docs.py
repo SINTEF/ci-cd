@@ -366,22 +366,22 @@ special_option: %s""",
         # Check if there have been any changes.
         # List changes if yes.
 
-        # NOTE: grep returns an exit code of 1 if it doesn't find anything
-        # (which will be good in this case).
-        # Concerning the weird last grep command see:
+        # NOTE: Concerning the weird regular expression, see:
         # http://manpages.ubuntu.com/manpages/precise/en/man1/git-status.1.html
         result = context.run(
             f'git -C "{root_repo_path}" status --porcelain '
-            f"{docs_api_ref_dir.relative_to(root_repo_path)} | "
-            "grep -E '^[? MARC][?MD]' || exit 0",
+            f"{docs_api_ref_dir.relative_to(root_repo_path)}",
             hide=True,
         )
         if result.stdout:
-            sys.exit(
-                f"{Emoji.CURLY_LOOP.value} The following files have been "
-                f"changed/added/removed:\n\n{result.stdout}\nPlease stage them:\n\n"
-                f"  git add {docs_api_ref_dir.relative_to(root_repo_path)}"
-            )
+            for line in result.stdout.splitlines():
+                if re.match(r"^[? MARC][?MD]", line):
+                    sys.exit(
+                        f"{Emoji.CURLY_LOOP.value} The following files have been "
+                        f"changed/added/removed:\n\n{result.stdout}\n"
+                        "Please stage them:\n\n"
+                        f"  git add {docs_api_ref_dir.relative_to(root_repo_path)}"
+                    )
         print(
             f"{Emoji.CHECK_MARK.value} No changes - your API reference documentation "
             "is up-to-date !"

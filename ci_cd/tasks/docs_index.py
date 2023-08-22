@@ -2,6 +2,7 @@
 
 Create the documentation index (home) page from `README.md`.
 """
+import re
 import sys
 from pathlib import Path
 from typing import TYPE_CHECKING
@@ -87,22 +88,21 @@ def create_docs_index(  # pylint: disable=too-many-locals
         # Check if there have been any changes.
         # List changes if yes.
 
-        # NOTE: grep returns an exit code of 1 if it doesn't find anything
-        # (which will be good in this case).
-        # Concerning the weird last grep command see:
+        # NOTE: Concerning the weird regular expression, see:
         # http://manpages.ubuntu.com/manpages/precise/en/man1/git-status.1.html
         result: "Result" = context.run(  # type: ignore[no-redef]
             f'git -C "{root_repo_path}" status --porcelain '
-            f"{docs_index.relative_to(root_repo_path)} | "
-            "grep -E '^[? MARC][?MD]' || exit 0",
+            f"{docs_index.relative_to(root_repo_path)}",
             hide=True,
         )
         if result.stdout:
-            sys.exit(
-                f"{Emoji.CURLY_LOOP.value} The landing page has been updated.\n\n"
-                "Please stage it:\n\n"
-                f"  git add {docs_index.relative_to(root_repo_path)}"
-            )
+            for line in result.stdout.splitlines():
+                if re.match(r"^[? MARC][?MD]", line):
+                    sys.exit(
+                        f"{Emoji.CURLY_LOOP.value} The landing page has been updated."
+                        "\n\nPlease stage it:\n\n"
+                        f"  git add {docs_index.relative_to(root_repo_path)}"
+                    )
         print(
             f"{Emoji.CHECK_MARK.value} No changes - your landing page is up-to-date !"
         )
