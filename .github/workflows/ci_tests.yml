@@ -263,10 +263,16 @@ jobs:
             echo "Please supply the 'pylint_targets' input, since you are not using the 'pylint_runs' input."
           fi
 
-          PYLINT_OPTIONS=()
-          while IFS= read -r line; do
-            if [ -n "${line}" ]; then PYLINT_OPTIONS+=("${line}"); fi
-          done <<< "${{ inputs.pylint_options }}"
+          if [[ "${{ inputs.pylint_options }}" =~ \n ]]; then
+            # Expected to be a multi-line string
+            PYLINT_OPTIONS=()
+            while IFS= read -r line; do
+              if [ -n "${line}" ]; then PYLINT_OPTIONS+=("${line}"); fi
+            done <<< "${{ inputs.pylint_options }}"
+          else
+            # Expected to be a single-line string
+            PYLINT_OPTIONS=(${{ inputs.pylint_options }})
+          fi
 
           pylint "${PYLINT_OPTIONS[@]}" ${{ inputs.pylint_targets }}
         fi
