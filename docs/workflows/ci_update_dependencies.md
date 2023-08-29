@@ -37,7 +37,7 @@ There are no expectations of the repo when using this workflow.
 | `default_repo_branch` | The branch name of the repository's default branch. More specifically, the branch the PR should target. | No | main | _string_ |
 | `pr_body_file` | Relative path to PR body file from the root of the repository.</br></br>Example: `'.github/utils/pr_body_update_deps.txt'`. | No | _Empty string_ | _string_ |
 | `pr_labels` | A comma separated list of strings of GitHub labels to use for the created PR. | No | _Empty string_ | _string_ |
-| `extra_to_dos` | A multi-line string (insert `\n` to create line breaks) with extra 'to do' checks. Should start with `- [ ] `. | No | _Empty string_ | _string_ |
+| `extra_to_dos` | A multi-line string (insert `\n` to create line breaks) with extra 'to do' checks. Should start with `- [ ] `.</br></br>See also [Single vs multi-line input](index.md#single-vs-multi-line-input). | No | _Empty string_ | _string_ |
 | `update_pre-commit` | Whether or not to update pre-commit hooks as part of creating the PR. | No | `false` | _boolean_ |
 | `python_version` | The Python version to use for the workflow.</br></br>**Note**: This is only relevant if `update_pre-commit` is `true`. | No | 3.9 | _string_ |
 | `install_extras` | Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces.</br></br>Example: `'[dev,pre-commit]'`.</br></br>**Note**: This is only relevant if `update_pre-commit` is `true`. | No | _Empty string_ | _string_ |

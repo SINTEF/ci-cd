@@ -8,7 +8,7 @@ It is possible to introduce changes to the PR head branch prior to activating th
 This is done by setting `perform_changes` to `'true'` and setting the other inputs accordingly, as they are now required.
 See [Inputs](#inputs) below for a full overview of the available inputs.
 
-The `changes` input can be both a path to a bash file that should be run, or a single or multi-line string of bash commands to run.
+The `changes` input can be both a path to a bash file that should be run, or a multi-line string of bash commands to run.
 Afterwards any and all changes in the repository will be committed and pushed to the PR head branch.
 
 The motivation for being able to run changes prior to auto-merging, is to update or affect the repository files according to the specific PR being auto-merged.
@@ -31,7 +31,7 @@ This workflow can _only_ be called if the triggering event from the caller workf
 | `perform_changes` | Whether or not to perform and commit changes to the PR branch prior to activating auto-merge. | No | | _boolean_ |
 | `git_username` | A git username (used to set the 'user.name' config option).</br>**Required** if `perform_changes` is 'true'. | No | | _string_ |
 | `git_email` | A git user's email address (used to set the 'user.email' config option).</br>**Required** if `perform_changes` is 'true'. | No | | _string_ |
-| `changes` | A file to run in the local repository (relative path from the root of the repository) or a multi-line string of bash commands to run.</br>**Required** if `perform_changes` is 'true'. | No | | _string_ |
+| `changes` | A file to run in the local repository (relative path from the root of the repository) or a multi-line string of bash commands to run.</br>**Required** if `perform_changes` is 'true'.</br></br>See also [Single vs multi-line input](index.md#single-vs-multi-line-input). | No | | _string_ |
 
 ## Secrets
 
