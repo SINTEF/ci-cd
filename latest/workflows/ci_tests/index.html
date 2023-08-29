@@ -1323,21 +1323,21 @@ For each line in <code>pylint_runs</code>, <code>pylint</code> will be executed.
 </tr>
 <tr>
 <td style="text-align: left;"><code>pylint_options</code></td>
-<td style="text-align: left;">Single space-separated or multi-line string of pylint command line options.</br></br><strong>Note</strong>: This is only valid if <code>pylint_runs</code> is not defined.</td>
+<td style="text-align: left;">Single (space-separated) or multi-line string of pylint command line options.</br></br><strong>Note</strong>: This is only valid if <code>pylint_runs</code> is not defined.</br></br>See also <a href="../#single-vs-multi-line-input">Single vs multi-line input</a>.</td>
 <td style="text-align: center;">No</td>
 <td style="text-align: center;"><em>Empty string</em></td>
 <td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>pylint_runs</code></td>
-<td style="text-align: left;">Single or multi-line string with each line representing a separate pylint run/execution. This should include all desired options and targets.</br></br><strong>Important</strong>: The inputs <code>pylint_options</code> and <code>pylint_targets</code> will be ignored if this is defined.</td>
+<td style="text-align: left;">Multi-line string with each line representing a separate pylint run/execution. This should include all desired options and targets.</br></br><strong>Important</strong>: The inputs <code>pylint_options</code> and <code>pylint_targets</code> will be ignored if this is defined.</br></br>See also <a href="../#single-vs-multi-line-input">Single vs multi-line input</a>.</td>
 <td style="text-align: center;">No</td>
 <td style="text-align: center;"><em>Empty string</em></td>
 <td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>safety_options</code></td>
-<td style="text-align: left;">Single space-separated or multi-line string of safety command line options.</td>
+<td style="text-align: left;">Single (space-separated) or multi-line string of safety command line options.</br></br>See also <a href="../#single-vs-multi-line-input">Single vs multi-line input</a>.</td>
 <td style="text-align: center;">No</td>
 <td style="text-align: center;"><em>Empty string</em></td>
 <td style="text-align: center;"><em>string</em></td>
@@ -1444,7 +1444,7 @@ For Sphinx, it requires at minimum the files created from running <code>sphinx-q
 </tr>
 <tr>
 <td style="text-align: left;"><code>system_dependencies</code></td>
-<td style="text-align: left;">A single or multi-line string of Ubuntu APT packages to install prior to building the documentation.</td>
+<td style="text-align: left;">A single (space-separated) or multi-line string of Ubuntu APT packages to install prior to building the documentation.</br></br>See also <a href="../#single-vs-multi-line-input">Single vs multi-line input</a>.</td>
 <td style="text-align: center;">No</td>
 <td style="text-align: center;"><em>Empty string</em></td>
 <td style="text-align: center;"><em>string</em></td>
@@ -1507,49 +1507,49 @@ For Sphinx, it requires at minimum the files created from running <code>sphinx-q
 </tr>
 <tr>
 <td style="text-align: left;"><code>package_dirs</code></td>
-<td style="text-align: left;">A single or multi-line string of path to Python package directories relative to the repository directory to be considered for creating the Python API reference documentation.</br></br><strong>Example</strong>: <code>'src/my_package'</code>.</td>
+<td style="text-align: left;">A multi-line string of path to Python package directories relative to the repository directory to be considered for creating the Python API reference documentation.</br></br><strong>Example</strong>: <code>'src/my_package'</code>.</br></br>See also <a href="../#single-vs-multi-line-input">Single vs multi-line input</a>.</td>
 <td style="text-align: center;"><strong>Yes, if <code>update_python_api_ref</code> is <code>true</code> (default)</strong></td>
 <td style="text-align: center;"><em>Empty string</em></td>
 <td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>exclude_dirs</code></td>
-<td style="text-align: left;">A single or multi-line string of directories to exclude in the Python API reference documentation. Note, only directory names, not paths, may be included. Note, all folders and their contents with these names will be excluded. Defaults to <code>'__pycache__'</code>.</br></br><strong>Important</strong>: When a user value is set, the preset value is overwritten - hence <code>'__pycache__'</code> should be included in the user value if one wants to exclude these directories.</td>
+<td style="text-align: left;">A multi-line string of directories to exclude in the Python API reference documentation. Note, only directory names, not paths, may be included. Note, all folders and their contents with these names will be excluded. Defaults to <code>'__pycache__'</code>.</br></br><strong>Important</strong>: When a user value is set, the preset value is overwritten - hence <code>'__pycache__'</code> should be included in the user value if one wants to exclude these directories.</br></br>See also <a href="../#single-vs-multi-line-input">Single vs multi-line input</a>.</td>
 <td style="text-align: center;">No</td>
 <td style="text-align: center;">__pycache__</td>
 <td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>exclude_files</code></td>
-<td style="text-align: left;">A single or multi-line string of files to exclude in the Python API reference documentation. Note, only full file names, not paths, may be included, i.e., filename + file extension. Note, all files with these names will be excluded. Defaults to <code>'__init__.py'</code>.</br></br><strong>Important</strong>: When a user value is set, the preset value is overwritten - hence <code>'__init__.py'</code> should be included in the user value if one wants to exclude these files.</td>
+<td style="text-align: left;">A multi-line string of files to exclude in the Python API reference documentation. Note, only full file names, not paths, may be included, i.e., filename + file extension. Note, all files with these names will be excluded. Defaults to <code>'__init__.py'</code>.</br></br><strong>Important</strong>: When a user value is set, the preset value is overwritten - hence <code>'__init__.py'</code> should be included in the user value if one wants to exclude these files.</br></br>See also <a href="../#single-vs-multi-line-input">Single vs multi-line input</a>.</td>
 <td style="text-align: center;">No</td>
 <td style="text-align: center;">__init__.py</td>
 <td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>full_docs_dirs</code></td>
-<td style="text-align: left;">A single or multi-line string of directories in which to include everything - even those without documentation strings. This may be useful for a module full of data models or to ensure all class attributes are listed.</td>
+<td style="text-align: left;">A multi-line string of directories in which to include everything - even those without documentation strings. This may be useful for a module full of data models or to ensure all class attributes are listed.</br></br>See also <a href="../#single-vs-multi-line-input">Single vs multi-line input</a>.</td>
 <td style="text-align: center;">No</td>
 <td style="text-align: center;"><em>Empty string</em></td>
 <td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>full_docs_files</code></td>
-<td style="text-align: left;">A single or multi-line string of relative paths to files in which to include everything - even those without documentation strings. This may be useful for a file full of data models or to ensure all class attributes are listed.</td>
+<td style="text-align: left;">A multi-line string of relative paths to files in which to include everything - even those without documentation strings. This may be useful for a file full of data models or to ensure all class attributes are listed.</br></br>See also <a href="../#single-vs-multi-line-input">Single vs multi-line input</a>.</td>
 <td style="text-align: center;">No</td>
 <td style="text-align: center;"><em>Empty string</em></td>
 <td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>special_file_api_ref_options</code></td>
-<td style="text-align: left;">A single or multi-line string of combinations of a relative path to a Python file and a fully formed mkdocstrings option that should be added to the generated MarkDown file for the Python API reference documentation.</br>Example: <code>my_module/py_file.py,show_bases:false</code>.</br></br>Encapsulate the value in double quotation marks (<code>"</code>) if including spaces ( ).</br></br><strong>Important</strong>: If multiple <code>package_dirs</code> are supplied, the relative path MUST include/start with the appropriate 'package_dir' value, e.g., <code>"my_package/my_module/py_file.py,show_bases: false"</code>.</td>
+<td style="text-align: left;">A multi-line string of combinations of a relative path to a Python file and a fully formed mkdocstrings option that should be added to the generated MarkDown file for the Python API reference documentation.</br>Example: <code>my_module/py_file.py,show_bases:false</code>.</br></br>Encapsulate the value in double quotation marks (<code>"</code>) if including spaces ( ).</br></br><strong>Important</strong>: If multiple <code>package_dirs</code> are supplied, the relative path MUST include/start with the appropriate 'package_dir' value, e.g., <code>"my_package/my_module/py_file.py,show_bases: false"</code>.</br></br>See also <a href="../#single-vs-multi-line-input">Single vs multi-line input</a>.</td>
 <td style="text-align: center;">No</td>
 <td style="text-align: center;"><em>Empty string</em></td>
 <td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>landing_page_replacements</code></td>
-<td style="text-align: left;">A single or multi-line string of replacements (mappings) to be performed on README.md when creating the documentation's landing page (index.md). This list <em>always</em> includes replacing <code>'docs/'</code> with an empty string to correct relative links, i.e., this cannot be overwritten. By default <code>'(LICENSE)'</code> is replaced by <code>'(LICENSE.md)'</code>.</td>
+<td style="text-align: left;">A multi-line string of replacements (mappings) to be performed on README.md when creating the documentation's landing page (index.md). This list <em>always</em> includes replacing <code>'docs/'</code> with an empty string to correct relative links, i.e., this cannot be overwritten. By default <code>'(LICENSE)'</code> is replaced by <code>'(LICENSE.md)'</code>.</br></br>See also <a href="../#single-vs-multi-line-input">Single vs multi-line input</a>.</td>
 <td style="text-align: center;">No</td>
 <td style="text-align: center;">(LICENSE),(LICENSE.md)</td>
 <td style="text-align: center;"><em>string</em></td>
@@ -1584,7 +1584,7 @@ For Sphinx, it requires at minimum the files created from running <code>sphinx-q
 <tbody>
 <tr>
 <td style="text-align: left;"><code>sphinx-build_options</code></td>
-<td style="text-align: left;">Single or multi-line string of command-line options to use when calling <code>sphinx-build</code>.</br></br><strong>Note</strong>: The <code>-W</code> option will be added if <code>warnings_as_errors</code> is <code>true</code> (default).</td>
+<td style="text-align: left;">Single (space-separated) or multi-line string of command-line options to use when calling <code>sphinx-build</code>.</br></br><strong>Note</strong>: The <code>-W</code> option will be added if <code>warnings_as_errors</code> is <code>true</code> (default).</br></br>See also <a href="../#single-vs-multi-line-input">Single vs multi-line input</a>.</td>
 <td style="text-align: center;">No</td>
 <td style="text-align: center;"><em>Empty string</em></td>
 <td style="text-align: center;"><em>string</em></td>
@@ -1661,6 +1661,7 @@ It is meant to be complete as is.</p>
 <h2 id="full-list-of-inputs">Full list of inputs<a class="headerlink" href="#full-list-of-inputs" title="Permanent link">&para;</a></h2>
 <p>Here follows the full list of inputs available for this workflow.
 However, it is recommended to instead refer to the job-specific tables of inputs when considering which inputs to provide.</p>
+<p>See also <a href="../#general-information">General information</a>.</p>
 <table>
 <thead>
 <tr>
@@ -1716,7 +1717,7 @@ However, it is recommended to instead refer to the job-specific tables of inputs
 </tr>
 <tr>
 <td style="text-align: left;"><code>pylint_options</code></td>
-<td style="text-align: left;">Single space-separated or multi-line string of pylint command line options.</br></br><strong>Note</strong>: This is only valid if <code>pylint_runs</code> is not defined.</td>
+<td style="text-align: left;">Single (space-separated) or multi-line string of pylint command line options.</br></br><strong>Note</strong>: This is only valid if <code>pylint_runs</code> is not defined.</td>
 <td style="text-align: center;">No</td>
 <td style="text-align: center;"><em>Empty string</em></td>
 <td style="text-align: center;"><em>string</em></td>
@@ -1730,7 +1731,7 @@ However, it is recommended to instead refer to the job-specific tables of inputs
 </tr>
 <tr>
 <td style="text-align: left;"><code>safety_options</code></td>
-<td style="text-align: left;">Single space-separated or multi-line string of safety command line options.</td>
+<td style="text-align: left;">Single (space-separated) or multi-line string of safety command line options.</td>
 <td style="text-align: center;">No</td>
 <td style="text-align: center;"><em>Empty string</em></td>
 <td style="text-align: center;"><em>string</em></td>
@@ -1779,7 +1780,7 @@ However, it is recommended to instead refer to the job-specific tables of inputs
 </tr>
 <tr>
 <td style="text-align: left;"><code>system_dependencies</code></td>
-<td style="text-align: left;">A single or multi-line string of Ubuntu APT packages to install prior to building the documentation.</td>
+<td style="text-align: left;">A single (space-separated) or multi-line string of Ubuntu APT packages to install prior to building the documentation.</td>
 <td style="text-align: center;">No</td>
 <td style="text-align: center;"><em>Empty string</em></td>
 <td style="text-align: center;"><em>string</em></td>
@@ -1821,49 +1822,49 @@ However, it is recommended to instead refer to the job-specific tables of inputs
 </tr>
 <tr>
 <td style="text-align: left;"><code>package_dirs</code></td>
-<td style="text-align: left;">A single or multi-line string of path to Python package directories relative to the repository directory to be considered for creating the Python API reference documentation.</br></br><strong>Example</strong>: <code>'src/my_package'</code>.</td>
+<td style="text-align: left;">A multi-line string of path to Python package directories relative to the repository directory to be considered for creating the Python API reference documentation.</br></br><strong>Example</strong>: <code>'src/my_package'</code>.</td>
 <td style="text-align: center;"><strong>Yes, if <code>update_python_api_ref</code> is <code>true</code> (default)</strong></td>
 <td style="text-align: center;"><em>Empty string</em></td>
 <td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>exclude_dirs</code></td>
-<td style="text-align: left;">A single or multi-line string of directories to exclude in the Python API reference documentation. Note, only directory names, not paths, may be included. Note, all folders and their contents with these names will be excluded. Defaults to <code>'__pycache__'</code>.</br></br><strong>Important</strong>: When a user value is set, the preset value is overwritten - hence <code>'__pycache__'</code> should be included in the user value if one wants to exclude these directories.</td>
+<td style="text-align: left;">A multi-line string of directories to exclude in the Python API reference documentation. Note, only directory names, not paths, may be included. Note, all folders and their contents with these names will be excluded. Defaults to <code>'__pycache__'</code>.</br></br><strong>Important</strong>: When a user value is set, the preset value is overwritten - hence <code>'__pycache__'</code> should be included in the user value if one wants to exclude these directories.</td>
 <td style="text-align: center;">No</td>
 <td style="text-align: center;">__pycache__</td>
 <td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>exclude_files</code></td>
-<td style="text-align: left;">A single or multi-line string of files to exclude in the Python API reference documentation. Note, only full file names, not paths, may be included, i.e., filename + file extension. Note, all files with these names will be excluded. Defaults to <code>'__init__.py'</code>.</br></br><strong>Important</strong>: When a user value is set, the preset value is overwritten - hence <code>'__init__.py'</code> should be included in the user value if one wants to exclude these files.</td>
+<td style="text-align: left;">A multi-line string of files to exclude in the Python API reference documentation. Note, only full file names, not paths, may be included, i.e., filename + file extension. Note, all files with these names will be excluded. Defaults to <code>'__init__.py'</code>.</br></br><strong>Important</strong>: When a user value is set, the preset value is overwritten - hence <code>'__init__.py'</code> should be included in the user value if one wants to exclude these files.</td>
 <td style="text-align: center;">No</td>
 <td style="text-align: center;">__init__.py</td>
 <td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>full_docs_dirs</code></td>
-<td style="text-align: left;">A single or multi-line string of directories in which to include everything - even those without documentation strings. This may be useful for a module full of data models or to ensure all class attributes are listed.</td>
+<td style="text-align: left;">A multi-line string of directories in which to include everything - even those without documentation strings. This may be useful for a module full of data models or to ensure all class attributes are listed.</td>
 <td style="text-align: center;">No</td>
 <td style="text-align: center;"><em>Empty string</em></td>
 <td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>full_docs_files</code></td>
-<td style="text-align: left;">A single or multi-line string of relative paths to files in which to include everything - even those without documentation strings. This may be useful for a file full of data models or to ensure all class attributes are listed.</td>
+<td style="text-align: left;">A multi-line string of relative paths to files in which to include everything - even those without documentation strings. This may be useful for a file full of data models or to ensure all class attributes are listed.</td>
 <td style="text-align: center;">No</td>
 <td style="text-align: center;"><em>Empty string</em></td>
 <td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>special_file_api_ref_options</code></td>
-<td style="text-align: left;">A single or multi-line string of combinations of a relative path to a Python file and a fully formed mkdocstrings option that should be added to the generated MarkDown file for the Python API reference documentation.</br>Example: <code>my_module/py_file.py,show_bases:false</code>.</br></br>Encapsulate the value in double quotation marks (<code>"</code>) if including spaces ( ).</br></br><strong>Important</strong>: If multiple <code>package_dirs</code> are supplied, the relative path MUST include/start with the appropriate 'package_dir' value, e.g., <code>"my_package/my_module/py_file.py,show_bases: false"</code>.</td>
+<td style="text-align: left;">A multi-line string of combinations of a relative path to a Python file and a fully formed mkdocstrings option that should be added to the generated MarkDown file for the Python API reference documentation.</br>Example: <code>my_module/py_file.py,show_bases:false</code>.</br></br>Encapsulate the value in double quotation marks (<code>"</code>) if including spaces ( ).</br></br><strong>Important</strong>: If multiple <code>package_dirs</code> are supplied, the relative path MUST include/start with the appropriate 'package_dir' value, e.g., <code>"my_package/my_module/py_file.py,show_bases: false"</code>.</td>
 <td style="text-align: center;">No</td>
 <td style="text-align: center;"><em>Empty string</em></td>
 <td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>landing_page_replacements</code></td>
-<td style="text-align: left;">A single or multi-line string of replacements (mappings) to be performed on README.md when creating the documentation's landing page (index.md). This list <em>always</em> includes replacing <code>'docs/'</code> with an empty string to correct relative links, i.e., this cannot be overwritten. By default <code>'(LICENSE)'</code> is replaced by <code>'(LICENSE.md)'</code>.</td>
+<td style="text-align: left;">A multi-line string of replacements (mappings) to be performed on README.md when creating the documentation's landing page (index.md). This list <em>always</em> includes replacing <code>'docs/'</code> with an empty string to correct relative links, i.e., this cannot be overwritten. By default <code>'(LICENSE)'</code> is replaced by <code>'(LICENSE.md)'</code>.</td>
 <td style="text-align: center;">No</td>
 <td style="text-align: center;">(LICENSE),(LICENSE.md)</td>
 <td style="text-align: center;"><em>string</em></td>

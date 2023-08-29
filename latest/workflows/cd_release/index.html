@@ -1143,14 +1143,14 @@ E.g., <code>{package_dir}/__init__.py</code> will become <code>ci_cd/__init__.py
 </tr>
 <tr>
 <td style="text-align: left;"><code>package_dirs</code></td>
-<td style="text-align: left;">single or multi-line string of paths to Python package directories relative to the repository directory to have its <code>__version__</code> value updated.</br></br>Example: <code>'src/my_package'</code>.</br></br><strong>Important</strong>: This is <em>required</em> if 'python_package' is 'true', which is the default.</td>
+<td style="text-align: left;">A multi-line string of paths to Python package directories relative to the repository directory to have its <code>__version__</code> value updated.</br></br>Example: <code>'src/my_package'</code>.</br></br><strong>Important</strong>: This is <em>required</em> if 'python_package' is 'true', which is the default.</br></br>See also <a href="../#single-vs-multi-line-input">Single vs multi-line input</a>.</td>
 <td style="text-align: center;"><strong><em>Yes</em> (if 'python_package' is 'true'</strong></td>
 <td style="text-align: center;"></td>
 <td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>version_update_changes</code></td>
-<td style="text-align: left;">A single or multi-line string of changes to be implemented in the repository files upon updating the version. The string should be made up of three parts: 'file path', 'pattern', and 'replacement string'. These are separated by the 'version_update_changes_separator' value.</br>The 'file path' must <em>always</em> either be relative to the repository root directory or absolute.</br>The 'pattern' should be given as a 'raw' Python string.</td>
+<td style="text-align: left;">A multi-line string of changes to be implemented in the repository files upon updating the version. The string should be made up of three parts: 'file path', 'pattern', and 'replacement string'. These are separated by the 'version_update_changes_separator' value.</br>The 'file path' must <em>always</em> either be relative to the repository root directory or absolute.</br>The 'pattern' should be given as a 'raw' Python string.</br></br>See also <a href="../#single-vs-multi-line-input">Single vs multi-line input</a>.</td>
 <td style="text-align: center;">No</td>
 <td style="text-align: center;"><em>Empty string</em></td>
 <td style="text-align: center;"><em>string</em></td>
@@ -1248,7 +1248,7 @@ E.g., <code>{package_dir}/__init__.py</code> will become <code>ci_cd/__init__.py
 </tr>
 <tr>
 <td style="text-align: left;"><code>system_dependencies</code></td>
-<td style="text-align: left;">A single (space-separated) or multi-line string of Ubuntu APT packages to install prior to building the documentation.</td>
+<td style="text-align: left;">A single (space-separated) or multi-line string of Ubuntu APT packages to install prior to building the documentation.</br></br>See also <a href="../#single-vs-multi-line-input">Single vs multi-line input</a>.</td>
 <td style="text-align: center;">No</td>
 <td style="text-align: center;"><em>Empty string</em></td>
 <td style="text-align: center;"><em>string</em></td>
@@ -1269,7 +1269,7 @@ E.g., <code>{package_dir}/__init__.py</code> will become <code>ci_cd/__init__.py
 <tbody>
 <tr>
 <td style="text-align: left;"><code>sphinx-build_options</code></td>
-<td style="text-align: left;">Single (space-separated) or multi-line string of command-line options to use when calling <code>sphinx-build</code>.</td>
+<td style="text-align: left;">Single (space-separated) or multi-line string of command-line options to use when calling <code>sphinx-build</code>.</br></br>See also <a href="../#single-vs-multi-line-input">Single vs multi-line input</a>.</td>
 <td style="text-align: center;">No</td>
 <td style="text-align: center;"><em>Empty string</em></td>
 <td style="text-align: center;"><em>string</em></td>

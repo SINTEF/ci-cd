@@ -298,6 +298,17 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -307,6 +318,72 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#general-information" class="md-nav__link">
+    General information
+  </a>
+  
+    <nav class="md-nav" aria-label="General information">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#single-vs-multi-line-input" class="md-nav__link">
+    Single vs multi-line input
+  </a>
+  
+    <nav class="md-nav" aria-label="Single vs multi-line input">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multi-line-input" class="md-nav__link">
+    Multi-line input
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#single-line-input" class="md-nav__link">
+    Single line input
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#single-or-multi-line-input" class="md-nav__link">
+    Single or multi-line input
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -884,6 +961,61 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#general-information" class="md-nav__link">
+    General information
+  </a>
+  
+    <nav class="md-nav" aria-label="General information">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#single-vs-multi-line-input" class="md-nav__link">
+    Single vs multi-line input
+  </a>
+  
+    <nav class="md-nav" aria-label="Single vs multi-line input">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multi-line-input" class="md-nav__link">
+    Multi-line input
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#single-line-input" class="md-nav__link">
+    Single line input
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#single-or-multi-line-input" class="md-nav__link">
+    Single or multi-line input
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -898,6 +1030,8 @@
 
 
 <h1 id="github-actions-callablereusable-workflows">GitHub Actions callable/reusable Workflows<a class="headerlink" href="#github-actions-callablereusable-workflows" title="Permanent link">&para;</a></h1>
+<!-- markdownlint-disable MD046 -->
+
 <p>This section contains all the available callable/reusable workflows:</p>
 <ul>
 <li><a href="cd_release/">CD - Release (<code>cd_release.yml</code>)</a></li>
@@ -907,6 +1041,86 @@
 <li><a href="ci_tests/">CI - Tests (<code>ci_tests.yml</code>)</a></li>
 <li><a href="ci_update_dependencies/">CI - Update dependencies PR (<code>ci_update_dependencies.yml</code>)</a></li>
 </ul>
+<h2 id="general-information">General information<a class="headerlink" href="#general-information" title="Permanent link">&para;</a></h2>
+<h3 id="single-vs-multi-line-input">Single vs multi-line input<a class="headerlink" href="#single-vs-multi-line-input" title="Permanent link">&para;</a></h3>
+<p>For inputs specifying single or multi-line input values, the following rules apply:</p>
+<ol>
+<li>If only "multi-line" is mentioned, it means that the input value <em>can</em> be a single line, but it <strong>must not</strong> be a multi-valued single line (see <a href="#multi-line-input">examples below</a>).</li>
+<li>
+<p>If only "single" is mentioned, it means that the input value <strong>must</strong> be a single line (the workflow might fail if it is not).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>There is currently no input parameter that is explicitly single line only.
+Instead, one should consider the input parameter to be single line only if it is not explicitly mentioned as multi-line.</p>
+</div>
+</li>
+<li>
+<p>If both "single" and "multi-line" is mentioned, it means that multiple values can be specified, but they must be separated <em>either</em> over several, separate lines <strong>or</strong> within a single line by a space.</p>
+</li>
+</ol>
+<p>Here are some examples:</p>
+<h4 id="multi-line-input">Multi-line input<a class="headerlink" href="#multi-line-input" title="Permanent link">&para;</a></h4>
+<p><strong>Accepted</strong> input styles:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Two separate version update changes:</span>
+<span class="nt">version_update_changes</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">  </span><span class="no">&quot;file/path,pattern,replacement string&quot;</span>
+<span class="w">  </span><span class="no">&quot;another/file/path,pattern,replacement string&quot;</span>
+
+<span class="c1"># A single version update change</span>
+<span class="nt">version_update_changes</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">  </span><span class="no">&quot;file/path,pattern,replacement string&quot;</span>
+
+<span class="c1"># A single version update change, different formatting for input</span>
+<span class="nt">version_update_changes</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;file/path,pattern,replacement</span><span class="nv"> </span><span class="s">string&quot;</span>
+</code></pre></div>
+<p><strong>Disallowed</strong> input styles:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Two separate version update changes:</span>
+<span class="nt">version_update_changes</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;file/path,pattern,replacement</span><span class="nv"> </span><span class="s">string</span><span class="nv"> </span><span class="s">another/file/path,pattern,replacement</span><span class="nv"> </span><span class="s">string&quot;</span>
+</code></pre></div>
+<h4 id="single-line-input">Single line input<a class="headerlink" href="#single-line-input" title="Permanent link">&para;</a></h4>
+<p><strong>Accepted</strong> input styles:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># A single git username:</span>
+<span class="nt">git_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Casper</span><span class="nv"> </span><span class="s">Welzel</span><span class="nv"> </span><span class="s">Andersen&quot;</span>
+
+<span class="c1"># A single git username, different formatting for input</span>
+<span class="nt">git_username</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">  </span><span class="no">&quot;Casper Welzel Andersen&quot;</span>
+</code></pre></div>
+<p><strong>Disallowed</strong> input styles:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Two separate git usernames:</span>
+<span class="nt">git_username</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">  </span><span class="no">&quot;Casper Welzel Andersen&quot;</span>
+<span class="w">  </span><span class="no">&quot;Francesca L. Bleken&quot;</span>
+
+<span class="c1"># Two separate git usernames, different formatting for input</span>
+<span class="nt">git_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Casper</span><span class="nv"> </span><span class="s">Welzel</span><span class="nv"> </span><span class="s">Andersen</span><span class="nv"> </span><span class="s">Francesca</span><span class="nv"> </span><span class="s">L.</span><span class="nv"> </span><span class="s">Bleken&quot;</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>It is important to note that the disallowed examples will work without fault in this case (might not always be true for other parameters).
+But the git username will be a single string, combining the names in succession, instead of being two separate values.</p>
+</div>
+<h4 id="single-or-multi-line-input">Single or multi-line input<a class="headerlink" href="#single-or-multi-line-input" title="Permanent link">&para;</a></h4>
+<p><strong>Accepted</strong> input styles:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># A single system dependency:</span>
+<span class="nt">system_dependencies</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;graphviz&quot;</span>
+
+<span class="c1"># A single system dependency, different formatting for input</span>
+<span class="nt">system_dependencies</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">  </span><span class="no">&quot;graphviz&quot;</span>
+
+<span class="c1"># Two separate system dependencies:</span>
+<span class="nt">system_dependencies</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">  </span><span class="no">&quot;graphviz&quot;</span>
+<span class="w">  </span><span class="no">&quot;Sphinx&quot;</span>
+
+<span class="c1"># Two separate system dependencies, different formatting for input</span>
+<span class="nt">system_dependencies</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;graphviz</span><span class="nv"> </span><span class="s">Sphinx&quot;</span>
+</code></pre></div>
+<p><strong>Disallowed</strong> input styles:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Use of custom separator:</span>
+<span class="nt">system_dependencies</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;graphviz,Sphinx&quot;</span>
+</code></pre></div>
 
 
 

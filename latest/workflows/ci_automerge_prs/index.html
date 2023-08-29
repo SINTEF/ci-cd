@@ -997,7 +997,7 @@
 <p>It is possible to introduce changes to the PR head branch prior to activating the auto-merging, if so desired.
 This is done by setting <code>perform_changes</code> to <code>'true'</code> and setting the other inputs accordingly, as they are now required.
 See <a href="#inputs">Inputs</a> below for a full overview of the available inputs.</p>
-<p>The <code>changes</code> input can be both a path to a bash file that should be run, or a single or multi-line string of bash commands to run.
+<p>The <code>changes</code> input can be both a path to a bash file that should be run, or a multi-line string of bash commands to run.
 Afterwards any and all changes in the repository will be committed and pushed to the PR head branch.</p>
 <p>The motivation for being able to run changes prior to auto-merging, is to update or affect the repository files according to the specific PR being auto-merged.
 Usually auto-merging is activated for <a href="https://docs.github.com/en/code-security/dependabot">dependabot</a> branches, i.e., when a dependency/requirement is updated.
@@ -1044,7 +1044,7 @@ Hence, the changes could include updating this dependency in documentation files
 </tr>
 <tr>
 <td style="text-align: left;"><code>changes</code></td>
-<td style="text-align: left;">A file to run in the local repository (relative path from the root of the repository) or a multi-line string of bash commands to run.</br><strong>Required</strong> if <code>perform_changes</code> is 'true'.</td>
+<td style="text-align: left;">A file to run in the local repository (relative path from the root of the repository) or a multi-line string of bash commands to run.</br><strong>Required</strong> if <code>perform_changes</code> is 'true'.</br></br>See also <a href="../#single-vs-multi-line-input">Single vs multi-line input</a>.</td>
 <td style="text-align: center;">No</td>
 <td style="text-align: center;"></td>
 <td style="text-align: center;"><em>string</em></td>
