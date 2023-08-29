@@ -47,12 +47,12 @@ on:
         type: string
         default: "3.9"
       package_dirs:
-        description: "A single or multi-line string of paths to Python package directories relative to the repository directory to have its `__version__` value updated. Example: `'src/my_package'`. **Important**: This is _required_ if 'python_package' is 'true', which is the default."
+        description: "A multi-line string of paths to Python package directories relative to the repository directory to have its `__version__` value updated. Example: `'src/my_package'`. **Important**: This is _required_ if 'python_package' is 'true', which is the default."
         required: false
         type: string
         default: ""
       version_update_changes:
-        description: "A single or multi-line string of changes to be implemented in the repository files upon updating the version. The string should be made up of three parts: 'file path', 'pattern', and 'replacement string'. These are separated by the 'version_update_changes_separator' value. The 'file path' must _always_ either be relative to the repository root directory or absolute. The 'pattern' should be given as a 'raw' Python string."
+        description: "A multi-line string of changes to be implemented in the repository files upon updating the version. The string should be made up of three parts: 'file path', 'pattern', and 'replacement string'. These are separated by the 'version_update_changes_separator' value. The 'file path' must _always_ either be relative to the repository root directory or absolute. The 'pattern' should be given as a 'raw' Python string."
         required: false
         type: string
         default: ""
@@ -339,10 +339,16 @@ jobs:
     - name: Install system dependencies
       if: inputs.system_dependencies != ''
       run: |
-        SYSTEM_PACKAGES=()
-        while IFS= read -r line; do
-          if [ -n "${line}" ]; then SYSTEM_PACKAGES+=("${line}"); fi
-        done <<< "${{ inputs.system_dependencies }}"
+        if [[ "${{ inputs.system_dependencies }}" =~ \n ]]; then
+          # Expected to be a multi-line string
+          SYSTEM_PACKAGES=()
+          while IFS= read -r line; do
+            if [ -n "${line}" ]; then SYSTEM_PACKAGES+=("${line}"); fi
+          done <<< "${{ inputs.system_dependencies }}"
+        else
+          # Expected to be a single-line string
+          SYSTEM_PACKAGES=(${{ inputs.system_dependencies }})
+        fi
 
         sudo apt update && sudo apt install -y "${SYSTEM_PACKAGES[@]}"
 
@@ -365,10 +371,16 @@ jobs:
         REF=${{ github.ref }}
 
         if [ "${{ inputs.docs_framework }}" == "sphinx" ]; then
-          SPHINX_OPTIONS=()
-          while IFS= read -r line; do
-            if [ -n "${line}" ]; then SPHINX_OPTIONS+=("${line}"); fi
-          done <<< "${{ inputs.sphinx-build_options }}"
+          if [[ "${{ inputs.sphinx-build_options }}" =~ \n ]]; then
+            # Expected to be a multi-line string
+            SPHINX_OPTIONS=()
+            while IFS= read -r line; do
+              if [ -n "${line}" ]; then SPHINX_OPTIONS+=("${line}"); fi
+            done <<< "${{ inputs.sphinx-build_options }}"
+          else
+            # Expected to be a single-line string
+            SPHINX_OPTIONS=(${{ inputs.sphinx-build_options }})
+          fi
         fi
 
         if [ "${{ inputs.test }}" == "true" ]; then
