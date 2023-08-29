@@ -57,9 +57,11 @@ This workflow should _only_ be used for releasing a single modern Python package
 The repository contains the following:
 
 - (**required**) A Python package root `__init__.py` file with `__version__` defined.
-- (**required**) The workflow is run for a tag that starts with `v` followed by a full semantic version.
-  This will automatically be the case for a GitHub release, which creates a new tag that starts with `v`.
+- (**required**) The workflow is run for a git tag only.
+  This will automatically be the case for a GitHub release.
+  The tag name must be a valid semantic version.
   See [SemVer.org](https://semver.org) for more information about semantic versioning.
+  It is expected, but not required, that the tag name starts with a `v`, e.g., `v1.0.0`.
 
 ## Inputs
 

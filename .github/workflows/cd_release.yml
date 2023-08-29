@@ -147,7 +147,7 @@ on:
 jobs:
   update-and-publish:
     name: Update CHANGELOG and version and publish to PyPI
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
 
     steps:
@@ -297,7 +297,7 @@ jobs:
       with:
         user: __token__
         password: ${{ secrets.PyPI_token }}
-        repository_url: https://test.pypi.org/legacy/
+        repository-url: https://test.pypi.org/legacy/
 
     - name: Publish package to PyPI
       if: ( ! inputs.test ) && inputs.publish_on_pypi && inputs.python_package
@@ -369,6 +369,7 @@ jobs:
     - name: Build (& deploy MkDocs) documentation
       run: |
         REF=${{ github.ref }}
+        REF=${REF#refs/tags/}
 
         if [ "${{ inputs.docs_framework }}" == "sphinx" ]; then
           if [[ "${{ inputs.sphinx-build_options }}" =~ \n ]]; then
@@ -385,7 +386,7 @@ jobs:
 
         if [ "${{ inputs.test }}" == "true" ]; then
           if [ "${{ inputs.docs_framework }}" == "mkdocs" ]; then
-            echo "Will here deploy documentation using 'mike', first one called '${REF#refs/tags/v}' with alias 'stable'"
+            echo "Will here deploy documentation using 'mike', first one called '${REF#v}' with alias 'stable'"
             echo "Then one called 'latest' with alias '${{ inputs.release_branch }}'"
           elif [ "${{ inputs.docs_framework }}" == "sphinx" ]; then
             echo "Will here deploy documentation using 'sphinx-build'."
@@ -399,7 +400,7 @@ jobs:
           fi
 
         elif [ "${{ inputs.docs_framework }}" == "mkdocs" ]; then
-          mike deploy --push --remote origin --branch gh-pages --update-aliases --config-file mkdocs.yml ${REF#refs/tags/v} stable
+          mike deploy --push --remote origin --branch gh-pages --update-aliases --config-file mkdocs.yml ${REF#v} stable
           mike deploy --push --remote origin --branch gh-pages --update-aliases --config-file mkdocs.yml latest ${{ inputs.release_branch }}
 
         elif [ "${{ inputs.docs_framework }}" == "sphinx" ]; then
