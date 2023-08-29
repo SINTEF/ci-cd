@@ -2,11 +2,27 @@
 
 ## [Unreleased](https://github.com/SINTEF/ci-cd/tree/HEAD)
 
-[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.4.0...HEAD)
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.5.0...HEAD)
 
 **Fixed bugs:**
 
-- Issues with the ignore-functionality of `ci-cd update-deps` [\#130](https://github.com/SINTEF/ci-cd/issues/130)
+- `pylint_options` not working as intended [\#169](https://github.com/SINTEF/ci-cd/issues/169)
+
+## [v2.5.0](https://github.com/SINTEF/ci-cd/tree/v2.5.0) (2023-08-29)
+
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.4.0...v2.5.0)
+
+**Fixed bugs:**
+
+- Pre-commit for documentation not working on windows [\#160](https://github.com/SINTEF/ci-cd/issues/160)
+
+**Merged pull requests:**
+
+- Parse `pylint_options` depending on newlines [\#170](https://github.com/SINTEF/ci-cd/pull/170) ([CasperWA](https://github.com/CasperWA))
+- Support Windows for pre-commit hook usage [\#165](https://github.com/SINTEF/ci-cd/pull/165) ([CasperWA](https://github.com/CasperWA))
+- \[Auto-generated\] Update dependencies [\#159](https://github.com/SINTEF/ci-cd/pull/159) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[Auto-generated\] Update dependencies [\#156](https://github.com/SINTEF/ci-cd/pull/156) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[Auto-generated\] Update dependencies [\#154](https://github.com/SINTEF/ci-cd/pull/154) ([TEAM4-0](https://github.com/TEAM4-0))
 
 ## [v2.4.0](https://github.com/SINTEF/ci-cd/tree/v2.4.0) (2023-05-23)
 
@@ -22,6 +38,7 @@
 
 - Flawed logic [\#152](https://github.com/SINTEF/ci-cd/issues/152)
 - Error in workflow [\#150](https://github.com/SINTEF/ci-cd/issues/150)
+- Issues with the ignore-functionality of `ci-cd update-deps` [\#130](https://github.com/SINTEF/ci-cd/issues/130)
 
 **Closed issues:**
 
