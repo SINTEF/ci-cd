@@ -31,7 +31,7 @@ This workflow can _only_ be called if the triggering event from the caller workf
 | `perform_changes` | Whether or not to perform and commit changes to the PR branch prior to activating auto-merge. | No | | _boolean_ |
 | `git_username` | A git username (used to set the 'user.name' config option).</br>**Required** if `perform_changes` is 'true'. | No | | _string_ |
 | `git_email` | A git user's email address (used to set the 'user.email' config option).</br>**Required** if `perform_changes` is 'true'. | No | | _string_ |
-| `changes` | A file to run in the local repository (relative path from the root of the repository) or a multi-line string of bash commands to run.</br>**Required** if `perform_changes` is 'true'. | No | | _string_ |
+| `changes` | A file to run in the local repository (relative path from the root of the repository) or a multi-line string of bash commands to run.</br>**Required** if `perform_changes` is 'true'.</br></br>See also [Single vs multi-line input](index.md#single-vs-multi-line-input). | No | | _string_ |
 
 ## Secrets
 
