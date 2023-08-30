@@ -290,6 +290,7 @@ def test_special_options_multiple_packages(tmp_path: "Path") -> None:
         [str(package_dir.relative_to(tmp_path)) for package_dir in package_dirs],
         root_repo_path=str(tmp_path),
         full_docs_file=["ci_cd_again/utils.py"],
+        full_docs_folder=["ci_cd_again/tasks"],
         special_option=[
             'ci_cd/main.py,test_option: "yup"',
             "ci_cd/main.py,another_special_option: true",
@@ -379,22 +380,44 @@ def test_special_options_multiple_packages(tmp_path: "Path") -> None:
         ) == 'title: "tasks"\n'
         assert (
             api_reference_folder / package_name / "tasks" / "api_reference_docs.md"
-        ).read_text(
-            encoding="utf8"
-        ) == f"# api_reference_docs\n\n::: {package_name}.tasks.api_reference_docs\n"
+        ).read_text(encoding="utf8") == (
+            f"# api_reference_docs\n\n::: {package_name}.tasks.api_reference_docs\n"
+            + (
+                "    options:\n      show_if_no_docstring: true\n"
+                if package_name == "ci_cd_again"
+                else ""
+            )
+        )
         assert (
             api_reference_folder / package_name / "tasks" / "docs_index.md"
-        ).read_text(
-            encoding="utf8"
-        ) == f"# docs_index\n\n::: {package_name}.tasks.docs_index\n"
+        ).read_text(encoding="utf8") == (
+            f"# docs_index\n\n::: {package_name}.tasks.docs_index\n"
+            + (
+                "    options:\n      show_if_no_docstring: true\n"
+                if package_name == "ci_cd_again"
+                else ""
+            )
+        )
         assert (api_reference_folder / package_name / "tasks" / "setver.md").read_text(
             encoding="utf8"
-        ) == f"# setver\n\n::: {package_name}.tasks.setver\n"
+        ) == (
+            f"# setver\n\n::: {package_name}.tasks.setver\n"
+            + (
+                "    options:\n      show_if_no_docstring: true\n"
+                if package_name == "ci_cd_again"
+                else ""
+            )
+        )
         assert (
             api_reference_folder / package_name / "tasks" / "update_deps.md"
-        ).read_text(
-            encoding="utf8"
-        ) == f"# update_deps\n\n::: {package_name}.tasks.update_deps\n"
+        ).read_text(encoding="utf8") == (
+            f"# update_deps\n\n::: {package_name}.tasks.update_deps\n"
+            + (
+                "    options:\n      show_if_no_docstring: true\n"
+                if package_name == "ci_cd_again"
+                else ""
+            )
+        )
 
 
 def test_larger_package(tmp_path: "Path") -> None:
