@@ -201,8 +201,7 @@ jobs:
 
     - name: Update version and tag
       run: |
-        REF=${{ github.ref }}
-        REF=${REF#refs/tags/}
+        REF=${GITHUB_REF#refs/tags/}
 
         if [ "${{ inputs.python_package }}" == "true" ]; then
           if [ -z "${{ inputs.package_dirs }}" ]; then
@@ -368,8 +367,7 @@ jobs:
 
     - name: Build (& deploy MkDocs) documentation
       run: |
-        REF=${{ github.ref }}
-        REF=${REF#refs/tags/}
+        REF=${GITHUB_REF#refs/tags/}
 
         if [ "${{ inputs.docs_framework }}" == "sphinx" ]; then
           if [[ "${{ inputs.sphinx-build_options }}" =~ \n ]]; then
