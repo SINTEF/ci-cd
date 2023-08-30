@@ -1054,9 +1054,11 @@ E.g., <code>{package_dir}/__init__.py</code> will become <code>ci_cd/__init__.py
 <p>The repository contains the following:</p>
 <ul>
 <li>(<strong>required</strong>) A Python package root <code>__init__.py</code> file with <code>__version__</code> defined.</li>
-<li>(<strong>required</strong>) The workflow is run for a tag that starts with <code>v</code> followed by a full semantic version.
-  This will automatically be the case for a GitHub release, which creates a new tag that starts with <code>v</code>.
-  See <a href="https://semver.org">SemVer.org</a> for more information about semantic versioning.</li>
+<li>(<strong>required</strong>) The workflow is run for a git tag only.
+  This will automatically be the case for a GitHub release.
+  The tag name must be a valid semantic version.
+  See <a href="https://semver.org">SemVer.org</a> for more information about semantic versioning.
+  It is expected, but not required, that the tag name starts with a <code>v</code>, e.g., <code>v1.0.0</code>.</li>
 </ul>
 <h2 id="inputs">Inputs<a class="headerlink" href="#inputs" title="Permanent link">&para;</a></h2>
 <p>The following inputs are general inputs for the workflow as a whole.</p>
