@@ -211,7 +211,7 @@ jobs:
       run: |
         REF=${GITHUB_REF#refs/tags/}
         if [ "${{ inputs.test }}" == "true" ]; then
-          REF=0.0.0-test+${{ github.run_id }}.${{ github.run_number }}.${{ github.run_attempt }}
+          REF=${{ github.run_id }}.${{ github.run_number }}.${{ github.run_attempt }}
         fi
 
         if [ "${{ inputs.python_package }}" == "true" ]; then
@@ -380,7 +380,7 @@ jobs:
       run: |
         REF=${GITHUB_REF#refs/tags/}
         if [ "${{ inputs.test }}" == "true" ]; then
-          REF=0.0.0-test+${{ github.run_id }}.${{ github.run_number }}.${{ github.run_attempt }}
+          REF=${{ github.run_id }}.${{ github.run_number }}.${{ github.run_attempt }}
         fi
 
         if [ "${{ inputs.docs_framework }}" == "sphinx" ]; then
