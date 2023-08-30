@@ -33,7 +33,7 @@ Here is an example of different lines given as value for the `ignore` option tha
 # ...
 jobs:
   check-dependencies:
-    uses: SINTEF/ci-cd/.github/workflows/ci_check_pyproject_dependencies.yml@v2.5.0
+    uses: SINTEF/ci-cd/.github/workflows/ci_check_pyproject_dependencies.yml@v2.5.1
     with:
       # ...
       # For Sphinx, ignore all updates for/from version 4.5.0 and up / keep the minimum version for Sphinx at 4.5.0.
@@ -88,7 +88,7 @@ on:
 jobs:
   check-dependencies:
     name: Call external workflow
-    uses: SINTEF/ci-cd/.github/workflows/ci_check_pyproject_dependencies.yml@v2.5.0
+    uses: SINTEF/ci-cd/.github/workflows/ci_check_pyproject_dependencies.yml@v2.5.1
     if: github.repository_owner == 'SINTEF'
     with:
       git_username: "Casper Welzel Andersen"

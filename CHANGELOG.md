@@ -2,11 +2,24 @@
 
 ## [Unreleased](https://github.com/SINTEF/ci-cd/tree/HEAD)
 
-[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.5.0...HEAD)
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.5.1...HEAD)
 
 **Fixed bugs:**
 
-- `pylint_options` not working as intended [\#169](https://github.com/SINTEF/ci-cd/issues/169)
+- Regression in `--full-docs-dir` input [\#174](https://github.com/SINTEF/ci-cd/issues/174)
+
+## [v2.5.1](https://github.com/SINTEF/ci-cd/tree/v2.5.1) (2023-08-30)
+
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.5.0...v2.5.1)
+
+**Fixed bugs:**
+
+- Too strict release tag name requirements [\#172](https://github.com/SINTEF/ci-cd/issues/172)
+
+**Merged pull requests:**
+
+- Fix --full-docs-dir regression [\#175](https://github.com/SINTEF/ci-cd/pull/175) ([CasperWA](https://github.com/CasperWA))
+- Remove requirement for release to start with 'v' [\#173](https://github.com/SINTEF/ci-cd/pull/173) ([CasperWA](https://github.com/CasperWA))
 
 ## [v2.5.0](https://github.com/SINTEF/ci-cd/tree/v2.5.0) (2023-08-29)
 
@@ -14,6 +27,7 @@
 
 **Fixed bugs:**
 
+- `pylint_options` not working as intended [\#169](https://github.com/SINTEF/ci-cd/issues/169)
 - Pre-commit for documentation not working on windows [\#160](https://github.com/SINTEF/ci-cd/issues/160)
 
 **Merged pull requests:**
