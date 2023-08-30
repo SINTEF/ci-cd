@@ -133,9 +133,9 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
 
     # Initialize user-given paths as pure POSIX paths
     package_dir: list[PurePosixPath] = [PurePosixPath(_) for _ in package_dir]
-    root_repo_path: PurePosixPath = PurePosixPath(root_repo_path)  # type: ignore[no-redef]
+    root_repo_path = str(PurePosixPath(root_repo_path))
     docs_folder: PurePosixPath = PurePosixPath(docs_folder)  # type: ignore[no-redef]
-    full_docs_folder: list[PurePosixPath] = [PurePosixPath(_) for _ in full_docs_folder]  # type: ignore[no-redef]
+    full_docs_folder = [Path(PurePosixPath(_)) for _ in full_docs_folder]
 
     def write_file(full_path: Path, content: str) -> None:
         """Write file with `content` to `full_path`"""
@@ -291,7 +291,8 @@ special_option: %s""",
                     # Or filename is in the list of unwanted files:
                     # We don't want it!
                     LOGGER.debug(
-                        "%s is not a Python file or is an unwanted file (through user input). Skipping it.",
+                        "%s is not a Python file or is an unwanted file (through user "
+                        "input). Skipping it.",
                         filename,
                     )
                     if debug:
@@ -330,7 +331,7 @@ special_option: %s""",
                 template = md_template + (
                     no_docstring_template_addition
                     if relative_file_path in full_docs_file
-                    or str(relpath) in full_docs_folder
+                    or relpath in full_docs_folder
                     else ""
                 )
 

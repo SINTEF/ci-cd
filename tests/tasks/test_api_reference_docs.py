@@ -177,6 +177,7 @@ def test_special_options(tmp_path: "Path") -> None:
         [str(package_dir.relative_to(tmp_path))],
         root_repo_path=str(tmp_path),
         full_docs_file=["utils.py"],
+        full_docs_folder=["tasks"],
         special_option=[
             'main.py,test_option: "yup"',
             "main.py,another_special_option: true",
@@ -236,16 +237,28 @@ def test_special_options(tmp_path: "Path") -> None:
     ) == 'title: "tasks"\n'
     assert (api_reference_folder / "tasks" / "api_reference_docs.md").read_text(
         encoding="utf8"
-    ) == "# api_reference_docs\n\n::: ci_cd.tasks.api_reference_docs\n"
+    ) == (
+        "# api_reference_docs\n\n::: ci_cd.tasks.api_reference_docs\n    options:\n"
+        "      show_if_no_docstring: true\n"
+    )
     assert (api_reference_folder / "tasks" / "docs_index.md").read_text(
         encoding="utf8"
-    ) == "# docs_index\n\n::: ci_cd.tasks.docs_index\n"
+    ) == (
+        "# docs_index\n\n::: ci_cd.tasks.docs_index\n    options:\n      "
+        "show_if_no_docstring: true\n"
+    )
     assert (api_reference_folder / "tasks" / "setver.md").read_text(
         encoding="utf8"
-    ) == "# setver\n\n::: ci_cd.tasks.setver\n"
+    ) == (
+        "# setver\n\n::: ci_cd.tasks.setver\n    options:\n      "
+        "show_if_no_docstring: true\n"
+    )
     assert (api_reference_folder / "tasks" / "update_deps.md").read_text(
         encoding="utf8"
-    ) == "# update_deps\n\n::: ci_cd.tasks.update_deps\n"
+    ) == (
+        "# update_deps\n\n::: ci_cd.tasks.update_deps\n    options:\n      "
+        "show_if_no_docstring: true\n"
+    )
 
 
 def test_special_options_multiple_packages(tmp_path: "Path") -> None:
