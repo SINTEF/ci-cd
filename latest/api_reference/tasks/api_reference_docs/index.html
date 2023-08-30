@@ -1115,9 +1115,9 @@ This is specifically to be used with the MkDocs and mkdocstrings framework.</p>
 
     <span class="c1"># Initialize user-given paths as pure POSIX paths</span>
     <span class="n">package_dir</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">PurePosixPath</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">PurePosixPath</span><span class="p">(</span><span class="n">_</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">package_dir</span><span class="p">]</span>
-    <span class="n">root_repo_path</span><span class="p">:</span> <span class="n">PurePosixPath</span> <span class="o">=</span> <span class="n">PurePosixPath</span><span class="p">(</span><span class="n">root_repo_path</span><span class="p">)</span>  <span class="c1"># type: ignore[no-redef]</span>
+    <span class="n">root_repo_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">PurePosixPath</span><span class="p">(</span><span class="n">root_repo_path</span><span class="p">))</span>
     <span class="n">docs_folder</span><span class="p">:</span> <span class="n">PurePosixPath</span> <span class="o">=</span> <span class="n">PurePosixPath</span><span class="p">(</span><span class="n">docs_folder</span><span class="p">)</span>  <span class="c1"># type: ignore[no-redef]</span>
-    <span class="n">full_docs_folder</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">PurePosixPath</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">PurePosixPath</span><span class="p">(</span><span class="n">_</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">full_docs_folder</span><span class="p">]</span>  <span class="c1"># type: ignore[no-redef]</span>
+    <span class="n">full_docs_folder</span> <span class="o">=</span> <span class="p">[</span><span class="n">Path</span><span class="p">(</span><span class="n">PurePosixPath</span><span class="p">(</span><span class="n">_</span><span class="p">))</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">full_docs_folder</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">write_file</span><span class="p">(</span><span class="n">full_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Write file with `content` to `full_path`&quot;&quot;&quot;</span>
@@ -1273,7 +1273,8 @@ This is specifically to be used with the MkDocs and mkdocstrings framework.</p>
                     <span class="c1"># Or filename is in the list of unwanted files:</span>
                     <span class="c1"># We don&#39;t want it!</span>
                     <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-                        <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> is not a Python file or is an unwanted file (through user input). Skipping it.&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> is not a Python file or is an unwanted file (through user &quot;</span>
+                        <span class="s2">&quot;input). Skipping it.&quot;</span><span class="p">,</span>
                         <span class="n">filename</span><span class="p">,</span>
                     <span class="p">)</span>
                     <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
@@ -1312,7 +1313,7 @@ This is specifically to be used with the MkDocs and mkdocstrings framework.</p>
                 <span class="n">template</span> <span class="o">=</span> <span class="n">md_template</span> <span class="o">+</span> <span class="p">(</span>
                     <span class="n">no_docstring_template_addition</span>
                     <span class="k">if</span> <span class="n">relative_file_path</span> <span class="ow">in</span> <span class="n">full_docs_file</span>
-                    <span class="ow">or</span> <span class="nb">str</span><span class="p">(</span><span class="n">relpath</span><span class="p">)</span> <span class="ow">in</span> <span class="n">full_docs_folder</span>
+                    <span class="ow">or</span> <span class="n">relpath</span> <span class="ow">in</span> <span class="n">full_docs_folder</span>
                     <span class="k">else</span> <span class="s2">&quot;&quot;</span>
                 <span class="p">)</span>
 
