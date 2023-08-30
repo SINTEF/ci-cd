@@ -210,6 +210,9 @@ jobs:
     - name: Update version and tag
       run: |
         REF=${GITHUB_REF#refs/tags/}
+        if [ "${{ inputs.test }}" == "true" ]; then
+          REF=0.0.0-test+${{ github.run_id }}.${{ github.run_number }}.${{ github.run_attempt }}
+        fi
 
         if [ "${{ inputs.python_package }}" == "true" ]; then
           if [ -z "${{ inputs.package_dirs }}" ]; then
@@ -376,6 +379,9 @@ jobs:
     - name: Build (& deploy MkDocs) documentation
       run: |
         REF=${GITHUB_REF#refs/tags/}
+        if [ "${{ inputs.test }}" == "true" ]; then
+          REF=0.0.0-test+${{ github.run_id }}.${{ github.run_number }}.${{ github.run_attempt }}
+        fi
 
         if [ "${{ inputs.docs_framework }}" == "sphinx" ]; then
           if [[ "${{ inputs.sphinx-build_options }}" =~ \n ]]; then
