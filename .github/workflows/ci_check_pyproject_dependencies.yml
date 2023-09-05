@@ -58,7 +58,7 @@ jobs:
 
     steps:
     - name: Checkout permanent dependencies branch in ${{ github.repository }}
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         ref: ${{ inputs.permanent_dependencies_branch }}
         fetch-depth: 0
