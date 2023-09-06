@@ -54,7 +54,7 @@ repos:
     - id: mypy
 
   - repo: https://github.com/SINTEF/ci-cd
-    rev: v2.4.0
+    rev: v2.5.1
     hooks:
     - id: docs-api-reference
       args:
