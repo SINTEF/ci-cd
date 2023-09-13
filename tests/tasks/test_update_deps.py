@@ -65,7 +65,8 @@ pep_508 = [
     "name",
     "name1<=1",
     "name2>=3",
-    "name3>=3,<2",
+    # Non-contiguous version ranges are currently not allowed/supported.
+    # "name3>=3,<2",
     "name4@http://foo.com",
     "name5 [fred,bar] @ http://foo.com ; python_version=='2.7'",
     "name6[quux, strange];python_version<'2.7' and platform_version=='2'",
@@ -88,7 +89,7 @@ pep_508 = [
             **{
                 re.compile(r".*invoke$"): "invoke (1.7.1)\n",
                 re.compile(r".*tomlkit$"): "tomlkit (1.0.0)",
-                re.compile(r".*mike$"): "mike (1.0.1)",
+                re.compile(r".*mike$"): "mike (1.1.1)",
                 re.compile(r".*pytest$"): "pytest (7.1.0)",
                 re.compile(r".*pytest-cov$"): "pytest-cov (3.1.0)",
                 re.compile(r".*pre-commit$"): "pre-commit (2.20.0)",
@@ -98,7 +99,7 @@ pep_508 = [
                 re.compile(r".*aa$"): "aa (1.2.3)",
                 re.compile(r".*name$"): "name (1.2.3)",
             },
-            **{re.compile(rf".*name{i}$"): f"name{i} (1.2.3)" for i in range(1, 12)},
+            **{re.compile(rf".*name{i}$"): f"name{i} (3.2.1)" for i in range(1, 12)},
         }
     )
 
@@ -123,10 +124,11 @@ pep_508 = [
             package_name = line.split(maxsplit=1)[0]
             assert line == f"{package_name} ~={original_dependencies[package_name]}"
         elif "tomlkit" in line:
-            # Should be three version digits, since the original dependency had three.
-            assert line == "tomlkit[test,docs] ~=1.0.0"
+            # Should expand the ~= operator to >=,<
+            # Also, alphabetically sorts the extras
+            assert line == f"tomlkit[docs,test] >={original_dependencies['tomlkit']},<2"
         elif "mike" in line:
-            assert line == "mike >=1.0,<3"
+            assert line == "mike >=1.1,<3"
         elif "pytest-cov" in line:
             assert line == "pytest-cov ~=3.1"
         elif "pylint" in line:
@@ -137,7 +139,9 @@ pep_508 = [
             line.startswith(package_name)
             for package_name in [f"name{i}" for i in range(6, 12)]
         ):
-            package_name = line.split(";", maxsplit=1)[0].strip()
+            package_name = (
+                line.split(";", maxsplit=1)[0].split("[", maxsplit=1)[0].strip()
+            )
             assert (
                 f"{package_name!r} is not version restricted and will be skipped."
                 in caplog.text
@@ -147,20 +151,18 @@ pep_508 = [
                     "python_version" in line and "platform_version" in line
                 )
         elif "name1" in line:
-            assert line == "name1<=1"
+            # Update, since the latest version is 3.2.1
+            assert line == "name1<=3"
         elif "name2" in line:
             assert line == "name2>=3"
-        elif "name3" in line:
-            assert line == "name3>=3,<2"
+        # elif "name3" in line:
+        #     assert line == "name3>=3,<2"
         elif "name4" in line:
             assert line == "name4@http://foo.com"
             assert "'name4' is pinned to a URL and will be skipped" in caplog.text
         elif "name5" in line:
             assert line == "name5 [fred,bar] @ http://foo.com ; python_version=='2.7'"
-            assert (
-                "'name5 [fred,bar]' is pinned to a URL and will be skipped"
-                in caplog.text
-            )
+            assert "'name5' is pinned to a URL and will be skipped" in caplog.text
         else:
             pytest.fail(f"Unknown package in line: {line}")
 
@@ -973,7 +975,7 @@ def test_ignore_version_fails() -> None:
             ["dependency-name=*...update-types=version-update:semver-major"],
             {
                 "invoke": "invoke ~=1.7",
-                "tomlkit[test,docs]": "tomlkit[test,docs] ~=0.11.4",
+                "tomlkit[docs,test]": "tomlkit[docs,test] ~=0.11.4",
                 "mike": "mike >=1.0,<3",
                 "pytest": "pytest ~=7.2",
                 "pytest-cov": "pytest-cov ~=3.1",
@@ -986,13 +988,13 @@ def test_ignore_version_fails() -> None:
             ["dependency-name=invoke...versions=>=2"],
             {
                 "invoke": "invoke ~=1.7",
-                "tomlkit[test,docs]": "tomlkit[test,docs] ~=1.0.0",
+                "tomlkit[docs,test]": "tomlkit[docs,test] >=0.11.4,<2",
                 "mike": "mike >=1.0,<3",
                 "pytest": "pytest ~=7.2",
                 "pytest-cov": "pytest-cov ~=3.1",
                 "pre-commit": "pre-commit ~=2.20",
                 "pylint": "pylint ~=2.14",
-                "Sphinx": "Sphinx >=6.1.3,<6",
+                "Sphinx": "Sphinx >=4.5.0,<7",
             },
         ),
         (
@@ -1002,59 +1004,59 @@ def test_ignore_version_fails() -> None:
             ],
             {
                 "invoke": "invoke ~=1.7",
-                "tomlkit[test,docs]": "tomlkit[test,docs] ~=1.0.0",
+                "tomlkit[docs,test]": "tomlkit[docs,test] >=0.11.4,<2",
                 "mike": "mike >=1.0,<3",
                 "pytest": "pytest ~=7.2",
                 "pytest-cov": "pytest-cov ~=3.1",
                 "pre-commit": "pre-commit ~=2.20",
                 "pylint": "pylint ~=2.14",
-                "Sphinx": "Sphinx >=6.1.3,<6",
+                "Sphinx": "Sphinx >=4.5.0,<7",
             },
         ),
         (
             ["dependency-name=pylint...versions=~=2.14"],
             {
                 "invoke": "invoke ~=1.7",
-                "tomlkit[test,docs]": "tomlkit[test,docs] ~=1.0.0",
+                "tomlkit[docs,test]": "tomlkit[docs,test] >=0.11.4,<2",
                 "mike": "mike >=1.0,<3",
                 "pytest": "pytest ~=7.2",
                 "pytest-cov": "pytest-cov ~=3.1",
                 "pre-commit": "pre-commit ~=2.20",
                 "pylint": "pylint ~=2.13",
-                "Sphinx": "Sphinx >=6.1.3,<6",
+                "Sphinx": "Sphinx >=4.5.0,<7",
             },
         ),
         (
             ["dependency-name=pytest"],
             {
                 "invoke": "invoke ~=1.7",
-                "tomlkit[test,docs]": "tomlkit[test,docs] ~=1.0.0",
+                "tomlkit[docs,test]": "tomlkit[docs,test] >=0.11.4,<2",
                 "mike": "mike >=1.0,<3",
                 "pytest": "pytest ~=7.1",
                 "pytest-cov": "pytest-cov ~=3.1",
                 "pre-commit": "pre-commit ~=2.20",
                 "pylint": "pylint ~=2.14",
-                "Sphinx": "Sphinx >=6.1.3,<6",
+                "Sphinx": "Sphinx >=4.5.0,<7",
             },
         ),
         (
             ["dependency-name=pytest-cov...update-types=version-update:semver-minor"],
             {
                 "invoke": "invoke ~=1.7",
-                "tomlkit[test,docs]": "tomlkit[test,docs] ~=1.0.0",
+                "tomlkit[docs,test]": "tomlkit[docs,test] >=0.11.4,<2",
                 "mike": "mike >=1.0,<3",
                 "pytest": "pytest ~=7.2",
                 "pytest-cov": "pytest-cov ~=3.0",
                 "pre-commit": "pre-commit ~=2.20",
                 "pylint": "pylint ~=2.14",
-                "Sphinx": "Sphinx >=6.1.3,<6",  # This should be fixed!
+                "Sphinx": "Sphinx >=4.5.0,<7",
             },
         ),
         (
             ["dependency-name=Sphinx...versions=>=4.5.0"],
             {
                 "invoke": "invoke ~=1.7",
-                "tomlkit[test,docs]": "tomlkit[test,docs] ~=1.0.0",
+                "tomlkit[docs,test]": "tomlkit[docs,test] >=0.11.4,<2",
                 "mike": "mike >=1.0,<3",
                 "pytest": "pytest ~=7.2",
                 "pytest-cov": "pytest-cov ~=3.1",
@@ -1088,7 +1090,7 @@ def test_ignore_rules_logic(
     original_dependencies = {
         "invoke": "1.7",
         "tomlkit": "0.11.4",
-        "mike": "1.1",
+        "mike": "1.0",
         "pytest": "7.1",
         "pytest-cov": "3.0",
         "pre-commit": "2.20",
@@ -1104,7 +1106,7 @@ requires-python = "~=3.7"
 
 dependencies = [
     "invoke ~={original_dependencies['invoke']}",
-    "tomlkit[test,docs] ~={original_dependencies['tomlkit']}",
+    "tomlkit[docs,test] ~={original_dependencies['tomlkit']}",
 ]
 
 [project.optional-dependencies]

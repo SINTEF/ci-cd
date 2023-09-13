@@ -9,15 +9,15 @@ import logging
 import operator
 import re
 import sys
-from collections import namedtuple
 from pathlib import Path
 from typing import TYPE_CHECKING
 
 import tomlkit
 from invoke import task
+from pip._vendor.packaging.requirements import Requirement
 
 from ci_cd.exceptions import CICDException, InputError, InputParserError
-from ci_cd.utils import Emoji, SemanticVersion, update_file
+from ci_cd.utils import Emoji, SemanticVersion, SemanticVersionRange, update_file
 
 if TYPE_CHECKING:  # pragma: no cover
     from typing import Literal
@@ -74,19 +74,6 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
     if not ignore:
         ignore: list[str] = []  # type: ignore[no-redef]
 
-    VersionSpec = namedtuple(
-        "VersionSpec",
-        [
-            "full_dependency",
-            "package",
-            "url_version",
-            "operator",
-            "version",
-            "extra_operator_version",
-            "environment_marker",
-        ],
-    )
-
     try:
         ignore_rules = parse_ignore_entries(ignore, ignore_separator)
     except InputError as exc:
@@ -122,67 +109,46 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
 
     already_handled_packages = set()
     updated_packages = {}
-    dependencies = pyproject.get("project", {}).get("dependencies", [])
+    dependencies: list[str] = pyproject.get("project", {}).get("dependencies", [])
     for optional_deps in (
         pyproject.get("project", {}).get("optional-dependencies", {}).values()
     ):
         dependencies.extend(optional_deps)
 
     error = False
-    for line in dependencies:
-        match = re.match(
-            r"^(?P<full_dependency>(?P<package>[a-zA-Z0-9_.-]+)(?:\s*\[.*\])?)\s*"
-            r"(?:"
-            r"(?P<url_version>@\s*\S+)|"
-            r"(?P<operator>>|<|<=|>=|==|!=|~=)\s*"
-            r"(?P<version>[0-9]+(?:\.[0-9]+){0,2})"
-            r")?\s*"
-            r"(?P<extra_operator_version>(?:,(?:>|<|<=|>=|==|!=|~=)\s*"
-            r"[0-9]+(?:\.[0-9]+){0,2}\s*)+)*"
-            r"(?P<environment_marker>;.+)*$",
-            line,
-        )
-        if match is None:
-            msg = (
-                f"Could not parse package and version specification for line:\n  {line}"
-            )
-            LOGGER.warning(msg)
-            if fail_fast:
-                sys.exit(f"{Emoji.CROSS_MARK.value} {msg}")
-            print(msg)
-            error = True
-            continue
-
-        version_spec = VersionSpec(**match.groupdict())
-        LOGGER.debug("version_spec: %s", version_spec)
+    for dependency in dependencies:
+        parsed_requirement = Requirement(dependency)
+        LOGGER.debug("parsed_requirement: %r", parsed_requirement)
 
         # Skip package if already handled
-        if version_spec.package in already_handled_packages:
+        if parsed_requirement.name in already_handled_packages:
             continue
 
         # Skip URL versioned dependencies
-        if version_spec.url_version:
+        if parsed_requirement.url:
             msg = (
-                f"Dependency {version_spec.full_dependency!r} is pinned to a URL and "
+                f"Dependency {parsed_requirement.name!r} is pinned to a URL and "
                 "will be skipped."
             )
             LOGGER.info(msg)
-            print(msg)
+            print(msg, flush=True)
+            already_handled_packages.add(parsed_requirement.name)
             continue
 
         # Skip and warn if package is not version-restricted
-        if not version_spec.operator and not version_spec.url_version:
+        if not parsed_requirement.specifier:
             msg = (
-                f"Dependency {version_spec.full_dependency!r} is not version "
+                f"Dependency {parsed_requirement.name!r} is not version "
                 "restricted and will be skipped. Consider adding version restrictions."
             )
             LOGGER.warning(msg)
-            print(msg)
+            print(msg, flush=True)
+            already_handled_packages.add(parsed_requirement.name)
             continue
 
         # Check version from PyPI's online package index
         out: "Result" = context.run(
-            f"pip index versions --python-version {py_version} {version_spec.package}",
+            f"pip index versions --python-version {py_version} {parsed_requirement.name}",
             hide=True,
         )
         package_latest_version_line = out.stdout.split(sep="\n", maxsplit=1)[0]
@@ -198,37 +164,64 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
             LOGGER.warning(msg)
             if fail_fast:
                 sys.exit(f"{Emoji.CROSS_MARK.value} {msg}")
-            print(msg)
-            already_handled_packages.add(version_spec.package)
+            print(msg, flush=True)
+            already_handled_packages.add(parsed_requirement.name)
             error = True
             continue
 
         # Sanity check
-        if version_spec.package != match.group("package"):
+        if parsed_requirement.name != match.group("package"):
             msg = (
-                f"Package name parsed from pyproject.toml ({version_spec.package!r}) "
-                "does not match the name returned from 'pip index versions': "
-                f"{match.group('package')!r}"
+                "Package name parsed from pyproject.toml "
+                f"({parsed_requirement.name!r}) does not match the name returned from "
+                f"'pip index versions': {match.group('package')!r}"
             )
             LOGGER.warning(msg)
             if fail_fast:
                 sys.exit(f"{Emoji.CROSS_MARK.value} {msg}")
-            print(msg)
-            already_handled_packages.add(version_spec.package)
+            print(msg, flush=True)
+            already_handled_packages.add(parsed_requirement.name)
             error = True
             continue
 
         # Check whether pyproject.toml already uses the latest version
-        latest_version = match.group("version").split(".")
-        for index, version_part in enumerate(version_spec.version.split(".")):
-            if version_part != latest_version[index]:
-                break
-        else:
-            already_handled_packages.add(version_spec.package)
+        try:
+            current_version_range = SemanticVersionRange(parsed_requirement)
+        except ValueError as exc:
+            msg = (
+                f"Could not parse version range specifier set for package "
+                f"{parsed_requirement.name!r} from pyproject.toml: {exc}"
+            )
+            LOGGER.warning(msg)
+            if fail_fast:
+                sys.exit(f"{Emoji.CROSS_MARK.value} {msg}")
+            print(msg, flush=True)
+            already_handled_packages.add(parsed_requirement.name)
+            error = True
             continue
 
+        latest_version = match.group("version")
+        if latest_version in current_version_range:
+            if ">=" in current_version_range.operators:
+                # Not updating version, since minimum version is already satisfied
+                already_handled_packages.add(parsed_requirement.name)
+                continue
+            if "~=" in current_version_range.operators:
+                # Maybe update version, since the ~= specifier is used
+                # NOTE: This may be wrong if there are multiple ~= specifiers,
+                # expecting only one, though
+                version = current_version_range.version_from_operator("~=")
+                for index, version_part in enumerate(version.split(".")):
+                    if version_part != latest_version.split(".")[index]:
+                        break
+                else:
+                    # Not updating version, since the minimum version range matches the
+                    # latest version
+                    already_handled_packages.add(parsed_requirement.name)
+                    continue
+
         # Apply ignore rules
-        if version_spec.package in ignore_rules or "*" in ignore_rules:
+        if parsed_requirement.name in ignore_rules or "*" in ignore_rules:
             versions: "list[dict[Literal['operator', 'version'], str]]" = []
             update_types: "dict[Literal['version-update'], list[Literal['major', 'minor', 'patch']]]" = (  # pylint: disable=line-too-long
                 {}
@@ -237,8 +230,8 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
             if "*" in ignore_rules:
                 versions, update_types = parse_ignore_rules(ignore_rules["*"])
 
-            if version_spec.package in ignore_rules:
-                parsed_rules = parse_ignore_rules(ignore_rules[version_spec.package])
+            if parsed_requirement.name in ignore_rules:
+                parsed_rules = parse_ignore_rules(ignore_rules[parsed_requirement.name])
 
                 versions.extend(parsed_rules[0])
                 update_types.update(parsed_rules[1])
@@ -248,37 +241,184 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
             )
 
             if ignore_version(
-                current=version_spec.version.split("."),
-                latest=latest_version,
+                # Cast to str() to ensure a split on a padded version
+                current=str(current_version_range.lower).split("."),
+                latest=latest_version.split("."),
                 version_rules=versions,
                 semver_rules=update_types,
             ):
-                already_handled_packages.add(version_spec.package)
+                already_handled_packages.add(parsed_requirement.name)
                 continue
+
+        # Update specifiers
+        updated_version_range = None
+        if latest_version > current_version_range:
+            spec_operator = "<="
+            if spec_operator in current_version_range.operators:
+                # Update to include latest version
+                n_version_parts = current_version_range.version_from_operator(
+                    spec_operator
+                ).number_of_original_core_version_parts
+                updated_specifier_version = ".".join(
+                    latest_version.split(".")[:n_version_parts]
+                )
+                updated_specifier = f"{spec_operator}{updated_specifier_version}"
+                updated_specifier_set = [
+                    str(_) for _ in current_version_range if _.operator != spec_operator
+                ]
+                updated_specifier_set.append(updated_specifier)
+                updated_version_range = SemanticVersionRange(
+                    ",".join(updated_specifier_set)
+                )
+            else:
+                spec_operator = "~="
+                if spec_operator in current_version_range.operators:
+                    # Expand and change ~= to >= and < operators if the latest version
+                    # changes major version.
+                    # Otherwise, update to include latest version as the minimum version
+                    current_version = current_version_range.version_from_operator(
+                        spec_operator
+                    )
+                    parsed_latest_version = SemanticVersion(latest_version)
+
+                    if parsed_latest_version.major > current_version.major:
+                        # Expand and change ~= to >= and < operators
+                        # >= current_version
+                        specifier_set_updates = [f">={current_version}"]
+                        # < next major version up from latest_version
+                        specifier_set_updates.append(
+                            f"<{str(parsed_latest_version.next_version('major').major)}"
+                        )
+                    else:
+                        # Keep the ~= operator, but update to include the latest
+                        # version as the minimum version
+                        updated_specifier_version = ".".join(
+                            latest_version.split(".")[
+                                : current_version.number_of_original_core_version_parts
+                            ]
+                        )
+                        specifier_set_updates = [
+                            f"{spec_operator}{updated_specifier_version}"
+                        ]
+
+                    updated_specifier_set = [
+                        str(_)
+                        for _ in current_version_range
+                        if _.operator != spec_operator
+                    ]
+                    updated_specifier_set.extend(specifier_set_updates)
+                    updated_version_range = SemanticVersionRange(
+                        ",".join(updated_specifier_set)
+                    )
+                else:
+                    spec_operator = "<"
+                    if spec_operator in current_version_range.operators:
+                        # Update to include latest version by upping to the next
+                        # version up from the latest version
+                        n_version_parts = current_version_range.version_from_operator(
+                            spec_operator
+                        ).number_of_original_core_version_parts
+                        parsed_latest_version = SemanticVersion(latest_version)
+                        if n_version_parts == 1:
+                            updated_specifier_version = str(
+                                parsed_latest_version.next_version("major").major
+                            )
+                        elif n_version_parts == 2:
+                            updated_specifier_version = ".".join(
+                                parsed_latest_version.next_version("minor").split(".")[
+                                    :2
+                                ]
+                            )
+                        elif n_version_parts == 3:
+                            updated_specifier_version = (
+                                parsed_latest_version.next_version("patch")
+                            )
+                        else:
+                            raise CICDException(
+                                f"Invalid number of version parts: {n_version_parts}"
+                            )
+                        updated_specifier = (
+                            f"{spec_operator}{updated_specifier_version}"
+                        )
+                        updated_specifier_set = [
+                            str(_)
+                            for _ in current_version_range
+                            if _.operator != spec_operator
+                        ]
+                        updated_specifier_set.append(updated_specifier)
+                        updated_version_range = SemanticVersionRange(
+                            ",".join(updated_specifier_set)
+                        )
+        elif latest_version in current_version_range:
+            for spec_operator in ["~=", "=="]:
+                if spec_operator in current_version_range.operators:
+                    n_version_parts = current_version_range.version_from_operator(
+                        spec_operator
+                    ).number_of_original_core_version_parts
+                    updated_version = ".".join(
+                        latest_version.split(".")[:n_version_parts]
+                    )
+                    updated_specifier = f"{spec_operator}{updated_version}"
+                    updated_specifier_set = [
+                        str(_)
+                        for _ in current_version_range
+                        if _.operator != spec_operator
+                    ]
+                    updated_specifier_set.append(updated_specifier)
+                    updated_version_range = SemanticVersionRange(
+                        ",".join(updated_specifier_set)
+                    )
+                    break
+        else:
+            msg = (
+                "Could not determine how to update to the latest version using the "
+                f"version range specifier set: {current_version_range}. "
+                f"Package: {parsed_requirement.name}. Latest version: {latest_version}"
+            )
+            LOGGER.warning(msg)
+            if fail_fast:
+                sys.exit(f"{Emoji.CROSS_MARK.value} {msg}")
+            print(msg, flush=True)
+            already_handled_packages.add(parsed_requirement.name)
+            error = True
+            continue
+
+        LOGGER.debug("updated_version_range: %s", updated_version_range)
+        if updated_version_range is None:
+            msg = (
+                "Could not determine how to update to the latest version using the "
+                f"version range specifier set: {current_version_range}. "
+                f"Package: {parsed_requirement.name}. Latest version: {latest_version}"
+            )
+            LOGGER.warning(msg)
+            if fail_fast:
+                sys.exit(f"{Emoji.CROSS_MARK.value} {msg}")
+            print(msg, flush=True)
+            already_handled_packages.add(parsed_requirement.name)
+            error = True
+            continue
 
         if not error:
             # Update pyproject.toml
-            updated_version = ".".join(
-                latest_version[: len(version_spec.version.split("."))]
+            updated_dependency = parsed_requirement.name
+            if parsed_requirement.extras:
+                formatted_extras = ",".join(sorted(parsed_requirement.extras))
+                updated_dependency += f"[{formatted_extras}]"
+            match = re.search(
+                rf"{parsed_requirement.name}(?:\[.*\])?(?P<space>\s)+", dependency
             )
-            escaped_full_dependency_name = version_spec.full_dependency.replace(
-                "[", r"\["
-            ).replace("]", r"\]")
-            update_file(
-                pyproject_path,
-                (
-                    rf'"{escaped_full_dependency_name} {version_spec.operator}.*"',
-                    f'"{version_spec.full_dependency} '
-                    f"{version_spec.operator}{updated_version}"
-                    f'{version_spec.extra_operator_version if version_spec.extra_operator_version else ""}'  # pylint: disable=line-too-long
-                    f'{version_spec.environment_marker if version_spec.environment_marker else ""}"',  # pylint: disable=line-too-long
-                ),
-            )
-            already_handled_packages.add(version_spec.package)
-            updated_packages[version_spec.full_dependency] = (
-                f"{version_spec.operator}{updated_version}"
-                f"{version_spec.extra_operator_version if version_spec.extra_operator_version else ''}"  # pylint: disable=line-too-long
-                f"{' ' + version_spec.environment_marker if version_spec.environment_marker else ''}"  # pylint: disable=line-too-long
+            if match:
+                updated_dependency += match.group("space")
+            updated_dependency += ",".join(
+                str(_) for _ in sorted(updated_version_range)
+            )  # Specifier set
+            if parsed_requirement.marker:
+                updated_dependency += f"; {parsed_requirement.marker}"
+
+            update_file(pyproject_path, (re.escape(dependency), updated_dependency))
+            already_handled_packages.add(parsed_requirement.name)
+            updated_packages[parsed_requirement.name] = str(updated_version_range) + (
+                f"; {parsed_requirement.marker}" if parsed_requirement.marker else ""
             )
 
     if error:
@@ -294,10 +434,11 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
                 f"  {package} ({version})"
                 for package, version in updated_packages.items()
             )
-            + "\n"
+            + "\n",
+            flush=True,
         )
     else:
-        print(f"{Emoji.CHECK_MARK.value} No dependency updates available.")
+        print(f"{Emoji.CHECK_MARK.value} No dependency updates available.", flush=True)
 
 
 def parse_ignore_entries(
@@ -535,9 +676,9 @@ def ignore_version(
 
     Parameters:
         current: The current version as a list of version parts. It's expected, but not
-            required, the version is a semantic version.
+            required, to be a semantic version.
         latest: The latest version as a list of version parts. It's expected, but not
-            required, the version is a semantic version.
+            required, to be a semantic version.
         version_rules: Version ignore rules.
         semver_rules: Semantic version ignore rules.
 
