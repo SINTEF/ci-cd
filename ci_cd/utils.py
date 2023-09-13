@@ -1,6 +1,8 @@
 """Repository management tasks powered by `invoke`.
 More information on `invoke` can be found at [pyinvoke.org](http://www.pyinvoke.org/).
 """
+from __future__ import annotations
+
 import logging
 import platform
 import re
