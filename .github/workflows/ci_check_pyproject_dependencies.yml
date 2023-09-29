@@ -11,8 +11,13 @@ on:
         description: "A git user's email address (used to set the 'user.email' config option)."
         required: true
         type: string
-      permanent_dependencies_branch:
-        description: "The branch name for the permanent dependency updates branch."
+      target_branch:
+        description: "The branch name for the target of the opened PR."
+        required: false
+        type: string
+        # default: "ci/dependency-updates"
+      permanent_dependencies_branch:  # DEPRECATED - v2.6.0 REMOVAL
+        description: "DEPRECATED - use `target_branch` instead. Will be removed in v2.6.0. The branch name for the permanent dependency updates branch."
         required: false
         type: string
         default: "ci/dependency-updates"
@@ -48,7 +53,7 @@ on:
         default: ""
     secrets:
       PAT:
-        description: "A personal access token (PAT) with rights to update the `permanent_dependencies_branch`. This will fallback on `GITHUB_TOKEN`."
+        description: "A personal access token (PAT) with rights to create PRs. This will fallback on `GITHUB_TOKEN`."
         required: false
 
 jobs:
@@ -57,10 +62,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout permanent dependencies branch in ${{ github.repository }}
+    - name: Check inputs
+      run: |
+        if [ -n "${{ inputs.permanent_dependencies_branch }}" ]; then
+          echo "::warning file=${{ github.workflow_ref }},title=Deprecation Warning::'permanent_dependencies_branch' is deprecated and will be removed in v2.6.0. Use 'target_branch' instead."
+        fi
+
+    - name: Checkout ${{ inputs.target_branch || inputs.permanent_dependencies_branch }} in ${{ github.repository }}
       uses: actions/checkout@v4
       with:
-        ref: ${{ inputs.permanent_dependencies_branch }}
+        ref: ${{ inputs.target_branch || inputs.permanent_dependencies_branch }}
         fetch-depth: 0
 
     - name: Set up Python ${{ inputs.python_version }}
