@@ -142,7 +142,7 @@ jobs:
 
     - name: Fetch PR body
       id: pr_body
-      uses: chuhlomin/render-template@v1.7
+      uses: chuhlomin/render-template@v1.8
       with:
         template: ${{ env.PR_BODY_FILE }}
 
