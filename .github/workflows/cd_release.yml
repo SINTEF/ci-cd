@@ -119,6 +119,13 @@ on:
         type: string
         default: ""
 
+      # MkDocs
+      mkdocs_update_latest:
+        description: "Whether or not to update the 'latest' alias to point to `release_branch`. Defaults to 'true'."
+        required: false
+        type: boolean
+        default: true
+
       # Sphinx
       sphinx-build_options:
         description: "Single (space-separated) or multi-line string of command-line options to use when calling `sphinx-build`."
@@ -384,8 +391,13 @@ jobs:
 
         if [ "${{ inputs.test }}" == "true" ]; then
           if [ "${{ inputs.docs_framework }}" == "mkdocs" ]; then
-            echo "Will here deploy documentation using 'mike', first one called '${REF#v}' with alias 'stable'"
-            echo "Then one called 'latest' with alias '${{ inputs.release_branch }}'"
+            echo "Will here deploy documentation using 'mike': '${REF#v}' with alias 'stable'"
+            echo "Release 'latest': ${{ inputs.mkdocs_update_latest }}"
+            if [ "${{ inputs.mkdocs_update_latest }}" == "true" ]; then
+              echo "  Another release: 'latest' with alias '${{ inputs.release_branch }}'"
+            else
+              echo "  No other release."
+            fi
           elif [ "${{ inputs.docs_framework }}" == "sphinx" ]; then
             echo "Will here deploy documentation using 'sphinx-build'."
             echo "sphinx-build options: ${SPHINX_OPTIONS[@]}"
@@ -399,7 +411,9 @@ jobs:
 
         elif [ "${{ inputs.docs_framework }}" == "mkdocs" ]; then
           mike deploy --push --remote origin --branch gh-pages --update-aliases --config-file mkdocs.yml ${REF#v} stable
-          mike deploy --push --remote origin --branch gh-pages --update-aliases --config-file mkdocs.yml latest ${{ inputs.release_branch }}
+          if [ "${{ inputs.mkdocs_update_latest }}" == "true" ]; then
+            mike deploy --push --remote origin --branch gh-pages --update-aliases --config-file mkdocs.yml latest ${{ inputs.release_branch }}
+          fi
 
         elif [ "${{ inputs.docs_framework }}" == "sphinx" ]; then
           sphinx-build \
