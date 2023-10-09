@@ -60,5 +60,5 @@ if __name__ == "__main__":
             hook=sys.argv[1],
             options=sys.argv[2:] if len(sys.argv) > 2 else [],
         )
-    except Exception as exc:  # pylint: disable=broad-except
+    except Exception as exc:
         sys.exit(str(exc))

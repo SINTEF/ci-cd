@@ -126,9 +126,9 @@ def test_semanticversion_invalid() -> None:
     ]
     for input_, exc_msg in invalid_inputs:
         with pytest.raises(ValueError, match=exc_msg):
-            SemanticVersion(  # pylint: disable=expression-not-assigned
-                **input_
-            ) if isinstance(input_, dict) else SemanticVersion(input_)
+            SemanticVersion(**input_) if isinstance(input_, dict) else SemanticVersion(
+                input_
+            )
 
 
 def test_semanticversion_invalid_comparisons() -> None:

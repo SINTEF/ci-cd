@@ -48,7 +48,7 @@ LOGGER.setLevel(logging.DEBUG)
     },
     iterable=["code_base_update"],
 )
-def setver(  # pylint: disable=too-many-locals
+def setver(
     _,
     package_dir,
     version,
@@ -64,7 +64,7 @@ def setver(  # pylint: disable=too-many-locals
         version: str = version  # type: ignore[no-redef]
         root_repo_path: str = root_repo_path  # type: ignore[no-redef]
         code_base_update: list[str] = code_base_update  # type: ignore[no-redef]
-        code_base_update_separator: str = code_base_update_separator  # type: ignore[no-redef]  # pylint: disable=line-too-long
+        code_base_update_separator: str = code_base_update_separator  # type: ignore[no-redef]
         test: bool = test  # type: ignore[no-redef]
         fail_fast: bool = fail_fast  # type: ignore[no-redef]
 
@@ -152,7 +152,7 @@ replacement (handled): %s
                 )
                 print(
                     "replacement (handled): "
-                    f"{replacement.format(**{'package_dir': package_dir, 'version': semantic_version})}"  # pylint: disable=line-too-long
+                    f"{replacement.format(**{'package_dir': package_dir, 'version': semantic_version})}"  # noqa: E501
                 )
 
             try:
@@ -174,7 +174,7 @@ replacement (handled): %s
                     f"{Emoji.CROSS_MARK.value} Error: Could not update file {filepath}"
                     f" according to the given input:\n\n  pattern: {pattern}\n  "
                     "replacement: "
-                    f"{replacement.format(**{'package_dir': package_dir, 'version': semantic_version})}"  # pylint: disable=line-too-long
+                    f"{replacement.format(**{'package_dir': package_dir, 'version': semantic_version})}"  # noqa: E501
                 )
 
     print(

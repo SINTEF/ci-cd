@@ -2,7 +2,6 @@
 
 Update dependencies in a `pyproject.toml` file.
 """
-# pylint: disable=duplicate-code
 from __future__ import annotations
 
 import logging
@@ -55,7 +54,7 @@ LOGGER.setLevel(logging.DEBUG)
     },
     iterable=["ignore"],
 )
-def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-statements
+def update_deps(
     context,
     root_repo_path=".",
     fail_fast=False,
@@ -230,7 +229,7 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
         # Apply ignore rules
         if version_spec.package in ignore_rules or "*" in ignore_rules:
             versions: "list[dict[Literal['operator', 'version'], str]]" = []
-            update_types: "dict[Literal['version-update'], list[Literal['major', 'minor', 'patch']]]" = (  # pylint: disable=line-too-long
+            update_types: "dict[Literal['version-update'], list[Literal['major', 'minor', 'patch']]]" = (  # noqa: E501
                 {}
             )
 
@@ -270,15 +269,15 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
                     rf'"{escaped_full_dependency_name} {version_spec.operator}.*"',
                     f'"{version_spec.full_dependency} '
                     f"{version_spec.operator}{updated_version}"
-                    f'{version_spec.extra_operator_version if version_spec.extra_operator_version else ""}'  # pylint: disable=line-too-long
-                    f'{version_spec.environment_marker if version_spec.environment_marker else ""}"',  # pylint: disable=line-too-long
+                    f'{version_spec.extra_operator_version if version_spec.extra_operator_version else ""}'  # noqa: E501
+                    f'{version_spec.environment_marker if version_spec.environment_marker else ""}"',  # noqa: E501
                 ),
             )
             already_handled_packages.add(version_spec.package)
             updated_packages[version_spec.full_dependency] = (
                 f"{version_spec.operator}{updated_version}"
-                f"{version_spec.extra_operator_version if version_spec.extra_operator_version else ''}"  # pylint: disable=line-too-long
-                f"{' ' + version_spec.environment_marker if version_spec.environment_marker else ''}"  # pylint: disable=line-too-long
+                f"{version_spec.extra_operator_version if version_spec.extra_operator_version else ''}"  # noqa: E501
+                f"{' ' + version_spec.environment_marker if version_spec.environment_marker else ''}"  # noqa: E501
             )
 
     if error:
@@ -317,7 +316,7 @@ def parse_ignore_entries(
         A parsed mapping of dependencies to ignore rules.
 
     """
-    ignore_entries: 'dict[str, dict[Literal["versions", "update-types"], list[str]]]' = (
+    ignore_entries: 'dict[str, dict[Literal["versions", "update-types"], list[str]]]' = (  # noqa: E501
         {}
     )
 
@@ -331,7 +330,7 @@ def parse_ignore_entries(
                     f"value: --ignore={entry}"
                 )
 
-        ignore_entry: 'dict[Literal["dependency-name", "versions", "update-types"], str]' = (  # pylint: disable=line-too-long
+        ignore_entry: 'dict[Literal["dependency-name", "versions", "update-types"], str]' = (  # noqa: E501
             {}
         )
         for pair in pairs:
@@ -351,7 +350,7 @@ def parse_ignore_entries(
                     f"times in the option {entry!r}"
                 )
 
-            ignore_entry[match.group("key")] = match.group("value").strip()  # type: ignore[index]  # pylint: disable=line-too-long
+            ignore_entry[match.group("key")] = match.group("value").strip()  # type: ignore[index]
 
         if "dependency-name" not in ignore_entry:
             raise InputError(
@@ -373,7 +372,7 @@ def parse_ignore_entries(
 
 def parse_ignore_rules(
     rules: "dict[Literal['versions', 'update-types'], list[str]]",
-) -> "tuple[list[dict[Literal['operator', 'version'], str]], dict[Literal['version-update'], list[Literal['major', 'minor', 'patch']]]]":  # pylint: disable=line-too-long
+) -> "tuple[list[dict[Literal['operator', 'version'], str]], dict[Literal['version-update'], list[Literal['major', 'minor', 'patch']]]]":  # noqa: E501
     """Parser for a specific set of ignore rules.
 
     Parameters:
@@ -388,7 +387,7 @@ def parse_ignore_rules(
         return [{"operator": ">=", "version": "0"}], {}
 
     versions: 'list[dict[Literal["operator", "version"], str]]' = []
-    update_types: "dict[Literal['version-update'], list[Literal['major', 'minor', 'patch']]]" = (  # pylint: disable=line-too-long
+    update_types: "dict[Literal['version-update'], list[Literal['major', 'minor', 'patch']]]" = (  # noqa: E501
         {}
     )
 
@@ -422,7 +421,7 @@ def parse_ignore_rules(
                     "'version-update:semver-patch'.\nUnparseable 'update-types' "
                     f"value: {update_type_entry!r}"
                 )
-            update_types["version-update"].append(match.group("semver_part"))  # type: ignore[arg-type]  # pylint: disable=line-too-long
+            update_types["version-update"].append(match.group("semver_part"))  # type: ignore[arg-type]
 
     return versions, update_types
 
@@ -488,7 +487,7 @@ def _ignore_version_rules(
 def _ignore_semver_rules(
     current: list[str],
     latest: list[str],
-    semver_rules: "dict[Literal['version-update'], list[Literal['major', 'minor', 'patch']]]",  # pylint: disable=line-too-long
+    semver_rules: "dict[Literal['version-update'], list[Literal['major', 'minor', 'patch']]]",  # noqa: E501
 ) -> bool:
     """If ANY of the semver rules are True, ignore the version."""
     if any(
@@ -529,7 +528,7 @@ def ignore_version(
     current: list[str],
     latest: list[str],
     version_rules: "list[dict[Literal['operator', 'version'], str]]",
-    semver_rules: "dict[Literal['version-update'], list[Literal['major', 'minor', 'patch']]]",  # pylint: disable=line-too-long
+    semver_rules: "dict[Literal['version-update'], list[Literal['major', 'minor', 'patch']]]",  # noqa: E501
 ) -> bool:
     """Determine whether the latest version can be ignored.
 

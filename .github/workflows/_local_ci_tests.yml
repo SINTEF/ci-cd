@@ -15,13 +15,9 @@ jobs:
       # general
       install_extras: "[dev,docs,testing]"
 
-      # pre-commit
-      skip_pre-commit_hooks: pylint,pylint-tests
-
-      # pylint
-      pylint_runs: |
-        --rcfile=pyproject.toml ci_cd
-        --rcfile=pyproject.toml --disable=import-outside-toplevel,redefined-outer-name tests
+      # pylint & safety
+      run_pylint: false
+      run_safety: true
 
       # build dist
       build_libs: flit
@@ -32,6 +28,16 @@ jobs:
       update_docs_landing_page: false
       package_dirs: ci_cd
       debug: false
+
+  ruff:
+    name: ruff
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - uses: chartboost/ruff-action@v1
 
   pytest:
     name: pytest

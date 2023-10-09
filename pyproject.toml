@@ -46,8 +46,8 @@ testing = [
     "pytest-cov ~=4.1",
 ]
 dev = [
+    "ci-cd[docs,testing]",
     "pre-commit ~=2.21",
-    "pylint ~=2.13",
 ]
 
 [project.urls]
@@ -68,13 +68,6 @@ warn_unused_configs = true
 show_error_codes = true
 allow_redefinition = true
 check_untyped_defs = true
-
-[tool.pylint.messages_control]
-max-line-length = 90
-disable = []
-max-args = 15
-max-branches = 15
-max-returns = 10
 
 [tool.pytest.ini_options]
 minversion = "7.0"

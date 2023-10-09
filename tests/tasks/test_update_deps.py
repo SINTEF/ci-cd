@@ -1,5 +1,4 @@
 """Test `ci_cd.tasks.update_deps()`."""
-# pylint: disable=line-too-long,too-many-lines,too-many-locals
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -261,7 +260,7 @@ pep_508 = [
 def test_parse_ignore_entries(
     entries: list[str],
     separator: str,
-    expected_outcome: 'dict[str, dict[Literal["dependency-name", "versions", "update-types"], str]]',
+    expected_outcome: 'dict[str, dict[Literal["dependency-name", "versions", "update-types"], str]]',  # noqa: E501
 ) -> None:
     """Check the `--ignore` option values are parsed as expected."""
     from ci_cd.tasks.update_deps import parse_ignore_entries
@@ -326,7 +325,7 @@ Instead, parse_ignore_entries() returned:
 )
 def test_parse_ignore_rules(
     rules: 'dict[Literal["versions", "update-types"], list[str]]',
-    expected_outcome: "tuple[list[dict[Literal['operator', 'version'], str]], dict[Literal['version-update'], list[Literal['major', 'minor', 'patch']]]]",
+    expected_outcome: "tuple[list[dict[Literal['operator', 'version'], str]], dict[Literal['version-update'], list[Literal['major', 'minor', 'patch']]]]",  # noqa: E501
 ) -> None:
     """Check a specific set of ignore rules is parsed as expected."""
     from ci_cd.tasks.update_deps import parse_ignore_rules
@@ -346,14 +345,14 @@ Instead, parse_ignore_rules() returned:
 
 
 def _parametrize_ignore_version() -> (
-    "dict[str, tuple[str, str, list[dict[Literal['operator', 'version'], str]], dict[Literal['version-update'], list[Literal['major', 'minor', 'patch']]], bool]]"
+    "dict[str, tuple[str, str, list[dict[Literal['operator', 'version'], str]], dict[Literal['version-update'], list[Literal['major', 'minor', 'patch']]], bool]]"  # noqa: E501
 ):
     """Utility function for `test_ignore_version()`.
 
     The parametrized inputs are created in this function in order to have more
     meaningful IDs in the runtime overview.
     """
-    test_cases: "list[tuple[str, str, list[dict[Literal['operator', 'version'], str]], dict[Literal['version-update'], list[Literal['major', 'minor', 'patch']]], bool]]" = [
+    test_cases: "list[tuple[str, str, list[dict[Literal['operator', 'version'], str]], dict[Literal['version-update'], list[Literal['major', 'minor', 'patch']]], bool]]" = [  # noqa: E501
         ("1.1.1", "2.2.2", [{"operator": ">", "version": "2.2.2"}], {}, False),
         ("1.1.1", "2.2.2", [{"operator": ">", "version": "2.2"}], {}, True),
         ("1.1.1", "2.2.2", [{"operator": ">", "version": "2"}], {}, True),
@@ -870,7 +869,7 @@ def _parametrize_ignore_version() -> (
         ),
         ("1.1.1", "1.1.2", [], {}, True),
     ]
-    res: "dict[str, tuple[str, str, list[dict[Literal['operator', 'version'], str]], dict[Literal['version-update'], list[Literal['major', 'minor', 'patch']]], bool]]" = (
+    res: "dict[str, tuple[str, str, list[dict[Literal['operator', 'version'], str]], dict[Literal['version-update'], list[Literal['major', 'minor', 'patch']]], bool]]" = (  # noqa: E501
         {}
     )
     for test_case in test_cases:
@@ -905,7 +904,7 @@ def test_ignore_version(
     current: str,
     latest: str,
     version_rules: "list[dict[Literal['operator', 'version'], str]]",
-    semver_rules: "dict[Literal['version-update'], list[Literal['major', 'minor', 'patch']]]",
+    semver_rules: "dict[Literal['version-update'], list[Literal['major', 'minor', 'patch']]]",  # noqa: E501
     expected_outcome: bool,
 ) -> None:
     """Check the expected ignore rules are resolved correctly."""

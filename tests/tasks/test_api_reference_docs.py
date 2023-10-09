@@ -1,5 +1,4 @@
 """Test `ci_cd.tasks.api_reference_docs`."""
-# pylint: disable=too-many-locals
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -659,7 +658,10 @@ def test_larger_multi_packages(tmp_path: "Path") -> None:
         ) == 'title: "tasks"\n'
         assert (package_dir / "tasks" / "api_reference_docs.md").read_text(
             encoding="utf8"
-        ) == f"# api_reference_docs\n\n::: {package_dir.name}.tasks.api_reference_docs\n"
+        ) == (
+            "# api_reference_docs\n\n::: "
+            f"{package_dir.name}.tasks.api_reference_docs\n"
+        )
         assert (package_dir / "tasks" / "docs_index.md").read_text(
             encoding="utf8"
         ) == f"# docs_index\n\n::: {package_dir.name}.tasks.docs_index\n"
