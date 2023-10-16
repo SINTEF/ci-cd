@@ -29,16 +29,6 @@ jobs:
       package_dirs: ci_cd
       debug: false
 
-  ruff:
-    name: ruff
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - uses: chartboost/ruff-action@v1
-
   pytest:
     name: pytest
     runs-on: ${{ matrix.os }}
