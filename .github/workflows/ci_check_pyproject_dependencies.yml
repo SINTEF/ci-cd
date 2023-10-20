@@ -82,6 +82,7 @@ jobs:
 
     - name: Run ci-cd task
       run: |
+        set -x
         if [ "${{ inputs.fail_fast }}" == "true" ]; then
           FAIL_FAST=--fail-fast
         else
@@ -96,6 +97,8 @@ jobs:
         ci-cd update-deps ${FAIL_FAST} \
           --root-repo-path="${PWD}" \
           "${IGNORE_OPTIONS[@]}"
+
+        git status
 
         if [ -n "$(git status --porcelain pyproject.toml)" ]; then
           echo "UPDATE_DEPS=true" >> $GITHUB_ENV
