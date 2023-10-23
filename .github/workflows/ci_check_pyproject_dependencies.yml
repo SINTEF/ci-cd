@@ -47,7 +47,7 @@ on:
         type: string
         default: ""
       debug:
-        description: "Whether to run the task in debug mode, writing out extra information."
+        description: "Whether to run the workflow in debug mode, printing extra debug information."
         required: false
         type: boolean
         default: false
@@ -75,13 +75,24 @@ jobs:
 
     - name: Install Python dependencies
       run: |
-        python -m pip install -U pip
-        pip install -U setuptools wheel
-        pip install .${{ inputs.install_extras }}
-        pip install git+https://github.com/SINTEF/ci-cd.git@cwa/debug-ci-check-dependencies
+        if [ "${{ inputs.debug }}" == "true" ]; then
+          set -x
+          VERBOSE=-vvv
+        else
+          VERBOSE=
+        fi
+
+        python -m pip install -U ${VERBOSE} pip
+        pip install -U ${VERBOSE} setuptools wheel
+        pip install ${VERBOSE} .${{ inputs.install_extras }}
+        pip install ${VERBOSE} git+https://github.com/SINTEF/ci-cd.git@cwa/debug-ci-check-dependencies
 
     - name: Set up git user
       run: |
+        if [ "${{ inputs.debug }}" == "true" ]; then
+          set -x
+        fi
+
         git config --global user.name "${{ inputs.git_username }}"
         git config --global user.email "${{ inputs.git_email }}"
 
@@ -125,6 +136,10 @@ jobs:
     - name: Set PR body
       if: env.UPDATE_DEPS == 'true'
       run: |
+        if [ "${{ inputs.debug }}" == "true" ]; then
+          set -x
+        fi
+
         if [ -z "${{ inputs.pr_body_file }}" ] || [ ! -f "${{ inputs.pr_body_file }}" ]; then
           PR_BODY_FILE=.tmp_pr-body_${{ github.run_id }}_${{ github.run_number }}_${{ github.run_attempt }}.txt
           echo "PR_BODY_FILE=${PR_BODY_FILE}" >> $GITHUB_ENV

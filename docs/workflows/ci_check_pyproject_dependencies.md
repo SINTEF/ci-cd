@@ -65,6 +65,7 @@ The repository contains the following:
 | `fail_fast` | Whether the task to update dependencies should fail if any error occurs. | No | `false` | _boolean_ |
 | `pr_labels` | A comma separated list of strings of GitHub labels to use for the created PR. | No | _Empty string_ | _string_ |
 | `ignore` | Create ignore conditions for certain dependencies. A multi-line string of ignore rules, where each line is an ellipsis-separated (`...`) string of key/value-pairs. One line per dependency. This option is similar to [the `ignore` option of Dependabot](https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file#ignore).</br></br>See also [Single vs multi-line input](index.md#single-vs-multi-line-input). | No | _Empty string_ | _string_
+| `debug` | Whether to run the workflow in debug mode, printing extra debug information. | No | `false` | _boolean_ |
 
 ## Secrets
 
