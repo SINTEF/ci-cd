@@ -52,6 +52,7 @@ LOGGER.setLevel(logging.DEBUG)
             "Value to use instead of ellipsis (`...`) as a separator in `--ignore` "
             "key/value-pairs."
         ),
+        "verbose": "Whether or not to print debug statements.",
     },
     iterable=["ignore"],
 )
@@ -62,6 +63,7 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
     pre_commit=False,
     ignore=None,
     ignore_separator="...",
+    verbose=False,
 ):
     """Update dependencies in specified Python package's `pyproject.toml`."""
     if TYPE_CHECKING:  # pragma: no cover
@@ -70,9 +72,15 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
         fail_fast: bool = fail_fast  # type: ignore[no-redef]
         pre_commit: bool = pre_commit  # type: ignore[no-redef]
         ignore_separator: str = ignore_separator  # type: ignore[no-redef]
+        verbose: bool = verbose  # type: ignore[no-redef]
 
     if not ignore:
         ignore: list[str] = []  # type: ignore[no-redef]
+
+    if verbose:
+        LOGGER.setLevel(logging.DEBUG)
+        LOGGER.addHandler(logging.StreamHandler(sys.stdout))
+        LOGGER.debug("Verbose logging enabled.")
 
     VersionSpec = namedtuple(
         "VersionSpec",
@@ -262,6 +270,12 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
                 latest_version[: len(version_spec.version.split("."))]
             )
             escaped_full_dependency_name = re.escape(version_spec.full_dependency)
+
+            LOGGER.debug("updated_version: %s", updated_version)
+            LOGGER.debug(
+                "escaped_full_dependency_name: %s", escaped_full_dependency_name
+            )
+
             update_file(
                 pyproject_path,
                 (
