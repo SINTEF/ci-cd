@@ -17,5 +17,6 @@ jobs:
       permanent_dependencies_branch: "cwa/close-196-custom-branch-name"
       install_extras: "[dev,docs]"
       pr_labels: "CI/CD"
+      branch_name_extension: "test/test-123"
     secrets:
       PAT: ${{ secrets.RELEASE_PAT }}
