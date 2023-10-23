@@ -1,12 +1,19 @@
 # Changelog
 
-## [Unreleased](https://github.com/SINTEF/ci-cd/tree/HEAD)
+## [v2.5.2](https://github.com/SINTEF/ci-cd/tree/v2.5.2) (2023-10-04)
 
-[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.5.1...HEAD)
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.5.1...v2.5.2)
 
-**Fixed bugs:**
+**Implemented enhancements:**
 
-- Regression in `--full-docs-dir` input [\#174](https://github.com/SINTEF/ci-cd/issues/174)
+- Toggle `latest` alias MkDocs release [\#187](https://github.com/SINTEF/ci-cd/issues/187)
+
+**Merged pull requests:**
+
+- \[Auto-generated\] Update dependencies [\#189](https://github.com/SINTEF/ci-cd/pull/189) ([TEAM4-0](https://github.com/TEAM4-0))
+- Add `mkdocs_update_latest` bool input [\#188](https://github.com/SINTEF/ci-cd/pull/188) ([CasperWA](https://github.com/CasperWA))
+- \[Auto-generated\] Update dependencies [\#185](https://github.com/SINTEF/ci-cd/pull/185) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[Auto-generated\] Update dependencies [\#177](https://github.com/SINTEF/ci-cd/pull/177) ([TEAM4-0](https://github.com/TEAM4-0))
 
 ## [v2.5.1](https://github.com/SINTEF/ci-cd/tree/v2.5.1) (2023-08-30)
 
@@ -14,6 +21,7 @@
 
 **Fixed bugs:**
 
+- Regression in `--full-docs-dir` input [\#174](https://github.com/SINTEF/ci-cd/issues/174)
 - Too strict release tag name requirements [\#172](https://github.com/SINTEF/ci-cd/issues/172)
 
 **Merged pull requests:**

@@ -228,7 +228,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -U setuptools wheel
         pip install ${EDITABLE}.${{ inputs.doc_extras }}
-        pip install git+https://github.com/SINTEF/ci-cd.git@v2.5.1
+        pip install git+https://github.com/SINTEF/ci-cd.git@v2.5.2
 
     - name: Set up git user
       if: env.RELEASE_RUN == 'false'
