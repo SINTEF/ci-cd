@@ -85,7 +85,7 @@ jobs:
         python -m pip install -U ${VERBOSE} pip
         pip install -U ${VERBOSE} setuptools wheel
         pip install ${VERBOSE} .${{ inputs.install_extras }}
-        pip install ${VERBOSE} git+https://github.com/SINTEF/ci-cd.git@cwa/debug-ci-check-dependencies
+        pip install ${VERBOSE} git+https://github.com/SINTEF/ci-cd.git@v2.5.2
 
     - name: Set up git user
       run: |
