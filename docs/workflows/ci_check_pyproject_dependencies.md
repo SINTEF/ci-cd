@@ -12,7 +12,7 @@ The reason for having this workflow and not using [Dependabot](https://github.co
 
 !!! info
     The generated PR will be created from a new branch named `ci/update-pyproject`.
-    If you wish to change this value, see the [`branch_name_extension`](index.md#inputs) input option.
+    If you wish to change this value, see the [`branch_name_extension`](#inputs) input option.
 
 ## Ignoring dependencies
 
