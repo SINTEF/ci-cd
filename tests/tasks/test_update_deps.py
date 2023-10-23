@@ -1,5 +1,5 @@
 """Test `ci_cd.tasks.update_deps()`."""
-# pylint: disable=line-too-long,too-many-lines,too-many-locals
+# pylint: disable=line-too-long,too-many-lines,too-many-locals,too-many-branches
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -53,7 +53,7 @@ dev = [
     "mike >={original_dependencies['mike']},<3",
     "pytest ~={original_dependencies['pytest']}",
     "pytest-cov ~={original_dependencies['pytest-cov']}",
-    "pre-commit ~={original_dependencies['pre-commit']}",
+    "pre-commit~={original_dependencies['pre-commit']}",
     "pylint ~={original_dependencies['pylint']}",
 ]
 
@@ -117,11 +117,12 @@ pep_508 = [
 
     for line in dependencies:
         if any(
-            line.startswith(package_name)
-            for package_name in ["invoke ", "pytest ", "pre-commit "]
+            line.startswith(package_name) for package_name in ["invoke ", "pytest "]
         ):
             package_name = line.split(maxsplit=1)[0]
             assert line == f"{package_name} ~={original_dependencies[package_name]}"
+        elif "pre-commit" in line:
+            assert line == f"pre-commit~={original_dependencies['pre-commit']}"
         elif "tomlkit" in line:
             # Should be three version digits, since the original dependency had three.
             assert line == "tomlkit[test,docs] ~=1.0.0"
@@ -149,9 +150,9 @@ pep_508 = [
         elif "name1" in line:
             assert line == "name1<=1"
         elif "name2" in line:
-            assert line == "name2>=3"
+            assert line == "name2>=1"
         elif "name3" in line:
-            assert line == "name3>=3,<2"
+            assert line == "name3>=1,<2"
         elif "name4" in line:
             assert line == "name4@http://foo.com"
             assert "'name4' is pinned to a URL and will be skipped" in caplog.text
@@ -977,7 +978,7 @@ def test_ignore_version_fails() -> None:
                 "mike": "mike >=1.0,<3",
                 "pytest": "pytest ~=7.2",
                 "pytest-cov": "pytest-cov ~=3.1",
-                "pre-commit": "pre-commit ~=2.20",
+                "pre-commit": "pre-commit~=2.20",
                 "pylint": "pylint ~=2.14",
                 "Sphinx": "Sphinx >=4.5.0,<6",
             },
@@ -990,7 +991,7 @@ def test_ignore_version_fails() -> None:
                 "mike": "mike >=1.0,<3",
                 "pytest": "pytest ~=7.2",
                 "pytest-cov": "pytest-cov ~=3.1",
-                "pre-commit": "pre-commit ~=2.20",
+                "pre-commit": "pre-commit~=2.20",
                 "pylint": "pylint ~=2.14",
                 "Sphinx": "Sphinx >=6.1.3,<6",
             },
@@ -1006,7 +1007,7 @@ def test_ignore_version_fails() -> None:
                 "mike": "mike >=1.0,<3",
                 "pytest": "pytest ~=7.2",
                 "pytest-cov": "pytest-cov ~=3.1",
-                "pre-commit": "pre-commit ~=2.20",
+                "pre-commit": "pre-commit~=2.20",
                 "pylint": "pylint ~=2.14",
                 "Sphinx": "Sphinx >=6.1.3,<6",
             },
@@ -1019,7 +1020,7 @@ def test_ignore_version_fails() -> None:
                 "mike": "mike >=1.0,<3",
                 "pytest": "pytest ~=7.2",
                 "pytest-cov": "pytest-cov ~=3.1",
-                "pre-commit": "pre-commit ~=2.20",
+                "pre-commit": "pre-commit~=2.20",
                 "pylint": "pylint ~=2.13",
                 "Sphinx": "Sphinx >=6.1.3,<6",
             },
@@ -1032,7 +1033,7 @@ def test_ignore_version_fails() -> None:
                 "mike": "mike >=1.0,<3",
                 "pytest": "pytest ~=7.1",
                 "pytest-cov": "pytest-cov ~=3.1",
-                "pre-commit": "pre-commit ~=2.20",
+                "pre-commit": "pre-commit~=2.20",
                 "pylint": "pylint ~=2.14",
                 "Sphinx": "Sphinx >=6.1.3,<6",
             },
@@ -1045,7 +1046,7 @@ def test_ignore_version_fails() -> None:
                 "mike": "mike >=1.0,<3",
                 "pytest": "pytest ~=7.2",
                 "pytest-cov": "pytest-cov ~=3.0",
-                "pre-commit": "pre-commit ~=2.20",
+                "pre-commit": "pre-commit~=2.20",
                 "pylint": "pylint ~=2.14",
                 "Sphinx": "Sphinx >=6.1.3,<6",  # This should be fixed!
             },
@@ -1058,7 +1059,7 @@ def test_ignore_version_fails() -> None:
                 "mike": "mike >=1.0,<3",
                 "pytest": "pytest ~=7.2",
                 "pytest-cov": "pytest-cov ~=3.1",
-                "pre-commit": "pre-commit ~=2.20",
+                "pre-commit": "pre-commit~=2.20",
                 "pylint": "pylint ~=2.14",
                 "Sphinx": "Sphinx >=4.5.0,<6",
             },
@@ -1120,7 +1121,7 @@ dev = [
     "mike >={original_dependencies['mike']},<3",
     "pytest ~={original_dependencies['pytest']}",
     "pytest-cov ~={original_dependencies['pytest-cov']}",
-    "pre-commit ~={original_dependencies['pre-commit']}",
+    "pre-commit~={original_dependencies['pre-commit']}",
     "pylint ~={original_dependencies['pylint']}",
     "Sphinx >={original_dependencies['Sphinx']},<6",
 ]
@@ -1158,7 +1159,7 @@ dev = [
 
     for line in dependencies:
         for dependency, dependency_requirement in expected_result.items():
-            if f"{dependency} " in line:
+            if re.match(rf"{re.escape(dependency)}\s*(~|>).*", line):
                 assert line == dependency_requirement
                 break
         else:
