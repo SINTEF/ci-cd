@@ -48,6 +48,7 @@ testing = [
 dev = [
     "pre-commit ~=2.21",
     "pylint ~=2.13",
+    "ci-cd[docs,testing]",
 ]
 
 [project.urls]
