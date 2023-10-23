@@ -46,6 +46,11 @@ on:
         required: false
         type: string
         default: ""
+      debug:
+        description: "Whether to run the task in debug mode, writing out extra information."
+        required: false
+        type: boolean
+        default: false
     secrets:
       PAT:
         description: "A personal access token (PAT) with rights to update the `permanent_dependencies_branch`. This will fallback on `GITHUB_TOKEN`."
@@ -82,7 +87,13 @@ jobs:
 
     - name: Run ci-cd task
       run: |
-        set -x
+        if [ "${{ inputs.debug }}" == "true" ]; then
+          set -x
+          VERBOSE=--verbose
+        else
+          VERBOSE=
+        fi
+
         if [ "${{ inputs.fail_fast }}" == "true" ]; then
           FAIL_FAST=--fail-fast
         else
@@ -94,12 +105,14 @@ jobs:
           if [ -n "${line}" ]; then IGNORE_OPTIONS+=(--ignore="${line}"); fi
         done <<< "${{ inputs.ignore }}"
 
-        ci-cd update-deps ${FAIL_FAST} \
+        ci-cd update-deps ${FAIL_FAST} ${VERBOSE} \
           --root-repo-path="${PWD}" \
           --ignore-separator="..." \
           "${IGNORE_OPTIONS[@]}"
 
-        git status
+        if [ "${{ inputs.debug }}" == "true" ]; then
+          git status
+        fi
 
         if [ -n "$(git status --porcelain pyproject.toml)" ]; then
           echo "UPDATE_DEPS=true" >> $GITHUB_ENV
