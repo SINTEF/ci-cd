@@ -10,6 +10,10 @@ The reason for having this workflow and not using [Dependabot](https://github.co
     If a PAT is not passed through for the `PAT` secret and `GITHUB_TOKEN` is used, beware that any other CI/CD jobs that run for, e.g., pull request events, may not run since `GITHUB_TOKEN`-generated PRs are designed to not start more workflows to avoid escalation.
     Hence, if it is important to run CI/CD workflows for pull requests, consider passing a PAT as a secret to this workflow represented by the `PAT` secret.
 
+!!! info
+    The generated PR will be created from a new branch named `ci/update-pyproject`.
+    If you wish to change this value, see the [`branch_name_extension`](#inputs) input option.
+
 ## Ignoring dependencies
 
 To ignore or configure how specific dependencies should be updated, the `ignore` input option can be utilized.
@@ -65,6 +69,7 @@ The repository contains the following:
 | `fail_fast` | Whether the task to update dependencies should fail if any error occurs. | No | `false` | _boolean_ |
 | `pr_labels` | A comma separated list of strings of GitHub labels to use for the created PR. | No | _Empty string_ | _string_ |
 | `ignore` | Create ignore conditions for certain dependencies. A multi-line string of ignore rules, where each line is an ellipsis-separated (`...`) string of key/value-pairs. One line per dependency. This option is similar to [the `ignore` option of Dependabot](https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file#ignore).</br></br>See also [Single vs multi-line input](index.md#single-vs-multi-line-input). | No | _Empty string_ | _string_
+| `branch_name_extension` | A string to append to the branch name of the created PR. Example: `'-my-branch'`. It will be appended after a forward slash, so the final branch name will be `ci/update-pyproject/-my-branch`. | No | _Empty string_ | _string_ |
 | `debug` | Whether to run the workflow in debug mode, printing extra debug information. | No | `false` | _boolean_ |
 
 ## Secrets

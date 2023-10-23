@@ -46,6 +46,11 @@ on:
         required: false
         type: string
         default: ""
+      branch_name_extension:
+        description: "A string to append to the branch name of the created PR. Example: `'-my-branch'`. It will be appended after a forward slash, so the final branch name will be `ci/update-pyproject/-my-branch`."
+        required: false
+        type: string
+        default: ""
       debug:
         description: "Whether to run the workflow in debug mode, printing extra debug information."
         required: false
@@ -172,7 +177,7 @@ jobs:
         token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
         committer: "${{ inputs.git_username }} <${{ inputs.git_email }}>"
         author: "${{ inputs.git_username }} <${{ inputs.git_email }}>"
-        branch: ci/update-pyproject
+        branch: ci/update-pyproject${{ inputs.branch_name_extension && format('/{0}', inputs.branch_name_extension) || ''}}
         delete-branch: true
         title: "[Auto-generated] Check & update dependencies (`pyproject.toml`)"
         body: ${{ steps.pr_body.outputs.result }}
