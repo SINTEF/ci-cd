@@ -261,9 +261,7 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
             updated_version = ".".join(
                 latest_version[: len(version_spec.version.split("."))]
             )
-            escaped_full_dependency_name = version_spec.full_dependency.replace(
-                "[", r"\["
-            ).replace("]", r"\]")
+            escaped_full_dependency_name = re.escape(version_spec.full_dependency)
             update_file(
                 pyproject_path,
                 (

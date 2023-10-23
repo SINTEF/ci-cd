@@ -96,6 +96,7 @@ jobs:
 
         ci-cd update-deps ${FAIL_FAST} \
           --root-repo-path="${PWD}" \
+          --ignore-separator="..." \
           "${IGNORE_OPTIONS[@]}"
 
         git status
