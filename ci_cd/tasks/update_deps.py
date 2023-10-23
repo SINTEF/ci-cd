@@ -92,6 +92,7 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
             "version",
             "extra_operator_version",
             "environment_marker",
+            "spacing",
         ],
     )
 
@@ -139,7 +140,8 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
     error = False
     for line in dependencies:
         match = re.match(
-            r"^(?P<full_dependency>(?P<package>[a-zA-Z0-9_.-]+)(?:\s*\[.*\])?)\s*"
+            r"^(?P<full_dependency>(?P<package>[a-zA-Z0-9_.-]+)(?:\s*\[.*\])?)"
+            r"(?P<spacing>\s*)"
             r"(?:"
             r"(?P<url_version>@\s*\S+)|"
             r"(?P<operator>>|<|<=|>=|==|!=|~=)\s*"
@@ -279,10 +281,11 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
             )
 
             pattern_sub_line = (
-                rf'"{escaped_full_dependency_name} {version_spec.operator}.*"'
+                rf'"{escaped_full_dependency_name}{version_spec.spacing}'
+                rf'{version_spec.operator}.*"'
             )
             replacement_sub_line = (
-                f'"{version_spec.full_dependency} '
+                f'"{version_spec.full_dependency}{version_spec.spacing}'
                 f"{version_spec.operator}{updated_version}"
                 f'{version_spec.extra_operator_version if version_spec.extra_operator_version else ""}'  # pylint: disable=line-too-long
                 f'{version_spec.environment_marker if version_spec.environment_marker else ""}"'  # pylint: disable=line-too-long
