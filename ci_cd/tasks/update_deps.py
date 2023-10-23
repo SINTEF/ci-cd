@@ -269,23 +269,29 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
             updated_version = ".".join(
                 latest_version[: len(version_spec.version.split("."))]
             )
-            escaped_full_dependency_name = re.escape(version_spec.full_dependency)
+            escaped_full_dependency_name = version_spec.full_dependency.replace(
+                "[", r"\["
+            ).replace("]", r"\]")
 
             LOGGER.debug("updated_version: %s", updated_version)
             LOGGER.debug(
                 "escaped_full_dependency_name: %s", escaped_full_dependency_name
             )
 
-            update_file(
-                pyproject_path,
-                (
-                    rf'"{escaped_full_dependency_name} {version_spec.operator}.*"',
-                    f'"{version_spec.full_dependency} '
-                    f"{version_spec.operator}{updated_version}"
-                    f'{version_spec.extra_operator_version if version_spec.extra_operator_version else ""}'  # pylint: disable=line-too-long
-                    f'{version_spec.environment_marker if version_spec.environment_marker else ""}"',  # pylint: disable=line-too-long
-                ),
+            pattern_sub_line = (
+                rf'"{escaped_full_dependency_name} {version_spec.operator}.*"'
             )
+            replacement_sub_line = (
+                f'"{version_spec.full_dependency} '
+                f"{version_spec.operator}{updated_version}"
+                f'{version_spec.extra_operator_version if version_spec.extra_operator_version else ""}'  # pylint: disable=line-too-long
+                f'{version_spec.environment_marker if version_spec.environment_marker else ""}"'  # pylint: disable=line-too-long
+            )
+
+            LOGGER.debug("pattern_sub_line: %s", pattern_sub_line)
+            LOGGER.debug("replacement_sub_line: %s", replacement_sub_line)
+
+            update_file(pyproject_path, (pattern_sub_line, replacement_sub_line))
             already_handled_packages.add(version_spec.package)
             updated_packages[version_spec.full_dependency] = (
                 f"{version_spec.operator}{updated_version}"
