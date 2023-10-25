@@ -1166,6 +1166,11 @@ dev = [
 
     for line in dependencies:
         for dependency, dependency_requirement in expected_result.items():
+            # Assert the dependency in the updated pyproject.toml file equals the
+            # expected value.
+            # We have to use a regular expression to match the dependency name as some
+            # dependency names are sub-strings of each other (like 'pytest' is a
+            # sub-string of 'pytest-cov').
             if re.match(rf"{re.escape(dependency)}\s*(~|>).*", line):
                 assert line == dependency_requirement
                 break
