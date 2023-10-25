@@ -76,3 +76,25 @@ filterwarnings = [
     # Remove when invoke updates to `inspect.signature()` or similar:
     "ignore:.*inspect.getargspec().*:DeprecationWarning",
 ]
+
+[tool.ruff.lint]
+select = [
+  # pycodestyle
+  "E",
+  # Pyflakes
+  "F",
+  # pyupgrade
+  "UP",
+  # flake8-bugbear
+  "B",
+  # flake8-simplify
+  "SIM",
+  # flake8-blind-except
+  "BLE",
+  # isort
+  "I",
+  # pylint
+  "PL",
+  # ruff
+  "RUF",
+]

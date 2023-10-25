@@ -28,7 +28,11 @@ repos:
     - id: ruff
       # Fix what can be fixed in-place and exit with non-zero status if files were
       # changed and/or there are rules violations.
-      args: [--fix, --exit-non-zero-on-fix]
+      args:
+      - "--fix"
+      - "--exit-non-zero-on-fix"
+      - "--show-fixes"
+      - "--no-unsafe-fixes"
 
   # Black is a code style and formatter
   # It works on files in-place
