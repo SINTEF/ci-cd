@@ -1171,3 +1171,28 @@ dev = [
                 break
         else:
             pytest.fail(f"Unknown package in line: {line}")
+
+
+def test_verbose(
+    tmp_path: Path, capsys: pytest.CaptureFixture, caplog: pytest.LogCaptureFixture
+) -> None:
+    """Check the verbose flag is respected.
+
+    Any logged messaged should be written to stdout.
+    Check that any expected log messages are found both in the logs and in stdout.
+    """
+    from invoke import MockContext
+
+    from ci_cd.tasks import update_deps
+
+    with pytest.raises(
+        SystemExit,
+        match=r".*Error: Could not find the Python package repository's 'pyproject.toml' file.*",
+    ):
+        update_deps(MockContext(), root_repo_path=str(tmp_path), verbose=True)
+
+    captured_output = capsys.readouterr()
+
+    for output in (captured_output.out, caplog.text):
+        assert "Verbose logging enabled." in output
+        assert "Parsed ignore rules:" in output
