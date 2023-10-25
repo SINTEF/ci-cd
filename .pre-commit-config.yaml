@@ -35,7 +35,9 @@ repos:
       - "--exit-non-zero-on-fix"
       - "--show-fixes"
       - "--no-unsafe-fixes"
-      # Extend rule set to includ:
+      # Extend rule set to include:
+      #   flake8-bandit
+      - "--extend-select=S"
       #   flake8-blind-except
       - "--extend-select=BLE"
       #   pylint
