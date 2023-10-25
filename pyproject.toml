@@ -46,8 +46,8 @@ testing = [
     "pytest-cov ~=4.1",
 ]
 dev = [
-    "ci-cd[docs,testing]",
     "pre-commit ~=2.21",
+    "ci-cd[docs,testing]",
 ]
 
 [project.urls]

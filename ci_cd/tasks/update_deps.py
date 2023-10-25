@@ -119,7 +119,10 @@ def update_deps(
         )
     py_version = match.group("version")
 
-    already_handled_packages = set()
+    # Skip package if it is this project (this can happen for inter-relative extra
+    # dependencies)
+    already_handled_packages = {pyproject["project"]["name"]}
+
     updated_packages = {}
     dependencies = pyproject.get("project", {}).get("dependencies", [])
     for optional_deps in (
