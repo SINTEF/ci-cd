@@ -1173,13 +1173,19 @@ dev = [
             pytest.fail(f"Unknown package in line: {line}")
 
 
+@pytest.mark.parametrize("verbose_flag", [True, False])
 def test_verbose(
-    tmp_path: Path, capsys: pytest.CaptureFixture, caplog: pytest.LogCaptureFixture
+    verbose_flag: bool,
+    tmp_path: Path,
+    capsys: pytest.CaptureFixture,
+    caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Check the verbose flag is respected.
 
-    Any logged messaged should be written to stdout.
+    Any logged messaged should be written to stdout IF the verbose flag is set.
     Check that any expected log messages are found both in the logs and in stdout.
+
+    If the verbose flag is not set, the messages should ONLY appear in the logs.
     """
     from invoke import MockContext
 
@@ -1189,10 +1195,25 @@ def test_verbose(
         SystemExit,
         match=r".*Error: Could not find the Python package repository's 'pyproject.toml' file.*",
     ):
-        update_deps(MockContext(), root_repo_path=str(tmp_path), verbose=True)
+        update_deps(MockContext(), root_repo_path=str(tmp_path), verbose=verbose_flag)
 
     captured_output = capsys.readouterr()
 
-    for output in (captured_output.out, caplog.text):
-        assert "Verbose logging enabled." in output
-        assert "Parsed ignore rules:" in output
+    # Expected log messages - note the strings are sub-strings of the full log messages
+    assert (
+        "Verbose logging enabled." in caplog.text
+        if verbose_flag
+        else "Verbose logging enabled." not in caplog.text
+    )
+    assert "Parsed ignore rules:" in caplog.text
+
+    # Assert the above messages are the only messages in the logs
+    assert len(caplog.messages) == 2 if verbose_flag else 1
+
+    # Go through the log messages and ensure they either are or are not in stdout
+    for log_message in caplog.messages:
+        assert (
+            log_message in captured_output.out
+            if verbose_flag
+            else log_message not in captured_output.out
+        )
