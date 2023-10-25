@@ -34,6 +34,7 @@ def test_update_deps(tmp_path: "Path", caplog: pytest.LogCaptureFixture) -> None
     pyproject_file.write_text(
         data=f"""
 [project]
+name = "test"
 requires-python = "~=3.7"
 
 dependencies = [
@@ -51,10 +52,9 @@ testing = [
 ]
 dev = [
     "mike >={original_dependencies['mike']},<3",
-    "pytest ~={original_dependencies['pytest']}",
-    "pytest-cov ~={original_dependencies['pytest-cov']}",
     "pre-commit~={original_dependencies['pre-commit']}",
     "pylint ~={original_dependencies['pylint']}",
+    "test[testing]",
 ]
 
 # List from https://peps.python.org/pep-0508/#complete-grammar
@@ -161,6 +161,12 @@ pep_508 = [
             assert (
                 "'name5 [fred,bar]' is pinned to a URL and will be skipped"
                 in caplog.text
+            )
+        elif "test[testing]" in line:
+            assert line == "test[testing]"
+            assert (
+                "'test[testing]' is not version restricted and will be skipped."
+                not in caplog.text
             )
         else:
             pytest.fail(f"Unknown package in line: {line}")
@@ -1101,6 +1107,7 @@ def test_ignore_rules_logic(
     pyproject_file.write_text(
         data=f"""
 [project]
+name = "test"
 requires-python = "~=3.7"
 
 dependencies = [
