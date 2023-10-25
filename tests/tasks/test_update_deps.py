@@ -65,7 +65,9 @@ pep_508 = [
     "name",
     "name1<=1",
     "name2>=3",
-    "name3>=3,<2",
+    # Multiple version specifiers are currently not supported.
+    # Follow issue #141 for updates.
+    # "name3>=3,<2",
     "name4@http://foo.com",
     "name5 [fred,bar] @ http://foo.com ; python_version=='2.7'",
     "name6[quux, strange];python_version<'2.7' and platform_version=='2'",
@@ -152,7 +154,12 @@ pep_508 = [
         elif "name2" in line:
             assert line == "name2>=1"
         elif "name3" in line:
-            assert line == "name3>=1,<2"
+            # Multiple version specifiers are currently not supported.
+            # Follow issue #141 for updates.
+            pytest.fail(
+                "name3 is commnted out in the test file and should not be present."
+            )
+            # assert line == "name3>=3,<2"
         elif "name4" in line:
             assert line == "name4@http://foo.com"
             assert "'name4' is pinned to a URL and will be skipped" in caplog.text
