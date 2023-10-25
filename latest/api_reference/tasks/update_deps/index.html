@@ -1512,7 +1512,10 @@ semantic version ignore rules.</p></td>
         <span class="p">)</span>
     <span class="n">py_version</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;version&quot;</span><span class="p">)</span>
 
-    <span class="n">already_handled_packages</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="c1"># Skip package if it is this project (this can happen for inter-relative extra</span>
+    <span class="c1"># dependencies)</span>
+    <span class="n">already_handled_packages</span> <span class="o">=</span> <span class="p">{</span><span class="n">pyproject</span><span class="p">[</span><span class="s2">&quot;project&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]}</span>
+
     <span class="n">updated_packages</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">dependencies</span> <span class="o">=</span> <span class="n">pyproject</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;project&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;dependencies&quot;</span><span class="p">,</span> <span class="p">[])</span>
     <span class="k">for</span> <span class="n">optional_deps</span> <span class="ow">in</span> <span class="p">(</span>
