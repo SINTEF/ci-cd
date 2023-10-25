@@ -152,7 +152,12 @@ pep_508 = [
         elif "name1" in line:
             assert line == "name1<=1"
         elif "name2" in line:
+            # This is updated to include the latest version (v1.2.3) even though it was
+            # originally specifying all versions above and including v3.
             assert line == "name2>=1"
+
+            # Note, if a user wishes to avoid this update, the `--ignore` option can be
+            # used to specify the package (and version(s)) to ignore.
         elif "name3" in line:
             # Multiple version specifiers are currently not supported.
             # Follow issue #141 for updates.
