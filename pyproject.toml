@@ -89,12 +89,8 @@ select = [
   "B",
   # flake8-simplify
   "SIM",
-  # flake8-blind-except
-  "BLE",
   # isort
   "I",
-  # pylint
-  "PL",
   # ruff
   "RUF",
 ]

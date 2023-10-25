@@ -64,7 +64,7 @@ def update_deps(
 ):
     """Update dependencies in specified Python package's `pyproject.toml`."""
     if TYPE_CHECKING:  # pragma: no cover
-        context: "Context" = context  # type: ignore[no-redef]
+        context: Context = context  # type: ignore[no-redef]
         root_repo_path: str = root_repo_path  # type: ignore[no-redef]
         fail_fast: bool = fail_fast  # type: ignore[no-redef]
         pre_commit: bool = pre_commit  # type: ignore[no-redef]
@@ -97,7 +97,7 @@ def update_deps(
 
     if pre_commit and root_repo_path == ".":
         # Use git to determine repo root
-        result: "Result" = context.run("git rev-parse --show-toplevel", hide=True)
+        result: Result = context.run("git rev-parse --show-toplevel", hide=True)
         root_repo_path = result.stdout.strip("\n")
 
     pyproject_path = Path(root_repo_path).resolve() / "pyproject.toml"
@@ -180,7 +180,7 @@ def update_deps(
             continue
 
         # Check version from PyPI's online package index
-        out: "Result" = context.run(
+        out: Result = context.run(
             f"pip index versions --python-version {py_version} {version_spec.package}",
             hide=True,
         )
@@ -228,10 +228,10 @@ def update_deps(
 
         # Apply ignore rules
         if version_spec.package in ignore_rules or "*" in ignore_rules:
-            versions: "list[dict[Literal['operator', 'version'], str]]" = []
-            update_types: "dict[Literal['version-update'], list[Literal['major', 'minor', 'patch']]]" = (  # noqa: E501
-                {}
-            )
+            versions: list[dict[Literal["operator", "version"], str]] = []
+            update_types: dict[
+                Literal["version-update"], list[Literal["major", "minor", "patch"]]
+            ] = {}
 
             if "*" in ignore_rules:
                 versions, update_types = parse_ignore_rules(ignore_rules["*"])
@@ -301,7 +301,7 @@ def update_deps(
 
 def parse_ignore_entries(
     entries: list[str], separator: str
-) -> 'dict[str, dict[Literal["versions", "update-types"], list[str]]]':
+) -> dict[str, dict[Literal["versions", "update-types"], list[str]]]:
     """Parser for the `--ignore` option.
 
     The `--ignore` option values are given as key/value-pairs in the form:
@@ -316,9 +316,7 @@ def parse_ignore_entries(
         A parsed mapping of dependencies to ignore rules.
 
     """
-    ignore_entries: 'dict[str, dict[Literal["versions", "update-types"], list[str]]]' = (  # noqa: E501
-        {}
-    )
+    ignore_entries: dict[str, dict[Literal["versions", "update-types"], list[str]]] = {}
 
     for entry in entries:
         pairs = entry.split(separator, maxsplit=2)
@@ -330,9 +328,9 @@ def parse_ignore_entries(
                     f"value: --ignore={entry}"
                 )
 
-        ignore_entry: 'dict[Literal["dependency-name", "versions", "update-types"], str]' = (  # noqa: E501
-            {}
-        )
+        ignore_entry: dict[
+            Literal["dependency-name", "versions", "update-types"], str
+        ] = {}
         for pair in pairs:
             match = re.match(
                 r"^(?P<key>dependency-name|versions|update-types)=(?P<value>.*)$",
@@ -371,8 +369,11 @@ def parse_ignore_entries(
 
 
 def parse_ignore_rules(
-    rules: "dict[Literal['versions', 'update-types'], list[str]]",
-) -> "tuple[list[dict[Literal['operator', 'version'], str]], dict[Literal['version-update'], list[Literal['major', 'minor', 'patch']]]]":  # noqa: E501
+    rules: dict[Literal["versions", "update-types"], list[str]],
+) -> tuple[
+    list[dict[Literal["operator", "version"], str]],
+    dict[Literal["version-update"], list[Literal["major", "minor", "patch"]]],
+]:
     """Parser for a specific set of ignore rules.
 
     Parameters:
@@ -386,10 +387,10 @@ def parse_ignore_rules(
         # Ignore package altogether
         return [{"operator": ">=", "version": "0"}], {}
 
-    versions: 'list[dict[Literal["operator", "version"], str]]' = []
-    update_types: "dict[Literal['version-update'], list[Literal['major', 'minor', 'patch']]]" = (  # noqa: E501
-        {}
-    )
+    versions: list[dict[Literal["operator", "version"], str]] = []
+    update_types: dict[
+        Literal["version-update"], list[Literal["major", "minor", "patch"]]
+    ] = {}
 
     if "versions" in rules:
         for versions_entry in rules["versions"]:
@@ -428,7 +429,7 @@ def parse_ignore_rules(
 
 def _ignore_version_rules(
     latest: list[str],
-    version_rules: "list[dict[Literal['operator', 'version'], str]]",
+    version_rules: list[dict[Literal["operator", "version"], str]],
 ) -> bool:
     """Determine whether to ignore package based on `versions` input."""
     semver_latest = SemanticVersion(".".join(latest))
@@ -451,7 +452,7 @@ def _ignore_version_rules(
                 semver_latest, semver_version_rule
             ):
                 decision_version_rule = True
-        elif "~=" == version_rule["operator"]:
+        elif version_rule["operator"] == "~=":
             if "." not in version_rule["version"]:
                 raise InputError(
                     "Ignore option value error. For the 'versions' config key, when "
@@ -487,7 +488,9 @@ def _ignore_version_rules(
 def _ignore_semver_rules(
     current: list[str],
     latest: list[str],
-    semver_rules: "dict[Literal['version-update'], list[Literal['major', 'minor', 'patch']]]",  # noqa: E501
+    semver_rules: dict[
+        Literal["version-update"], list[Literal["major", "minor", "patch"]]
+    ],
 ) -> bool:
     """If ANY of the semver rules are True, ignore the version."""
     if any(
@@ -498,28 +501,29 @@ def _ignore_semver_rules(
             f"'patch' (you gave {semver_rules['version-update']!r})."
         )
 
-    if "major" in semver_rules["version-update"]:
-        if latest[0] != current[0]:
-            return True
+    # Number of version parts in a "minor" and "patch" version
+    len_minor = 2
+    len_patch = 3
 
-    elif "minor" in semver_rules["version-update"]:
-        if (
-            len(latest) >= 2
-            and len(current) >= 2
+    if (
+        ("major" in semver_rules["version-update"] and latest[0] != current[0])
+        or (
+            "minor" in semver_rules["version-update"]
+            and len(latest) >= len_minor
+            and len(current) >= len_minor
             and latest[1] > current[1]
             and latest[0] == current[0]
-        ):
-            return True
-
-    elif "patch" in semver_rules["version-update"]:
-        if (
-            len(latest) >= 3
-            and len(current) >= 3
+        )
+        or (
+            "patch" in semver_rules["version-update"]
+            and len(latest) >= len_patch
+            and len(current) >= len_patch
             and latest[2] > current[2]
             and latest[0] == current[0]
             and latest[1] == current[1]
-        ):
-            return True
+        )
+    ):
+        return True
 
     return False
 
@@ -527,8 +531,10 @@ def _ignore_semver_rules(
 def ignore_version(
     current: list[str],
     latest: list[str],
-    version_rules: "list[dict[Literal['operator', 'version'], str]]",
-    semver_rules: "dict[Literal['version-update'], list[Literal['major', 'minor', 'patch']]]",  # noqa: E501
+    version_rules: list[dict[Literal["operator", "version"], str]],
+    semver_rules: dict[
+        Literal["version-update"], list[Literal["major", "minor", "patch"]]
+    ],
 ) -> bool:
     """Determine whether the latest version can be ignored.
 

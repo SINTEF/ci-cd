@@ -435,7 +435,7 @@ def test_larger_package(tmp_path: "Path") -> None:
         package_dir / "module" / "submodule",
         package_dir / "second_module",
     ]
-    for destination in [package_dir] + new_submodules:
+    for destination in [package_dir, *new_submodules]:
         shutil.copytree(
             src=Path(__file__).resolve().parent.parent.parent / "ci_cd",
             dst=destination,
