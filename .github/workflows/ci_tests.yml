@@ -379,7 +379,7 @@ jobs:
         python -m pip install -U pip
         pip install -U setuptools wheel
         pip install ${EDITABLE}.${{ inputs.install_extras }}
-        pip install git+https://github.com/SINTEF/ci-cd.git@v2.5.2
+        pip install git+https://github.com/SINTEF/ci-cd.git@v2.5.3
 
     - name: Update API Reference
       if: env.framework == 'mkdocs' && inputs.update_python_api_ref
