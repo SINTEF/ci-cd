@@ -67,6 +67,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Validate inputs
+      run: |
+        if [[ ! "${{ inputs.python_version}}" =~ ^3\.(7|8|9|10).*$ ]]; then
+          echo "Python version '${{ inputs.python_version}}' is not supported."
+          echo "Supported versions are: 3.7, 3.8, 3.9, 3.10"
+          exit 1
+        fi
+
     - name: Checkout permanent dependencies branch in ${{ github.repository }}
       uses: actions/checkout@v4
       with:

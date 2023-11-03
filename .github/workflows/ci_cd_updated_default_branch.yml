@@ -164,15 +164,6 @@ jobs:
       UPDATE_DEFAULT_BRANCH: false
 
     steps:
-    - name: Check input
-      run: |
-        valid_frameworks=("mkdocs sphinx")
-        if [[ ! " ${valid_frameworks[*]} " =~ " ${{ inputs.docs_framework}} " ]]; then
-            echo "The input '${{ inputs.docs_framework}}' is not supported."
-            echo "Valid inputs are: ${valid_frameworks[*]}"
-            exit 1
-        fi
-
     - name: Release check
       run: |
         COMMIT_MSG="$(gh api /repos/${{ github.repository}}/commits/${{ inputs.default_repo_branch }} --jq '.commit.message')"
@@ -185,6 +176,22 @@ jobs:
         fi
       env:
         GITHUB_TOKEN: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
+
+    - name: Validate inputs
+      if: env.RELEASE_RUN == 'false'
+      run: |
+        valid_frameworks=("mkdocs sphinx")
+        if [[ ! " ${valid_frameworks[*]} " =~ " ${{ inputs.docs_framework}} " ]]; then
+            echo "The input '${{ inputs.docs_framework}}' is not supported."
+            echo "Valid inputs are: ${valid_frameworks[*]}"
+            exit 1
+        fi
+
+        if [[ ! "${{ inputs.python_version}}" =~ ^3\.(7|8|9|10).*$ ]]; then
+          echo "Python version '${{ inputs.python_version}}' is not supported."
+          echo "Supported versions are: 3.7, 3.8, 3.9, 3.10"
+          exit 1
+        fi
 
     - name: Checkout ${{ github.repository }}
       if: env.RELEASE_RUN == 'false'
