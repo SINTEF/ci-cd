@@ -20,9 +20,20 @@ from ci_cd.exceptions import CICDException, InputError, InputParserError
 from ci_cd.utils import Emoji, SemanticVersion, update_file
 
 if TYPE_CHECKING:  # pragma: no cover
-    from typing import Literal
-
     from invoke import Context, Result
+    from typing_extensions import Literal, NamedTuple
+
+    class VersionSpecType(NamedTuple):
+        """Version specification."""
+
+        full_dependency: str
+        package: str
+        url_version: str
+        operator: str
+        version: str
+        extra_operator_version: str
+        environment_marker: str
+        spacing: str
 
 
 LOGGER = logging.getLogger(__file__)
@@ -82,7 +93,7 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
         LOGGER.addHandler(logging.StreamHandler(sys.stdout))
         LOGGER.debug("Verbose logging enabled.")
 
-    VersionSpec = namedtuple(
+    VersionSpec: VersionSpecType = namedtuple(
         "VersionSpec",
         [
             "full_dependency",
@@ -194,7 +205,7 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
             continue
 
         # Check version from PyPI's online package index
-        out: "Result" = context.run(
+        out: Result = context.run(
             f"pip index versions --python-version {py_version} {version_spec.package}",
             hide=True,
         )
@@ -242,10 +253,10 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
 
         # Apply ignore rules
         if version_spec.package in ignore_rules or "*" in ignore_rules:
-            versions: "list[dict[Literal['operator', 'version'], str]]" = []
-            update_types: "dict[Literal['version-update'], list[Literal['major', 'minor', 'patch']]]" = (  # pylint: disable=line-too-long
-                {}
-            )
+            versions: list[dict[Literal["operator", "version"], str]] = []
+            update_types: dict[
+                Literal["version-update"], list[Literal["major", "minor", "patch"]]
+            ] = {}  # pylint: disable=line-too-long
 
             if "*" in ignore_rules:
                 versions, update_types = parse_ignore_rules(ignore_rules["*"])
@@ -326,7 +337,7 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
 
 def parse_ignore_entries(
     entries: list[str], separator: str
-) -> 'dict[str, dict[Literal["versions", "update-types"], list[str]]]':
+) -> dict[str, dict[Literal["versions", "update-types"], list[str]]]:
     """Parser for the `--ignore` option.
 
     The `--ignore` option values are given as key/value-pairs in the form:
@@ -341,9 +352,7 @@ def parse_ignore_entries(
         A parsed mapping of dependencies to ignore rules.
 
     """
-    ignore_entries: 'dict[str, dict[Literal["versions", "update-types"], list[str]]]' = (
-        {}
-    )
+    ignore_entries: dict[str, dict[Literal["versions", "update-types"], list[str]]] = {}
 
     for entry in entries:
         pairs = entry.split(separator, maxsplit=2)
@@ -355,9 +364,9 @@ def parse_ignore_entries(
                     f"value: --ignore={entry}"
                 )
 
-        ignore_entry: 'dict[Literal["dependency-name", "versions", "update-types"], str]' = (  # pylint: disable=line-too-long
-            {}
-        )
+        ignore_entry: dict[
+            Literal["dependency-name", "versions", "update-types"], str
+        ] = {}  # pylint: disable=line-too-long
         for pair in pairs:
             match = re.match(
                 r"^(?P<key>dependency-name|versions|update-types)=(?P<value>.*)$",
@@ -396,8 +405,11 @@ def parse_ignore_entries(
 
 
 def parse_ignore_rules(
-    rules: "dict[Literal['versions', 'update-types'], list[str]]",
-) -> "tuple[list[dict[Literal['operator', 'version'], str]], dict[Literal['version-update'], list[Literal['major', 'minor', 'patch']]]]":  # pylint: disable=line-too-long
+    rules: dict[Literal["versions", "update-types"], list[str]],
+) -> tuple[
+    list[dict[Literal["operator", "version"], str]],
+    dict[Literal["version-update"], list[Literal["major", "minor", "patch"]]],
+]:  # pylint: disable=line-too-long
     """Parser for a specific set of ignore rules.
 
     Parameters:
@@ -411,10 +423,10 @@ def parse_ignore_rules(
         # Ignore package altogether
         return [{"operator": ">=", "version": "0"}], {}
 
-    versions: 'list[dict[Literal["operator", "version"], str]]' = []
-    update_types: "dict[Literal['version-update'], list[Literal['major', 'minor', 'patch']]]" = (  # pylint: disable=line-too-long
-        {}
-    )
+    versions: list[dict[Literal["operator", "version"], str]] = []
+    update_types: dict[
+        Literal["version-update"], list[Literal["major", "minor", "patch"]]
+    ] = {}  # pylint: disable=line-too-long
 
     if "versions" in rules:
         for versions_entry in rules["versions"]:
@@ -453,7 +465,7 @@ def parse_ignore_rules(
 
 def _ignore_version_rules(
     latest: list[str],
-    version_rules: "list[dict[Literal['operator', 'version'], str]]",
+    version_rules: list[dict[Literal["operator", "version"], str]],
 ) -> bool:
     """Determine whether to ignore package based on `versions` input."""
     semver_latest = SemanticVersion(".".join(latest))
@@ -512,7 +524,9 @@ def _ignore_version_rules(
 def _ignore_semver_rules(
     current: list[str],
     latest: list[str],
-    semver_rules: "dict[Literal['version-update'], list[Literal['major', 'minor', 'patch']]]",  # pylint: disable=line-too-long
+    semver_rules: dict[
+        Literal["version-update"], list[Literal["major", "minor", "patch"]]
+    ],  # pylint: disable=line-too-long
 ) -> bool:
     """If ANY of the semver rules are True, ignore the version."""
     if any(
@@ -552,8 +566,10 @@ def _ignore_semver_rules(
 def ignore_version(
     current: list[str],
     latest: list[str],
-    version_rules: "list[dict[Literal['operator', 'version'], str]]",
-    semver_rules: "dict[Literal['version-update'], list[Literal['major', 'minor', 'patch']]]",  # pylint: disable=line-too-long
+    version_rules: list[dict[Literal["operator", "version"], str]],
+    semver_rules: dict[
+        Literal["version-update"], list[Literal["major", "minor", "patch"]]
+    ],  # pylint: disable=line-too-long
 ) -> bool:
     """Determine whether the latest version can be ignored.
 

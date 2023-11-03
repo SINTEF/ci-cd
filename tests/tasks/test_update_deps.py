@@ -8,7 +8,8 @@ import pytest
 
 if TYPE_CHECKING:
     from pathlib import Path
-    from typing import Literal
+
+    from typing_extensions import Literal
 
 
 def test_update_deps(tmp_path: Path, caplog: pytest.LogCaptureFixture) -> None:
@@ -280,7 +281,9 @@ pep_508 = [
 def test_parse_ignore_entries(
     entries: list[str],
     separator: str,
-    expected_outcome: 'dict[str, dict[Literal["dependency-name", "versions", "update-types"], str]]',
+    expected_outcome: dict[
+        str, dict[Literal["dependency-name", "versions", "update-types"], str]
+    ],
 ) -> None:
     """Check the `--ignore` option values are parsed as expected."""
     from ci_cd.tasks.update_deps import parse_ignore_entries
@@ -344,8 +347,11 @@ Instead, parse_ignore_entries() returned:
     ],
 )
 def test_parse_ignore_rules(
-    rules: 'dict[Literal["versions", "update-types"], list[str]]',
-    expected_outcome: "tuple[list[dict[Literal['operator', 'version'], str]], dict[Literal['version-update'], list[Literal['major', 'minor', 'patch']]]]",
+    rules: dict[Literal["versions", "update-types"], list[str]],
+    expected_outcome: tuple[
+        list[dict[Literal["operator", "version"], str]],
+        dict[Literal["version-update"], list[Literal["major", "minor", "patch"]]],
+    ],
 ) -> None:
     """Check a specific set of ignore rules is parsed as expected."""
     from ci_cd.tasks.update_deps import parse_ignore_rules
@@ -365,14 +371,31 @@ Instead, parse_ignore_rules() returned:
 
 
 def _parametrize_ignore_version() -> (
-    "dict[str, tuple[str, str, list[dict[Literal['operator', 'version'], str]], dict[Literal['version-update'], list[Literal['major', 'minor', 'patch']]], bool]]"
+    dict[
+        str,
+        tuple[
+            str,
+            str,
+            list[dict[Literal["operator", "version"], str]],
+            dict[Literal["version-update"], list[Literal["major", "minor", "patch"]]],
+            bool,
+        ],
+    ]
 ):
     """Utility function for `test_ignore_version()`.
 
     The parametrized inputs are created in this function in order to have more
     meaningful IDs in the runtime overview.
     """
-    test_cases: "list[tuple[str, str, list[dict[Literal['operator', 'version'], str]], dict[Literal['version-update'], list[Literal['major', 'minor', 'patch']]], bool]]" = [
+    test_cases: list[
+        tuple[
+            str,
+            str,
+            list[dict[Literal["operator", "version"], str]],
+            dict[Literal["version-update"], list[Literal["major", "minor", "patch"]]],
+            bool,
+        ]
+    ] = [
         ("1.1.1", "2.2.2", [{"operator": ">", "version": "2.2.2"}], {}, False),
         ("1.1.1", "2.2.2", [{"operator": ">", "version": "2.2"}], {}, True),
         ("1.1.1", "2.2.2", [{"operator": ">", "version": "2"}], {}, True),
@@ -889,9 +912,16 @@ def _parametrize_ignore_version() -> (
         ),
         ("1.1.1", "1.1.2", [], {}, True),
     ]
-    res: "dict[str, tuple[str, str, list[dict[Literal['operator', 'version'], str]], dict[Literal['version-update'], list[Literal['major', 'minor', 'patch']]], bool]]" = (
-        {}
-    )
+    res: dict[
+        str,
+        tuple[
+            str,
+            str,
+            list[dict[Literal["operator", "version"], str]],
+            dict[Literal["version-update"], list[Literal["major", "minor", "patch"]]],
+            bool,
+        ],
+    ] = {}
     for test_case in test_cases:
         if test_case[2] and test_case[3]:
             operator_version = ",".join(
@@ -923,8 +953,10 @@ def _parametrize_ignore_version() -> (
 def test_ignore_version(
     current: str,
     latest: str,
-    version_rules: "list[dict[Literal['operator', 'version'], str]]",
-    semver_rules: "dict[Literal['version-update'], list[Literal['major', 'minor', 'patch']]]",
+    version_rules: list[dict[Literal["operator", "version"], str]],
+    semver_rules: dict[
+        Literal["version-update"], list[Literal["major", "minor", "patch"]]
+    ],
     expected_outcome: bool,
 ) -> None:
     """Check the expected ignore rules are resolved correctly."""
@@ -1094,7 +1126,7 @@ def test_ignore_version_fails() -> None:
     ],
 )
 def test_ignore_rules_logic(
-    tmp_path: "Path", ignore_rules: list[str], expected_result: dict[str, str]
+    tmp_path: Path, ignore_rules: list[str], expected_result: dict[str, str]
 ) -> None:
     """Check the workflow of multiple interconnecting ignore rules are respected."""
     import re
