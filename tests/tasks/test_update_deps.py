@@ -11,7 +11,7 @@ if TYPE_CHECKING:
     from typing import Literal
 
 
-def test_update_deps(tmp_path: "Path", caplog: pytest.LogCaptureFixture) -> None:
+def test_update_deps(tmp_path: Path, caplog: pytest.LogCaptureFixture) -> None:
     """Check update_deps runs with defaults."""
     import re
 

@@ -67,7 +67,7 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
 ):
     """Update dependencies in specified Python package's `pyproject.toml`."""
     if TYPE_CHECKING:  # pragma: no cover
-        context: "Context" = context  # type: ignore[no-redef]
+        context: Context = context  # type: ignore[no-redef]
         root_repo_path: str = root_repo_path  # type: ignore[no-redef]
         fail_fast: bool = fail_fast  # type: ignore[no-redef]
         pre_commit: bool = pre_commit  # type: ignore[no-redef]
@@ -107,7 +107,7 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
 
     if pre_commit and root_repo_path == ".":
         # Use git to determine repo root
-        result: "Result" = context.run("git rev-parse --show-toplevel", hide=True)
+        result: Result = context.run("git rev-parse --show-toplevel", hide=True)
         root_repo_path = result.stdout.strip("\n")
 
     pyproject_path = Path(root_repo_path).resolve() / "pyproject.toml"

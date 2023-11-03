@@ -31,6 +31,8 @@ dynamic = ["version", "description"]
 dependencies = [
     "invoke ~=2.2",
     "tomlkit ~=0.12.1",
+    "typing-extensions ~=4.7; python_version < '3.8'",
+    "typing-extensions ~=4.8; python_version >= '3.8'",
 ]
 
 [project.optional-dependencies]

@@ -26,6 +26,16 @@ repos:
     - id: isort
       args: ["--profile", "black", "--filter-files", "--skip-gitignore"]
 
+  # pyupgrade is a tool to automatically upgrade Python syntax for newer versions
+  # It works on files in-place
+  - repo: https://github.com/asottile/pyupgrade
+    # Latest version for Python 3.7: 3.3.2
+    # Latest version for Python 3.8: 3.8.0
+    rev: v3.3.2
+    hooks:
+    - id: pyupgrade
+      args: ["--py37-plus"]
+
   # Black is a code style and formatter
   # It works on files in-place
   - repo: https://github.com/ambv/black

@@ -12,6 +12,8 @@ from invoke import task
 from ci_cd.utils import Emoji
 
 if TYPE_CHECKING:  # pragma: no cover
+    from typing import List
+
     from invoke import Context, Result
 
 
@@ -56,7 +58,7 @@ def create_docs_index(  # pylint: disable=too-many-locals
     docs_folder: Path = Path(docs_folder)
 
     if not replacement:
-        replacement: list[str] = []  # type: ignore[no-redef]
+        replacement: "List[str]" = []  # type: ignore[no-redef]
     replacement.append(f"{docs_folder.name}/{replacement_separator}")
 
     if pre_commit and root_repo_path == ".":
