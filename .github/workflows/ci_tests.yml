@@ -347,7 +347,7 @@ jobs:
 
     - name: Validate inputs
       run: |
-        if [[ "${{ env.framework }}" == "mkdocs" && ! "${{ inputs.python_version_docs}}" =~ ^3\.(7|8|9|10).*$ ]]; then
+        if [[ "${framework}" == "mkdocs" && ! "${{ inputs.python_version_docs}}" =~ ^3\.(7|8|9|10).*$ ]]; then
           echo "Python version '${{ inputs.python_version_docs}}' is not supported."
           echo "Supported versions are: 3.7, 3.8, 3.9, 3.10"
           exit 1
@@ -462,12 +462,12 @@ jobs:
         # Set STRICT option
 
         if [ "${{ inputs.warnings_as_errors }}" == "true" ]; then
-          if [ "${{ env.framework }}" == "mkdocs" ]; then
+          if [ "${framework}" == "mkdocs" ]; then
             STRICT="--strict"
-          elif [ "${{ env.framework }}" == "sphinx" ]; then
+          elif [ "${framework}" == "sphinx" ]; then
             STRICT="-W"
           else
-            echo "Unknown framework: ${{ env.framework }}"
+            echo "Unknown framework: ${framework}"
             exit 1
           fi
 
@@ -478,10 +478,10 @@ jobs:
 
         # Run build command
 
-        if [ "${{ env.framework }}" == "mkdocs" ]; then
+        if [ "${framework}" == "mkdocs" ]; then
           mkdocs build ${STRICT}
 
-        elif [ "${{ env.framework }}" == "sphinx" ]; then
+        elif [ "${framework}" == "sphinx" ]; then
           if [[ "${{ inputs.sphinx-build_options }}" =~ \n ]]; then
             # Expected to be a multi-line string
             SPHINX_OPTIONS=()
@@ -498,6 +498,6 @@ jobs:
             ${{ inputs.docs_folder }} ${{ inputs.build_target_folder }}
 
         else
-          echo "Unknown framework: ${{ env.framework }}"
+          echo "Unknown framework: ${framework}"
           exit 1
         fi

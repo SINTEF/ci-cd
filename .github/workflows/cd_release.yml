@@ -207,7 +207,7 @@ jobs:
     - name: Update changelog
       uses: docker://githubchangeloggenerator/github-changelog-generator:1.16.2
       with:
-        args: --user "${{ github.repository_owner }}" ${{ env.CHANGELOG_PROJECT }} --token "${{ secrets.PAT || secrets.GITHUB_TOKEN }}" --release-branch "${{ inputs.release_branch }}" ${{ env.CHANGELOG_EXCLUDE_TAGS_REGEX }} ${{ env.CHANGELOG_EXCLUDE_LABELS }}
+        args: --user "${{ github.repository_owner }}" ${CHANGELOG_PROJECT} --token "${{ secrets.PAT || secrets.GITHUB_TOKEN }}" --release-branch "${{ inputs.release_branch }}" ${CHANGELOG_EXCLUDE_TAGS_REGEX} ${CHANGELOG_EXCLUDE_LABELS}
 
     - name: Set up git user
       run: |
@@ -295,7 +295,7 @@ jobs:
     - name: Create release-specific changelog
       uses: docker://githubchangeloggenerator/github-changelog-generator:1.16.2
       with:
-        args: --user "${{ github.repository_owner }}" ${{ env.CHANGELOG_PROJECT }} --token "${{ secrets.PAT || secrets.GITHUB_TOKEN }}" --release-branch "${{ inputs.release_branch }}" --since-tag "${{ env.PREVIOUS_VERSION }}" --output release_changelog.md --usernames-as-github-logins ${{ env.CHANGELOG_EXCLUDE_TAGS_REGEX }} ${{ env.CHANGELOG_EXCLUDE_LABELS }}
+        args: --user "${{ github.repository_owner }}" ${CHANGELOG_PROJECT} --token "${{ secrets.PAT || secrets.GITHUB_TOKEN }}" --release-branch "${{ inputs.release_branch }}" --since-tag "${PREVIOUS_VERSION}" --output release_changelog.md --usernames-as-github-logins ${CHANGELOG_EXCLUDE_TAGS_REGEX} ${CHANGELOG_EXCLUDE_LABELS}
 
     - name: Append changelog to release body
       run: |

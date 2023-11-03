@@ -175,7 +175,7 @@ jobs:
 
     - name: Remove temporary file
       if: env.REMOVE_PR_BODY_FILE == 'true'
-      run: rm -f ${{ env.PR_BODY_FILE }}
+      run: rm -f ${PR_BODY_FILE}
 
     - name: Create PR
       if: env.UPDATE_DEPS == 'true'
