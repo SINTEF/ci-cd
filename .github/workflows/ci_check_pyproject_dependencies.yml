@@ -69,7 +69,7 @@ jobs:
     steps:
     - name: Validate inputs
       run: |
-        if [[ ! "${{ inputs.python_version}}" =~ ^3\.(7|8|9|10|11|12).*$ ]]; then
+        if [[ ! "${{ inputs.python_version}}" =~ ^3\.(?:[7-9]|1[0-2]).*$ ]]; then
           echo "Python version '${{ inputs.python_version}}' is not supported."
           echo "Supported versions are: 3.7, 3.8, 3.9, 3.10, 3.11, 3.12."
           exit 1
