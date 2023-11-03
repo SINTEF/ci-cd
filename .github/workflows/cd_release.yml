@@ -175,6 +175,7 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: "${{ inputs.python_version_build }}"
+        allow-prereleases: true
 
     - name: Install Python dependencies
       run: |
@@ -349,6 +350,7 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: "${{ inputs.python_version_docs }}"
+        allow-prereleases: true
 
     - name: Install system dependencies
       if: inputs.system_dependencies != ''
