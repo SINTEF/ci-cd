@@ -377,6 +377,20 @@ jobs:
         pip install -U setuptools wheel
         pip install ${EDITABLE}.${{ inputs.doc_extras || inputs.install_extras }}
 
+        INSTALLED_PACKAGES=$(pip freeze)
+        if [ "${{ inputs.docs_framework }}" == "mkdocs" ]; then
+          if [[ $(echo -e "${INSTALLED_PACKAGES}" | grep -ciE '(mkdocs|mike)==') -eq 2 ]]; then
+            echo "Missing one or more of the following packages: mkdocs, mike"
+            exit 1
+        elif [ "${{ inputs.docs_framework }}" == "sphinx" ]; then
+          if [[ $(echo -e "${INSTALLED_PACKAGES}" | grep -ci 'sphinx==') -eq 1 ]]; then
+            echo "Missing one or more of the following packages: sphinx"
+            exit 1
+        else
+          echo "Unknown framework: ${{ inputs.docs_framework }}"
+          exit 1
+        fi
+
     - name: Set up git user
       run: |
         git config --global user.name "${{ inputs.git_username }}"
