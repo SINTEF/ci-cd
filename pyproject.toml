@@ -38,16 +38,20 @@ docs = [
     "mike ~=1.1",
     "mkdocs ~=1.5",
     "mkdocs-awesome-pages-plugin ~=2.9",
-    "mkdocs-material ~=9.2",
-    "mkdocstrings[python-legacy] ~=0.22.0",
+    "mkdocs-material ~=9.2; python_version < '3.8'",
+    "mkdocs-material ~=9.4; python_version >= '3.8'",
+    "mkdocstrings[python-legacy] ~=0.22.0; python_version < '3.8'",
+    "mkdocstrings[python-legacy] ~=0.23.0; python_version >= '3.8'",
 ]
 testing = [
     "pytest ~=7.4",
     "pytest-cov ~=4.1",
 ]
 dev = [
-    "pre-commit ~=2.21",
-    "pylint ~=2.13",
+    "pre-commit ~=2.21; python_version < '3.8'",
+    "pre-commit ~=3.5; python_version >= '3.8'",
+    "pylint ~=2.13; python_version < '3.8'",
+    "pylint ~=3.0; python_version >= '3.8'",
     "ci-cd[docs,testing]",
 ]
 
@@ -62,7 +66,7 @@ Changelog = "https://SINTEF.github.io/ci-cd/latest/CHANGELOG"
 "ci-cd" = "ci_cd.main:program.run"
 
 [tool.mypy]
-python_version = "3.9"
+python_version = "3.7"
 ignore_missing_imports = true
 scripts_are_modules = true
 warn_unused_configs = true
@@ -78,6 +82,6 @@ max-branches = 15
 max-returns = 10
 
 [tool.pytest.ini_options]
-minversion = "7.0"
+minversion = "7.4"
 addopts = ["--cov=ci_cd", "--cov-report=term-missing"]
 filterwarnings = ["error"]
