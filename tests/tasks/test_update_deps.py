@@ -52,7 +52,7 @@ testing = [
 ]
 dev = [
     "mike >={original_dependencies['mike']},<3",
-    "pre-commit ~={original_dependencies['pre-commit']}",
+    "pre-commit~={original_dependencies['pre-commit']}",
     "pylint ~={original_dependencies['pylint']}",
     "test[testing]",
 ]
@@ -65,7 +65,9 @@ pep_508 = [
     "name",
     "name1<=1",
     "name2>=3",
-    "name3>=3,<2",
+    # Multiple version specifiers are currently not supported.
+    # Follow issue #141 for updates.
+    # "name3>=3,<2",
     "name4@http://foo.com",
     "name5 [fred,bar] @ http://foo.com ; python_version=='2.7'",
     "name6[quux, strange];python_version<'2.7' and platform_version=='2'",
@@ -117,11 +119,12 @@ pep_508 = [
 
     for line in dependencies:
         if any(
-            line.startswith(package_name)
-            for package_name in ["invoke ", "pytest ", "pre-commit "]
+            line.startswith(package_name) for package_name in ["invoke ", "pytest "]
         ):
             package_name = line.split(maxsplit=1)[0]
             assert line == f"{package_name} ~={original_dependencies[package_name]}"
+        elif "pre-commit" in line:
+            assert line == f"pre-commit~={original_dependencies['pre-commit']}"
         elif "tomlkit" in line:
             # Should be three version digits, since the original dependency had three.
             assert line == "tomlkit[test,docs] ~=1.0.0"
@@ -149,9 +152,19 @@ pep_508 = [
         elif "name1" in line:
             assert line == "name1<=1"
         elif "name2" in line:
-            assert line == "name2>=3"
+            # name2 is altered by update_deps() to include the latest version (v1.2.3)
+            # even though it was originally specifying all versions above and including
+            # v3.
+            # Note, if a user wishes to avoid this alteration, the `--ignore` option can
+            # be used to specify the package (and version(s)) to ignore.
+            assert line == "name2>=1"
         elif "name3" in line:
-            assert line == "name3>=3,<2"
+            # Multiple version specifiers are currently not supported.
+            # Follow issue #141 for updates.
+            pytest.fail(
+                "name3 is commnted out in the test file and should not be present."
+            )
+            # assert line == "name3>=3,<2"
         elif "name4" in line:
             assert line == "name4@http://foo.com"
             assert "'name4' is pinned to a URL and will be skipped" in caplog.text
@@ -983,7 +996,7 @@ def test_ignore_version_fails() -> None:
                 "mike": "mike >=1.0,<3",
                 "pytest": "pytest ~=7.2",
                 "pytest-cov": "pytest-cov ~=3.1",
-                "pre-commit": "pre-commit ~=2.20",
+                "pre-commit": "pre-commit~=2.20",
                 "pylint": "pylint ~=2.14",
                 "Sphinx": "Sphinx >=4.5.0,<6",
             },
@@ -996,7 +1009,7 @@ def test_ignore_version_fails() -> None:
                 "mike": "mike >=1.0,<3",
                 "pytest": "pytest ~=7.2",
                 "pytest-cov": "pytest-cov ~=3.1",
-                "pre-commit": "pre-commit ~=2.20",
+                "pre-commit": "pre-commit~=2.20",
                 "pylint": "pylint ~=2.14",
                 "Sphinx": "Sphinx >=6.1.3,<6",
             },
@@ -1012,7 +1025,7 @@ def test_ignore_version_fails() -> None:
                 "mike": "mike >=1.0,<3",
                 "pytest": "pytest ~=7.2",
                 "pytest-cov": "pytest-cov ~=3.1",
-                "pre-commit": "pre-commit ~=2.20",
+                "pre-commit": "pre-commit~=2.20",
                 "pylint": "pylint ~=2.14",
                 "Sphinx": "Sphinx >=6.1.3,<6",
             },
@@ -1025,7 +1038,7 @@ def test_ignore_version_fails() -> None:
                 "mike": "mike >=1.0,<3",
                 "pytest": "pytest ~=7.2",
                 "pytest-cov": "pytest-cov ~=3.1",
-                "pre-commit": "pre-commit ~=2.20",
+                "pre-commit": "pre-commit~=2.20",
                 "pylint": "pylint ~=2.13",
                 "Sphinx": "Sphinx >=6.1.3,<6",
             },
@@ -1038,7 +1051,7 @@ def test_ignore_version_fails() -> None:
                 "mike": "mike >=1.0,<3",
                 "pytest": "pytest ~=7.1",
                 "pytest-cov": "pytest-cov ~=3.1",
-                "pre-commit": "pre-commit ~=2.20",
+                "pre-commit": "pre-commit~=2.20",
                 "pylint": "pylint ~=2.14",
                 "Sphinx": "Sphinx >=6.1.3,<6",
             },
@@ -1051,7 +1064,7 @@ def test_ignore_version_fails() -> None:
                 "mike": "mike >=1.0,<3",
                 "pytest": "pytest ~=7.2",
                 "pytest-cov": "pytest-cov ~=3.0",
-                "pre-commit": "pre-commit ~=2.20",
+                "pre-commit": "pre-commit~=2.20",
                 "pylint": "pylint ~=2.14",
                 "Sphinx": "Sphinx >=6.1.3,<6",  # This should be fixed!
             },
@@ -1064,7 +1077,7 @@ def test_ignore_version_fails() -> None:
                 "mike": "mike >=1.0,<3",
                 "pytest": "pytest ~=7.2",
                 "pytest-cov": "pytest-cov ~=3.1",
-                "pre-commit": "pre-commit ~=2.20",
+                "pre-commit": "pre-commit~=2.20",
                 "pylint": "pylint ~=2.14",
                 "Sphinx": "Sphinx >=4.5.0,<6",
             },
@@ -1127,7 +1140,7 @@ dev = [
     "mike >={original_dependencies['mike']},<3",
     "pytest ~={original_dependencies['pytest']}",
     "pytest-cov ~={original_dependencies['pytest-cov']}",
-    "pre-commit ~={original_dependencies['pre-commit']}",
+    "pre-commit~={original_dependencies['pre-commit']}",
     "pylint ~={original_dependencies['pylint']}",
     "Sphinx >={original_dependencies['Sphinx']},<6",
 ]
@@ -1165,8 +1178,59 @@ dev = [
 
     for line in dependencies:
         for dependency, dependency_requirement in expected_result.items():
-            if f"{dependency} " in line:
+            # Assert the dependency in the updated pyproject.toml file equals the
+            # expected value.
+            # We have to use a regular expression to match the dependency name as some
+            # dependency names are sub-strings of each other (like 'pytest' is a
+            # sub-string of 'pytest-cov').
+            if re.match(rf"{re.escape(dependency)}\s*(~|>).*", line):
                 assert line == dependency_requirement
                 break
         else:
             pytest.fail(f"Unknown package in line: {line}")
+
+
+@pytest.mark.parametrize("verbose_flag", [True, False])
+def test_verbose(
+    verbose_flag: bool,
+    tmp_path: Path,
+    capsys: pytest.CaptureFixture,
+    caplog: pytest.LogCaptureFixture,
+) -> None:
+    """Check the verbose flag is respected.
+
+    Any logged messaged should be written to stdout IF the verbose flag is set.
+    Check that any expected log messages are found both in the logs and in stdout.
+
+    If the verbose flag is not set, the messages should ONLY appear in the logs.
+    """
+    from invoke import MockContext
+
+    from ci_cd.tasks import update_deps
+
+    with pytest.raises(
+        SystemExit,
+        match=r".*Error: Could not find the Python package repository's 'pyproject.toml' file.*",
+    ):
+        update_deps(MockContext(), root_repo_path=str(tmp_path), verbose=verbose_flag)
+
+    captured_output = capsys.readouterr()
+
+    # Expected log messages - note the strings are sub-strings of the full log messages
+    assert (
+        "Verbose logging enabled." in caplog.text
+        if verbose_flag
+        else "Verbose logging enabled." not in caplog.text
+    )
+    assert "Parsed ignore rules:" in caplog.text
+
+    # Assert the above messages are the only messages in the logs
+    assert len(caplog.messages) == 2 if verbose_flag else 1
+
+    # Go through the log messages and ensure they either are or are not in stdout
+    for log_message in caplog.messages:
+        assert (
+            log_message in captured_output.out
+            if verbose_flag
+            else log_message not in captured_output.out
+        )

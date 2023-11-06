@@ -56,6 +56,11 @@ on:
         required: false
         type: string
         default: ""
+      debug:
+        description: "Whether to run the workflow in debug mode, printing extra debug information."
+        required: false
+        type: boolean
+        default: false
     secrets:
       PAT:
         description: "A personal access token (PAT) with rights to create PRs. This will fallback on `GITHUB_TOKEN`."
@@ -86,18 +91,36 @@ jobs:
 
     - name: Install Python dependencies
       run: |
-        python -m pip install -U pip
-        pip install -U setuptools wheel
-        pip install .${{ inputs.install_extras }}
-        pip install git+https://github.com/SINTEF/ci-cd.git@v2.5.2
+        if [ "${{ inputs.debug }}" == "true" ]; then
+          set -x
+          VERBOSE=-vvv
+        else
+          VERBOSE=
+        fi
+
+        python -m pip install -U ${VERBOSE} pip
+        pip install -U ${VERBOSE} setuptools wheel
+        pip install ${VERBOSE} .${{ inputs.install_extras }}
+        pip install ${VERBOSE} git+https://github.com/SINTEF/ci-cd.git@v2.5.3
 
     - name: Set up git user
       run: |
+        if [ "${{ inputs.debug }}" == "true" ]; then
+          set -x
+        fi
+
         git config --global user.name "${{ inputs.git_username }}"
         git config --global user.email "${{ inputs.git_email }}"
 
     - name: Run ci-cd task
       run: |
+        if [ "${{ inputs.debug }}" == "true" ]; then
+          set -x
+          VERBOSE=--verbose
+        else
+          VERBOSE=
+        fi
+
         if [ "${{ inputs.fail_fast }}" == "true" ]; then
           FAIL_FAST=--fail-fast
         else
@@ -109,9 +132,14 @@ jobs:
           if [ -n "${line}" ]; then IGNORE_OPTIONS+=(--ignore="${line}"); fi
         done <<< "${{ inputs.ignore }}"
 
-        ci-cd update-deps ${FAIL_FAST} \
+        ci-cd update-deps ${FAIL_FAST} ${VERBOSE} \
           --root-repo-path="${PWD}" \
+          --ignore-separator="..." \
           "${IGNORE_OPTIONS[@]}"
+
+        if [ "${{ inputs.debug }}" == "true" ]; then
+          git status
+        fi
 
         if [ -n "$(git status --porcelain pyproject.toml)" ]; then
           echo "UPDATE_DEPS=true" >> $GITHUB_ENV
@@ -124,6 +152,10 @@ jobs:
     - name: Set PR body
       if: env.UPDATE_DEPS == 'true'
       run: |
+        if [ "${{ inputs.debug }}" == "true" ]; then
+          set -x
+        fi
+
         if [ -z "${{ inputs.pr_body_file }}" ] || [ ! -f "${{ inputs.pr_body_file }}" ]; then
           PR_BODY_FILE=.tmp_pr-body_${{ github.run_id }}_${{ github.run_number }}_${{ github.run_attempt }}.txt
           echo "PR_BODY_FILE=${PR_BODY_FILE}" >> $GITHUB_ENV

@@ -1,5 +1,32 @@
 # Changelog
 
+## [Unreleased](https://github.com/SINTEF/ci-cd/tree/HEAD)
+
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.5.3...HEAD)
+
+**Fixed bugs:**
+
+- A PR is not opened for CI - Check dependencies [\#195](https://github.com/SINTEF/ci-cd/issues/195)
+
+## [v2.5.3](https://github.com/SINTEF/ci-cd/tree/v2.5.3) (2023-10-25)
+
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.5.2...v2.5.3)
+
+**Implemented enhancements:**
+
+- Avoid warning for inter-relative extra dependencies [\#198](https://github.com/SINTEF/ci-cd/issues/198)
+- Allow branch name customization [\#196](https://github.com/SINTEF/ci-cd/issues/196)
+
+**Fixed bugs:**
+
+- Ignore options not parseable [\#194](https://github.com/SINTEF/ci-cd/issues/194)
+
+**Merged pull requests:**
+
+- Add project name by default to `already_handled_packages` [\#202](https://github.com/SINTEF/ci-cd/pull/202) ([CasperWA](https://github.com/CasperWA))
+- Customize branch name [\#201](https://github.com/SINTEF/ci-cd/pull/201) ([CasperWA](https://github.com/CasperWA))
+- Handle package-specifier spacing [\#197](https://github.com/SINTEF/ci-cd/pull/197) ([CasperWA](https://github.com/CasperWA))
+
 ## [v2.5.2](https://github.com/SINTEF/ci-cd/tree/v2.5.2) (2023-10-04)
 
 [Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.5.1...v2.5.2)

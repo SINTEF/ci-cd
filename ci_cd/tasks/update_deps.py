@@ -52,6 +52,7 @@ LOGGER.setLevel(logging.DEBUG)
             "Value to use instead of ellipsis (`...`) as a separator in `--ignore` "
             "key/value-pairs."
         ),
+        "verbose": "Whether or not to print debug statements.",
     },
     iterable=["ignore"],
 )
@@ -62,6 +63,7 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
     pre_commit=False,
     ignore=None,
     ignore_separator="...",
+    verbose=False,
 ):
     """Update dependencies in specified Python package's `pyproject.toml`."""
     if TYPE_CHECKING:  # pragma: no cover
@@ -70,9 +72,15 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
         fail_fast: bool = fail_fast  # type: ignore[no-redef]
         pre_commit: bool = pre_commit  # type: ignore[no-redef]
         ignore_separator: str = ignore_separator  # type: ignore[no-redef]
+        verbose: bool = verbose  # type: ignore[no-redef]
 
     if not ignore:
         ignore: list[str] = []  # type: ignore[no-redef]
+
+    if verbose:
+        LOGGER.setLevel(logging.DEBUG)
+        LOGGER.addHandler(logging.StreamHandler(sys.stdout))
+        LOGGER.debug("Verbose logging enabled.")
 
     VersionSpec = namedtuple(
         "VersionSpec",
@@ -84,6 +92,7 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
             "version",
             "extra_operator_version",
             "environment_marker",
+            "spacing",
         ],
     )
 
@@ -134,7 +143,8 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
     error = False
     for line in dependencies:
         match = re.match(
-            r"^(?P<full_dependency>(?P<package>[a-zA-Z0-9_.-]+)(?:\s*\[.*\])?)\s*"
+            r"^(?P<full_dependency>(?P<package>[a-zA-Z0-9_.-]+)(?:\s*\[.*\])?)"
+            r"(?P<spacing>\s*)"
             r"(?:"
             r"(?P<url_version>@\s*\S+)|"
             r"(?P<operator>>|<|<=|>=|==|!=|~=)\s*"
@@ -267,16 +277,27 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
             escaped_full_dependency_name = version_spec.full_dependency.replace(
                 "[", r"\["
             ).replace("]", r"\]")
-            update_file(
-                pyproject_path,
-                (
-                    rf'"{escaped_full_dependency_name} {version_spec.operator}.*"',
-                    f'"{version_spec.full_dependency} '
-                    f"{version_spec.operator}{updated_version}"
-                    f'{version_spec.extra_operator_version if version_spec.extra_operator_version else ""}'  # pylint: disable=line-too-long
-                    f'{version_spec.environment_marker if version_spec.environment_marker else ""}"',  # pylint: disable=line-too-long
-                ),
+
+            LOGGER.debug("updated_version: %s", updated_version)
+            LOGGER.debug(
+                "escaped_full_dependency_name: %s", escaped_full_dependency_name
             )
+
+            pattern_sub_line = (
+                rf'"{escaped_full_dependency_name}{version_spec.spacing}'
+                rf'{version_spec.operator}.*"'
+            )
+            replacement_sub_line = (
+                f'"{version_spec.full_dependency}{version_spec.spacing}'
+                f"{version_spec.operator}{updated_version}"
+                f'{version_spec.extra_operator_version if version_spec.extra_operator_version else ""}'  # pylint: disable=line-too-long
+                f'{version_spec.environment_marker if version_spec.environment_marker else ""}"'  # pylint: disable=line-too-long
+            )
+
+            LOGGER.debug("pattern_sub_line: %s", pattern_sub_line)
+            LOGGER.debug("replacement_sub_line: %s", replacement_sub_line)
+
+            update_file(pyproject_path, (pattern_sub_line, replacement_sub_line))
             already_handled_packages.add(version_spec.package)
             updated_packages[version_spec.full_dependency] = (
                 f"{version_spec.operator}{updated_version}"

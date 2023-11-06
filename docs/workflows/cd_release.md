@@ -29,7 +29,7 @@ See the [proper section](../hooks/docs_api_reference.md#using-it-together-with-c
 The content of repository files can be updated to use the new version where necessary.
 This is done through the `version_update_changes` (and `version_update_changes_separator`) inputs.
 
-To see an example of how to use the `version_update_changes` (and `version_update_changes_separator`) see for example the [workflow used by the SINTEF/ci-cd repository](https://github.com/SINTEF/ci-cd/blob/v2.5.2/.github/workflows/_local_cd_release.yml) calling the _CD Release_ workflow.
+To see an example of how to use the `version_update_changes` (and `version_update_changes_separator`) see for example the [workflow used by the SINTEF/ci-cd repository](https://github.com/SINTEF/ci-cd/blob/v2.5.3/.github/workflows/_local_cd_release.yml) calling the _CD Release_ workflow.
 
 Some notes to consider and respect when using `version_update_changes` are:
 
@@ -139,7 +139,7 @@ on:
 jobs:
   publish:
     name: Publish package and documentation
-    uses: SINTEF/ci-cd/.github/workflows/cd_release.yml@v2.5.2
+    uses: SINTEF/ci-cd/.github/workflows/cd_release.yml@v2.5.3
     if: github.repository == 'SINTEF/my-python-package' && startsWith(github.ref, 'refs/tags/v')
     with:
       git_username: "Casper Welzel Andersen"
