@@ -1001,16 +1001,16 @@ def get_min_max_py_version(
         split_py_version = py_version.split(".")
         parsed_py_version = SemanticVersion(py_version)
 
+        # See the _semi_valid_python_version() function for these values
+        largest_value_for_a_patch_part = 18
+        largest_value_for_a_minor_part = 12
+        largest_value_for_any_part = largest_value_for_a_patch_part
+
         while (
             not _semi_valid_python_version(parsed_py_version)
             or py_version not in specifier_set
         ):
             if min_or_max == "min":
-                # See the _semi_valid_python_version() function for these values
-                largest_value_for_a_patch_part = 18
-                largest_value_for_a_minor_part = 12
-                largest_value_for_any_part = largest_value_for_a_patch_part
-
                 if parsed_py_version.patch >= largest_value_for_a_patch_part:
                     parsed_py_version = parsed_py_version.next_version("minor")
                 elif parsed_py_version.minor >= largest_value_for_a_minor_part:
