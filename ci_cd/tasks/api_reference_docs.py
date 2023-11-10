@@ -21,8 +21,8 @@ if TYPE_CHECKING:  # pragma: no cover
     from invoke import Context, Result
 
 
-LOGGER = logging.getLogger(__file__)
-LOGGER.setLevel(logging.DEBUG)
+# Get logger
+LOGGER = logging.getLogger(__name__)
 
 
 @task(
