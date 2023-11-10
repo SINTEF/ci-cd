@@ -18,12 +18,19 @@ repos:
     - id: trailing-whitespace
       args: [--markdown-linebreak-ext=md]
 
+  # Black is a code style and formatter
+  # It works on files in-place
+  - repo: https://github.com/ambv/black
+    rev: 23.11.0
+    hooks:
+    - id: black
+
   # ruff is a Python linter, incl. import sorter and formatter
   # It works partly on files in-place
   # More information can be found in its documentation:
   # https://docs.astral.sh/ruff/
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.1.2
+    rev: v0.1.5
     hooks:
     - id: ruff
       name: ruff core code base
@@ -36,8 +43,6 @@ repos:
       - "--show-fixes"
       - "--no-unsafe-fixes"
       # Extend rule set to include:
-      #   flake8-bandit
-      - "--extend-select=S"
       #   flake8-blind-except
       - "--extend-select=BLE"
       #   pylint
@@ -55,7 +60,7 @@ repos:
   # More information can be found in its documentation:
   # https://docs.astral.sh/ruff/
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.1.2
+    rev: v0.1.5
     hooks:
     - id: ruff
       name: ruff non-core code base
@@ -67,13 +72,6 @@ repos:
       - "--exit-non-zero-on-fix"
       - "--show-fixes"
       - "--no-unsafe-fixes"
-
-  # Black is a code style and formatter
-  # It works on files in-place
-  - repo: https://github.com/ambv/black
-    rev: 23.10.1
-    hooks:
-    - id: black
 
   # Bandit is a security linter
   # More information can be found in its documentation:

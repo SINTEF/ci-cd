@@ -7,17 +7,15 @@ import pytest
 
 if TYPE_CHECKING:
     from pathlib import Path
-    from typing import Literal
 
 
 def test_update_deps(tmp_path: Path, caplog: pytest.LogCaptureFixture) -> None:
     """Check update_deps runs with defaults."""
     import re
 
-    import tomlkit
     from invoke import MockContext
 
-    from ci_cd.tasks import update_deps
+    from ci_cd.tasks.update_deps import update_deps
 
     original_dependencies = {
         "invoke": "1.7",
@@ -47,12 +45,12 @@ docs = [
 ]
 testing = [
     "pytest ~={original_dependencies['pytest']}",
-    "pytest-cov ~={original_dependencies['pytest-cov']}",
+    "pytest-cov ~={original_dependencies['pytest-cov']},!=3.1",
 ]
 dev = [
     "mike >={original_dependencies['mike']},<3",
     "pre-commit~={original_dependencies['pre-commit']}",
-    "pylint ~={original_dependencies['pylint']}",
+    # "pylint ~={original_dependencies['pylint']},!=2.14.*",
     "test[testing]",
 ]
 
@@ -64,9 +62,7 @@ pep_508 = [
     "name",
     "name1<=1",
     "name2>=3",
-    # Multiple version specifiers are currently not supported.
-    # Follow issue #141 for updates.
-    # "name3>=3,<2",
+    "name3>=3,<2",
     "name4@http://foo.com",
     "name5 [fred,bar] @ http://foo.com ; python_version=='2.7'",
     "name6[quux, strange];python_version<'2.7' and platform_version=='2'",
@@ -89,930 +85,112 @@ pep_508 = [
             **{
                 re.compile(r".*invoke$"): "invoke (1.7.1)\n",
                 re.compile(r".*tomlkit$"): "tomlkit (1.0.0)",
-                re.compile(r".*mike$"): "mike (1.0.1)",
+                re.compile(r".*mike$"): "mike (1.1.1)",
                 re.compile(r".*pytest$"): "pytest (7.1.0)",
-                re.compile(r".*pytest-cov$"): "pytest-cov (3.1.0)",
-                re.compile(r".*pre-commit$"): "pre-commit (2.20.0)",
-                re.compile(r".*pylint$"): "pylint (2.14.0)",
+                re.compile(r".*pytest-cov$"): "pytest-cov (3.1.5)",
+                re.compile(r".*pre-commit$"): "pre-commit (2.21.5)",
+                re.compile(r".*pylint$"): "pylint (2.14.2)",
                 re.compile(r".* A$"): "A (1.2.3)",
                 re.compile(r".*A.B-C_D$"): "A.B-C_D (1.2.3)",
                 re.compile(r".*aa$"): "aa (1.2.3)",
                 re.compile(r".*name$"): "name (1.2.3)",
             },
-            **{re.compile(rf".*name{i}$"): f"name{i} (1.2.3)" for i in range(1, 12)},
+            **{re.compile(rf".*name{i}$"): f"name{i} (3.2.1)" for i in range(1, 12)},
         }
     )
+
+    # Expected changes:
+    # - Extras should be sorted alphabetically (tomlkit).
+    # - Original white space between name and specifiers should be respected
+    #   (pep_508 vs. the rest)
+    # - All name# with a version specifier should be updated to include the latest
+    #   version (explicit change in name1)
+    # - Similar formatting, even if the dependency is otherwise skipped
+    #   (name4 to name11)
+    # - Acknowledge that !=3.1 expands to !=3.1.0, so 3.1.5 is allowed (pytest-cov)
+    # - TODO: Acknowledge that !=2.14.* includes not wanting *all* sub-versions of 2.14,
+    #   so 2.14.2 is excluded and should not be part of the updated specifier set
+    #   (pylint)
+    expected_updated_pyproject_file = f"""
+[project]
+name = "test"
+requires-python = "~=3.7"
+
+dependencies = [
+    "invoke ~={original_dependencies['invoke']}",
+    "tomlkit[docs,test] >={original_dependencies['tomlkit']},<2",
+]
+
+[project.optional-dependencies]
+docs = [
+    "mike >={original_dependencies['mike']},<3",
+]
+testing = [
+    "pytest ~={original_dependencies['pytest']}",
+    "pytest-cov ~=3.1,!=3.1",
+]
+dev = [
+    "mike >={original_dependencies['mike']},<3",
+    "pre-commit~=2.21",
+    # "pylint ~={original_dependencies['pylint']},!=2.14.*",
+    "test[testing]",
+]
+
+# List from https://peps.python.org/pep-0508/#complete-grammar
+pep_508 = [
+    "A",
+    "A.B-C_D",
+    "aa",
+    "name",
+    "name1<=3",
+    "name2>=3",
+    "name3>=3,<2",
+    "name4@ http://foo.com",
+    "name5[bar,fred] @ http://foo.com ; python_version == '2.7'",
+    "name6[quux,strange]; python_version < '2.7' and platform_version == '2'",
+    "name7; os_name == 'a' or os_name == 'b'",
+    # Should parse as (a and b) or c
+    "name8; os_name == 'a' and os_name == 'b' or os_name == 'c'",
+    # Overriding precedence -> a and (b or c)
+    "name9; os_name == 'a' and (os_name == 'b' or os_name == 'c')",
+    # should parse as a or (b and c)
+    "name10; os_name == 'a' or os_name == 'b' and os_name == 'c'",
+    # Overriding precedence -> (a or b) and c
+    "name11; (os_name == 'a' or os_name == 'b') and os_name == 'c'",
+]
+"""
 
     update_deps(
         context,
         root_repo_path=str(tmp_path),
     )
 
-    pyproject = tomlkit.loads(pyproject_file.read_bytes())
+    updated_pyproject_file = pyproject_file.read_text(encoding="utf8")
 
-    dependencies: list[str] = pyproject.get("project", {}).get("dependencies", [])
-    for optional_deps in (
-        pyproject.get("project", {}).get("optional-dependencies", {}).values()
-    ):
-        dependencies.extend(optional_deps)
+    assert updated_pyproject_file == expected_updated_pyproject_file
 
-    for line in dependencies:
-        if any(
-            line.startswith(package_name) for package_name in ["invoke ", "pytest "]
-        ):
-            package_name = line.split(maxsplit=1)[0]
-            assert line == f"{package_name} ~={original_dependencies[package_name]}"
-        elif "pre-commit" in line:
-            assert line == f"pre-commit~={original_dependencies['pre-commit']}"
-        elif "tomlkit" in line:
-            # Should be three version digits, since the original dependency had three.
-            assert line == "tomlkit[test,docs] ~=1.0.0"
-        elif "mike" in line:
-            assert line == "mike >=1.0,<3"
-        elif "pytest-cov" in line:
-            assert line == "pytest-cov ~=3.1"
-        elif "pylint" in line:
-            assert line == "pylint ~=2.14"
-        elif any(
-            package_name == line for package_name in ["A", "A.B-C_D", "aa", "name"]
-        ) or any(
-            line.startswith(package_name)
-            for package_name in [f"name{i}" for i in range(6, 12)]
-        ):
-            package_name = line.split(";", maxsplit=1)[0].strip()
-            assert (
-                f"{package_name!r} is not version restricted and will be skipped."
-                in caplog.text
-            )
-            if ";" in line:
-                assert "os_name" in line or (
-                    "python_version" in line and "platform_version" in line
-                )
-        elif "name1" in line:
-            assert line == "name1<=1"
-        elif "name2" in line:
-            # name2 is altered by update_deps() to include the latest version (v1.2.3)
-            # even though it was originally specifying all versions above and including
-            # v3.
-            # Note, if a user wishes to avoid this alteration, the `--ignore` option can
-            # be used to specify the package (and version(s)) to ignore.
-            assert line == "name2>=1"
-        elif "name3" in line:
-            # Multiple version specifiers are currently not supported.
-            # Follow issue #141 for updates.
-            pytest.fail(
-                "name3 is commnted out in the test file and should not be present."
-            )
-            # assert line == "name3>=3,<2"
-        elif "name4" in line:
-            assert line == "name4@http://foo.com"
-            assert "'name4' is pinned to a URL and will be skipped" in caplog.text
-        elif "name5" in line:
-            assert line == "name5 [fred,bar] @ http://foo.com ; python_version=='2.7'"
-            assert (
-                "'name5 [fred,bar]' is pinned to a URL and will be skipped"
-                in caplog.text
-            )
-        elif "test[testing]" in line:
-            assert line == "test[testing]"
-            assert (
-                "'test[testing]' is not version restricted and will be skipped."
-                not in caplog.text
-            )
-        else:
-            pytest.fail(f"Unknown package in line: {line}")
+    # Check the non-version restricted packages are skipped with a message
+    for package_name in ["A", "A.B-C_D", "aa", "name"] + [
+        f"name{i}" for i in range(6, 12)
+    ]:
+        assert (
+            f"{package_name!r} is not version restricted and will be skipped."
+            in caplog.text
+        )
 
-
-@pytest.mark.parametrize(
-    argnames=("entries", "separator", "expected_outcome"),
-    argvalues=[
-        (
-            ["dependency-name=test...versions=>2.2.2"],
-            "...",
-            {"test": {"versions": [">2.2.2"]}},
-        ),
-        (
-            [
-                "dependency-name=test...versions=>2.2.2...update-types=version-update:semver-patch"
-            ],
-            "...",
-            {
-                "test": {
-                    "versions": [">2.2.2"],
-                    "update-types": ["version-update:semver-patch"],
-                }
-            },
-        ),
-        (
-            [
-                "dependency-name=test;versions=>2.2.2;update-types=version-update:semver-patch"
-            ],
-            ";",
-            {
-                "test": {
-                    "versions": [">2.2.2"],
-                    "update-types": ["version-update:semver-patch"],
-                }
-            },
-        ),
-        (
-            [
-                "dependency-name=test...versions=>2.2.2...update-types=version-update:semver-patch",
-                "dependency-name=test...versions=<3",
-            ],
-            "...",
-            {
-                "test": {
-                    "versions": [">2.2.2", "<3"],
-                    "update-types": ["version-update:semver-patch"],
-                }
-            },
-        ),
-        (
-            [
-                "dependency-name=test;versions=>2.2.2;update-types=version-update:semver-patch",
-                "dependency-name=test;versions=<3",
-            ],
-            ";",
-            {
-                "test": {
-                    "versions": [">2.2.2", "<3"],
-                    "update-types": ["version-update:semver-patch"],
-                }
-            },
-        ),
-        (
-            [
-                "dependency-name=test...versions=>2.2.2...update-types=version-update:semver-patch",
-                "dependency-name=test...versions=<3...update-types=version-update:semver-major",
-            ],
-            "...",
-            {
-                "test": {
-                    "versions": [">2.2.2", "<3"],
-                    "update-types": [
-                        "version-update:semver-patch",
-                        "version-update:semver-major",
-                    ],
-                }
-            },
-        ),
-        (
-            [
-                "dependency-name=test;versions=>2.2.2;update-types=version-update:semver-patch",
-                "dependency-name=test;versions=<3;update-types=version-update:semver-major",
-            ],
-            ";",
-            {
-                "test": {
-                    "versions": [">2.2.2", "<3"],
-                    "update-types": [
-                        "version-update:semver-patch",
-                        "version-update:semver-major",
-                    ],
-                }
-            },
-        ),
-        (["dependency-name=test"], "...", {"test": {}}),
-    ],
-)
-def test_parse_ignore_entries(
-    entries: list[str],
-    separator: str,
-    expected_outcome: dict[
-        str, dict[Literal["dependency-name", "versions", "update-types"], str]
-    ],
-) -> None:
-    """Check the `--ignore` option values are parsed as expected."""
-    from ci_cd.tasks.update_deps import parse_ignore_entries
-
-    parsed_entries = parse_ignore_entries(
-        entries=entries,
-        separator=separator,
+    # Check a warning is not emitted for the non-version inter-relative dependency.
+    assert (
+        "'test[testing]' is not version restricted and will be skipped."
+        not in caplog.text
     )
-    assert (
-        parsed_entries == expected_outcome
-    ), f"""Failed for:
-  entries={entries}
-  separator={separator}
 
-Expected outcome:
-{expected_outcome}
+    # Check the URL pinned packages are skipped with a message
+    for package_name in ["name4", "name5"]:
+        assert f"{package_name!r} is pinned to a URL and will be skipped" in caplog.text
 
-Instead, parse_ignore_entries() returned:
-{parsed_entries}
-"""
-
-
-@pytest.mark.parametrize(
-    argnames=("rules", "expected_outcome"),
-    argvalues=[
-        ({"versions": [">2.2.2"]}, ([{"operator": ">", "version": "2.2.2"}], {})),
-        (
-            {"versions": [">2.2.2"], "update-types": ["version-update:semver-patch"]},
-            ([{"operator": ">", "version": "2.2.2"}], {"version-update": ["patch"]}),
-        ),
-        (
-            {
-                "versions": [">2.2.2", "<3"],
-                "update-types": ["version-update:semver-patch"],
-            },
-            (
-                [
-                    {"operator": ">", "version": "2.2.2"},
-                    {"operator": "<", "version": "3"},
-                ],
-                {"version-update": ["patch"]},
-            ),
-        ),
-        (
-            {
-                "versions": [">2.2.2", "<3"],
-                "update-types": [
-                    "version-update:semver-patch",
-                    "version-update:semver-major",
-                ],
-            },
-            (
-                [
-                    {"operator": ">", "version": "2.2.2"},
-                    {"operator": "<", "version": "3"},
-                ],
-                {"version-update": ["patch", "major"]},
-            ),
-        ),
-        ({}, ([{"operator": ">=", "version": "0"}], {})),
-    ],
-)
-def test_parse_ignore_rules(
-    rules: dict[Literal["versions", "update-types"], list[str]],
-    expected_outcome: tuple[
-        list[dict[Literal["operator", "version"], str]],
-        dict[Literal["version-update"], list[Literal["major", "minor", "patch"]]],
-    ],
-) -> None:
-    """Check a specific set of ignore rules is parsed as expected."""
-    from ci_cd.tasks.update_deps import parse_ignore_rules
-
-    parsed_rules = parse_ignore_rules(rules=rules)
-    assert (
-        parsed_rules == expected_outcome
-    ), f"""Failed for:
-  rules={rules}
-
-Expected outcome:
-{expected_outcome}
-
-Instead, parse_ignore_rules() returned:
-{parsed_rules}
-"""
-
-
-def _parametrize_ignore_version() -> (
-    dict[
-        str,
-        tuple[
-            str,
-            str,
-            list[dict[Literal["operator", "version"], str]],
-            dict[Literal["version-update"], list[Literal["major", "minor", "patch"]]],
-            bool,
-        ],
-    ]
-):
-    """Utility function for `test_ignore_version()`.
-
-    The parametrized inputs are created in this function in order to have more
-    meaningful IDs in the runtime overview.
-    """
-    test_cases: list[
-        tuple[
-            str,
-            str,
-            list[dict[Literal["operator", "version"], str]],
-            dict[Literal["version-update"], list[Literal["major", "minor", "patch"]]],
-            bool,
-        ]
-    ] = [
-        ("1.1.1", "2.2.2", [{"operator": ">", "version": "2.2.2"}], {}, False),
-        ("1.1.1", "2.2.2", [{"operator": ">", "version": "2.2"}], {}, True),
-        ("1.1.1", "2.2.2", [{"operator": ">", "version": "2"}], {}, True),
-        ("1.1.1", "2.2.2", [{"operator": ">=", "version": "2.2.2"}], {}, True),
-        ("1.1.1", "2.2.2", [{"operator": ">=", "version": "2.2"}], {}, True),
-        ("1.1.1", "2.2.2", [{"operator": ">=", "version": "2"}], {}, True),
-        ("1.1.1", "2.2.2", [{"operator": "<", "version": "2.2.2"}], {}, False),
-        ("1.1.1", "2.2.2", [{"operator": "<", "version": "2.2"}], {}, False),
-        ("1.1.1", "2.2.2", [{"operator": "<", "version": "2"}], {}, False),
-        ("1.1.1", "2.2.2", [{"operator": "<=", "version": "2.2.2"}], {}, True),
-        ("1.1.1", "2.2.2", [{"operator": "<=", "version": "2.2"}], {}, False),
-        ("1.1.1", "2.2.2", [{"operator": "<=", "version": "2"}], {}, False),
-        ("1.1.1", "2.2.2", [{"operator": "==", "version": "2.2.2"}], {}, True),
-        ("1.1.1", "2.2.2", [{"operator": "==", "version": "2.2"}], {}, False),
-        ("1.1.1", "2.2.2", [{"operator": "==", "version": "2"}], {}, False),
-        ("1.1.1", "2.2.2", [{"operator": "!=", "version": "2.2.2"}], {}, False),
-        ("1.1.1", "2.2.2", [{"operator": "!=", "version": "2.2"}], {}, True),
-        ("1.1.1", "2.2.2", [{"operator": "!=", "version": "2"}], {}, True),
-        ("1.1.1", "2.2.2", [{"operator": "~=", "version": "2.2.2"}], {}, True),
-        ("1.1.1", "2.2.2", [{"operator": "~=", "version": "2.2"}], {}, True),
-        ("1.1.1", "1.1.2", [{"operator": "~=", "version": "1.1"}], {}, True),
-        ("1.1.1", "1.1.2", [{"operator": "~=", "version": "1.0"}], {}, True),
-        ("1.1.1", "1.1.2", [{"operator": "~=", "version": "1.2"}], {}, False),
-        ("1.1.1", "2.2.2", [], {"version-update": ["major"]}, True),
-        ("1.1.1", "2.2.2", [], {"version-update": ["minor"]}, False),
-        ("1.1.1", "2.2.2", [], {"version-update": ["patch"]}, False),
-        ("1.1.1", "1.2.2", [], {"version-update": ["major"]}, False),
-        ("1.1.1", "2.1.2", [], {"version-update": ["minor"]}, False),
-        ("1.1.1", "2.2.1", [], {"version-update": ["patch"]}, False),
-        ("1.1.1", "1.2.1", [], {"version-update": ["minor"]}, True),
-        ("1.1.1", "1.1.2", [], {"version-update": ["patch"]}, True),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": ">", "version": "2.2.2"}],
-            {"version-update": ["major"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": ">", "version": "2.2.2"}],
-            {"version-update": ["minor"]},
-            False,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": ">", "version": "2.2.2"}],
-            {"version-update": ["patch"]},
-            False,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": ">", "version": "2.2"}],
-            {"version-update": ["major"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": ">", "version": "2.2"}],
-            {"version-update": ["minor"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": ">", "version": "2.2"}],
-            {"version-update": ["patch"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": ">", "version": "2"}],
-            {"version-update": ["major"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": ">", "version": "2"}],
-            {"version-update": ["minor"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": ">", "version": "2"}],
-            {"version-update": ["patch"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": ">=", "version": "2.2.2"}],
-            {"version-update": ["major"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": ">=", "version": "2.2.2"}],
-            {"version-update": ["minor"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": ">=", "version": "2.2.2"}],
-            {"version-update": ["patch"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": ">=", "version": "2.2"}],
-            {"version-update": ["major"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": ">=", "version": "2.2"}],
-            {"version-update": ["minor"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": ">=", "version": "2.2"}],
-            {"version-update": ["patch"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": ">=", "version": "2"}],
-            {"version-update": ["major"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": ">=", "version": "2"}],
-            {"version-update": ["minor"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": ">=", "version": "2"}],
-            {"version-update": ["patch"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "<", "version": "2.2.2"}],
-            {"version-update": ["major"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "<", "version": "2.2.2"}],
-            {"version-update": ["minor"]},
-            False,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "<", "version": "2.2.2"}],
-            {"version-update": ["patch"]},
-            False,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "<", "version": "2.2"}],
-            {"version-update": ["major"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "<", "version": "2.2"}],
-            {"version-update": ["minor"]},
-            False,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "<", "version": "2.2"}],
-            {"version-update": ["patch"]},
-            False,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "<", "version": "2"}],
-            {"version-update": ["major"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "<", "version": "2"}],
-            {"version-update": ["minor"]},
-            False,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "<", "version": "2"}],
-            {"version-update": ["patch"]},
-            False,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "<=", "version": "2.2.2"}],
-            {"version-update": ["major"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "<=", "version": "2.2.2"}],
-            {"version-update": ["minor"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "<=", "version": "2.2.2"}],
-            {"version-update": ["patch"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "<=", "version": "2.2"}],
-            {"version-update": ["major"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "<=", "version": "2.2"}],
-            {"version-update": ["minor"]},
-            False,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "<=", "version": "2.2"}],
-            {"version-update": ["patch"]},
-            False,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "<=", "version": "2"}],
-            {"version-update": ["major"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "<=", "version": "2"}],
-            {"version-update": ["minor"]},
-            False,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "<=", "version": "2"}],
-            {"version-update": ["patch"]},
-            False,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "==", "version": "2.2.2"}],
-            {"version-update": ["major"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "==", "version": "2.2.2"}],
-            {"version-update": ["minor"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "==", "version": "2.2.2"}],
-            {"version-update": ["patch"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "==", "version": "2.2"}],
-            {"version-update": ["major"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "==", "version": "2.2"}],
-            {"version-update": ["minor"]},
-            False,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "==", "version": "2.2"}],
-            {"version-update": ["patch"]},
-            False,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "==", "version": "2"}],
-            {"version-update": ["major"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "==", "version": "2"}],
-            {"version-update": ["minor"]},
-            False,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "==", "version": "2"}],
-            {"version-update": ["patch"]},
-            False,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "!=", "version": "2.2.2"}],
-            {"version-update": ["major"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "!=", "version": "2.2.2"}],
-            {"version-update": ["minor"]},
-            False,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "!=", "version": "2.2.2"}],
-            {"version-update": ["patch"]},
-            False,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "!=", "version": "2.2"}],
-            {"version-update": ["major"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "!=", "version": "2.2"}],
-            {"version-update": ["minor"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "!=", "version": "2.2"}],
-            {"version-update": ["patch"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "!=", "version": "2"}],
-            {"version-update": ["major"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "!=", "version": "2"}],
-            {"version-update": ["minor"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "!=", "version": "2"}],
-            {"version-update": ["patch"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "~=", "version": "2.2.2"}],
-            {"version-update": ["major"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "~=", "version": "2.2.2"}],
-            {"version-update": ["minor"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "~=", "version": "2.2.2"}],
-            {"version-update": ["patch"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "~=", "version": "2.2"}],
-            {"version-update": ["major"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "~=", "version": "2.2"}],
-            {"version-update": ["minor"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "2.2.2",
-            [{"operator": "~=", "version": "2.2"}],
-            {"version-update": ["patch"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "1.1.2",
-            [{"operator": "~=", "version": "1.1"}],
-            {"version-update": ["major"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "1.1.2",
-            [{"operator": "~=", "version": "1.1"}],
-            {"version-update": ["minor"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "1.1.2",
-            [{"operator": "~=", "version": "1.1"}],
-            {"version-update": ["patch"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "1.1.2",
-            [{"operator": "~=", "version": "1.0"}],
-            {"version-update": ["major"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "1.1.2",
-            [{"operator": "~=", "version": "1.0"}],
-            {"version-update": ["minor"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "1.1.2",
-            [{"operator": "~=", "version": "1.0"}],
-            {"version-update": ["patch"]},
-            True,
-        ),
-        (
-            "1.1.1",
-            "1.1.2",
-            [{"operator": "~=", "version": "1.2"}],
-            {"version-update": ["major"]},
-            False,
-        ),
-        (
-            "1.1.1",
-            "1.1.2",
-            [{"operator": "~=", "version": "1.2"}],
-            {"version-update": ["minor"]},
-            False,
-        ),
-        (
-            "1.1.1",
-            "1.1.2",
-            [{"operator": "~=", "version": "1.2"}],
-            {"version-update": ["patch"]},
-            True,
-        ),
-        ("1.1.1", "1.1.2", [], {}, True),
-    ]
-    res: dict[
-        str,
-        tuple[
-            str,
-            str,
-            list[dict[Literal["operator", "version"], str]],
-            dict[Literal["version-update"], list[Literal["major", "minor", "patch"]]],
-            bool,
-        ],
-    ] = {}
-    for test_case in test_cases:
-        if test_case[2] and test_case[3]:
-            operator_version = ",".join(
-                f"{_['operator']}{_['version']}" for _ in test_case[2]
-            )
-            res[
-                f"{operator_version} + "
-                f"semver-{test_case[3]['version-update']}-latest={test_case[1]}"
-            ] = test_case
-        elif test_case[2]:
-            res[
-                ",".join(f"{_['operator']}{_['version']}" for _ in test_case[2])
-            ] = test_case
-        elif test_case[3]:
-            res[
-                f"semver-{test_case[3]['version-update']}-latest={test_case[1]}"
-            ] = test_case
-        else:
-            res["no rules"] = test_case
-    assert len(res) == len(test_cases)
-    return res
-
-
-@pytest.mark.parametrize(
-    argnames=("current", "latest", "version_rules", "semver_rules", "expected_outcome"),
-    argvalues=list(_parametrize_ignore_version().values()),
-    ids=list(_parametrize_ignore_version()),
-)
-def test_ignore_version(
-    current: str,
-    latest: str,
-    version_rules: list[dict[Literal["operator", "version"], str]],
-    semver_rules: dict[
-        Literal["version-update"], list[Literal["major", "minor", "patch"]]
-    ],
-    expected_outcome: bool,
-) -> None:
-    """Check the expected ignore rules are resolved correctly."""
-    from ci_cd.tasks.update_deps import ignore_version
-
-    assert (
-        ignore_version(
-            current=current.split("."),
-            latest=latest.split("."),
-            version_rules=version_rules,
-            semver_rules=semver_rules,
-        )
-        == expected_outcome
-    ), f"""Failed for:
-  current={current.split(".")}
-  latest={latest.split(".")}
-  version_rules={version_rules}
-  semver_rules={semver_rules}
-
-Expected outcome: {expected_outcome}
-Instead, ignore_version() is {not expected_outcome}
-"""
-
-
-def test_ignore_version_fails() -> None:
-    """Ensure `InputParserError` is raised for unknown ignore options."""
-    from ci_cd.exceptions import InputError, InputParserError
-    from ci_cd.tasks.update_deps import ignore_version
-
-    with pytest.raises(
-        InputParserError, match="only supports the following operators:"
-    ):
-        ignore_version(
-            current="1.1.1".split("."),
-            latest="2.2.2".split("."),
-            version_rules=[{"operator": "===", "version": "2.2.2"}],
-            semver_rules={},
-        )
-
-    with pytest.raises(
-        InputParserError, match=r"^Only valid values for 'version-update' are.*"
-    ):
-        ignore_version(
-            current="1.1.1".split("."),
-            latest="2.2.2".split("."),
-            version_rules=[],
-            semver_rules={"version-update": ["build"]},  # type: ignore[list-item]
-        )
-
-    with pytest.raises(
-        InputError, match="when using the '~=' operator more than a single version part"
-    ):
-        ignore_version(
-            current="1.1.1".split("."),
-            latest="2.2.2".split("."),
-            version_rules=[{"operator": "~=", "version": "2"}],
-            semver_rules={},
-        )
+    # Check the already up-to-date packages are skipped with a message
+    for package_name in ["invoke", "mike", "pytest"]:
+        assert f"Package {package_name!r} is already up-to-date" in caplog.text
 
 
 @pytest.mark.parametrize(
@@ -1022,26 +200,30 @@ def test_ignore_version_fails() -> None:
             ["dependency-name=*...update-types=version-update:semver-major"],
             {
                 "invoke": "invoke ~=1.7",
-                "tomlkit[test,docs]": "tomlkit[test,docs] ~=0.11.4",
-                "mike": "mike >=1.0,<3",
+                "tomlkit": "tomlkit[test,docs] ~=0.11.4",
+                "mike": "mike >=1.1,<3",
                 "pytest": "pytest ~=7.2",
-                "pytest-cov": "pytest-cov ~=3.1",
+                "pytest-cov": "pytest-cov ~=3.1,!=3.1.0",
                 "pre-commit": "pre-commit~=2.20",
-                "pylint": "pylint ~=2.14",
+                "pylint": "pylint ~=2.13,!=2.14",
                 "Sphinx": "Sphinx >=4.5.0,<6",
+                "test": "test[docs,testing]",
+                "urllib3": "urllib3 <2",
             },
         ),
         (
             ["dependency-name=invoke...versions=>=2"],
             {
                 "invoke": "invoke ~=1.7",
-                "tomlkit[test,docs]": "tomlkit[test,docs] ~=1.0.0",
-                "mike": "mike >=1.0,<3",
+                "tomlkit": "tomlkit[docs,test] >=0.11.4,<2",
+                "mike": "mike >=1.1,<3",
                 "pytest": "pytest ~=7.2",
-                "pytest-cov": "pytest-cov ~=3.1",
+                "pytest-cov": "pytest-cov ~=3.1,!=3.1.0",
                 "pre-commit": "pre-commit~=2.20",
-                "pylint": "pylint ~=2.14",
-                "Sphinx": "Sphinx >=6.1.3,<6",
+                "pylint": "pylint ~=2.13,!=2.14",
+                "Sphinx": "Sphinx >=4.5.0,<7",
+                "test": "test[docs,testing]",
+                "urllib3": "urllib3 <3",
             },
         ),
         (
@@ -1051,65 +233,75 @@ def test_ignore_version_fails() -> None:
             ],
             {
                 "invoke": "invoke ~=1.7",
-                "tomlkit[test,docs]": "tomlkit[test,docs] ~=1.0.0",
-                "mike": "mike >=1.0,<3",
+                "tomlkit": "tomlkit[docs,test] >=0.11.4,<2",
+                "mike": "mike >=1.1,<3",
                 "pytest": "pytest ~=7.2",
-                "pytest-cov": "pytest-cov ~=3.1",
+                "pytest-cov": "pytest-cov ~=3.1,!=3.1.0",
                 "pre-commit": "pre-commit~=2.20",
-                "pylint": "pylint ~=2.14",
-                "Sphinx": "Sphinx >=6.1.3,<6",
+                "pylint": "pylint ~=2.13,!=2.14",
+                "Sphinx": "Sphinx >=4.5.0,<7",
+                "test": "test[docs,testing]",
+                "urllib3": "urllib3 <3",
             },
         ),
         (
             ["dependency-name=pylint...versions=~=2.14"],
             {
                 "invoke": "invoke ~=1.7",
-                "tomlkit[test,docs]": "tomlkit[test,docs] ~=1.0.0",
-                "mike": "mike >=1.0,<3",
+                "tomlkit": "tomlkit[docs,test] >=0.11.4,<2",
+                "mike": "mike >=1.1,<3",
                 "pytest": "pytest ~=7.2",
-                "pytest-cov": "pytest-cov ~=3.1",
+                "pytest-cov": "pytest-cov ~=3.1,!=3.1.0",
                 "pre-commit": "pre-commit~=2.20",
-                "pylint": "pylint ~=2.13",
-                "Sphinx": "Sphinx >=6.1.3,<6",
+                "pylint": "pylint ~=2.13,!=2.14",
+                "Sphinx": "Sphinx >=4.5.0,<7",
+                "test": "test[docs,testing]",
+                "urllib3": "urllib3 <3",
             },
         ),
         (
             ["dependency-name=pytest"],
             {
                 "invoke": "invoke ~=1.7",
-                "tomlkit[test,docs]": "tomlkit[test,docs] ~=1.0.0",
-                "mike": "mike >=1.0,<3",
+                "tomlkit": "tomlkit[docs,test] >=0.11.4,<2",
+                "mike": "mike >=1.1,<3",
                 "pytest": "pytest ~=7.1",
-                "pytest-cov": "pytest-cov ~=3.1",
+                "pytest-cov": "pytest-cov ~=3.1,!=3.1.0",
                 "pre-commit": "pre-commit~=2.20",
-                "pylint": "pylint ~=2.14",
-                "Sphinx": "Sphinx >=6.1.3,<6",
+                "pylint": "pylint ~=2.13,!=2.14",
+                "Sphinx": "Sphinx >=4.5.0,<7",
+                "test": "test[docs,testing]",
+                "urllib3": "urllib3 <3",
             },
         ),
         (
             ["dependency-name=pytest-cov...update-types=version-update:semver-minor"],
             {
                 "invoke": "invoke ~=1.7",
-                "tomlkit[test,docs]": "tomlkit[test,docs] ~=1.0.0",
-                "mike": "mike >=1.0,<3",
+                "tomlkit": "tomlkit[docs,test] >=0.11.4,<2",
+                "mike": "mike >=1.1,<3",
                 "pytest": "pytest ~=7.2",
-                "pytest-cov": "pytest-cov ~=3.0",
+                "pytest-cov": "pytest-cov ~=3.0,!=3.1.0",
                 "pre-commit": "pre-commit~=2.20",
-                "pylint": "pylint ~=2.14",
-                "Sphinx": "Sphinx >=6.1.3,<6",  # This should be fixed!
+                "pylint": "pylint ~=2.13,!=2.14",
+                "Sphinx": "Sphinx >=4.5.0,<7",
+                "test": "test[docs,testing]",
+                "urllib3": "urllib3 <3",
             },
         ),
         (
             ["dependency-name=Sphinx...versions=>=4.5.0"],
             {
                 "invoke": "invoke ~=1.7",
-                "tomlkit[test,docs]": "tomlkit[test,docs] ~=1.0.0",
-                "mike": "mike >=1.0,<3",
+                "tomlkit": "tomlkit[docs,test] >=0.11.4,<2",
+                "mike": "mike >=1.1,<3",
                 "pytest": "pytest ~=7.2",
-                "pytest-cov": "pytest-cov ~=3.1",
+                "pytest-cov": "pytest-cov ~=3.1,!=3.1.0",
                 "pre-commit": "pre-commit~=2.20",
-                "pylint": "pylint ~=2.14",
+                "pylint": "pylint ~=2.13,!=2.14",
                 "Sphinx": "Sphinx >=4.5.0,<6",
+                "test": "test[docs,testing]",
+                "urllib3": "urllib3 <3",
             },
         ),
     ],
@@ -1132,47 +324,34 @@ def test_ignore_rules_logic(
     import tomlkit
     from invoke import MockContext
 
-    from ci_cd.tasks import update_deps
-
-    original_dependencies = {
-        "invoke": "1.7",
-        "tomlkit": "0.11.4",
-        "mike": "1.1",
-        "pytest": "7.1",
-        "pytest-cov": "3.0",
-        "pre-commit": "2.20",
-        "pylint": "2.13",
-        "Sphinx": "4.5.0",
-    }
+    from ci_cd.tasks.update_deps import update_deps
 
     pyproject_file = tmp_path / "pyproject.toml"
     pyproject_file.write_text(
-        data=f"""
+        data="""
 [project]
 name = "test"
 requires-python = "~=3.7"
 
 dependencies = [
-    "invoke ~={original_dependencies['invoke']}",
-    "tomlkit[test,docs] ~={original_dependencies['tomlkit']}",
+    "invoke ~=1.7",
+    "tomlkit[test,docs] ~=0.11.4",
+    "urllib3 <2",
 ]
 
 [project.optional-dependencies]
 docs = [
-    "mike >={original_dependencies['mike']},<3",
-    "Sphinx >={original_dependencies['Sphinx']},<6",
+    "mike >=1.1,<3",
+    "Sphinx >=4.5.0,<6",
 ]
 testing = [
-    "pytest ~={original_dependencies['pytest']}",
-    "pytest-cov ~={original_dependencies['pytest-cov']}",
+    "pytest ~=7.1",
+    "pytest-cov ~=3.0,!=3.1.0",
 ]
 dev = [
-    "mike >={original_dependencies['mike']},<3",
-    "pytest ~={original_dependencies['pytest']}",
-    "pytest-cov ~={original_dependencies['pytest-cov']}",
-    "pre-commit~={original_dependencies['pre-commit']}",
-    "pylint ~={original_dependencies['pylint']}",
-    "Sphinx >={original_dependencies['Sphinx']},<6",
+    "pre-commit~=2.20",
+    "pylint ~=2.13,!=2.14",
+    "test[docs,testing]",
 ]
 """,
         encoding="utf8",
@@ -1182,12 +361,13 @@ dev = [
         run={
             re.compile(r".*invoke$"): "invoke (1.7.1)",
             re.compile(r".*tomlkit$"): "tomlkit (1.0.0)",
-            re.compile(r".*mike$"): "mike (1.0.1)",
+            re.compile(r".*mike$"): "mike (1.1.1)",
             re.compile(r".*pytest$"): "pytest (7.2.0)",
-            re.compile(r".*pytest-cov$"): "pytest-cov (3.1.0)",
+            re.compile(r".*pytest-cov$"): "pytest-cov (3.1.1)",
             re.compile(r".*pre-commit$"): "pre-commit (2.20.0)",
             re.compile(r".*pylint$"): "pylint (2.14.0)",
             re.compile(r".*Sphinx$"): "Sphinx (6.1.3)",
+            re.compile(r".*urllib3$"): "urllib3 (2.0.3)",
         },
     )
 
@@ -1213,11 +393,149 @@ dev = [
             # We have to use a regular expression to match the dependency name as some
             # dependency names are sub-strings of each other (like 'pytest' is a
             # sub-string of 'pytest-cov').
-            if re.match(rf"{re.escape(dependency)}\s*(~|>).*", line):
+            if re.match(rf"{re.escape(dependency)}\s*(~|>|\[|<).*", line):
                 assert line == dependency_requirement
                 break
         else:
             pytest.fail(f"Unknown package in line: {line}")
+
+
+def test_python_version_marker(
+    tmp_path: Path, caplog: pytest.LogCaptureFixture
+) -> None:
+    """Check the python version marker is respected."""
+    import re
+
+    from invoke import MockContext
+
+    from ci_cd.tasks.update_deps import update_deps
+
+    pyproject_file = tmp_path / "pyproject.toml"
+    pyproject_file.write_text(
+        data="""
+[project]
+name = "ci-cd"
+requires-python = "~=3.6"
+
+dependencies = [
+    "oteapi-core ~=0.1.0; python_version <= '3.7'",
+    "oteapi-core ~=0.2.0; python_version > '3.7'",
+]
+""",
+        encoding="utf8",
+    )
+
+    context = MockContext(
+        run={
+            re.compile(r".*3.7 oteapi-core$"): "oteapi-core (0.1.9)",
+            re.compile(r".*3.8 oteapi-core$"): "oteapi-core (1.0.1)",
+        }
+    )
+
+    expected_updated_pyproject_file = """
+[project]
+name = "ci-cd"
+requires-python = "~=3.6"
+
+dependencies = [
+    "oteapi-core ~=0.1.9; python_version <= '3.7'",
+    "oteapi-core >=0.2.0,<2; python_version > '3.7'",
+]
+"""
+
+    update_deps(
+        context,
+        root_repo_path=str(tmp_path),
+    )
+
+    updated_pyproject_file = pyproject_file.read_text(encoding="utf8")
+
+    assert updated_pyproject_file == expected_updated_pyproject_file
+
+    assert "Min/max Python version from marker: 3.7" in caplog.text
+    assert "Min/max Python version from marker: 3.8" in caplog.text
+
+
+def test_no_warn_when_project_name(
+    tmp_path: Path, caplog: pytest.LogCaptureFixture
+) -> None:
+    """Check no warning is emitted if a dependency is also the project name.
+
+    This is only relevant when no specifiers are given.
+    """
+    import re
+
+    from invoke import MockContext
+
+    from ci_cd.tasks.update_deps import update_deps
+
+    pyproject_file = tmp_path / "pyproject.toml"
+    pyproject_file.write_text(
+        data="""
+[project]
+name = "ci-cd"
+requires-python = "~=3.6"
+
+dependencies = [
+    "oteapi-core ~=0.2.0",
+]
+
+[project.optional-dependencies]
+docs = [
+    "mkdocs >=1.1,<2",
+]
+dev = [
+    "ci-cd[docs]",
+    "pytest",
+]
+""",
+        encoding="utf8",
+    )
+
+    context = MockContext(
+        run={
+            re.compile(r".*oteapi-core$"): "oteapi-core (2.0.0)",
+            re.compile(r".*mkdocs$"): "mkdocs (1.2.3)",
+            re.compile(r".*pytest$"): "pytest (7.4.3)",
+        }
+    )
+
+    expected_updated_pyproject_file = """
+[project]
+name = "ci-cd"
+requires-python = "~=3.6"
+
+dependencies = [
+    "oteapi-core >=0.2.0,<3",
+]
+
+[project.optional-dependencies]
+docs = [
+    "mkdocs >=1.1,<2",
+]
+dev = [
+    "ci-cd[docs]",
+    "pytest",
+]
+"""
+
+    update_deps(
+        context,
+        root_repo_path=str(tmp_path),
+    )
+
+    updated_pyproject_file = pyproject_file.read_text(encoding="utf8")
+
+    assert updated_pyproject_file == expected_updated_pyproject_file
+
+    assert (
+        "Dependency 'pytest' is not version restricted and will be skipped."
+        in caplog.text
+    )
+    assert (
+        "Dependency 'ci-cd' is not version restricted and will be skipped."
+        not in caplog.text
+    )
 
 
 @pytest.mark.parametrize("verbose_flag", [True, False])
@@ -1247,7 +565,7 @@ def test_verbose(
     ):
         update_deps(MockContext(), root_repo_path=str(tmp_path), verbose=verbose_flag)
 
-    captured_output = capsys.readouterr()
+    captured_output = capsys.readouterr().out
 
     # Expected log messages - note the strings are sub-strings of the full log messages
     assert (
@@ -1263,7 +581,446 @@ def test_verbose(
     # Go through the log messages and ensure they either are or are not in stdout
     for log_message in caplog.messages:
         assert (
-            log_message in captured_output.out
+            log_message in captured_output
             if verbose_flag
-            else log_message not in captured_output.out
+            else log_message not in captured_output
         )
+
+
+def test_wrongly_formatted_ignore_entries() -> None:
+    """Check an error is raised if the ignore rules are incorrectly formatted."""
+    from invoke import MockContext
+
+    from ci_cd.tasks.update_deps import update_deps
+
+    with pytest.raises(
+        SystemExit,
+        match=r".*Error: Could not parse ignore options.*",
+    ):
+        # Should be "dependency-name", not "dependency"
+        update_deps(MockContext(), ignore=["dependency=pytest"])
+
+
+def test_non_parseable_pyproject_toml(tmp_path: Path) -> None:
+    """Check an error is raised if the pyproject.toml file cannot be parsed."""
+    from invoke import MockContext
+
+    from ci_cd.tasks.update_deps import update_deps
+
+    pyproject_file = tmp_path / "pyproject.toml"
+    pyproject_file.write_text("invalid toml file", encoding="utf8")
+
+    with pytest.raises(
+        SystemExit,
+        match=r".*Error: Could not parse the 'pyproject.toml' file",
+    ):
+        update_deps(MockContext(), root_repo_path=str(tmp_path))
+
+
+@pytest.mark.parametrize(
+    "requires_python",
+    ["", 'requires-python = "invalid"', 'requires-python = "3.7"'],
+    ids=["missing", "invalid", "missing operator"],
+)
+def test_no_requires_python_in_pyproject_toml(
+    tmp_path: Path, requires_python: str
+) -> None:
+    """Check an error is raised if the pyproject.toml file does not have a (valid)
+    requires-python key."""
+    from invoke import MockContext
+
+    from ci_cd.tasks.update_deps import update_deps
+
+    pyproject_file = tmp_path / "pyproject.toml"
+    pyproject_file.write_text(
+        data=f"""
+[project]
+name = "ci-cd"
+{requires_python}
+""",
+        encoding="utf8",
+    )
+
+    with pytest.raises(
+        SystemExit,
+        match=r".*Error: Cannot determine minimum Python version",
+    ):
+        update_deps(MockContext(), root_repo_path=str(tmp_path))
+
+
+def test_missing_project_package_name(tmp_path: Path) -> None:
+    """Check an error is raised if the pyproject.toml file does not have a (valid)
+    name key."""
+    from invoke import MockContext
+
+    from ci_cd.tasks.update_deps import update_deps
+
+    pyproject_file = tmp_path / "pyproject.toml"
+    pyproject_file.write_text(
+        data="""
+[project]
+requires-python = "~=3.7"
+""",
+        encoding="utf8",
+    )
+
+    with pytest.raises(
+        SystemExit,
+        match=r".*Error: Could not find the Python project's name.*",
+    ):
+        update_deps(MockContext(), root_repo_path=str(tmp_path))
+
+
+@pytest.mark.parametrize(
+    "dependency,optional_dependency,fail_fast",
+    [
+        ("(pytest)", "", False),
+        ("", "(pytest)", False),
+        ("(pytest)", "(pytest-cov)", False),
+        ("(pytest)", "(pytest-cov)", True),
+    ],
+    ids=["dependency", "optional-dependency", "both", "both, but fail_fast"],
+)
+def test_invalid_requirement(
+    tmp_path: Path,
+    dependency: str,
+    optional_dependency: str,
+    fail_fast: bool,
+    caplog: pytest.LogCaptureFixture,
+    capsys: pytest.CaptureFixture,
+) -> None:
+    """Check an error is raised if a dependency requirement is invalid."""
+    import re
+
+    from invoke import MockContext
+
+    from ci_cd.tasks.update_deps import update_deps
+    from ci_cd.utils.console_printing import Color, Emoji, error_msg
+
+    pyproject_file = tmp_path / "pyproject.toml"
+    pyproject_file.write_text(
+        data=f"""
+[project]
+name = "ci-cd"
+requires-python = "~=3.6"
+
+dependencies = [{repr(dependency) if dependency else ""}]
+
+[project.optional-dependencies]
+dev = [{repr(optional_dependency) if optional_dependency else ""}]
+""",
+        encoding="utf8",
+    )
+
+    log_msg = "Could not parse requirement '{bad_dependency}' from pyproject.toml: "
+
+    if fail_fast:
+        # We test failing fast
+        # The first dependency to be checked will be the ones from `dependencies`,
+        # hence we'd expect the error to be raised for that one.
+        raise_msg = (
+            f"^{re.escape(Emoji.CROSS_MARK.value)} "
+            f"{re.escape(error_msg(log_msg.format(bad_dependency=dependency))[:-len(Color.RESET.value)])}.*"
+        )
+    else:
+        raise_msg = r".*Errors occurred! See printed statements above\.$"
+
+    with pytest.raises(SystemExit, match=raise_msg):
+        update_deps(MockContext(), root_repo_path=str(tmp_path), fail_fast=fail_fast)
+
+    captured_stderr = capsys.readouterr().err
+
+    active_dependencies = [_ for _ in [dependency, optional_dependency] if _]
+
+    for bad_dependency in active_dependencies:
+        formatted_log_msg = log_msg.format(bad_dependency=bad_dependency)
+        formatted_terminal_msg = re.escape(
+            error_msg(formatted_log_msg)[: -len(Color.RESET.value)]
+        )
+
+        formatted_log_msg = re.escape(formatted_log_msg)
+
+        if fail_fast:
+            # Here we test failing fast, so _only_ the first dependency should be
+            # checked before the error is raised.
+            if bad_dependency == dependency:
+                # The error message should not be findable in stderr (or stdout) - it is
+                # already checked in the raise statement above.
+                # It SHOULD however be present in the logs.
+                assert (
+                    re.search(formatted_log_msg, caplog.text) is not None
+                ), formatted_log_msg
+                assert (
+                    re.search(formatted_terminal_msg, captured_stderr) is None
+                ), formatted_terminal_msg
+            else:
+                assert (
+                    re.search(formatted_log_msg, caplog.text) is None
+                ), formatted_log_msg
+                assert (
+                    re.search(formatted_terminal_msg, captured_stderr) is None
+                ), formatted_terminal_msg
+        else:
+            assert (
+                re.search(formatted_log_msg, caplog.text) is not None
+            ), formatted_log_msg
+            assert (
+                re.search(formatted_terminal_msg, captured_stderr) is not None
+            ), captured_stderr
+
+
+@pytest.mark.parametrize("fail_fast", [True, False], ids=["fail_fast", "no fail_fast"])
+def test_non_parseable_pip_index_versions(
+    tmp_path: Path,
+    fail_fast: bool,
+    caplog: pytest.LogCaptureFixture,
+    capsys: pytest.CaptureFixture,
+) -> None:
+    """Check an error is raised if the pip index versions cannot be parsed."""
+    import re
+
+    from invoke import MockContext
+
+    from ci_cd.tasks.update_deps import update_deps
+    from ci_cd.utils.console_printing import Emoji, error_msg
+
+    pyproject_file = tmp_path / "pyproject.toml"
+    pyproject_file.write_text(
+        data="""
+[project]
+name = "ci-cd"
+requires-python = "~=3.6"
+
+dependencies = [
+    "pytest ~=7.0",
+]
+""",
+        encoding="utf8",
+    )
+
+    context = MockContext(
+        run={
+            re.compile(r"^pip index versions.*"): "invalid output",
+        }
+    )
+
+    log_msg = (
+        "Could not parse package and version from 'pip index versions' output for "
+        "line:\n  invalid output"
+    )
+    terminal_msg = re.compile(re.escape(error_msg(log_msg)))
+
+    if fail_fast:
+        # We test failing fast
+        # The error message will be part of the exception, and will not be in stdout or
+        # stderr. It SHOULD however be present in the logs.
+        raise_msg = (
+            f"^{re.escape(Emoji.CROSS_MARK.value)} {re.escape(error_msg(log_msg))}$"
+        )
+    else:
+        raise_msg = (
+            rf"^{re.escape(Emoji.CROSS_MARK.value)} Errors occurred! See printed "
+            r"statements above\.$"
+        )
+
+    with pytest.raises(SystemExit, match=raise_msg):
+        update_deps(context, root_repo_path=str(tmp_path), fail_fast=fail_fast)
+
+    assert re.search(log_msg, caplog.text) is not None, log_msg
+
+    if fail_fast:
+        assert terminal_msg.search(capsys.readouterr().err) is None, terminal_msg
+    else:
+        assert terminal_msg.search(capsys.readouterr().err) is not None, terminal_msg
+
+
+def test_no_dependency_updates_available(
+    tmp_path: Path, caplog: pytest.LogCaptureFixture, capsys: pytest.CaptureFixture
+) -> None:
+    """Check no changes are incurred if no dependency updates are available."""
+    import re
+
+    from invoke import MockContext
+
+    from ci_cd.tasks.update_deps import update_deps
+
+    pyproject_file = tmp_path / "pyproject.toml"
+    pyproject_file_data = """[project]
+name = "ci-cd"
+requires-python = "~=3.6"
+
+dependencies = [
+    "pytest ~=7.0",
+]
+"""
+    pyproject_file.write_text(data=pyproject_file_data, encoding="utf8")
+
+    context = MockContext(
+        run={
+            re.compile(r".*pytest.*"): "pytest (7.0.10)",
+        }
+    )
+
+    msg = re.compile(r"No dependency updates available")
+
+    update_deps(context, root_repo_path=str(tmp_path))
+
+    assert "'pytest' is already up-to-date." in caplog.text
+
+    assert msg.search(capsys.readouterr().out) is not None, msg
+
+    assert pyproject_file.read_text(encoding="utf8") == pyproject_file_data
+
+
+@pytest.mark.parametrize(
+    "pre_commit", [True, False], ids=["pre-commit", "no pre-commit"]
+)
+def test_pre_commit(tmp_path: Path, pre_commit: bool) -> None:
+    """Check pre-commit toggle."""
+    import re
+
+    from invoke import MockContext
+
+    from ci_cd.tasks.update_deps import update_deps
+
+    git_repo = tmp_path / "sub_folder"
+    git_repo.mkdir()
+    pyproject_file_git_repo = git_repo / "pyproject.toml"
+    pyproject_file_data_git_repo = """[project]
+name = "ci-cd"
+requires-python = "~=3.8"
+
+dependencies = ["pre-commit ~=2.21"]
+"""
+    pyproject_file_git_repo.write_text(
+        data=pyproject_file_data_git_repo, encoding="utf8"
+    )
+
+    pyproject_file_tmp_path = tmp_path / "pyproject.toml"
+    pyproject_file_data_tmp_path = """[project]
+name = "ci-cd"
+requires-python = "~=3.8"
+
+dependencies = ["pytest ~=7.0"]
+"""
+    pyproject_file_tmp_path.write_text(
+        data=pyproject_file_data_tmp_path, encoding="utf8"
+    )
+
+    context = MockContext(
+        run={
+            re.compile(r"^git rev-parse --show-toplevel$"): f"{git_repo.resolve()}\n",
+            re.compile(r".*pre-commit$"): "pre-commit (3.5.0)",
+            re.compile(r".*pytest$"): "pytest (7.4.3)",
+        }
+    )
+
+    update_deps(
+        context,
+        root_repo_path="." if pre_commit else str(tmp_path),
+        pre_commit=pre_commit,
+    )
+
+    if pre_commit:
+        # The git folder pyproject.toml should be updated
+        assert (
+            pyproject_file_git_repo.read_text(encoding="utf8")
+            == """[project]
+name = "ci-cd"
+requires-python = "~=3.8"
+
+dependencies = ["pre-commit >=2.21.0,<4"]
+"""
+        )
+
+        # The tmp_path pyproject.toml should have no changes
+        assert pyproject_file_tmp_path.read_text(encoding="utf8") == (
+            pyproject_file_data_tmp_path
+        )
+
+    else:
+        # The git folder pyproject.toml should have no changes
+        assert (
+            pyproject_file_git_repo.read_text(encoding="utf8")
+            == pyproject_file_data_git_repo
+        )
+
+        # The tmp_path pyproject.toml should have have changed
+        assert (
+            pyproject_file_tmp_path.read_text(encoding="utf8")
+            == """[project]
+name = "ci-cd"
+requires-python = "~=3.8"
+
+dependencies = ["pytest ~=7.4"]
+"""
+        )
+
+
+@pytest.mark.parametrize("fail_fast", [True, False], ids=["fail_fast", "no fail_fast"])
+def test_unresolvable_specifier_set(
+    tmp_path: Path,
+    fail_fast: bool,
+    caplog: pytest.LogCaptureFixture,
+    capsys: pytest.CaptureFixture,
+) -> None:
+    """Ensure an error is raised if the specifier set is unresolvable.
+
+    The specifier operator '===' is not supported by the current implementation.
+    """
+    import re
+
+    from invoke import MockContext
+
+    from ci_cd.tasks.update_deps import update_deps
+    from ci_cd.utils.console_printing import Emoji, error_msg
+
+    pyproject_file_data = """[project]
+name = "ci-cd"
+requires-python = ">=3.8"
+
+dependencies = ["pytest===7.0"]
+"""
+    pyproject_file = tmp_path / "pyproject.toml"
+    pyproject_file.write_text(data=pyproject_file_data, encoding="utf8")
+
+    context = MockContext(
+        run={
+            re.compile(r".*pytest$"): "pytest (7.0.0)",
+        }
+    )
+
+    core_msg = (
+        "Could not determine how to update to the latest version using the version "
+        "range specifier set: ===7.0. Package: pytest. Latest version: 7.0.0"
+    )
+    log_msg = (
+        f"{core_msg}. Exception: Cannot resolve how to update specifier set to include "
+        "latest version."
+    )
+    terminal_msg = re.compile(re.escape(error_msg(core_msg)))
+
+    if fail_fast:
+        # We test failing fast
+        # The error message will be part of the exception, and will not be in stdout or
+        # stderr. It SHOULD however be present in the logs.
+        raise_msg = (
+            f"^{re.escape(Emoji.CROSS_MARK.value)} {re.escape(error_msg(core_msg))}$"
+        )
+    else:
+        raise_msg = (
+            rf"^{re.escape(Emoji.CROSS_MARK.value)} Errors occurred! See printed "
+            r"statements above\.$"
+        )
+
+    with pytest.raises(SystemExit, match=raise_msg):
+        update_deps(context, root_repo_path=str(tmp_path), fail_fast=fail_fast)
+
+    assert pyproject_file.read_text(encoding="utf8") == pyproject_file_data
+
+    assert re.search(log_msg, caplog.text) is not None, log_msg
+
+    if fail_fast:
+        assert terminal_msg.search(capsys.readouterr().err) is None, terminal_msg
+    else:
+        assert terminal_msg.search(capsys.readouterr().err) is not None, terminal_msg

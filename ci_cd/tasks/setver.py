@@ -13,8 +13,8 @@ from invoke import task
 
 from ci_cd.utils import Emoji, SemanticVersion, update_file
 
-LOGGER = logging.getLogger(__file__)
-LOGGER.setLevel(logging.DEBUG)
+# Get logger
+LOGGER = logging.getLogger(__name__)
 
 
 @task(

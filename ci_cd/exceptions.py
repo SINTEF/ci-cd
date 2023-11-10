@@ -11,3 +11,7 @@ class InputError(ValueError, CICDException):
 
 class InputParserError(InputError):
     """The input could not be parsed, it may be wrongly formatted."""
+
+
+class UnableToResolve(CICDException):
+    """Unable to resolve a task or sub-task."""
