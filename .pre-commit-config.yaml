@@ -18,6 +18,15 @@ repos:
     - id: trailing-whitespace
       args: [--markdown-linebreak-ext=md]
 
+  # pyupgrade is a tool for automatically upgrading Python syntax for newer versions of
+  # the language
+  # It works on files in-place
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.15.0
+    hooks:
+    - id: pyupgrade
+      args: [--py37-plus]
+
   # Black is a code style and formatter
   # It works on files in-place
   - repo: https://github.com/ambv/black

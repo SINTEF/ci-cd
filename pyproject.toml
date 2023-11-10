@@ -94,3 +94,5 @@ select = [
   # ruff
   "RUF",
 ]
+# Import __future__.annotations for all Python files.
+isort.required-imports = ["from __future__ import annotations"]

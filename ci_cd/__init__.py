@@ -1,4 +1,6 @@
 """CI/CD Tools. Tiny package to run invoke tasks as a standalone program."""
+from __future__ import annotations
+
 import logging
 
 __version__ = "2.5.3"

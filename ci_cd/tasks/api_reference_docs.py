@@ -3,6 +3,8 @@
 Create Python API reference in the documentation.
 This is specifically to be used with the MkDocs and mkdocstrings framework.
 """
+from __future__ import annotations
+
 import logging
 import os
 import re
@@ -111,7 +113,7 @@ def create_api_reference_docs(
 ):
     """Create the Python API Reference in the documentation."""
     if TYPE_CHECKING:  # pragma: no cover
-        context: "Context" = context  # type: ignore[no-redef]
+        context: Context = context  # type: ignore[no-redef]
         pre_clean: bool = pre_clean  # type: ignore[no-redef]
         pre_commit: bool = pre_commit  # type: ignore[no-redef]
         root_repo_path: str = root_repo_path  # type: ignore[no-redef]
@@ -148,7 +150,7 @@ def create_api_reference_docs(
 
     if pre_commit:
         # Ensure git is installed
-        result: "Result" = context.run("git --version", hide=True)
+        result: Result = context.run("git --version", hide=True)
         if result.exited != 0:
             sys.exit(
                 "Git is not installed. Please install it before running this task."

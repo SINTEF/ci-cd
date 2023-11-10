@@ -1,14 +1,15 @@
 """Utilities for handling IO operations."""
+from __future__ import annotations
+
 import re
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:  # pragma: no cover
     from pathlib import Path
-    from typing import Optional, Tuple
 
 
 def update_file(
-    filename: "Path", sub_line: "Tuple[str, str]", strip: "Optional[str]" = None
+    filename: Path, sub_line: tuple[str, str], strip: str | None = None
 ) -> None:
     """Utility function for tasks to read, update, and write files"""
     if strip is None and filename.suffix == ".md":

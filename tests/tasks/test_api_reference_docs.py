@@ -1,11 +1,13 @@
 """Test `ci_cd.tasks.api_reference_docs`."""
+from __future__ import annotations
+
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from pathlib import Path
 
 
-def test_default_run(tmp_path: "Path") -> None:
+def test_default_run(tmp_path: Path) -> None:
     """Check create_api_reference_docs runs with defaults."""
     import os
     import shutil
@@ -93,7 +95,7 @@ def test_default_run(tmp_path: "Path") -> None:
     ) == "# versions\n\n::: ci_cd.utils.versions\n"
 
 
-def test_nested_package(tmp_path: "Path") -> None:
+def test_nested_package(tmp_path: Path) -> None:
     """Check create_api_reference_docs generates correct link to sub-nested package
     directory."""
     import os
@@ -183,7 +185,7 @@ def test_nested_package(tmp_path: "Path") -> None:
     ) == "# versions\n\n::: src.ci_cd.ci_cd.utils.versions\n"
 
 
-def test_special_options(tmp_path: "Path") -> None:
+def test_special_options(tmp_path: Path) -> None:
     """Check create_api_reference_docs generates correct markdown files with
     `--special-option`."""
     import os
@@ -308,7 +310,7 @@ def test_special_options(tmp_path: "Path") -> None:
     ) == "# versions\n\n::: ci_cd.utils.versions\n"
 
 
-def test_special_options_multiple_packages(tmp_path: "Path") -> None:
+def test_special_options_multiple_packages(tmp_path: Path) -> None:
     """Check create_api_reference_docs generates correct markdown files with
     `--special-option` for a multi-package repository."""
     import os
@@ -476,7 +478,7 @@ def test_special_options_multiple_packages(tmp_path: "Path") -> None:
         ) == f"# versions\n\n::: {package_name}.utils.versions\n"
 
 
-def test_larger_package(tmp_path: "Path") -> None:
+def test_larger_package(tmp_path: Path) -> None:
     """Check create_api_reference_docs runs with a more 'complete' package."""
     import os
     import shutil
@@ -646,7 +648,7 @@ def test_larger_package(tmp_path: "Path") -> None:
         )
 
 
-def test_larger_multi_packages(tmp_path: "Path") -> None:
+def test_larger_multi_packages(tmp_path: Path) -> None:
     """Check create_api_reference_docs runs with a set of more 'complete' packages."""
     import os
     import shutil

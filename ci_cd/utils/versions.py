@@ -12,7 +12,7 @@ from packaging.specifiers import InvalidSpecifier, Specifier, SpecifierSet
 from ci_cd.exceptions import InputError, InputParserError, UnableToResolve
 
 if TYPE_CHECKING:  # pragma: no cover
-    from typing import Any, Literal, Optional, Union
+    from typing import Any, Literal
 
     from packaging.requirements import Requirement
 
@@ -98,7 +98,7 @@ class SemanticVersion(str):
 
     @no_type_check
     def __new__(
-        cls, version: Optional[str] = None, **kwargs: Union[str, int]
+        cls, version: str | None = None, **kwargs: str | int
     ) -> SemanticVersion:
         return super().__new__(
             cls, version if version else cls._build_version(**kwargs)
@@ -106,13 +106,13 @@ class SemanticVersion(str):
 
     def __init__(
         self,
-        version: Optional[str] = None,
+        version: str | None = None,
         *,
-        major: Union[str, int] = "",
-        minor: Optional[Union[str, int]] = None,
-        patch: Optional[Union[str, int]] = None,
-        pre_release: Optional[str] = None,
-        build: Optional[str] = None,
+        major: str | int = "",
+        minor: str | int | None = None,
+        patch: str | int | None = None,
+        pre_release: str | None = None,
+        build: str | None = None,
     ) -> None:
         if version is not None:
             if major or minor or patch or pre_release or build:
@@ -137,11 +137,11 @@ class SemanticVersion(str):
     @classmethod
     def _build_version(
         cls,
-        major: Optional[Union[str, int]] = None,
-        minor: Optional[Union[str, int]] = None,
-        patch: Optional[Union[str, int]] = None,
-        pre_release: Optional[str] = None,
-        build: Optional[str] = None,
+        major: str | int | None = None,
+        minor: str | int | None = None,
+        patch: str | int | None = None,
+        pre_release: str | None = None,
+        build: str | None = None,
     ) -> str:
         """Build a version from the given parameters."""
         if major is None:
@@ -187,7 +187,7 @@ class SemanticVersion(str):
         return self._patch
 
     @property
-    def pre_release(self) -> Union[None, str]:
+    def pre_release(self) -> None | str:
         """The pre-release part of the version
 
         This is the part supplied after a minus (`-`), but before a plus (`+`).
@@ -195,7 +195,7 @@ class SemanticVersion(str):
         return self._pre_release
 
     @property
-    def build(self) -> Union[None, str]:
+    def build(self) -> None | str:
         """The build metadata part of the version.
 
         This is the part supplied at the end of the version, after a plus (`+`).
@@ -308,7 +308,7 @@ class SemanticVersion(str):
         return self.__class__(next_version)
 
     def previous_version(
-        self, version_part: str, max_filler: Optional[Union[str, int]] = 99
+        self, version_part: str, max_filler: str | int | None = 99
     ) -> SemanticVersion:
         """Return the previous version for the specified version part.
 
@@ -680,11 +680,11 @@ def ignore_version(
 def regenerate_requirement(
     requirement: Requirement,
     *,
-    name: Optional[str] = None,
-    extras: Optional[set[str]] = None,
-    specifier: Optional[Union[SpecifierSet, str]] = None,
-    url: Optional[str] = None,
-    marker: Optional[Union[Marker, str]] = None,
+    name: str | None = None,
+    extras: set[str] | None = None,
+    specifier: SpecifierSet | str | None = None,
+    url: str | None = None,
+    marker: Marker | str | None = None,
     post_name_space: bool = False,
 ) -> str:
     """Regenerate a requirement string including the given parameters.
@@ -736,7 +736,7 @@ def regenerate_requirement(
 
 
 def update_specifier_set(
-    latest_version: Union[SemanticVersion, str], current_specifier_set: SpecifierSet
+    latest_version: SemanticVersion | str, current_specifier_set: SpecifierSet
 ) -> SpecifierSet:
     """Update the specifier set to include the latest version."""
     logger = logging.getLogger(__name__)
@@ -844,7 +844,7 @@ def update_specifier_set(
         # current specifier set is valid as is and already includes the latest version
         if updated_specifiers != [""]:
             # Otherwise, add updated specifier(s) to new specifier set
-            new_specifier_set |= set(Specifier(_) for _ in updated_specifiers)
+            new_specifier_set |= {Specifier(_) for _ in updated_specifiers}
     else:
         raise UnableToResolve(
             "Cannot resolve how to update specifier set to include latest version."
@@ -880,7 +880,7 @@ def _semi_valid_python_version(version: SemanticVersion) -> bool:
 
 
 def get_min_max_py_version(
-    requires_python: Union[str, Marker],
+    requires_python: str | Marker,
 ) -> str:
     """Get minimum or maximum Python version from `requires_python`.
 
