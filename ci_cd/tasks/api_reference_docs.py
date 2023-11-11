@@ -3,6 +3,8 @@
 Create Python API reference in the documentation.
 This is specifically to be used with the MkDocs and mkdocstrings framework.
 """
+from __future__ import annotations
+
 # pylint: disable=duplicate-code
 import logging
 import os
@@ -18,13 +20,11 @@ from invoke import task
 from ci_cd.utils import Emoji
 
 if TYPE_CHECKING:  # pragma: no cover
-    from typing import List
-
     from invoke import Context, Result
 
 
-LOGGER = logging.getLogger(__file__)
-LOGGER.setLevel(logging.DEBUG)
+# Get logger
+LOGGER = logging.getLogger(__name__)
 
 
 @task(
@@ -114,7 +114,7 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
 ):
     """Create the Python API Reference in the documentation."""
     if TYPE_CHECKING:  # pragma: no cover
-        context: "Context" = context  # type: ignore[no-redef]
+        context: Context = context  # type: ignore[no-redef]
         pre_clean: bool = pre_clean  # type: ignore[no-redef]
         pre_commit: bool = pre_commit  # type: ignore[no-redef]
         root_repo_path: str = root_repo_path  # type: ignore[no-redef]
@@ -123,18 +123,18 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
         debug: bool = debug  # type: ignore[no-redef]
 
     if not unwanted_folder:
-        unwanted_folder: "List[str]" = ["__pycache__"]  # type: ignore[no-redef]
+        unwanted_folder: list[str] = ["__pycache__"]  # type: ignore[no-redef]
     if not unwanted_file:
-        unwanted_file: "List[str]" = ["__init__.py"]  # type: ignore[no-redef]
+        unwanted_file: list[str] = ["__init__.py"]  # type: ignore[no-redef]
     if not full_docs_folder:
-        full_docs_folder: "List[str]" = []  # type: ignore[no-redef]
+        full_docs_folder: list[str] = []  # type: ignore[no-redef]
     if not full_docs_file:
-        full_docs_file: "List[str]" = []  # type: ignore[no-redef]
+        full_docs_file: list[str] = []  # type: ignore[no-redef]
     if not special_option:
-        special_option: "List[str]" = []  # type: ignore[no-redef]
+        special_option: list[str] = []  # type: ignore[no-redef]
 
     # Initialize user-given paths as pure POSIX paths
-    package_dir: "List[PurePosixPath]" = [PurePosixPath(_) for _ in package_dir]
+    package_dir: list[PurePosixPath] = [PurePosixPath(_) for _ in package_dir]
     root_repo_path = str(PurePosixPath(root_repo_path))
     docs_folder: PurePosixPath = PurePosixPath(docs_folder)  # type: ignore[no-redef]
     full_docs_folder = [Path(PurePosixPath(_)) for _ in full_docs_folder]
@@ -151,7 +151,7 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
 
     if pre_commit:
         # Ensure git is installed
-        result: "Result" = context.run("git --version", hide=True)
+        result: Result = context.run("git --version", hide=True)
         if result.exited != 0:
             sys.exit(
                 "Git is not installed. Please install it before running this task."
@@ -163,7 +163,7 @@ def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branc
         root_repo_path = result.stdout.strip("\n")  # type: ignore[no-redef]
 
     root_repo_path: Path = Path(root_repo_path).resolve()  # type: ignore[no-redef]
-    package_dirs: "List[Path]" = [Path(root_repo_path / _) for _ in package_dir]
+    package_dirs: list[Path] = [Path(root_repo_path / _) for _ in package_dir]
     docs_api_ref_dir = Path(root_repo_path / docs_folder / "api_reference")
 
     LOGGER.debug(

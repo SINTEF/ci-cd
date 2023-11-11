@@ -2,6 +2,8 @@
 
 Create the documentation index (home) page from `README.md`.
 """
+from __future__ import annotations
+
 import re
 import sys
 from pathlib import Path
@@ -12,8 +14,6 @@ from invoke import task
 from ci_cd.utils import Emoji
 
 if TYPE_CHECKING:  # pragma: no cover
-    from typing import List
-
     from invoke import Context, Result
 
 
@@ -50,7 +50,7 @@ def create_docs_index(  # pylint: disable=too-many-locals
 ):
     """Create the documentation index page from README.md."""
     if TYPE_CHECKING:  # pragma: no cover
-        context: "Context" = context  # type: ignore[no-redef]
+        context: Context = context  # type: ignore[no-redef]
         pre_commit: bool = pre_commit  # type: ignore[no-redef]
         root_repo_path: str = root_repo_path  # type: ignore[no-redef]
         replacement_separator: str = replacement_separator  # type: ignore[no-redef]
@@ -58,12 +58,12 @@ def create_docs_index(  # pylint: disable=too-many-locals
     docs_folder: Path = Path(docs_folder)
 
     if not replacement:
-        replacement: "List[str]" = []  # type: ignore[no-redef]
+        replacement: list[str] = []  # type: ignore[no-redef]
     replacement.append(f"{docs_folder.name}/{replacement_separator}")
 
     if pre_commit and root_repo_path == ".":
         # Use git to determine repo root
-        result: "Result" = context.run("git rev-parse --show-toplevel", hide=True)
+        result: Result = context.run("git rev-parse --show-toplevel", hide=True)
         root_repo_path = result.stdout.strip("\n")
 
     root_repo_path: Path = Path(root_repo_path).resolve()
@@ -92,7 +92,7 @@ def create_docs_index(  # pylint: disable=too-many-locals
 
         # NOTE: Concerning the weird regular expression, see:
         # http://manpages.ubuntu.com/manpages/precise/en/man1/git-status.1.html
-        result: "Result" = context.run(  # type: ignore[no-redef]
+        result: Result = context.run(  # type: ignore[no-redef]
             f'git -C "{root_repo_path}" status --porcelain '
             f"{docs_index.relative_to(root_repo_path)}",
             hide=True,

@@ -25,7 +25,11 @@ repos:
     rev: 5.12.0
     hooks:
     - id: isort
-      args: ["--profile", "black", "--filter-files", "--skip-gitignore"]
+      args:
+      - "--profile=black"
+      - "--filter-files"
+      - "--skip-gitignore"
+      - "--add-import=from __future__ import annotations"
 
   # pyupgrade is a tool to automatically upgrade Python syntax for newer versions
   # It works on files in-place

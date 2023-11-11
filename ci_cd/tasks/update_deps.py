@@ -6,22 +6,37 @@ Update dependencies in a `pyproject.toml` file.
 from __future__ import annotations
 
 import logging
-import operator
 import re
 import sys
-from collections import namedtuple
 from pathlib import Path
 from typing import TYPE_CHECKING
 
 import tomlkit
 from invoke import task
+from packaging.markers import default_environment
+from packaging.requirements import InvalidRequirement, Requirement
+from tomlkit.exceptions import TOMLKitError
 
-from ci_cd.exceptions import CICDException, InputError, InputParserError
-from ci_cd.utils import Emoji, SemanticVersion, update_file
+from ci_cd.exceptions import InputError, UnableToResolve
+from ci_cd.utils import (
+    Emoji,
+    create_ignore_rules,
+    error_msg,
+    find_minimum_py_version,
+    get_min_max_py_version,
+    ignore_version,
+    info_msg,
+    parse_ignore_entries,
+    parse_ignore_rules,
+    regenerate_requirement,
+    update_file,
+    update_specifier_set,
+    warning_msg,
+)
 
 if TYPE_CHECKING:  # pragma: no cover
     from invoke import Context, Result
-    from typing_extensions import Literal, NamedTuple
+    from typing_extensions import NamedTuple
 
     class VersionSpecType(NamedTuple):
         """Version specification."""
@@ -35,9 +50,34 @@ if TYPE_CHECKING:  # pragma: no cover
         environment_marker: str
         spacing: str
 
+    from ci_cd.utils.versions import IgnoreUpdateTypes, IgnoreVersions
 
-LOGGER = logging.getLogger(__file__)
-LOGGER.setLevel(logging.DEBUG)
+
+# Get logger
+LOGGER = logging.getLogger(__name__)
+
+
+def _format_and_update_dependency(
+    requirement: Requirement, raw_dependency_line: str, pyproject_path: Path
+) -> None:
+    """Regenerate dependency without changing anything but the formatting.
+
+    NOTE: If any white space is present after the name (incl. possible extras) it is
+    reduced to a single space.
+    """
+    match = re.search(rf"{requirement.name}(?:\[.*\])?\s+", raw_dependency_line)
+    updated_dependency = regenerate_requirement(
+        requirement,
+        post_name_space=bool(match),
+    )
+    LOGGER.debug("Regenerated dependency: %r", updated_dependency)
+    if updated_dependency != raw_dependency_line:
+        # Update pyproject.toml since the dependency formatting has changed
+        LOGGER.debug("Updating pyproject.toml for %r", requirement.name)
+        update_file(
+            pyproject_path,
+            (re.escape(raw_dependency_line), updated_dependency.replace('"', "'")),
+        )
 
 
 @task(
@@ -89,23 +129,8 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
         ignore: list[str] = []  # type: ignore[no-redef]
 
     if verbose:
-        LOGGER.setLevel(logging.DEBUG)
         LOGGER.addHandler(logging.StreamHandler(sys.stdout))
         LOGGER.debug("Verbose logging enabled.")
-
-    VersionSpec: VersionSpecType = namedtuple(
-        "VersionSpec",
-        [
-            "full_dependency",
-            "package",
-            "url_version",
-            "operator",
-            "version",
-            "extra_operator_version",
-            "environment_marker",
-            "spacing",
-        ],
-    )
 
     try:
         ignore_rules = parse_ignore_entries(ignore, ignore_separator)
@@ -128,85 +153,131 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
             f"repository's 'pyproject.toml' file at: {pyproject_path}"
         )
 
-    pyproject = tomlkit.loads(pyproject_path.read_bytes())
-
-    match = re.match(
-        r"^.*(?P<version>3\.[0-9]+)$",
-        pyproject.get("project", {}).get("requires-python", ""),
-    )
-    if not match:
-        raise CICDException(
-            "No minimum Python version requirement given in pyproject.toml!"
+    # Parse pyproject.toml
+    try:
+        pyproject = tomlkit.parse(pyproject_path.read_bytes())
+    except TOMLKitError as exc:
+        sys.exit(
+            f"{Emoji.CROSS_MARK.value} Error: Could not parse the 'pyproject.toml' "
+            f"file at: {pyproject_path}\nException: {exc}"
         )
-    py_version = match.group("version")
+
+    # Retrieve the minimum required Python version
+    try:
+        py_version = get_min_max_py_version(
+            pyproject.get("project", {}).get("requires-python", "")
+        )
+    except UnableToResolve as exc:
+        sys.exit(
+            f"{Emoji.CROSS_MARK.value} Error: Cannot determine minimum Python version."
+            f"\nException: {exc}"
+        )
+    LOGGER.debug("Minimum required Python version: %s", py_version)
+
+    # Retrieve the Python project's package name
+    project_name = pyproject.get("project", {}).get("name", "")
+    if not project_name:
+        sys.exit(
+            f"{Emoji.CROSS_MARK.value} Error: Could not find the Python project's name"
+            " in 'pyproject.toml'."
+        )
 
     # Skip package if it is this project (this can happen for inter-relative extra
     # dependencies)
-    already_handled_packages = {pyproject["project"]["name"]}
+    already_handled_packages: set[str] = {project_name}
 
-    updated_packages = {}
-    dependencies = pyproject.get("project", {}).get("dependencies", [])
+    # Build the list of dependencies listed in pyproject.toml
+    dependencies: list[str] = pyproject.get("project", {}).get("dependencies", [])
     for optional_deps in (
         pyproject.get("project", {}).get("optional-dependencies", {}).values()
     ):
         dependencies.extend(optional_deps)
 
+    # Placeholder and default variables
+    updated_packages = {}
     error = False
-    for line in dependencies:
-        match = re.match(
-            r"^(?P<full_dependency>(?P<package>[a-zA-Z0-9_.-]+)(?:\s*\[.*\])?)"
-            r"(?P<spacing>\s*)"
-            r"(?:"
-            r"(?P<url_version>@\s*\S+)|"
-            r"(?P<operator>>|<|<=|>=|==|!=|~=)\s*"
-            r"(?P<version>[0-9]+(?:\.[0-9]+){0,2})"
-            r")?\s*"
-            r"(?P<extra_operator_version>(?:,(?:>|<|<=|>=|==|!=|~=)\s*"
-            r"[0-9]+(?:\.[0-9]+){0,2}\s*)+)*"
-            r"(?P<environment_marker>;.+)*$",
-            line,
-        )
-        if match is None:
+
+    for dependency in dependencies:
+        try:
+            parsed_requirement = Requirement(dependency)
+        except InvalidRequirement as exc:
             msg = (
-                f"Could not parse package and version specification for line:\n  {line}"
+                f"Could not parse requirement {dependency!r} from pyproject.toml: "
+                f"{exc}"
             )
-            LOGGER.warning(msg)
+            LOGGER.error(msg)
             if fail_fast:
-                sys.exit(f"{Emoji.CROSS_MARK.value} {msg}")
-            print(msg)
+                sys.exit(f"{Emoji.CROSS_MARK.value} {error_msg(msg)}")
+            print(error_msg(msg), file=sys.stderr, flush=True)
             error = True
             continue
-
-        version_spec = VersionSpec(**match.groupdict())
-        LOGGER.debug("version_spec: %s", version_spec)
+        LOGGER.debug("Parsed requirement: %r", parsed_requirement)
 
         # Skip package if already handled
-        if version_spec.package in already_handled_packages:
+        if parsed_requirement in already_handled_packages:
             continue
 
         # Skip URL versioned dependencies
-        if version_spec.url_version:
+        # BUT do regenerate the dependency in order to have a consistent formatting
+        if parsed_requirement.url:
             msg = (
-                f"Dependency {version_spec.full_dependency!r} is pinned to a URL and "
+                f"Dependency {parsed_requirement.name!r} is pinned to a URL and "
                 "will be skipped."
             )
             LOGGER.info(msg)
-            print(msg)
+            print(info_msg(msg), flush=True)
+
+            _format_and_update_dependency(
+                parsed_requirement, dependency, pyproject_path
+            )
+            already_handled_packages.add(parsed_requirement)
             continue
 
         # Skip and warn if package is not version-restricted
-        if not version_spec.operator and not version_spec.url_version:
-            msg = (
-                f"Dependency {version_spec.full_dependency!r} is not version "
-                "restricted and will be skipped. Consider adding version restrictions."
+        # BUT do regenerate the dependency in order to have a consistent formatting
+        if not parsed_requirement.specifier:
+            # Only warn if package name does not match project name
+            if parsed_requirement.name != project_name:
+                msg = (
+                    f"Dependency {parsed_requirement.name!r} is not version "
+                    "restricted and will be skipped. Consider adding version "
+                    "restrictions."
+                )
+                LOGGER.warning(msg)
+                print(warning_msg(msg), flush=True)
+
+            _format_and_update_dependency(
+                parsed_requirement, dependency, pyproject_path
             )
-            LOGGER.warning(msg)
-            print(msg)
+            already_handled_packages.add(parsed_requirement)
             continue
+
+        # Examine markers for a custom set of Python version specifiers
+        marker_py_version = ""
+        if parsed_requirement.marker:
+            environment_keys = default_environment().keys()
+            empty_environment = {key: "" for key in environment_keys}
+            python_version_centric_environment = empty_environment
+            python_version_centric_environment.update({"python_version": py_version})
+
+            if not parsed_requirement.marker.evaluate(
+                environment=python_version_centric_environment
+            ):
+                # Current (minimum) Python version does NOT satisfy the marker
+                marker_py_version = find_minimum_py_version(
+                    marker=parsed_requirement.marker,
+                    project_py_version=py_version,
+                )
+            else:
+                marker_py_version = get_min_max_py_version(parsed_requirement.marker)
+
+            LOGGER.debug("Min/max Python version from marker: %s", marker_py_version)
 
         # Check version from PyPI's online package index
         out: Result = context.run(
-            f"pip index versions --python-version {py_version} {version_spec.package}",
+            "pip index versions "
+            f"--python-version {marker_py_version or py_version} "
+            f"{parsed_requirement.name}",
             hide=True,
         )
         package_latest_version_line = out.stdout.split(sep="\n", maxsplit=1)[0]
@@ -219,50 +290,79 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
                 "Could not parse package and version from 'pip index versions' output "
                 f"for line:\n  {package_latest_version_line}"
             )
-            LOGGER.warning(msg)
+            LOGGER.error(msg)
             if fail_fast:
-                sys.exit(f"{Emoji.CROSS_MARK.value} {msg}")
-            print(msg)
-            already_handled_packages.add(version_spec.package)
+                sys.exit(f"{Emoji.CROSS_MARK.value} {error_msg(msg)}")
+            print(error_msg(msg), file=sys.stderr, flush=True)
+            already_handled_packages.add(parsed_requirement)
             error = True
             continue
 
-        # Sanity check
-        if version_spec.package != match.group("package"):
-            msg = (
-                f"Package name parsed from pyproject.toml ({version_spec.package!r}) "
-                "does not match the name returned from 'pip index versions': "
-                f"{match.group('package')!r}"
-            )
-            LOGGER.warning(msg)
-            if fail_fast:
-                sys.exit(f"{Emoji.CROSS_MARK.value} {msg}")
-            print(msg)
-            already_handled_packages.add(version_spec.package)
-            error = True
-            continue
+        latest_version: str = match.group("version")
+
+        # Here used to be a sanity check to ensure that the package name parsed from
+        # pyproject.toml matches the name returned from 'pip index versions'.
+        # But I cannot think of a reason why they would not match, so it has been
+        # removed.
+        # When checking 'pip index versions' output, it seems that the package name
+        # returned is always the same as is used in the command call, e.g., if
+        # 'pip index versions reQUEsts' is called, then the output will always be
+        # 'reQUEsts (<latest version here>)'.
 
         # Check whether pyproject.toml already uses the latest version
-        latest_version = match.group("version").split(".")
-        for index, version_part in enumerate(version_spec.version.split(".")):
-            if version_part != latest_version[index]:
-                break
-        else:
-            already_handled_packages.add(version_spec.package)
+        # This is expected if the latest version equals a specifier with any of the
+        # operators: ==, >=, or ~=.
+        split_latest_version = latest_version.split(".")
+        _continue = False
+        for specifier in parsed_requirement.specifier:
+            if specifier.operator in ["==", ">=", "~="]:
+                split_specifier_version = specifier.version.split(".")
+                equal_length_latest_version = split_latest_version[
+                    : len(split_specifier_version)
+                ]
+                if equal_length_latest_version == split_specifier_version:
+                    LOGGER.debug(
+                        "Package %r is already up-to-date. Specifiers: %s. "
+                        "Latest version: %s",
+                        parsed_requirement.name,
+                        parsed_requirement.specifier,
+                        latest_version,
+                    )
+                    already_handled_packages.add(parsed_requirement)
+                    _continue = True
+        if _continue:
             continue
 
+        # Create ignore rules based on specifier set
+        requirement_ignore_rules = create_ignore_rules(parsed_requirement.specifier)
+        if requirement_ignore_rules["versions"]:
+            if parsed_requirement.name in ignore_rules:
+                # Only "versions" key exists in requirement_ignore_rules
+                if "versions" in ignore_rules[parsed_requirement.name]:
+                    ignore_rules[parsed_requirement.name]["versions"].extend(
+                        requirement_ignore_rules["versions"]
+                    )
+                else:
+                    ignore_rules[parsed_requirement.name].update(
+                        requirement_ignore_rules
+                    )
+            else:
+                ignore_rules[parsed_requirement.name] = requirement_ignore_rules
+            LOGGER.debug(
+                "Created ignore rules (from specifier set): %s",
+                requirement_ignore_rules,
+            )
+
         # Apply ignore rules
-        if version_spec.package in ignore_rules or "*" in ignore_rules:
-            versions: list[dict[Literal["operator", "version"], str]] = []
-            update_types: dict[
-                Literal["version-update"], list[Literal["major", "minor", "patch"]]
-            ] = {}  # pylint: disable=line-too-long
+        if parsed_requirement.name in ignore_rules or "*" in ignore_rules:
+            versions: IgnoreVersions = []
+            update_types: IgnoreUpdateTypes = {}
 
             if "*" in ignore_rules:
                 versions, update_types = parse_ignore_rules(ignore_rules["*"])
 
-            if version_spec.package in ignore_rules:
-                parsed_rules = parse_ignore_rules(ignore_rules[version_spec.package])
+            if parsed_requirement.name in ignore_rules:
+                parsed_rules = parse_ignore_rules(ignore_rules[parsed_requirement.name])
 
                 versions.extend(parsed_rules[0])
                 update_types.update(parsed_rules[1])
@@ -271,50 +371,73 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
                 "Ignore rules:\nversions: %s\nupdate_types: %s", versions, update_types
             )
 
+            # Get "current" version from specifier set, i.e., the lowest allowed version
+            # If a minimum version is not explicitly specified, use '0.0.0'
+            for specifier in parsed_requirement.specifier:
+                if specifier.operator in ["==", ">=", "~="]:
+                    current_version = specifier.version.split(".")
+                    break
+            else:
+                current_version = "0.0.0".split(".")
+
             if ignore_version(
-                current=version_spec.version.split("."),
-                latest=latest_version,
+                current=current_version,
+                latest=split_latest_version,
                 version_rules=versions,
                 semver_rules=update_types,
             ):
-                already_handled_packages.add(version_spec.package)
+                already_handled_packages.add(parsed_requirement)
                 continue
 
+        # Update specifier set to include the latest version.
+        try:
+            updated_specifier_set = update_specifier_set(
+                latest_version=latest_version,
+                current_specifier_set=parsed_requirement.specifier,
+            )
+        except UnableToResolve as exc:
+            msg = (
+                "Could not determine how to update to the latest version using the "
+                f"version range specifier set: {parsed_requirement.specifier}. "
+                f"Package: {parsed_requirement.name}. Latest version: {latest_version}"
+            )
+            LOGGER.error("%s. Exception: %s", msg, exc)
+            if fail_fast:
+                sys.exit(f"{Emoji.CROSS_MARK.value} {error_msg(msg)}")
+            print(error_msg(msg), file=sys.stderr, flush=True)
+            already_handled_packages.add(parsed_requirement)
+            error = True
+            continue
+
         if not error:
-            # Update pyproject.toml
-            updated_version = ".".join(
-                latest_version[: len(version_spec.version.split("."))]
+            # Regenerate the full requirement string with the updated specifiers
+            # Note: If any white space is present after the name (possibly incl.
+            # extras) is reduced to a single space.
+            match = re.search(rf"{parsed_requirement.name}(?:\[.*\])?\s+", dependency)
+            updated_dependency = regenerate_requirement(
+                parsed_requirement,
+                specifier=updated_specifier_set,
+                post_name_space=bool(match),
             )
-            escaped_full_dependency_name = version_spec.full_dependency.replace(
-                "[", r"\["
-            ).replace("]", r"\]")
+            LOGGER.debug("Updated dependency: %r", updated_dependency)
 
-            LOGGER.debug("updated_version: %s", updated_version)
-            LOGGER.debug(
-                "escaped_full_dependency_name: %s", escaped_full_dependency_name
-            )
-
-            pattern_sub_line = (
-                rf'"{escaped_full_dependency_name}{version_spec.spacing}'
-                rf'{version_spec.operator}.*"'
-            )
-            replacement_sub_line = (
-                f'"{version_spec.full_dependency}{version_spec.spacing}'
-                f"{version_spec.operator}{updated_version}"
-                f'{version_spec.extra_operator_version if version_spec.extra_operator_version else ""}'  # pylint: disable=line-too-long
-                f'{version_spec.environment_marker if version_spec.environment_marker else ""}"'  # pylint: disable=line-too-long
-            )
+            pattern_sub_line = re.escape(dependency)
+            replacement_sub_line = updated_dependency.replace('"', "'")
 
             LOGGER.debug("pattern_sub_line: %s", pattern_sub_line)
             LOGGER.debug("replacement_sub_line: %s", replacement_sub_line)
 
+            # Update pyproject.toml
             update_file(pyproject_path, (pattern_sub_line, replacement_sub_line))
-            already_handled_packages.add(version_spec.package)
-            updated_packages[version_spec.full_dependency] = (
-                f"{version_spec.operator}{updated_version}"
-                f"{version_spec.extra_operator_version if version_spec.extra_operator_version else ''}"  # pylint: disable=line-too-long
-                f"{' ' + version_spec.environment_marker if version_spec.environment_marker else ''}"  # pylint: disable=line-too-long
-            )
+            already_handled_packages.add(parsed_requirement)
+            updated_packages[parsed_requirement.name] = ",".join(
+                str(_)
+                for _ in sorted(
+                    updated_specifier_set,
+                    key=lambda spec: spec.operator,
+                    reverse=True,
+                )
+            ) + (f" ; {parsed_requirement.marker}" if parsed_requirement.marker else "")
 
     if error:
         sys.exit(
@@ -333,273 +456,3 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
         )
     else:
         print(f"{Emoji.CHECK_MARK.value} No dependency updates available.")
-
-
-def parse_ignore_entries(
-    entries: list[str], separator: str
-) -> dict[str, dict[Literal["versions", "update-types"], list[str]]]:
-    """Parser for the `--ignore` option.
-
-    The `--ignore` option values are given as key/value-pairs in the form:
-    `key=value...key=value`. Here `...` is the separator value supplied by
-    `--ignore-separator`.
-
-    Parameters:
-        entries: The list of supplied `--ignore` options.
-        separator: The supplied `--ignore-separator` value.
-
-    Returns:
-        A parsed mapping of dependencies to ignore rules.
-
-    """
-    ignore_entries: dict[str, dict[Literal["versions", "update-types"], list[str]]] = {}
-
-    for entry in entries:
-        pairs = entry.split(separator, maxsplit=2)
-        for pair in pairs:
-            if separator in pair:
-                raise InputParserError(
-                    "More than three key/value-pairs were given for an `--ignore` "
-                    "option, while there are only three allowed key names. Input "
-                    f"value: --ignore={entry}"
-                )
-
-        ignore_entry: dict[
-            Literal["dependency-name", "versions", "update-types"], str
-        ] = {}  # pylint: disable=line-too-long
-        for pair in pairs:
-            match = re.match(
-                r"^(?P<key>dependency-name|versions|update-types)=(?P<value>.*)$",
-                pair,
-            )
-            if match is None:
-                raise InputParserError(
-                    f"Could not parse ignore configuration: {pair!r} (part of the "
-                    f"ignore option: {entry!r}"
-                )
-            if match.group("key") in ignore_entry:
-                raise InputParserError(
-                    "An ignore configuration can only be given once per option. The "
-                    f"configuration key {match.group('key')!r} was found multiple "
-                    f"times in the option {entry!r}"
-                )
-
-            ignore_entry[match.group("key")] = match.group("value").strip()  # type: ignore[index]  # pylint: disable=line-too-long
-
-        if "dependency-name" not in ignore_entry:
-            raise InputError(
-                "Ignore option entry missing required 'dependency-name' "
-                f"configuration. Ignore option entry: {entry}"
-            )
-
-        dependency_name: str = ignore_entry.pop("dependency-name", "")
-        if dependency_name not in ignore_entries:
-            ignore_entries[dependency_name] = {
-                key: [value] for key, value in ignore_entry.items()  # type: ignore[misc]
-            }
-        else:
-            for key, value in ignore_entry.items():
-                ignore_entries[dependency_name][key].append(value)  # type: ignore[index]
-
-    return ignore_entries
-
-
-def parse_ignore_rules(
-    rules: dict[Literal["versions", "update-types"], list[str]],
-) -> tuple[
-    list[dict[Literal["operator", "version"], str]],
-    dict[Literal["version-update"], list[Literal["major", "minor", "patch"]]],
-]:  # pylint: disable=line-too-long
-    """Parser for a specific set of ignore rules.
-
-    Parameters:
-        rules: A set of ignore rules for one or more packages.
-
-    Returns:
-        A tuple of the parsed 'versions' and 'update-types' entries as dictionaries.
-
-    """
-    if not rules:
-        # Ignore package altogether
-        return [{"operator": ">=", "version": "0"}], {}
-
-    versions: list[dict[Literal["operator", "version"], str]] = []
-    update_types: dict[
-        Literal["version-update"], list[Literal["major", "minor", "patch"]]
-    ] = {}  # pylint: disable=line-too-long
-
-    if "versions" in rules:
-        for versions_entry in rules["versions"]:
-            match = re.match(
-                r"^(?P<operator>>|<|<=|>=|==|!=|~=)\s*"
-                r"(?P<version>[0-9]+(?:\.[0-9]+){0,2})$",
-                versions_entry,
-            )
-            if match is None:
-                raise InputParserError(
-                    "Ignore option's 'versions' value cannot be parsed. It "
-                    "must be a single operator followed by a version number.\n"
-                    f"Unparseable 'versions' value: {versions_entry!r}"
-                )
-            versions.append(match.groupdict())  # type: ignore[arg-type]
-
-    if "update-types" in rules:
-        update_types["version-update"] = []
-        for update_type_entry in rules["update-types"]:
-            match = re.match(
-                r"^version-update:semver-(?P<semver_part>major|minor|patch)$",
-                update_type_entry,
-            )
-            if match is None:
-                raise InputParserError(
-                    "Ignore option's 'update-types' value cannot be parsed."
-                    " It must be either: 'version-update:semver-major', "
-                    "'version-update:semver-minor' or "
-                    "'version-update:semver-patch'.\nUnparseable 'update-types' "
-                    f"value: {update_type_entry!r}"
-                )
-            update_types["version-update"].append(match.group("semver_part"))  # type: ignore[arg-type]  # pylint: disable=line-too-long
-
-    return versions, update_types
-
-
-def _ignore_version_rules(
-    latest: list[str],
-    version_rules: list[dict[Literal["operator", "version"], str]],
-) -> bool:
-    """Determine whether to ignore package based on `versions` input."""
-    semver_latest = SemanticVersion(".".join(latest))
-    operators_mapping = {
-        ">": operator.gt,
-        "<": operator.lt,
-        "<=": operator.le,
-        ">=": operator.ge,
-        "==": operator.eq,
-        "!=": operator.ne,
-    }
-
-    decision_version_rules = []
-    for version_rule in version_rules:
-        decision_version_rule = False
-        semver_version_rule = SemanticVersion(version_rule["version"])
-
-        if version_rule["operator"] in operators_mapping:
-            if operators_mapping[version_rule["operator"]](
-                semver_latest, semver_version_rule
-            ):
-                decision_version_rule = True
-        elif "~=" == version_rule["operator"]:
-            if "." not in version_rule["version"]:
-                raise InputError(
-                    "Ignore option value error. For the 'versions' config key, when "
-                    "using the '~=' operator more than a single version part MUST be "
-                    "specified. E.g., '~=2' is disallowed, instead use '~=2.0' or "
-                    "similar."
-                )
-
-            upper_limit = (
-                "major" if version_rule["version"].count(".") == 1 else "minor"
-            )
-
-            if (
-                semver_version_rule
-                <= semver_latest
-                < semver_version_rule.next_version(upper_limit)
-            ):
-                decision_version_rule = True
-        else:
-            raise InputParserError(
-                "Ignore option value error. The 'versions' config key only "
-                "supports the following operators: '>', '<', '<=', '>=', '==', "
-                "'!=', '~='.\n"
-                f"Unparseable 'versions' value: {version_rule!r}"
-            )
-
-        decision_version_rules.append(decision_version_rule)
-
-    # If ALL version rules AND'ed together are True, ignore the version.
-    return bool(decision_version_rules and all(decision_version_rules))
-
-
-def _ignore_semver_rules(
-    current: list[str],
-    latest: list[str],
-    semver_rules: dict[
-        Literal["version-update"], list[Literal["major", "minor", "patch"]]
-    ],  # pylint: disable=line-too-long
-) -> bool:
-    """If ANY of the semver rules are True, ignore the version."""
-    if any(
-        _ not in ["major", "minor", "patch"] for _ in semver_rules["version-update"]
-    ):
-        raise InputParserError(
-            f"Only valid values for 'version-update' are 'major', 'minor', and "
-            f"'patch' (you gave {semver_rules['version-update']!r})."
-        )
-
-    if "major" in semver_rules["version-update"]:
-        if latest[0] != current[0]:
-            return True
-
-    elif "minor" in semver_rules["version-update"]:
-        if (
-            len(latest) >= 2
-            and len(current) >= 2
-            and latest[1] > current[1]
-            and latest[0] == current[0]
-        ):
-            return True
-
-    elif "patch" in semver_rules["version-update"]:
-        if (
-            len(latest) >= 3
-            and len(current) >= 3
-            and latest[2] > current[2]
-            and latest[0] == current[0]
-            and latest[1] == current[1]
-        ):
-            return True
-
-    return False
-
-
-def ignore_version(
-    current: list[str],
-    latest: list[str],
-    version_rules: list[dict[Literal["operator", "version"], str]],
-    semver_rules: dict[
-        Literal["version-update"], list[Literal["major", "minor", "patch"]]
-    ],  # pylint: disable=line-too-long
-) -> bool:
-    """Determine whether the latest version can be ignored.
-
-    Parameters:
-        current: The current version as a list of version parts. It's expected, but not
-            required, the version is a semantic version.
-        latest: The latest version as a list of version parts. It's expected, but not
-            required, the version is a semantic version.
-        version_rules: Version ignore rules.
-        semver_rules: Semantic version ignore rules.
-
-    Returns:
-        Whether or not the latest version can be ignored based on the version and
-        semantic version ignore rules.
-
-    """
-    # ignore all updates
-    if not version_rules and not semver_rules:
-        # A package name has been specified without specific rules, ignore all updates
-        # for package.
-        return True
-
-    # version rules
-    if _ignore_version_rules(latest, version_rules):
-        return True
-
-    # semver rules
-    if "version-update" in semver_rules and _ignore_semver_rules(
-        current, latest, semver_rules
-    ):
-        return True
-
-    return False

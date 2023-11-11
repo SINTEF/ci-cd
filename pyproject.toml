@@ -33,6 +33,7 @@ dynamic = ["version", "description"]
 
 dependencies = [
     "invoke ~=2.2",
+    "packaging ~=23.2",
     "tomlkit ~=0.12.1",
     "typing-extensions ~=4.7; python_version < '3.8'",
     "typing-extensions ~=4.8; python_version >= '3.8'",
@@ -83,7 +84,7 @@ check_untyped_defs = true
 max-line-length = 90
 disable = []
 max-args = 15
-max-branches = 15
+max-branches = 18
 max-returns = 10
 
 [tool.pytest.ini_options]
