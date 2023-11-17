@@ -31,24 +31,27 @@ dynamic = ["version", "description"]
 dependencies = [
     "invoke ~=2.2",
     "packaging ~=23.2",
-    "tomlkit ~=0.12.1",
+    "tomlkit ~=0.12.3",
 ]
 
 [project.optional-dependencies]
 docs = [
-    "mike ~=1.1",
+    "mike ~=2.0",
     "mkdocs ~=1.5",
     "mkdocs-awesome-pages-plugin ~=2.9",
     "mkdocs-material ~=9.2",
-    "mkdocstrings[python-legacy] ~=0.22.0",
+    "mkdocstrings[python-legacy] ~=0.22.0; python_version < '3.8'",
+    "mkdocstrings[python-legacy] ~=0.24.0; python_version >= '3.8'",
 ]
 testing = [
     "pytest ~=7.4",
     "pytest-cov ~=4.1",
 ]
 dev = [
-    "pre-commit ~=2.21",
-    "pylint ~=2.13",
+    "pre-commit ~=2.21; python_version < '3.8'",
+    "pre-commit ~=3.5; python_version >= '3.8'",
+    "pylint ~=2.13; python_version < '3.8'",
+    "pylint ~=3.0; python_version >= '3.8'",
     "ci-cd[docs,testing]",
 ]
 
