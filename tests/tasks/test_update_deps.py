@@ -84,9 +84,9 @@ pep_508 = [
     context = MockContext(
         run={
             **{
-                re.compile(r".*invoke$"): "invoke (1.7.1)\n",
+                re.compile(r".*invoke$"): "invoke (1.7.1.post1)\n",
                 re.compile(r".*tomlkit$"): "tomlkit (1.0.0)",
-                re.compile(r".*mike$"): "mike (1.1.1)",
+                re.compile(r".*mike$"): "mike (1!1.1.1)",
                 re.compile(r".*pytest$"): "pytest (7.1.0)",
                 re.compile(r".*pytest-cov$"): "pytest-cov (3.1.5)",
                 re.compile(r".*pre-commit$"): "pre-commit (2.21.5)",
@@ -131,7 +131,7 @@ testing = [
     "pytest-cov ~=3.1,!=3.1",
 ]
 dev = [
-    "mike >={original_dependencies['mike']},<3",
+    "mike >=1!{original_dependencies['mike']},<3",
     "pre-commit~=2.21",
     # "pylint ~={original_dependencies['pylint']},!=2.14.*",
     "test[testing]",
