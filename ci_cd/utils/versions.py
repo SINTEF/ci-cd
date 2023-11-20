@@ -9,6 +9,7 @@ from typing import TYPE_CHECKING, no_type_check
 
 from packaging.markers import Marker, default_environment
 from packaging.specifiers import InvalidSpecifier, Specifier, SpecifierSet
+from packaging.version import VERSION_PATTERN, Version
 
 from ci_cd.exceptions import InputError, InputParserError, UnableToResolve
 
@@ -79,17 +80,21 @@ class SemanticVersion(str):
         r"(?:\+(?P<build>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$"
     )
 
+    _PYTHON_VERSION: "Optional[Version]" = None
+
     @no_type_check
     def __new__(
-        cls, version: "Optional[str]" = None, **kwargs: "Union[str, int]"
+        cls,
+        version: "Optional[Union[str, Version]]" = None,
+        **kwargs: "Union[str, int]",
     ) -> "SemanticVersion":
         return super().__new__(
-            cls, version if version else cls._build_version(**kwargs)
+            cls, str(version) if version else cls._build_version(**kwargs)
         )
 
     def __init__(
         self,
-        version: "Optional[str]" = None,
+        version: "Optional[Union[str, Version]]" = None,
         *,
         major: "Union[str, int]" = "",
         minor: "Optional[Union[str, int]]" = None,
@@ -102,6 +107,10 @@ class SemanticVersion(str):
                 raise ValueError(
                     "version cannot be specified along with other parameters"
                 )
+
+            if isinstance(version, Version):
+                self._PYTHON_VERSION = version
+                version = ".".join(version.release)
 
             match = re.match(self._REGEX, version)
             if match is None:
@@ -728,7 +737,39 @@ def update_specifier_set(  # pylint: disable=too-many-statements
     """Update the specifier set to include the latest version."""
     logger = logging.getLogger(__name__)
 
-    latest_version = SemanticVersion(latest_version)
+    epoch = 0
+
+    if isinstance(latest_version, str):
+        match = re.search(rf"(?ix){VERSION_PATTERN}", latest_version)
+        if match is None:
+            try:
+                latest_version = SemanticVersion(latest_version)
+            except ValueError as exc:
+                raise UnableToResolve(
+                    "Invalid version string given for latest version: "
+                    f"{latest_version!r}"
+                ) from exc
+        else:
+            # Only use `release` part, but store `epoch` if given
+            epoch = match.group("epoch")
+            if epoch:
+                epoch = int(epoch)
+
+            release = match.group("release")
+            if not release or not isinstance(release, str):
+                raise UnableToResolve(
+                    "Invalid version string given for latest version: "
+                    f"{latest_version!r}"
+                )
+
+            latest_version = SemanticVersion(release)
+
+    if not isinstance(latest_version, SemanticVersion):
+        raise TypeError(
+            "latest_version must be a SemanticVersion or a string, got: type "
+            f"{type(latest_version)}"
+        )
+
     new_specifier_set = set(current_specifier_set)
     updated_specifiers = []
     split_latest_version = latest_version.split(".")
@@ -768,6 +809,10 @@ def update_specifier_set(  # pylint: disable=too-many-statements
                 updated_version = ".".join(
                     split_latest_version[: len(split_specifier_version)]
                 )
+
+                if epoch > 0:
+                    updated_version = f"{epoch}!{updated_version}"
+
                 updated_specifiers.append(f"{specifier.operator}{updated_version}")
                 new_specifier_set.remove(specifier)
                 break
@@ -792,6 +837,9 @@ def update_specifier_set(  # pylint: disable=too-many-statements
                         "Invalid/unable to handle number of version parts: "
                         f"{len(split_specifier_version)}"
                     )
+
+                if epoch > 0:
+                    updated_version = f"{epoch}!{updated_version}"
 
                 updated_specifiers.append(f"{specifier.operator}{updated_version}")
                 new_specifier_set.remove(specifier)

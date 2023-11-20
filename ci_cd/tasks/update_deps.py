@@ -15,6 +15,7 @@ import tomlkit
 from invoke import task
 from packaging.markers import default_environment
 from packaging.requirements import InvalidRequirement, Requirement
+from packaging.version import VERSION_PATTERN
 from tomlkit.exceptions import TOMLKitError
 
 from ci_cd.exceptions import InputError, UnableToResolve
@@ -42,6 +43,18 @@ if TYPE_CHECKING:  # pragma: no cover
 
 # Get logger
 LOGGER = logging.getLogger(__name__)
+
+
+VALID_PACKAGE_NAME_PATTERN = r"^([A-Z0-9]|[A-Z0-9][A-Z0-9._-]*[A-Z0-9])$"
+"""
+Pattern to validate package names.
+
+This is a valid non-normalized name, i.e., it can contain capital letters and
+underscores, periods, and multiples of these, including minus characters.
+
+See PEP 508 for more information, as well as the packaging documentation:
+https://packaging.python.org/en/latest/specifications/name-normalization/
+"""
 
 
 def _format_and_update_dependency(
@@ -268,9 +281,8 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
             hide=True,
         )
         package_latest_version_line = out.stdout.split(sep="\n", maxsplit=1)[0]
-        match = re.match(
-            r"(?P<package>[a-zA-Z0-9-_]+) \((?P<version>[0-9]+(?:\.[0-9]+){0,2})\)",
-            package_latest_version_line,
+        match = re.search(
+            r"(?P<package>\S+) \((?P<version>\S+)\)", package_latest_version_line
         )
         if match is None:
             msg = (
