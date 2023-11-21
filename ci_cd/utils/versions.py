@@ -128,7 +128,7 @@ class SemanticVersion(str):
                 match = re.match(
                     self._regex, ".".join(str(_) for _ in _python_version.release)
                 )
-                if match is None:
+                if match is None:  # pragma: no cover
                     # This should not really be possible at this point, as the
                     # Version.releasethis is a guaranteed match.
                     # But we keep it here for sanity's sake.
@@ -368,7 +368,7 @@ class SemanticVersion(str):
         return self.__class__(next_version)
 
     def previous_version(
-        self, version_part: str, max_filler: "Optional[Union[str, int]]" = 99
+        self, version_part: str, max_filler: "Optional[Union[str, int]]" = None
     ) -> "SemanticVersion":
         """Return the previous version for the specified version part.
 
@@ -516,8 +516,7 @@ def parse_ignore_rules(
     if "versions" in rules:
         for versions_entry in rules["versions"]:
             match = re.match(
-                r"^(?P<operator>>|<|<=|>=|==|!=|~=)\s*"
-                r"(?P<version>[0-9]+(?:\.[0-9]+){0,2})$",
+                r"^(?P<operator>>|<|<=|>=|==|!=|~=)\s*(?P<version>\S+)$",
                 versions_entry,
             )
             if match is None:
@@ -668,28 +667,25 @@ def _ignore_semver_rules(
             f"'patch' (you gave {semver_rules['version-update']!r})."
         )
 
-    if "major" in semver_rules["version-update"]:
-        if latest[0] != current[0]:
-            return True
-
-    elif "minor" in semver_rules["version-update"]:
-        if (
-            len(latest) >= 2
+    if (  # pylint: disable=too-many-boolean-expressions
+        ("major" in semver_rules["version-update"] and latest[0] != current[0])
+        or (
+            "minor" in semver_rules["version-update"]
+            and len(latest) >= 2
             and len(current) >= 2
             and latest[1] > current[1]
             and latest[0] == current[0]
-        ):
-            return True
-
-    elif "patch" in semver_rules["version-update"]:
-        if (
-            len(latest) >= 3
+        )
+        or (
+            "patch" in semver_rules["version-update"]
+            and len(latest) >= 3
             and len(current) >= 3
             and latest[2] > current[2]
             and latest[0] == current[0]
             and latest[1] == current[1]
-        ):
-            return True
+        )
+    ):
+        return True
 
     return False
 
@@ -804,10 +800,11 @@ def update_specifier_set(  # pylint: disable=too-many-statements,too-many-branch
     new_specifier_set = set(current_specifier_set)
     updated_specifiers = []
     split_latest_version = (
-        latest_version.as_python_version().base_version.split(".")
+        latest_version.as_python_version(shortened=False).base_version.split(".")
         if latest_version.python_version
         else latest_version.split(".")
     )
+    current_version_epochs = {Version(_.version).epoch for _ in current_specifier_set}
 
     logger.debug(
         "Received latest version: %s and current specifier set: %s",
@@ -833,8 +830,31 @@ def update_specifier_set(  # pylint: disable=too-many-statements,too-many-branch
             # does not need updating. To communicate this, make updated_specifiers
             # non-empty, but include only an empty string.
             updated_specifiers.append("")
+
+    elif (
+        latest_version.python_version
+        and latest_version.as_python_version().epoch not in current_version_epochs
+    ):
+        # The latest version is *not* included in the specifier set.
+        # And the latest version is NOT in the same epoch as the current version range.
+
+        # Sanity check that the latest version's epoch is larger than the largest
+        # epoch in the specifier set.
+        if current_version_epochs and latest_version.as_python_version().epoch < max(
+            current_version_epochs
+        ):
+            raise UnableToResolve(
+                "The latest version's epoch is smaller than the largest epoch in "
+                "the specifier set."
+            )
+
+        # Simply add the latest version as a specifier.
+        updated_specifiers.append(f"=={latest_version}")
+
     else:
         # The latest version is *not* included in the specifier set.
+        # But we're in the right epoch.
+
         # Expect the latest version to be greater than the current version range.
         for specifier in current_specifier_set:
             # Simply expand the range if the version range is capped through a specifier
@@ -911,6 +931,8 @@ def update_specifier_set(  # pylint: disable=too-many-statements,too-many-branch
                     # Keep the ~= operator, but update to include the latest version as
                     # the minimum version
                     split_specifier_version = specifier.version.split(".")
+                    print(f"splitted version: {split_specifier_version}")
+                    print(f"splitted latest version: {split_latest_version}")
                     updated_version = ".".join(
                         split_latest_version[: len(split_specifier_version)]
                     )

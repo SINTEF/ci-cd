@@ -47,13 +47,21 @@ docs = [
 testing = [
     "pytest ~={original_dependencies['pytest']}",
     "pytest-cov ~={original_dependencies['pytest-cov']},!=3.1",
-    "test-name <=1!3,!=2.0.1",
+    "test-pkg <=1!3,!=1!2.0.1",
 ]
 dev = [
     "mike >={original_dependencies['mike']},<1!3",
     "pre-commit~={original_dependencies['pre-commit']}",
     # "pylint ~={original_dependencies['pylint']},!=2.14.*",
     "test[testing]",
+]
+
+# Test epochs
+epoch = [
+    "epoch>=2!1.2,<2!2",
+    "epoch1~=2023.1.1",
+    "epoch2~=1!1.0",
+    "epoch3~=1!1.0.1",
 ]
 
 # List from https://peps.python.org/pep-0508/#complete-grammar
@@ -96,7 +104,11 @@ pep_508 = [
                 re.compile(r".*A.B-C_D$"): "A.B-C_D (1.2.3)",
                 re.compile(r".*aa$"): "aa (1.2.3)",
                 re.compile(r".*name$"): "name (1.2.3)",
-                re.compile(r".*name$"): "test-name (1!2.3)",
+                re.compile(r".*test-pkg$"): "test-pkg (1!2.3)",
+                re.compile(r".*epoch$"): "epoch (2!2.0.4.post1)",
+                re.compile(r".*epoch1$"): "epoch1 (1!1.0.0)",
+                re.compile(r".*epoch2$"): "epoch2 (1!2.1.0)",
+                re.compile(r".*epoch3$"): "epoch3 (1!1.1.0.post1)",
             },
             **{re.compile(rf".*name{i}$"): f"name{i} (3.2.1)" for i in range(1, 12)},
         }
@@ -131,13 +143,21 @@ docs = [
 testing = [
     "pytest ~={original_dependencies['pytest']}",
     "pytest-cov ~=3.1,!=3.1",
-    "test-name <=1!3,!=2.0.1",
+    "test-pkg <=1!3,!=1!2.0.1",
 ]
 dev = [
     "mike >={original_dependencies['mike']},<1!3",
     "pre-commit~=2.21",
     # "pylint ~={original_dependencies['pylint']},!=2.14.*",
     "test[testing]",
+]
+
+# Test epochs
+epoch = [
+    "epoch>=2!1.2,<2!3",
+    "epoch1~=2023.1.1,==1!1.0.0",
+    "epoch2>=1!1.0.0,<1!3",
+    "epoch3~=1!1.1.0",
 ]
 
 # List from https://peps.python.org/pep-0508/#complete-grammar
