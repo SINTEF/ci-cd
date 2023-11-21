@@ -7,6 +7,8 @@ from typing import TYPE_CHECKING
 import pytest
 
 if TYPE_CHECKING:
+    from typing import Optional
+
     from ci_cd.utils.versions import (
         IgnoreEntry,
         IgnoreRules,
@@ -202,32 +204,42 @@ def test_semanticversion_next_version_invalid() -> None:
 
 
 @pytest.mark.parametrize(
-    "version",
+    ("version", "expected_repr_version"),
     [
-        "1.dev0",
-        "1.0.dev456",
-        "1.0a1",
-        "1.0a2.dev456",
-        "1.0a12.dev456",
-        "1.0a12",
-        "1.0b1.dev456",
-        "1.0b2",
-        "1.0b2.post345.dev456",
-        "1.0b2.post345",
-        "1.0rc1.dev456",
-        "1.0rc1",
-        "1.0+abc.5",
-        "1.0+abc.7",
-        "1.0+5",
-        "1.0.post456.dev34",
-        "1.0.post456",
-        "1.1.dev1",
-        "1.1.dev1+abc.7",
+        ("1.dev0", None),
+        ("1.0.dev456", None),
+        ("1.0a1", None),
+        ("1.0a2.dev456", None),
+        ("1.0a12.dev456", None),
+        ("1.0a12", None),
+        ("1.0b1.dev456", None),
+        ("1.0b2", None),
+        ("1.0b2.post345.dev456", None),
+        ("1.0b2.post345", None),
+        ("1.0rc1.dev456", None),
+        ("1.0rc1", None),
+        ("1.0+abc.5", "1.0.0+abc.5"),
+        ("1.0+abc.7", "1.0.0+abc.7"),
+        ("1.0+5", "1.0.0+5"),
+        ("1.0.post456.dev34", None),
+        ("1.0.post456", None),
+        ("1.1.dev1", None),
+        ("1.1.dev1+abc.7", None),
     ],
 )
-def test_semanticversion_python_version(version: str) -> None:
+def test_semanticversion_python_version(
+    version: str, expected_repr_version: "Optional[str]"
+) -> None:
     """Test the python_version method of SemanticVersion class.
     This includes checking parsing PEP 440 valid versions.
+
+    Parameters:
+        version: The version to be parsed.
+        expected_repr_version: The expected version to be returned by the
+            `as_python_version` method.
+            This is only given in the case where the test version is not parsed through
+            a Version when initializing the SemanticVersion.
+
     """
     import re
 
@@ -261,12 +273,22 @@ def test_semanticversion_python_version(version: str) -> None:
                 f"as_python_version: {semver.as_python_version()}, Version(): "
                 f"{Version(version_) if isinstance(version_, str) else version_}"
             )
+
+            assert (
+                repr(semver)
+                == f"SemanticVersion({str(semver.as_python_version(shortened=False))!r})"
+            )
         else:
             # The version is parsed as a regular semantic version, where the 'local'
             # part of Version is parsed as a 'build' part for SemanticVersion.
             assert semver.python_version is None
             assert semver.as_python_version() == Version(
                 version_.split("+", maxsplit=1)[0]
+            )
+
+            assert (
+                repr(semver)
+                == f"SemanticVersion({expected_repr_version or str(version_)!r})"
             )
 
 

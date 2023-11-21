@@ -218,7 +218,7 @@ class SemanticVersion(str):
         """The Python version as defined by `packaging.version.Version`."""
         return self._python_version
 
-    def as_python_version(self) -> Version:
+    def as_python_version(self, shortened: bool = True) -> Version:
         """Return the Python version as defined by `packaging.version.Version`."""
         if self.python_version:
             # If the SemanticVersion was generated from a Version, return the original
@@ -233,7 +233,12 @@ class SemanticVersion(str):
             )
 
             # release
-            redone_version += self.shortened()
+            if shortened:
+                redone_version += self.shortened()
+            else:
+                redone_version += ".".join(
+                    str(_) for _ in (self.major, self.minor, self.patch)
+                )
 
             if (self.major, self.minor, self.patch)[
                 : len(self.python_version.release)
@@ -258,7 +263,7 @@ class SemanticVersion(str):
     def __str__(self) -> str:
         """Return the full version."""
         if self.python_version:
-            return str(self.as_python_version())
+            return str(self.as_python_version(shortened=False))
         return (
             f"{self.major}.{self.minor}.{self.patch}"
             f"{f'-{self.pre_release}' if self.pre_release else ''}"
@@ -267,9 +272,7 @@ class SemanticVersion(str):
 
     def __repr__(self) -> str:
         """Return the string representation of the object."""
-        if self.python_version:
-            return repr(str(self.as_python_version()))
-        return repr(self.__str__())
+        return f"{self.__class__.__name__}({self.__str__()!r})"
 
     def _validate_other_type(self, other: "Any") -> "SemanticVersion":
         """Initial check/validation of `other` before rich comparisons."""
