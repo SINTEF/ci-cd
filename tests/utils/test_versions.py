@@ -86,17 +86,19 @@ def test_semanticversion() -> None:
             "1.0.0-rc.1+exp.sha.5114f85",
         ),
     ]
-    assert all(
-        SemanticVersion(**input_[0]) == input_[1]
-        if isinstance(input_, tuple)
-        else isinstance(SemanticVersion(input_), SemanticVersion)
-        for input_ in valid_inputs
-    )
-    assert all(
-        isinstance(SemanticVersion(version=input_), SemanticVersion)
-        for input_ in valid_inputs
-        if isinstance(input_, str)
-    )
+    for input_ in valid_inputs:
+        value = (
+            SemanticVersion(**input_[0]) == input_[1]
+            if isinstance(input_, tuple)
+            else isinstance(SemanticVersion(input_), SemanticVersion)
+        )
+        assert value, f"Failed for input: {input_}. SemanticVersion: {value}"
+
+    for input_ in valid_inputs:
+        if isinstance(input_, str):
+            assert isinstance(
+                SemanticVersion(version=input_), SemanticVersion
+            ), f"Failed for input: {input_}"
 
 
 def test_semanticversion_invalid() -> None:

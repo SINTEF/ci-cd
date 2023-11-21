@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING, no_type_check
 
 from packaging.markers import Marker, default_environment
 from packaging.specifiers import InvalidSpecifier, Specifier, SpecifierSet
-from packaging.version import Version
+from packaging.version import InvalidVersion, Version
 
 from ci_cd.exceptions import InputError, InputParserError, UnableToResolve
 
@@ -114,10 +114,25 @@ class SemanticVersion(str):
 
             match = re.match(self._regex, version)
             if match is None:
-                raise ValueError(
-                    f"version ({version}) cannot be parsed as a semantic version "
-                    "according to the SemVer.org regular expression"
+                # Try to parse it as a Python version and try again
+                try:
+                    _python_version = Version(version)
+                except InvalidVersion as exc:
+                    raise ValueError(
+                        f"version ({version}) cannot be parsed as a semantic version "
+                        "according to the SemVer.org regular expression"
+                    ) from exc
+
+                self._python_version = _python_version
+                match = re.match(
+                    self._regex, ".".join(str(_) for _ in _python_version.release)
                 )
+                if match is None:
+                    raise ValueError(
+                        f"version ({version}) cannot be parsed as a semantic version "
+                        "according to the SemVer.org regular expression"
+                    )
+
             major, minor, patch, pre_release, build = match.groups()
 
         self._major = int(major)
@@ -257,7 +272,7 @@ class SemanticVersion(str):
         if isinstance(other, self.__class__):
             return other
 
-        if isinstance(other, str):
+        if isinstance(other, (Version, str)):
             try:
                 return self.__class__(other)
             except (TypeError, ValueError) as exc:

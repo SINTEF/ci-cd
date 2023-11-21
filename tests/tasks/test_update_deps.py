@@ -47,6 +47,7 @@ docs = [
 testing = [
     "pytest ~={original_dependencies['pytest']}",
     "pytest-cov ~={original_dependencies['pytest-cov']},!=3.1",
+    "test-name <=1!3,!=2.0.1",
 ]
 dev = [
     "mike >={original_dependencies['mike']},<1!3",
@@ -95,6 +96,7 @@ pep_508 = [
                 re.compile(r".*A.B-C_D$"): "A.B-C_D (1.2.3)",
                 re.compile(r".*aa$"): "aa (1.2.3)",
                 re.compile(r".*name$"): "name (1.2.3)",
+                re.compile(r".*name$"): "test-name (1!2.3)",
             },
             **{re.compile(rf".*name{i}$"): f"name{i} (3.2.1)" for i in range(1, 12)},
         }
@@ -129,6 +131,7 @@ docs = [
 testing = [
     "pytest ~={original_dependencies['pytest']}",
     "pytest-cov ~=3.1,!=3.1",
+    "test-name <=1!3,!=2.0.1",
 ]
 dev = [
     "mike >={original_dependencies['mike']},<1!3",
