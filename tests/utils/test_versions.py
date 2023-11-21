@@ -216,15 +216,21 @@ def test_semanticversion_next_version_invalid() -> None:
         "1.0b2.post345",
         "1.0rc1.dev456",
         "1.0rc1",
+        "1.0+abc.5",
+        "1.0+abc.7",
+        "1.0+5",
         "1.0.post456.dev34",
         "1.0.post456",
         "1.1.dev1",
+        "1.1.dev1+abc.7",
     ],
 )
 def test_semanticversion_python_version(version: str) -> None:
     """Test the python_version method of SemanticVersion class.
     This includes checking parsing PEP 440 valid versions.
     """
+    import re
+
     from packaging.version import Version
 
     from ci_cd.utils.versions import SemanticVersion
@@ -232,20 +238,36 @@ def test_semanticversion_python_version(version: str) -> None:
     for version_ in (version, Version(version)):
         semver = SemanticVersion(version_)
         assert semver
-        assert (
-            semver.python_version == Version(version_)
-            if isinstance(version_, str)
-            else version_
-        ), f"Failed for version: {version_}, type: {type(version_)}"
-        assert (
-            semver.as_python_version() == Version(version_)
-            if isinstance(version_, str)
-            else version_
-        ), (
-            f"Failed for version: {version_}, type: {type(version_)}, "
-            f"as_python_version: {semver.as_python_version()}, Version(): "
-            f"{Version(version_) if isinstance(version_, str) else version_}"
-        )
+
+        if isinstance(version_, Version) or (
+            isinstance(version_, str)
+            and re.match(
+                SemanticVersion._regex, version_  # pylint: disable=protected-access
+            )
+            is None
+        ):
+            assert (
+                semver.python_version == Version(version_)
+                if isinstance(version_, str)
+                else version_
+            ), f"Failed for version: {version_}, type: {type(version_)}"
+
+            assert (
+                semver.as_python_version() == Version(version_)
+                if isinstance(version_, str)
+                else version_
+            ), (
+                f"Failed for version: {version_}, type: {type(version_)}, "
+                f"as_python_version: {semver.as_python_version()}, Version(): "
+                f"{Version(version_) if isinstance(version_, str) else version_}"
+            )
+        else:
+            # The version is parsed as a regular semantic version, where the 'local'
+            # part of Version is parsed as a 'build' part for SemanticVersion.
+            assert semver.python_version is None
+            assert semver.as_python_version() == Version(
+                version_.split("+", maxsplit=1)[0]
+            )
 
 
 def _parametrize_ignore_version() -> (

@@ -129,6 +129,9 @@ class SemanticVersion(str):
                     self._regex, ".".join(str(_) for _ in _python_version.release)
                 )
                 if match is None:
+                    # This should not really be possible at this point, as the
+                    # Version.releasethis is a guaranteed match.
+                    # But we keep it here for sanity's sake.
                     raise ValueError(
                         f"version ({version}) cannot be parsed as a semantic version "
                         "according to the SemVer.org regular expression"
@@ -254,6 +257,8 @@ class SemanticVersion(str):
 
     def __str__(self) -> str:
         """Return the full version."""
+        if self.python_version:
+            return str(self.as_python_version())
         return (
             f"{self.major}.{self.minor}.{self.patch}"
             f"{f'-{self.pre_release}' if self.pre_release else ''}"
@@ -262,6 +267,8 @@ class SemanticVersion(str):
 
     def __repr__(self) -> str:
         """Return the string representation of the object."""
+        if self.python_version:
+            return repr(str(self.as_python_version()))
         return repr(self.__str__())
 
     def _validate_other_type(self, other: "Any") -> "SemanticVersion":
