@@ -15,7 +15,7 @@ import tomlkit
 from invoke import task
 from packaging.markers import default_environment
 from packaging.requirements import InvalidRequirement, Requirement
-from packaging.version import VERSION_PATTERN
+from packaging.version import Version
 from tomlkit.exceptions import TOMLKitError
 
 from ci_cd.exceptions import InputError, UnableToResolve
@@ -297,7 +297,7 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
             error = True
             continue
 
-        latest_version: str = match.group("version")
+        latest_version = Version(match.group("version"))
 
         # Here used to be a sanity check to ensure that the package name parsed from
         # pyproject.toml matches the name returned from 'pip index versions'.
@@ -311,7 +311,7 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
         # Check whether pyproject.toml already uses the latest version
         # This is expected if the latest version equals a specifier with any of the
         # operators: ==, >=, or ~=.
-        split_latest_version = latest_version.split(".")
+        split_latest_version = latest_version.base_version.split(".")
         _continue = False
         for specifier in parsed_requirement.specifier:
             if specifier.operator in ["==", ">=", "~="]:
@@ -377,7 +377,10 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
                     current_version = specifier.version.split(".")
                     break
             else:
-                current_version = "0.0.0".split(".")
+                if latest_version.epoch != 0:
+                    current_version = "0.0.0".split(".")
+                else:
+                    current_version = f"{latest_version.epoch}!0.0.0".split(".")
 
             if ignore_version(
                 current=current_version,

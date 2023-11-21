@@ -21,7 +21,7 @@ def test_update_deps(tmp_path: "Path", caplog: pytest.LogCaptureFixture) -> None
     original_dependencies = {
         "invoke": "1.7",
         "tomlkit": "0.11.4",
-        "mike": "1.1",
+        "mike": "1!1.1",
         "pytest": "7.1",
         "pytest-cov": "3.0",
         "pre-commit": "2.20",
@@ -42,14 +42,14 @@ dependencies = [
 
 [project.optional-dependencies]
 docs = [
-    "mike >={original_dependencies['mike']},<3",
+    "mike >={original_dependencies['mike']},<1!3",
 ]
 testing = [
     "pytest ~={original_dependencies['pytest']}",
     "pytest-cov ~={original_dependencies['pytest-cov']},!=3.1",
 ]
 dev = [
-    "mike >={original_dependencies['mike']},<3",
+    "mike >={original_dependencies['mike']},<1!3",
     "pre-commit~={original_dependencies['pre-commit']}",
     # "pylint ~={original_dependencies['pylint']},!=2.14.*",
     "test[testing]",
@@ -124,14 +124,14 @@ dependencies = [
 
 [project.optional-dependencies]
 docs = [
-    "mike >={original_dependencies['mike']},<3",
+    "mike >={original_dependencies['mike']},<1!3",
 ]
 testing = [
     "pytest ~={original_dependencies['pytest']}",
     "pytest-cov ~=3.1,!=3.1",
 ]
 dev = [
-    "mike >=1!{original_dependencies['mike']},<3",
+    "mike >={original_dependencies['mike']},<1!3",
     "pre-commit~=2.21",
     # "pylint ~={original_dependencies['pylint']},!=2.14.*",
     "test[testing]",

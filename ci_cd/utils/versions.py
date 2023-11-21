@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING, no_type_check
 
 from packaging.markers import Marker, default_environment
 from packaging.specifiers import InvalidSpecifier, Specifier, SpecifierSet
-from packaging.version import VERSION_PATTERN, Version
+from packaging.version import Version
 
 from ci_cd.exceptions import InputError, InputParserError, UnableToResolve
 
@@ -73,14 +73,12 @@ class SemanticVersion(str):
 
     """
 
-    _REGEX = (
+    _regex = (
         r"^(?P<major>0|[1-9]\d*)(?:\.(?P<minor>0|[1-9]\d*))?(?:\.(?P<patch>0|[1-9]\d*))?"
         r"(?:-(?P<pre_release>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)"
         r"(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?"
         r"(?:\+(?P<build>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$"
     )
-
-    _PYTHON_VERSION: "Optional[Version]" = None
 
     @no_type_check
     def __new__(
@@ -102,6 +100,8 @@ class SemanticVersion(str):
         pre_release: "Optional[str]" = None,
         build: "Optional[str]" = None,
     ) -> None:
+        self._python_version: "Optional[Version]" = None
+
         if version is not None:
             if major or minor or patch or pre_release or build:
                 raise ValueError(
@@ -109,10 +109,10 @@ class SemanticVersion(str):
                 )
 
             if isinstance(version, Version):
-                self._PYTHON_VERSION = version
-                version = ".".join(version.release)
+                self._python_version = version
+                version = ".".join(str(_) for _ in version.release)
 
-            match = re.match(self._REGEX, version)
+            match = re.match(self._regex, version)
             if match is None:
                 raise ValueError(
                     f"version ({version}) cannot be parsed as a semantic version "
@@ -179,7 +179,7 @@ class SemanticVersion(str):
         return self._patch
 
     @property
-    def pre_release(self) -> "Union[None, str]":
+    def pre_release(self) -> "Union[str, None]":
         """The pre-release part of the version
 
         This is the part supplied after a minus (`-`), but before a plus (`+`).
@@ -187,12 +187,53 @@ class SemanticVersion(str):
         return self._pre_release
 
     @property
-    def build(self) -> "Union[None, str]":
+    def build(self) -> "Union[str, None]":
         """The build metadata part of the version.
 
         This is the part supplied at the end of the version, after a plus (`+`).
         """
         return self._build
+
+    @property
+    def python_version(self) -> "Union[Version, None]":
+        """The Python version as defined by `packaging.version.Version`."""
+        return self._python_version
+
+    def as_python_version(self) -> Version:
+        """Return the Python version as defined by `packaging.version.Version`."""
+        if self.python_version:
+            # If the SemanticVersion was generated from a Version, return the original
+            # epoch (and the rest, if the release equals the current shortened version)
+
+            # epoch
+            redone_version = (
+                f"{self.python_version.epoch}!"
+                if self.python_version.epoch != 0
+                else ""
+            )
+
+            # release
+            redone_version += self.shortened()
+
+            if self.shortened() == ".".join(
+                str(_) for _ in self.python_version.release
+            ):
+                # pre, post, dev, local
+                if self.python_version.pre:
+                    redone_version += "".join(self.python_version.pre)
+
+                if self.python_version.post:
+                    redone_version += f".post{self.python_version.post}"
+
+                if self.python_version.dev:
+                    redone_version += f".dev{self.python_version.dev}"
+
+                if self.python_version.local:
+                    redone_version += f"+{self.python_version.local}"
+
+            return Version(redone_version)
+
+        return Version(self.shortened())
 
     def __str__(self) -> str:
         """Return the full version."""
@@ -332,22 +373,15 @@ class SemanticVersion(str):
         if version_part == "major":
             prev_version = f"{self.major - 1}.{max_filler}.{max_filler}"
 
-        elif version_part == "minor":
+        elif version_part == "minor" or self.patch == 0:
             prev_version = (
-                f"{self.major -1 }.{max_filler}.{max_filler}"
+                f"{self.major - 1}.{max_filler}.{max_filler}"
                 if self.minor == 0
                 else f"{self.major}.{self.minor - 1}.{max_filler}"
             )
 
         else:
-            if self.patch == 0:
-                prev_version = (
-                    f"{self.major - 1}.{max_filler}.{max_filler}"
-                    if self.minor == 0
-                    else f"{self.major}.{self.minor - 1}.{max_filler}"
-                )
-            else:
-                prev_version = f"{self.major}.{self.minor}.{self.patch - 1}"
+            prev_version = f"{self.major}.{self.minor}.{self.patch - 1}"
 
         return self.__class__(prev_version)
 
@@ -731,48 +765,22 @@ def regenerate_requirement(
     return updated_dependency
 
 
-def update_specifier_set(  # pylint: disable=too-many-statements
-    latest_version: "Union[SemanticVersion, str]", current_specifier_set: SpecifierSet
+def update_specifier_set(  # pylint: disable=too-many-statements,too-many-branches
+    latest_version: "Union[SemanticVersion, Version, str]",
+    current_specifier_set: SpecifierSet,
 ) -> SpecifierSet:
     """Update the specifier set to include the latest version."""
     logger = logging.getLogger(__name__)
 
-    epoch = 0
-
-    if isinstance(latest_version, str):
-        match = re.search(rf"(?ix){VERSION_PATTERN}", latest_version)
-        if match is None:
-            try:
-                latest_version = SemanticVersion(latest_version)
-            except ValueError as exc:
-                raise UnableToResolve(
-                    "Invalid version string given for latest version: "
-                    f"{latest_version!r}"
-                ) from exc
-        else:
-            # Only use `release` part, but store `epoch` if given
-            epoch = match.group("epoch")
-            if epoch:
-                epoch = int(epoch)
-
-            release = match.group("release")
-            if not release or not isinstance(release, str):
-                raise UnableToResolve(
-                    "Invalid version string given for latest version: "
-                    f"{latest_version!r}"
-                )
-
-            latest_version = SemanticVersion(release)
-
-    if not isinstance(latest_version, SemanticVersion):
-        raise TypeError(
-            "latest_version must be a SemanticVersion or a string, got: type "
-            f"{type(latest_version)}"
-        )
+    latest_version = SemanticVersion(latest_version)
 
     new_specifier_set = set(current_specifier_set)
     updated_specifiers = []
-    split_latest_version = latest_version.split(".")
+    split_latest_version = (
+        latest_version.as_python_version().base_version.split(".")
+        if latest_version.python_version
+        else latest_version.split(".")
+    )
 
     logger.debug(
         "Received latest version: %s and current specifier set: %s",
@@ -810,9 +818,6 @@ def update_specifier_set(  # pylint: disable=too-many-statements
                     split_latest_version[: len(split_specifier_version)]
                 )
 
-                if epoch > 0:
-                    updated_version = f"{epoch}!{updated_version}"
-
                 updated_specifiers.append(f"{specifier.operator}{updated_version}")
                 new_specifier_set.remove(specifier)
                 break
@@ -822,24 +827,30 @@ def update_specifier_set(  # pylint: disable=too-many-statements
                 # version up from the latest version
                 split_specifier_version = specifier.version.split(".")
 
+                updated_version = ""
+
+                # Add epoch if present
+                if (
+                    latest_version.python_version
+                    and latest_version.as_python_version().epoch != 0
+                ):
+                    updated_version += f"{latest_version.as_python_version().epoch}!"
+
                 # Up only the last version segment of the latest version according to
                 # what version segments are defined in the specifier version.
                 if len(split_specifier_version) == 1:
-                    updated_version = str(latest_version.next_version("major").major)
+                    updated_version += str(latest_version.next_version("major").major)
                 elif len(split_specifier_version) == 2:
-                    updated_version = ".".join(
+                    updated_version += ".".join(
                         latest_version.next_version("minor").split(".")[:2]
                     )
                 elif len(split_specifier_version) == 3:
-                    updated_version = latest_version.next_version("patch")
+                    updated_version += latest_version.next_version("patch")
                 else:
                     raise UnableToResolve(
                         "Invalid/unable to handle number of version parts: "
                         f"{len(split_specifier_version)}"
                     )
-
-                if epoch > 0:
-                    updated_version = f"{epoch}!{updated_version}"
 
                 updated_specifiers.append(f"{specifier.operator}{updated_version}")
                 new_specifier_set.remove(specifier)
@@ -851,6 +862,14 @@ def update_specifier_set(  # pylint: disable=too-many-statements
                 # the minimum version
                 current_version = SemanticVersion(specifier.version)
 
+                # Add epoch if present
+                epoch = ""
+                if (
+                    latest_version.python_version
+                    and latest_version.as_python_version().epoch != 0
+                ):
+                    epoch += f"{latest_version.as_python_version().epoch}!"
+
                 if latest_version.major > current_version.major:
                     # Expand and change ~= to >= and < operators
 
@@ -859,7 +878,7 @@ def update_specifier_set(  # pylint: disable=too-many-statements
 
                     # < next major version up from latest_version
                     updated_specifiers.append(
-                        f"<{str(latest_version.next_version('major').major)}"
+                        f"<{epoch}{latest_version.next_version('major').major}"
                     )
                 else:
                     # Keep the ~= operator, but update to include the latest version as
