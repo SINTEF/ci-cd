@@ -201,6 +201,53 @@ def test_semanticversion_next_version_invalid() -> None:
             SemanticVersion("1.0.0").next_version(version_part)
 
 
+@pytest.mark.parametrize(
+    "version",
+    [
+        "1.dev0",
+        "1.0.dev456",
+        "1.0a1",
+        "1.0a2.dev456",
+        "1.0a12.dev456",
+        "1.0a12",
+        "1.0b1.dev456",
+        "1.0b2",
+        "1.0b2.post345.dev456",
+        "1.0b2.post345",
+        "1.0rc1.dev456",
+        "1.0rc1",
+        "1.0.post456.dev34",
+        "1.0.post456",
+        "1.1.dev1",
+    ],
+)
+def test_semanticversion_python_version(version: str) -> None:
+    """Test the python_version method of SemanticVersion class.
+    This includes checking parsing PEP 440 valid versions.
+    """
+    from packaging.version import Version
+
+    from ci_cd.utils.versions import SemanticVersion
+
+    for version_ in (version, Version(version)):
+        semver = SemanticVersion(version_)
+        assert semver
+        assert (
+            semver.python_version == Version(version_)
+            if isinstance(version_, str)
+            else version_
+        ), f"Failed for version: {version_}, type: {type(version_)}"
+        assert (
+            semver.as_python_version() == Version(version_)
+            if isinstance(version_, str)
+            else version_
+        ), (
+            f"Failed for version: {version_}, type: {type(version_)}, "
+            f"as_python_version: {semver.as_python_version()}, Version(): "
+            f"{Version(version_) if isinstance(version_, str) else version_}"
+        )
+
+
 def _parametrize_ignore_version() -> (
     "dict[str, tuple[str, str, IgnoreVersions, IgnoreUpdateTypes, bool]]"
 ):

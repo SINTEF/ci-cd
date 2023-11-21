@@ -123,6 +123,7 @@ class SemanticVersion(str):
                         "according to the SemVer.org regular expression"
                     ) from exc
 
+                # Success. Now let's redo the SemVer.org regular expression match
                 self._python_version = _python_version
                 match = re.match(
                     self._regex, ".".join(str(_) for _ in _python_version.release)
@@ -218,7 +219,8 @@ class SemanticVersion(str):
         """Return the Python version as defined by `packaging.version.Version`."""
         if self.python_version:
             # If the SemanticVersion was generated from a Version, return the original
-            # epoch (and the rest, if the release equals the current shortened version)
+            # epoch (and the rest, if the release equals the current version).
+            # Otherwise, return it as a "base_version".
 
             # epoch
             redone_version = (
@@ -230,20 +232,20 @@ class SemanticVersion(str):
             # release
             redone_version += self.shortened()
 
-            if self.shortened() == ".".join(
-                str(_) for _ in self.python_version.release
-            ):
+            if (self.major, self.minor, self.patch)[
+                : len(self.python_version.release)
+            ] == self.python_version.release:
                 # pre, post, dev, local
-                if self.python_version.pre:
-                    redone_version += "".join(self.python_version.pre)
+                if self.python_version.pre is not None:
+                    redone_version += "".join(str(_) for _ in self.python_version.pre)
 
-                if self.python_version.post:
+                if self.python_version.post is not None:
                     redone_version += f".post{self.python_version.post}"
 
-                if self.python_version.dev:
+                if self.python_version.dev is not None:
                     redone_version += f".dev{self.python_version.dev}"
 
-                if self.python_version.local:
+                if self.python_version.local is not None:
                     redone_version += f"+{self.python_version.local}"
 
             return Version(redone_version)
