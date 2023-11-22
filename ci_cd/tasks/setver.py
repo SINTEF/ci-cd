@@ -120,9 +120,7 @@ def setver(
                 )
 
             filepath = Path(
-                filepath.format(
-                    **{"package_dir": package_dir, "version": semantic_version}
-                )
+                filepath.format(package_dir=package_dir, version=semantic_version)
             ).resolve()
             if not filepath.exists():
                 error_msg = (
@@ -143,9 +141,7 @@ replacement (handled): %s
                 filepath,
                 pattern,
                 replacement,
-                replacement.format(
-                    **{"package_dir": package_dir, "version": semantic_version}
-                ),
+                replacement.format(package_dir=package_dir, version=semantic_version),
             )
             if test:
                 print(
@@ -154,7 +150,7 @@ replacement (handled): %s
                 )
                 print(
                     "replacement (handled): "
-                    f"{replacement.format(**{'package_dir': package_dir, 'version': semantic_version})}"  # noqa: E501
+                    f"{replacement.format(package_dir=package_dir, version=semantic_version)}"  # noqa: E501
                 )
 
             try:
@@ -163,7 +159,7 @@ replacement (handled): %s
                     (
                         pattern,
                         replacement.format(
-                            **{"package_dir": package_dir, "version": semantic_version}
+                            package_dir=package_dir, version=semantic_version
                         ),
                     ),
                 )
@@ -176,7 +172,7 @@ replacement (handled): %s
                     f"{Emoji.CROSS_MARK.value} Error: Could not update file {filepath}"
                     f" according to the given input:\n\n  pattern: {pattern}\n  "
                     "replacement: "
-                    f"{replacement.format(**{'package_dir': package_dir, 'version': semantic_version})}"  # noqa: E501
+                    f"{replacement.format(package_dir=package_dir, version=semantic_version)}"  # noqa: E501
                 )
 
     print(

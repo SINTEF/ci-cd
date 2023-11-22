@@ -1005,7 +1005,7 @@ def test_ignore_version_fails() -> None:
 
 
 @pytest.mark.parametrize(
-    ["requires_python", "expected_outcome"],
+    ("requires_python", "expected_outcome"),
     [
         # Minimum operators
         # >=

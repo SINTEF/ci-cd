@@ -15,7 +15,7 @@ if TYPE_CHECKING:  # pragma: no cover
     from typing import Any, Dict, List
 
     from packaging.requirements import Requirement
-    from typing_extensions import Literal
+    from typing_extensions import Literal, Self
 
     IgnoreEntry = Dict[Literal["dependency-name", "versions", "update-types"], str]
 
@@ -98,9 +98,7 @@ class SemanticVersion(str):
     )
 
     @no_type_check
-    def __new__(
-        cls, version: str | None = None, **kwargs: str | int
-    ) -> SemanticVersion:
+    def __new__(cls, version: str | None = None, **kwargs: str | int) -> Self:
         return super().__new__(
             cls, version if version else cls._build_version(**kwargs)
         )
@@ -257,7 +255,7 @@ class SemanticVersion(str):
         """Less than or equal to (`<=`) rich comparison."""
         return self.__lt__(other) or self.__eq__(other)
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: object) -> bool:
         """Equal to (`==`) rich comparison."""
         other_semver = self._validate_other_type(other)
 
@@ -268,7 +266,7 @@ class SemanticVersion(str):
             and self.pre_release == other_semver.pre_release
         )
 
-    def __ne__(self, other: Any) -> bool:
+    def __ne__(self, other: object) -> bool:
         """Not equal to (`!=`) rich comparison."""
         return not self.__eq__(other)
 
@@ -872,7 +870,7 @@ def _semi_valid_python_version(version: SemanticVersion) -> bool:
             f"Invalid Python major version: {version.major}. Expected 1, 2, or 3."
         )
 
-    if version.minor not in range(0, 12 + 1) or version.patch not in range(0, 18 + 1):
+    if version.minor not in range(12 + 1) or version.patch not in range(18 + 1):
         # Either:
         #   Not a valid Python minor version (0, 1, 2, ..., 12)
         #   Not a valid Python patch version (0, 1, 2, ..., 18)

@@ -5,7 +5,7 @@ import pytest
 
 
 @pytest.fixture(autouse=True)
-def clear_loggers() -> None:
+def _clear_loggers() -> None:
     """Remove handlers from all loggers"""
     import logging
 
