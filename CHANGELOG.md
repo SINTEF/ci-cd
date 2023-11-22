@@ -1,12 +1,24 @@
 # Changelog
 
-## [Unreleased](https://github.com/SINTEF/ci-cd/tree/HEAD)
+## [v2.6.0](https://github.com/SINTEF/ci-cd/tree/v2.6.0) (2023-11-17)
 
-[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.5.3...HEAD)
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.5.3...v2.6.0)
+
+**Implemented enhancements:**
+
+- Modularize `update_deps.py` further [\#148](https://github.com/SINTEF/ci-cd/issues/148)
 
 **Fixed bugs:**
 
-- A PR is not opened for CI - Check dependencies [\#195](https://github.com/SINTEF/ci-cd/issues/195)
+- Ensure version dependency ranges are respected when updating [\#141](https://github.com/SINTEF/ci-cd/issues/141)
+
+**Merged pull requests:**
+
+- \[Auto-generated\] Update dependencies [\#214](https://github.com/SINTEF/ci-cd/pull/214) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[Auto-generated\] Check & update dependencies \(`pyproject.toml`\) [\#213](https://github.com/SINTEF/ci-cd/pull/213) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[Auto-generated\] Check & update dependencies \(`pyproject.toml`\) [\#206](https://github.com/SINTEF/ci-cd/pull/206) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[Auto-generated\] Update dependencies [\#204](https://github.com/SINTEF/ci-cd/pull/204) ([TEAM4-0](https://github.com/TEAM4-0))
+- Handle version specifiers [\#190](https://github.com/SINTEF/ci-cd/pull/190) ([CasperWA](https://github.com/CasperWA))
 
 ## [v2.5.3](https://github.com/SINTEF/ci-cd/tree/v2.5.3) (2023-10-25)
 
@@ -19,6 +31,7 @@
 
 **Fixed bugs:**
 
+- A PR is not opened for CI - Check dependencies [\#195](https://github.com/SINTEF/ci-cd/issues/195)
 - Ignore options not parseable [\#194](https://github.com/SINTEF/ci-cd/issues/194)
 
 **Merged pull requests:**

@@ -1,7 +1,8 @@
 # To install the git pre-commit hook run:
 #   pre-commit install
-# To update the pre-commit hooks run:
-#   pre-commit autoupdate
+default_language_version:
+  python: python3.9
+
 repos:
   # pre-commit-hooks supplies a multitude of small hooks
   # To get an overview of them all as well as the ones used here, please see
@@ -22,6 +23,8 @@ repos:
   # the language
   # It works on files in-place
   - repo: https://github.com/asottile/pyupgrade
+    # Latest version for Python 3.7: 3.3.2
+    # Latest version for Python 3.8: 3.8.0
     rev: v3.15.0
     hooks:
     - id: pyupgrade
@@ -98,7 +101,7 @@ repos:
   # The project's documentation can be found at:
   # https://mypy.readthedocs.io/en/stable/index.html
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.6.1
+    rev: v1.7.0
     hooks:
     - id: mypy
 

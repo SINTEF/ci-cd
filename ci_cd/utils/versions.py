@@ -12,18 +12,19 @@ from packaging.specifiers import InvalidSpecifier, Specifier, SpecifierSet
 from ci_cd.exceptions import InputError, InputParserError, UnableToResolve
 
 if TYPE_CHECKING:  # pragma: no cover
-    from typing import Any, Literal
+    from typing import Any, Dict, List
 
     from packaging.requirements import Requirement
+    from typing_extensions import Literal
 
-    IgnoreEntry = dict[Literal["dependency-name", "versions", "update-types"], str]
+    IgnoreEntry = Dict[Literal["dependency-name", "versions", "update-types"], str]
 
-    IgnoreRules = dict[Literal["versions", "update-types"], list[str]]
-    IgnoreRulesCollection = dict[str, IgnoreRules]
+    IgnoreRules = Dict[Literal["versions", "update-types"], List[str]]
+    IgnoreRulesCollection = Dict[str, IgnoreRules]
 
-    IgnoreVersions = list[dict[Literal["operator", "version"], str]]
-    IgnoreUpdateTypes = dict[
-        Literal["version-update"], list[Literal["major", "minor", "patch"]]
+    IgnoreVersions = List[Dict[Literal["operator", "version"], str]]
+    IgnoreUpdateTypes = Dict[
+        Literal["version-update"], List[Literal["major", "minor", "patch"]]
     ]
 
 
