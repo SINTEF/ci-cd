@@ -1,4 +1,6 @@
 """Utilities for CI/CD."""
+from __future__ import annotations
+
 from .console_printing import Emoji, error_msg, info_msg, warning_msg
 from .file_io import update_file
 from .versions import (

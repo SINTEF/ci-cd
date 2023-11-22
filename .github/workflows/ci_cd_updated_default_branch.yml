@@ -164,15 +164,6 @@ jobs:
       UPDATE_DEFAULT_BRANCH: false
 
     steps:
-    - name: Check input
-      run: |
-        valid_frameworks=("mkdocs sphinx")
-        if [[ ! " ${valid_frameworks[*]} " =~ " ${{ inputs.docs_framework}} " ]]; then
-            echo "The input '${{ inputs.docs_framework}}' is not supported."
-            echo "Valid inputs are: ${valid_frameworks[*]}"
-            exit 1
-        fi
-
     - name: Release check
       run: |
         COMMIT_MSG="$(gh api /repos/${{ github.repository}}/commits/${{ inputs.default_repo_branch }} --jq '.commit.message')"
@@ -186,6 +177,22 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
 
+    - name: Validate inputs
+      if: env.RELEASE_RUN == 'false'
+      run: |
+        valid_frameworks=("mkdocs sphinx")
+        if [[ ! " ${valid_frameworks[*]} " =~ " ${{ inputs.docs_framework}} " ]]; then
+            echo "The input '${{ inputs.docs_framework}}' is not supported."
+            echo "Valid inputs are: ${valid_frameworks[*]}"
+            exit 1
+        fi
+
+        if [[ ! "${{ inputs.python_version}}" =~ ^3\.([7-9]|1[0-3])(\..*)?$ ]]; then
+          echo "Python version '${{ inputs.python_version}}' is not supported."
+          echo "Supported versions are: 3.7, 3.8, 3.9, 3.10, 3.11, 3.12, 3.13."
+          exit 1
+        fi
+
     - name: Checkout ${{ github.repository }}
       if: env.RELEASE_RUN == 'false'
       uses: actions/checkout@v4
@@ -197,6 +204,7 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: "${{ inputs.python_version }}"
+        allow-prereleases: true
 
     - name: Install system dependencies
       if: env.RELEASE_RUN == 'false' && inputs.system_dependencies != ''
@@ -224,6 +232,20 @@ jobs:
         pip install -U setuptools wheel
         pip install ${EDITABLE}.${{ inputs.doc_extras }}
         pip install git+https://github.com/SINTEF/ci-cd.git@v2.6.0
+
+        INSTALLED_PACKAGES=$(pip freeze)
+        if [ "${{ inputs.docs_framework }}" == "mkdocs" ]; then
+          if [[ $(echo -e "${INSTALLED_PACKAGES}" | grep -ciE '(mkdocs|mike)==') -eq 2 ]]; then
+            echo "Missing one or more of the following packages: mkdocs, mike"
+            exit 1
+        elif [ "${{ inputs.docs_framework }}" == "sphinx" ]; then
+          if [[ $(echo -e "${INSTALLED_PACKAGES}" | grep -ci 'sphinx==') -eq 1 ]]; then
+            echo "Missing one or more of the following packages: sphinx"
+            exit 1
+        else
+          echo "Unknown framework: ${{ inputs.docs_framework }}"
+          exit 1
+        fi
 
     - name: Set up git user
       if: env.RELEASE_RUN == 'false'
@@ -357,7 +379,7 @@ jobs:
       if: env.RELEASE_RUN == 'false'
       uses: docker://githubchangeloggenerator/github-changelog-generator:1.16.2
       with:
-        args: --user "${{ github.repository_owner }}" ${{ env.CHANGELOG_PROJECT }} --token "${{ secrets.PAT || secrets.GITHUB_TOKEN }}" --release-branch "${{ inputs.default_repo_branch }}" --future-release "Unreleased changes" ${{ env.CHANGELOG_EXCLUDE_TAGS_REGEX }} ${{ env.CHANGELOG_EXCLUDE_LABELS }}
+        args: --user "${{ github.repository_owner }}" ${CHANGELOG_PROJECT} --token "${{ secrets.PAT || secrets.GITHUB_TOKEN }}" --release-branch "${{ inputs.default_repo_branch }}" --future-release "Unreleased changes" ${CHANGELOG_EXCLUDE_TAGS_REGEX} ${CHANGELOG_EXCLUDE_LABELS}
 
     - name: Build (& deploy MkDocs) documentation
       if: env.RELEASE_RUN == 'false' && ( ! inputs.test )
@@ -377,7 +399,7 @@ jobs:
 
         if [ "${{ inputs.test }}" == "true" ]; then
           if [ "${{ inputs.docs_framework }}" == "mkdocs" ]; then
-            echo "Will here deploy documentation using 'mike' called 'latest' with alias '${{ inputs.release_branch }}'"
+            echo "Will here deploy documentation using 'mike' called 'latest' with alias '${{ inputs.default_repo_branch }}'"
           elif [ "${{ inputs.docs_framework }}" == "sphinx" ]; then
             echo "Will here deploy documentation using 'sphinx-build'."
             echo "sphinx-build options: ${SPHINX_OPTIONS[@]}"
@@ -448,7 +470,7 @@ jobs:
         git fetch origin
 
         LATEST_PR_BODY="$(gh api /repos/${{ github.repository}}/pulls -X GET -f state=closed -f per_page=1 -f sort=updated -f direction=desc --jq '.[].body')"
-        cat ${{ env.PR_BODY_FILE }} | head -8 > .tmp_file.txt
+        cat ${PR_BODY_FILE} | head -8 > .tmp_file.txt
         if [ -z "$(printf '%s\n' "${LATEST_PR_BODY}" | head -8 | diff - .tmp_file.txt --strip-trailing-cr)" ]; then
           echo "The dependencies have just been updated! Reset to ${{ inputs.default_repo_branch }}."
           git reset --hard origin/${{ inputs.default_repo_branch }}
@@ -459,8 +481,8 @@ jobs:
           echo "FORCE_PUSH=no" >> $GITHUB_ENV
         fi
 
-        if [ "${{ env.REMOVE_PR_BODY_FILE }}" == "true" ] && [ -f "${{ env.PR_BODY_FILE }}" ]; then
-          rm -f "${{ env.PR_BODY_FILE }}"
+        if [ "${REMOVE_PR_BODY_FILE}" == "true" ] && [ -f "${PR_BODY_FILE}" ]; then
+          rm -f "${PR_BODY_FILE}"
         fi
         if [ -f ".tmp_file.txt" ]; then rm -f .tmp_file.txt; fi
       env:

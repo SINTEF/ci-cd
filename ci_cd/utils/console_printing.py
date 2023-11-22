@@ -1,4 +1,6 @@
 """Relevant tools for printing to the console."""
+from __future__ import annotations
+
 import platform
 from enum import Enum
 
@@ -6,7 +8,7 @@ from enum import Enum
 class Emoji(str, Enum):
     """Unicode strings for certain emojis."""
 
-    def __new__(cls, value: str) -> "Emoji":
+    def __new__(cls, value: str) -> Emoji:
         obj = str.__new__(cls, value)
         if platform.system() == "Windows":
             # Windows does not support unicode emojis, so we replace them with
@@ -25,7 +27,7 @@ class Emoji(str, Enum):
 class Color(str, Enum):
     """ANSI escape sequences for colors."""
 
-    def __new__(cls, value: str) -> "Color":
+    def __new__(cls, value: str) -> Color:
         obj = str.__new__(cls, value)
         obj._value_ = value
         return obj
@@ -47,7 +49,7 @@ class Color(str, Enum):
 class Formatting(str, Enum):
     """ANSI escape sequences for formatting."""
 
-    def __new__(cls, value: str) -> "Formatting":
+    def __new__(cls, value: str) -> Formatting:
         obj = str.__new__(cls, value)
         obj._value_ = value
         return obj

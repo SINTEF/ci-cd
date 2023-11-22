@@ -14,18 +14,19 @@ from packaging.version import InvalidVersion, Version
 from ci_cd.exceptions import InputError, InputParserError, UnableToResolve
 
 if TYPE_CHECKING:  # pragma: no cover
-    from typing import Any, Literal, Optional, Union
+    from typing import Any, Dict, List
 
     from packaging.requirements import Requirement
+    from typing_extensions import Literal
 
-    IgnoreEntry = dict[Literal["dependency-name", "versions", "update-types"], str]
+    IgnoreEntry = Dict[Literal["dependency-name", "versions", "update-types"], str]
 
-    IgnoreRules = dict[Literal["versions", "update-types"], list[str]]
-    IgnoreRulesCollection = dict[str, IgnoreRules]
+    IgnoreRules = Dict[Literal["versions", "update-types"], List[str]]
+    IgnoreRulesCollection = Dict[str, IgnoreRules]
 
-    IgnoreVersions = list[dict[Literal["operator", "version"], str]]
-    IgnoreUpdateTypes = dict[
-        Literal["version-update"], list[Literal["major", "minor", "patch"]]
+    IgnoreVersions = List[Dict[Literal["operator", "version"], str]]
+    IgnoreUpdateTypes = Dict[
+        Literal["version-update"], List[Literal["major", "minor", "patch"]]
     ]
 
 
@@ -82,25 +83,23 @@ class SemanticVersion(str):
 
     @no_type_check
     def __new__(
-        cls,
-        version: "Optional[Union[str, Version]]" = None,
-        **kwargs: "Union[str, int]",
-    ) -> "SemanticVersion":
+        cls, version: str | Version | None = None, **kwargs: str | int
+    ) -> SemanticVersion:
         return super().__new__(
             cls, str(version) if version else cls._build_version(**kwargs)
         )
 
     def __init__(
         self,
-        version: "Optional[Union[str, Version]]" = None,
+        version: str | Version | None = None,
         *,
-        major: "Union[str, int]" = "",
-        minor: "Optional[Union[str, int]]" = None,
-        patch: "Optional[Union[str, int]]" = None,
-        pre_release: "Optional[str]" = None,
-        build: "Optional[str]" = None,
+        major: str | int = "",
+        minor: str | int | None = None,
+        patch: str | int | None = None,
+        pre_release: str | None = None,
+        build: str | None = None,
     ) -> None:
-        self._python_version: "Optional[Version]" = None
+        self._python_version: Version | None = None
 
         if version is not None:
             if major or minor or patch or pre_release or build:
@@ -148,11 +147,11 @@ class SemanticVersion(str):
     @classmethod
     def _build_version(
         cls,
-        major: "Optional[Union[str, int]]" = None,
-        minor: "Optional[Union[str, int]]" = None,
-        patch: "Optional[Union[str, int]]" = None,
-        pre_release: "Optional[str]" = None,
-        build: "Optional[str]" = None,
+        major: str | int | None = None,
+        minor: str | int | None = None,
+        patch: str | int | None = None,
+        pre_release: str | None = None,
+        build: str | None = None,
     ) -> str:
         """Build a version from the given parameters."""
         if major is None:
@@ -198,7 +197,7 @@ class SemanticVersion(str):
         return self._patch
 
     @property
-    def pre_release(self) -> "Union[str, None]":
+    def pre_release(self) -> str | None:
         """The pre-release part of the version
 
         This is the part supplied after a minus (`-`), but before a plus (`+`).
@@ -206,7 +205,7 @@ class SemanticVersion(str):
         return self._pre_release
 
     @property
-    def build(self) -> "Union[str, None]":
+    def build(self) -> str | None:
         """The build metadata part of the version.
 
         This is the part supplied at the end of the version, after a plus (`+`).
@@ -214,7 +213,7 @@ class SemanticVersion(str):
         return self._build
 
     @property
-    def python_version(self) -> "Union[Version, None]":
+    def python_version(self) -> Version | None:
         """The Python version as defined by `packaging.version.Version`."""
         return self._python_version
 
@@ -274,7 +273,7 @@ class SemanticVersion(str):
         """Return the string representation of the object."""
         return f"{self.__class__.__name__}({self.__str__()!r})"
 
-    def _validate_other_type(self, other: "Any") -> "SemanticVersion":
+    def _validate_other_type(self, other: Any) -> SemanticVersion:
         """Initial check/validation of `other` before rich comparisons."""
         not_implemented_exc = NotImplementedError(
             f"Rich comparison not implemented between {self.__class__.__name__} and "
@@ -292,7 +291,7 @@ class SemanticVersion(str):
 
         raise not_implemented_exc
 
-    def __lt__(self, other: "Any") -> bool:
+    def __lt__(self, other: Any) -> bool:
         """Less than (`<`) rich comparison."""
         other_semver = self._validate_other_type(other)
 
@@ -312,11 +311,11 @@ class SemanticVersion(str):
                     return self.pre_release < other_semver.pre_release
         return False
 
-    def __le__(self, other: "Any") -> bool:
+    def __le__(self, other: Any) -> bool:
         """Less than or equal to (`<=`) rich comparison."""
         return self.__lt__(other) or self.__eq__(other)
 
-    def __eq__(self, other: "Any") -> bool:
+    def __eq__(self, other: Any) -> bool:
         """Equal to (`==`) rich comparison."""
         other_semver = self._validate_other_type(other)
 
@@ -327,19 +326,19 @@ class SemanticVersion(str):
             and self.pre_release == other_semver.pre_release
         )
 
-    def __ne__(self, other: "Any") -> bool:
+    def __ne__(self, other: Any) -> bool:
         """Not equal to (`!=`) rich comparison."""
         return not self.__eq__(other)
 
-    def __ge__(self, other: "Any") -> bool:
+    def __ge__(self, other: Any) -> bool:
         """Greater than or equal to (`>=`) rich comparison."""
         return not self.__lt__(other)
 
-    def __gt__(self, other: "Any") -> bool:
+    def __gt__(self, other: Any) -> bool:
         """Greater than (`>`) rich comparison."""
         return not self.__le__(other)
 
-    def next_version(self, version_part: str) -> "SemanticVersion":
+    def next_version(self, version_part: str) -> SemanticVersion:
         """Return the next version for the specified version part.
 
         Parameters:
@@ -368,8 +367,8 @@ class SemanticVersion(str):
         return self.__class__(next_version)
 
     def previous_version(
-        self, version_part: str, max_filler: "Optional[Union[str, int]]" = None
-    ) -> "SemanticVersion":
+        self, version_part: str, max_filler: str | int | None = None
+    ) -> SemanticVersion:
         """Return the previous version for the specified version part.
 
         Parameters:
@@ -429,7 +428,7 @@ class SemanticVersion(str):
         return f"{self.major}.{self.minor}.{self.patch}"
 
 
-def parse_ignore_entries(entries: list[str], separator: str) -> "IgnoreRulesCollection":
+def parse_ignore_entries(entries: list[str], separator: str) -> IgnoreRulesCollection:
     """Parser for the `--ignore` option.
 
     The `--ignore` option values are given as key/value-pairs in the form:
@@ -444,7 +443,7 @@ def parse_ignore_entries(entries: list[str], separator: str) -> "IgnoreRulesColl
         A parsed mapping of dependencies to ignore rules.
 
     """
-    ignore_entries: "IgnoreRulesCollection" = {}
+    ignore_entries: IgnoreRulesCollection = {}
 
     for entry in entries:
         pairs = entry.split(separator, maxsplit=2)
@@ -456,7 +455,7 @@ def parse_ignore_entries(entries: list[str], separator: str) -> "IgnoreRulesColl
                     f"value: --ignore={entry!r}"
                 )
 
-        ignore_entry: "IgnoreEntry" = {}
+        ignore_entry: IgnoreEntry = {}
         for pair in pairs:
             match = re.match(
                 r"^(?P<key>dependency-name|versions|update-types)=(?P<value>.*)$",
@@ -495,8 +494,8 @@ def parse_ignore_entries(entries: list[str], separator: str) -> "IgnoreRulesColl
 
 
 def parse_ignore_rules(
-    rules: "IgnoreRules",
-) -> "tuple[IgnoreVersions, IgnoreUpdateTypes]":
+    rules: IgnoreRules,
+) -> tuple[IgnoreVersions, IgnoreUpdateTypes]:
     """Parser for a specific set of ignore rules.
 
     Parameters:
@@ -510,8 +509,8 @@ def parse_ignore_rules(
         # Ignore package altogether
         return [{"operator": ">=", "version": "0"}], {}
 
-    versions: "IgnoreVersions" = []
-    update_types: "IgnoreUpdateTypes" = {}
+    versions: IgnoreVersions = []
+    update_types: IgnoreUpdateTypes = {}
 
     if "versions" in rules:
         for versions_entry in rules["versions"]:
@@ -547,7 +546,7 @@ def parse_ignore_rules(
     return versions, update_types
 
 
-def create_ignore_rules(specifier_set: SpecifierSet) -> "IgnoreRules":
+def create_ignore_rules(specifier_set: SpecifierSet) -> IgnoreRules:
     """Create ignore rules based on version specifier set.
 
     The only ignore rules needed are related to versions that should be explicitly
@@ -564,7 +563,7 @@ def create_ignore_rules(specifier_set: SpecifierSet) -> "IgnoreRules":
 
 
 def _ignore_version_rules_semver(
-    latest: list[str], version_rules: "IgnoreVersions"
+    latest: list[str], version_rules: IgnoreVersions
 ) -> bool:  # pragma: no cover
     """Determine whether to ignore package based on `versions` input.
 
@@ -635,7 +634,7 @@ def _ignore_version_rules_semver(
 
 
 def _ignore_version_rules_specifier_set(
-    latest: list[str], version_rules: "IgnoreVersions"
+    latest: list[str], version_rules: IgnoreVersions
 ) -> bool:
     """Determine whether to ignore package based on `versions` input.
 
@@ -656,7 +655,7 @@ def _ignore_version_rules_specifier_set(
 def _ignore_semver_rules(
     current: list[str],
     latest: list[str],
-    semver_rules: "IgnoreUpdateTypes",
+    semver_rules: IgnoreUpdateTypes,
 ) -> bool:
     """If ANY of the semver rules are True, ignore the version."""
     if any(
@@ -693,8 +692,8 @@ def _ignore_semver_rules(
 def ignore_version(
     current: list[str],
     latest: list[str],
-    version_rules: "IgnoreVersions",
-    semver_rules: "IgnoreUpdateTypes",
+    version_rules: IgnoreVersions,
+    semver_rules: IgnoreUpdateTypes,
 ) -> bool:
     """Determine whether the latest version can be ignored.
 
@@ -731,13 +730,13 @@ def ignore_version(
 
 
 def regenerate_requirement(
-    requirement: "Requirement",
+    requirement: Requirement,
     *,
-    name: "Optional[str]" = None,
-    extras: "Optional[set[str]]" = None,
-    specifier: "Optional[Union[SpecifierSet, str]]" = None,
-    url: "Optional[str]" = None,
-    marker: "Optional[Union[Marker, str]]" = None,
+    name: str | None = None,
+    extras: set[str] | None = None,
+    specifier: SpecifierSet | str | None = None,
+    url: str | None = None,
+    marker: Marker | str | None = None,
     post_name_space: bool = False,
 ) -> str:
     """Regenerate a requirement string including the given parameters.
@@ -789,8 +788,7 @@ def regenerate_requirement(
 
 
 def update_specifier_set(  # pylint: disable=too-many-statements,too-many-branches
-    latest_version: "Union[SemanticVersion, Version, str]",
-    current_specifier_set: SpecifierSet,
+    latest_version: SemanticVersion | Version | str, current_specifier_set: SpecifierSet
 ) -> SpecifierSet:
     """Update the specifier set to include the latest version."""
     logger = logging.getLogger(__name__)
@@ -947,7 +945,7 @@ def update_specifier_set(  # pylint: disable=too-many-statements,too-many-branch
         # current specifier set is valid as is and already includes the latest version
         if updated_specifiers != [""]:
             # Otherwise, add updated specifier(s) to new specifier set
-            new_specifier_set |= set(Specifier(_) for _ in updated_specifiers)
+            new_specifier_set |= {Specifier(_) for _ in updated_specifiers}
     else:
         raise UnableToResolve(
             "Cannot resolve how to update specifier set to include latest version."
@@ -983,7 +981,7 @@ def _semi_valid_python_version(version: SemanticVersion) -> bool:
 
 
 def get_min_max_py_version(  # pylint: disable=too-many-branches,too-many-statements
-    requires_python: "Union[str, Marker]",
+    requires_python: str | Marker,
 ) -> str:
     """Get minimum or maximum Python version from `requires_python`.
 
@@ -1132,7 +1130,7 @@ def get_min_max_py_version(  # pylint: disable=too-many-branches,too-many-statem
     return py_version
 
 
-def find_minimum_py_version(marker: "Marker", project_py_version: str) -> str:
+def find_minimum_py_version(marker: Marker, project_py_version: str) -> str:
     """Find the minimum Python version from a marker."""
     split_py_version = project_py_version.split(".")
 

@@ -158,6 +158,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Validate inputs
+      run: |
+        if [[ ! "${{ inputs.python_version_build}}" =~ ^3\.([7-9]|1[0-3])(\..*)?$ ]]; then
+          echo "Python version '${{ inputs.python_version_build}}' is not supported."
+          echo "Supported versions are: 3.7, 3.8, 3.9, 3.10, 3.11, 3.12, 3.13."
+          exit 1
+        fi
+
     - name: Checkout ${{ github.repository }}
       uses: actions/checkout@v4
       with:
@@ -167,6 +175,7 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: "${{ inputs.python_version_build }}"
+        allow-prereleases: true
 
     - name: Install Python dependencies
       run: |
@@ -199,7 +208,7 @@ jobs:
     - name: Update changelog
       uses: docker://githubchangeloggenerator/github-changelog-generator:1.16.2
       with:
-        args: --user "${{ github.repository_owner }}" ${{ env.CHANGELOG_PROJECT }} --token "${{ secrets.PAT || secrets.GITHUB_TOKEN }}" --release-branch "${{ inputs.release_branch }}" ${{ env.CHANGELOG_EXCLUDE_TAGS_REGEX }} ${{ env.CHANGELOG_EXCLUDE_LABELS }}
+        args: --user "${{ github.repository_owner }}" ${CHANGELOG_PROJECT} --token "${{ secrets.PAT || secrets.GITHUB_TOKEN }}" --release-branch "${{ inputs.release_branch }}" ${CHANGELOG_EXCLUDE_TAGS_REGEX} ${CHANGELOG_EXCLUDE_LABELS}
 
     - name: Set up git user
       run: |
@@ -287,7 +296,7 @@ jobs:
     - name: Create release-specific changelog
       uses: docker://githubchangeloggenerator/github-changelog-generator:1.16.2
       with:
-        args: --user "${{ github.repository_owner }}" ${{ env.CHANGELOG_PROJECT }} --token "${{ secrets.PAT || secrets.GITHUB_TOKEN }}" --release-branch "${{ inputs.release_branch }}" --since-tag "${{ env.PREVIOUS_VERSION }}" --output release_changelog.md --usernames-as-github-logins ${{ env.CHANGELOG_EXCLUDE_TAGS_REGEX }} ${{ env.CHANGELOG_EXCLUDE_LABELS }}
+        args: --user "${{ github.repository_owner }}" ${CHANGELOG_PROJECT} --token "${{ secrets.PAT || secrets.GITHUB_TOKEN }}" --release-branch "${{ inputs.release_branch }}" --since-tag "${PREVIOUS_VERSION}" --output release_changelog.md --usernames-as-github-logins ${CHANGELOG_EXCLUDE_TAGS_REGEX} ${CHANGELOG_EXCLUDE_LABELS}
 
     - name: Append changelog to release body
       run: |
@@ -341,6 +350,7 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: "${{ inputs.python_version_docs }}"
+        allow-prereleases: true
 
     - name: Install system dependencies
       if: inputs.system_dependencies != ''
@@ -366,6 +376,20 @@ jobs:
         python -m pip install -U pip
         pip install -U setuptools wheel
         pip install ${EDITABLE}.${{ inputs.doc_extras || inputs.install_extras }}
+
+        INSTALLED_PACKAGES=$(pip freeze)
+        if [ "${{ inputs.docs_framework }}" == "mkdocs" ]; then
+          if [[ $(echo -e "${INSTALLED_PACKAGES}" | grep -ciE '(mkdocs|mike)==') -eq 2 ]]; then
+            echo "Missing one or more of the following packages: mkdocs, mike"
+            exit 1
+        elif [ "${{ inputs.docs_framework }}" == "sphinx" ]; then
+          if [[ $(echo -e "${INSTALLED_PACKAGES}" | grep -ci 'sphinx==') -eq 1 ]]; then
+            echo "Missing one or more of the following packages: sphinx"
+            exit 1
+        else
+          echo "Unknown framework: ${{ inputs.docs_framework }}"
+          exit 1
+        fi
 
     - name: Set up git user
       run: |

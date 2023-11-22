@@ -67,6 +67,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Validate inputs
+      run: |
+        if [[ ! "${{ inputs.python_version}}" =~ ^3\.([7-9]|1[0-3])(\..*)?$ ]]; then
+          echo "Python version '${{ inputs.python_version}}' is not supported."
+          echo "Supported versions are: 3.7, 3.8, 3.9, 3.10, 3.11, 3.12, 3.13."
+          exit 1
+        fi
+
     - name: Checkout permanent dependencies branch in ${{ github.repository }}
       uses: actions/checkout@v4
       with:
@@ -77,6 +85,7 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: "${{ inputs.python_version }}"
+        allow-prereleases: true
 
     - name: Install Python dependencies
       run: |
@@ -167,7 +176,7 @@ jobs:
 
     - name: Remove temporary file
       if: env.REMOVE_PR_BODY_FILE == 'true'
-      run: rm -f ${{ env.PR_BODY_FILE }}
+      run: rm -f ${PR_BODY_FILE}
 
     - name: Create PR
       if: env.UPDATE_DEPS == 'true'
