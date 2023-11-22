@@ -36,19 +36,6 @@ from ci_cd.utils import (
 
 if TYPE_CHECKING:  # pragma: no cover
     from invoke import Context, Result
-    from typing_extensions import NamedTuple
-
-    class VersionSpecType(NamedTuple):
-        """Version specification."""
-
-        full_dependency: str
-        package: str
-        url_version: str
-        operator: str
-        version: str
-        extra_operator_version: str
-        environment_marker: str
-        spacing: str
 
     from ci_cd.utils.versions import IgnoreUpdateTypes, IgnoreVersions
 
