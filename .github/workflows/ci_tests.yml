@@ -213,6 +213,7 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: "${{ inputs.python_version_pre-commit }}"
+        allow-prereleases: true
 
     - name: Install Python dependencies
       run: |
@@ -238,6 +239,7 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: "${{ inputs.python_version_pylint_safety }}"
+        allow-prereleases: true
 
     - name: Install dependencies
       run: |
@@ -306,6 +308,7 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: "${{ inputs.python_version_package }}"
+        allow-prereleases: true
 
     - name: Install Python dependencies
       run: |
@@ -345,6 +348,14 @@ jobs:
           exit 1
         fi
 
+    - name: Validate inputs
+      run: |
+        if [[ "${framework}" == "mkdocs" && ! "${{ inputs.python_version_docs}}" =~ ^3\.([7-9]|1[0-3])(\..*)?$ ]]; then
+          echo "Python version '${{ inputs.python_version_docs}}' is not supported."
+          echo "Supported versions are: 3.7, 3.8, 3.9, 3.10, 3.11, 3.12, 3.13."
+          exit 1
+        fi
+
     - name: Checkout ${{ github.repository }}
       uses: actions/checkout@v4
       with:
@@ -354,6 +365,7 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: "${{ inputs.python_version_docs }}"
+        allow-prereleases: true
 
     - name: Install system dependencies
       if: inputs.system_dependencies != ''
@@ -379,7 +391,7 @@ jobs:
         python -m pip install -U pip
         pip install -U setuptools wheel
         pip install ${EDITABLE}.${{ inputs.install_extras }}
-        pip install git+https://github.com/SINTEF/ci-cd.git@v2.5.3
+        pip install git+https://github.com/SINTEF/ci-cd.git@v2.6.0
 
     - name: Update API Reference
       if: env.framework == 'mkdocs' && inputs.update_python_api_ref
@@ -454,12 +466,12 @@ jobs:
         # Set STRICT option
 
         if [ "${{ inputs.warnings_as_errors }}" == "true" ]; then
-          if [ "${{ env.framework }}" == "mkdocs" ]; then
+          if [ "${framework}" == "mkdocs" ]; then
             STRICT="--strict"
-          elif [ "${{ env.framework }}" == "sphinx" ]; then
+          elif [ "${framework}" == "sphinx" ]; then
             STRICT="-W"
           else
-            echo "Unknown framework: ${{ env.framework }}"
+            echo "Unknown framework: ${framework}"
             exit 1
           fi
 
@@ -470,10 +482,10 @@ jobs:
 
         # Run build command
 
-        if [ "${{ env.framework }}" == "mkdocs" ]; then
+        if [ "${framework}" == "mkdocs" ]; then
           mkdocs build ${STRICT}
 
-        elif [ "${{ env.framework }}" == "sphinx" ]; then
+        elif [ "${framework}" == "sphinx" ]; then
           if [[ "${{ inputs.sphinx-build_options }}" =~ \n ]]; then
             # Expected to be a multi-line string
             SPHINX_OPTIONS=()
@@ -490,6 +502,6 @@ jobs:
             ${{ inputs.docs_folder }} ${{ inputs.build_target_folder }}
 
         else
-          echo "Unknown framework: ${{ env.framework }}"
+          echo "Unknown framework: ${framework}"
           exit 1
         fi
