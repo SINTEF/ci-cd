@@ -20,7 +20,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.9">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.10">
     
     
       
@@ -28,7 +28,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.78cf6014.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.fad675c6.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.356b1318.min.css">
@@ -1146,7 +1146,7 @@
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Update dependencies in specified Python package&#39;s `pyproject.toml`.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
-        <span class="n">context</span><span class="p">:</span> <span class="s2">&quot;Context&quot;</span> <span class="o">=</span> <span class="n">context</span>  <span class="c1"># type: ignore[no-redef]</span>
+        <span class="n">context</span><span class="p">:</span> <span class="n">Context</span> <span class="o">=</span> <span class="n">context</span>  <span class="c1"># type: ignore[no-redef]</span>
         <span class="n">root_repo_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">root_repo_path</span>  <span class="c1"># type: ignore[no-redef]</span>
         <span class="n">fail_fast</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">fail_fast</span>  <span class="c1"># type: ignore[no-redef]</span>
         <span class="n">pre_commit</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">pre_commit</span>  <span class="c1"># type: ignore[no-redef]</span>
@@ -1171,7 +1171,7 @@
 
     <span class="k">if</span> <span class="n">pre_commit</span> <span class="ow">and</span> <span class="n">root_repo_path</span> <span class="o">==</span> <span class="s2">&quot;.&quot;</span><span class="p">:</span>
         <span class="c1"># Use git to determine repo root</span>
-        <span class="n">result</span><span class="p">:</span> <span class="s2">&quot;Result&quot;</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;git rev-parse --show-toplevel&quot;</span><span class="p">,</span> <span class="n">hide</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">result</span><span class="p">:</span> <span class="n">Result</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;git rev-parse --show-toplevel&quot;</span><span class="p">,</span> <span class="n">hide</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">root_repo_path</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="n">pyproject_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">root_repo_path</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span> <span class="o">/</span> <span class="s2">&quot;pyproject.toml&quot;</span>
@@ -1302,7 +1302,7 @@
             <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Min/max Python version from marker: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">marker_py_version</span><span class="p">)</span>
 
         <span class="c1"># Check version from PyPI&#39;s online package index</span>
-        <span class="n">out</span><span class="p">:</span> <span class="s2">&quot;Result&quot;</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+        <span class="n">out</span><span class="p">:</span> <span class="n">Result</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
             <span class="s2">&quot;pip index versions &quot;</span>
             <span class="sa">f</span><span class="s2">&quot;--python-version </span><span class="si">{</span><span class="n">marker_py_version</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">py_version</span><span class="si">}</span><span class="s2"> &quot;</span>
             <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">parsed_requirement</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -1383,8 +1383,8 @@
 
         <span class="c1"># Apply ignore rules</span>
         <span class="k">if</span> <span class="n">parsed_requirement</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">ignore_rules</span> <span class="ow">or</span> <span class="s2">&quot;*&quot;</span> <span class="ow">in</span> <span class="n">ignore_rules</span><span class="p">:</span>
-            <span class="n">versions</span><span class="p">:</span> <span class="s2">&quot;IgnoreVersions&quot;</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="n">update_types</span><span class="p">:</span> <span class="s2">&quot;IgnoreUpdateTypes&quot;</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">versions</span><span class="p">:</span> <span class="n">IgnoreVersions</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">update_types</span><span class="p">:</span> <span class="n">IgnoreUpdateTypes</span> <span class="o">=</span> <span class="p">{}</span>
 
             <span class="k">if</span> <span class="s2">&quot;*&quot;</span> <span class="ow">in</span> <span class="n">ignore_rules</span><span class="p">:</span>
                 <span class="n">versions</span><span class="p">,</span> <span class="n">update_types</span> <span class="o">=</span> <span class="n">parse_ignore_rules</span><span class="p">(</span><span class="n">ignore_rules</span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">])</span>

@@ -20,7 +20,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.9">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.10">
     
     
       
@@ -28,7 +28,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.78cf6014.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.fad675c6.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.356b1318.min.css">
@@ -1236,18 +1236,20 @@ It is meant to be complete as is.</p>
 <span class="w">      </span><span class="nt">git_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Casper</span><span class="nv"> </span><span class="s">Welzel</span><span class="nv"> </span><span class="s">Andersen&quot;</span>
 <span class="w">      </span><span class="nt">git_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CasperWA@github.com&quot;</span>
 <span class="w">      </span><span class="nt">changes</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<span class="w">        </span><span class="no">PYTHON=</span>
-<span class="w">        </span><span class="no">python --version || PYTHON=NO</span>
-<span class="w">        </span><span class="no">if [ -n &quot;${PYTHON} ]; then</span>
+<span class="w">        </span><span class="no">PYTHON=&quot;$(python --version || :)&quot;</span>
+<span class="w">        </span><span class="no">if [ -z &quot;${PYTHON}&quot; ]; then</span>
 <span class="w">          </span><span class="no">echo &quot;Python not detected on the system.&quot;</span>
 <span class="w">          </span><span class="no">exit 1</span>
 <span class="w">        </span><span class="no">fi</span>
-<span class="w">        </span><span class="no">PIP=</span>
-<span class="w">        </span><span class="no">python -m pip --version || PIP=NO</span>
-<span class="w">        </span><span class="no">if [ -n &quot;${PYTHON} ]; then</span>
-<span class="w">          </span><span class="no">echo &quot;pip not detected to be installed for Python.&quot;</span>
+
+<span class="w">        </span><span class="no">PIP=&quot;$(python -m pip --version || :)&quot;</span>
+<span class="w">        </span><span class="no">if [ -z &quot;${PIP}&quot; ]; then</span>
+<span class="w">          </span><span class="no">echo &quot;pip not detected to be installed for ${PYTHON}.&quot;</span>
 <span class="w">          </span><span class="no">exit 1</span>
 <span class="w">        </span><span class="no">fi</span>
+
+<span class="w">        </span><span class="no">echo &quot;Python: ${PYTHON}&quot;</span>
+<span class="w">        </span><span class="no">echo &quot;pip: ${PIP}&quot;</span>
 
 <span class="w">        </span><span class="no">python -m pip install -U pip</span>
 <span class="w">        </span><span class="no">pip install -U setuptools wheel</span>

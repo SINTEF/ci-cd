@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.9">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.10">
     
     
       
@@ -26,7 +26,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.78cf6014.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.fad675c6.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.356b1318.min.css">
@@ -1720,21 +1720,21 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 
     <span class="nd">@no_type_check</span>
     <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
-        <span class="bp">cls</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="s2">&quot;Optional[str]&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="s2">&quot;Union[str, int]&quot;</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;SemanticVersion&quot;</span><span class="p">:</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SemanticVersion</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span>
             <span class="bp">cls</span><span class="p">,</span> <span class="n">version</span> <span class="k">if</span> <span class="n">version</span> <span class="k">else</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_build_version</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">version</span><span class="p">:</span> <span class="s2">&quot;Optional[str]&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
-        <span class="n">major</span><span class="p">:</span> <span class="s2">&quot;Union[str, int]&quot;</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">minor</span><span class="p">:</span> <span class="s2">&quot;Optional[Union[str, int]]&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">patch</span><span class="p">:</span> <span class="s2">&quot;Optional[Union[str, int]]&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">pre_release</span><span class="p">:</span> <span class="s2">&quot;Optional[str]&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">build</span><span class="p">:</span> <span class="s2">&quot;Optional[str]&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">major</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">minor</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">patch</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">pre_release</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">build</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">version</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">major</span> <span class="ow">or</span> <span class="n">minor</span> <span class="ow">or</span> <span class="n">patch</span> <span class="ow">or</span> <span class="n">pre_release</span> <span class="ow">or</span> <span class="n">build</span><span class="p">:</span>
@@ -1759,11 +1759,11 @@ the end of the version, after a plus (<code>+</code>).</p></td>
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">_build_version</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
-        <span class="n">major</span><span class="p">:</span> <span class="s2">&quot;Optional[Union[str, int]]&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">minor</span><span class="p">:</span> <span class="s2">&quot;Optional[Union[str, int]]&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">patch</span><span class="p">:</span> <span class="s2">&quot;Optional[Union[str, int]]&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">pre_release</span><span class="p">:</span> <span class="s2">&quot;Optional[str]&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">build</span><span class="p">:</span> <span class="s2">&quot;Optional[str]&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">major</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">minor</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">patch</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">pre_release</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">build</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Build a version from the given parameters.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">major</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1809,7 +1809,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_patch</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">pre_release</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Union[None, str]&quot;</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">pre_release</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span> <span class="o">|</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The pre-release part of the version</span>
 
 <span class="sd">        This is the part supplied after a minus (`-`), but before a plus (`+`).</span>
@@ -1817,7 +1817,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pre_release</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Union[None, str]&quot;</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span> <span class="o">|</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The build metadata part of the version.</span>
 
 <span class="sd">        This is the part supplied at the end of the version, after a plus (`+`).</span>
@@ -1836,7 +1836,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the string representation of the object.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="fm">__str__</span><span class="p">())</span>
 
-    <span class="k">def</span> <span class="nf">_validate_other_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Any&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;SemanticVersion&quot;</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_validate_other_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SemanticVersion</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initial check/validation of `other` before rich comparisons.&quot;&quot;&quot;</span>
         <span class="n">not_implemented_exc</span> <span class="o">=</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;Rich comparison not implemented between </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> and &quot;</span>
@@ -1854,7 +1854,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 
         <span class="k">raise</span> <span class="n">not_implemented_exc</span>
 
-    <span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Any&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Less than (`&lt;`) rich comparison.&quot;&quot;&quot;</span>
         <span class="n">other_semver</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_other_type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
@@ -1874,11 +1874,11 @@ the end of the version, after a plus (<code>+</code>).</p></td>
                     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_release</span> <span class="o">&lt;</span> <span class="n">other_semver</span><span class="o">.</span><span class="n">pre_release</span>
         <span class="k">return</span> <span class="kc">False</span>
 
-    <span class="k">def</span> <span class="fm">__le__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Any&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__le__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Less than or equal to (`&lt;=`) rich comparison.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__lt__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Any&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Equal to (`==`) rich comparison.&quot;&quot;&quot;</span>
         <span class="n">other_semver</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_other_type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
@@ -1889,19 +1889,19 @@ the end of the version, after a plus (<code>+</code>).</p></td>
             <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_release</span> <span class="o">==</span> <span class="n">other_semver</span><span class="o">.</span><span class="n">pre_release</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Any&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Not equal to (`!=`) rich comparison.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__ge__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Any&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__ge__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Greater than or equal to (`&gt;=`) rich comparison.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__lt__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__gt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Any&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__gt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Greater than (`&gt;`) rich comparison.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__le__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">next_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version_part</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;SemanticVersion&quot;</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">next_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version_part</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SemanticVersion</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the next version for the specified version part.</span>
 
 <span class="sd">        Parameters:</span>
@@ -1930,8 +1930,8 @@ the end of the version, after a plus (<code>+</code>).</p></td>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">next_version</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">previous_version</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">version_part</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">max_filler</span><span class="p">:</span> <span class="s2">&quot;Optional[Union[str, int]]&quot;</span> <span class="o">=</span> <span class="mi">99</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;SemanticVersion&quot;</span><span class="p">:</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">version_part</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">max_filler</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="mi">99</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SemanticVersion</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the previous version for the specified version part.</span>
 
 <span class="sd">        Parameters:</span>
@@ -2013,7 +2013,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 
 
 <h4 id="ci_cd.utils.versions.SemanticVersion.build" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">build</span><span class="p">:</span> <span class="s1">&#39;Union[None, str]&#39;</span></code>
+<code class="highlight language-python"><span class="n">build</span><span class="p">:</span> <span class="kc">None</span> <span class="o">|</span> <span class="nb">str</span></code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-property"><code>property</code></small>
@@ -2106,7 +2106,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 
 
 <h4 id="ci_cd.utils.versions.SemanticVersion.pre_release" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">pre_release</span><span class="p">:</span> <span class="s1">&#39;Union[None, str]&#39;</span></code>
+<code class="highlight language-python"><span class="n">pre_release</span><span class="p">:</span> <span class="kc">None</span> <span class="o">|</span> <span class="nb">str</span></code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-property"><code>property</code></small>
@@ -2147,7 +2147,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Any&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Equal to (`==`) rich comparison.&quot;&quot;&quot;</span>
     <span class="n">other_semver</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_other_type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
@@ -2184,7 +2184,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__ge__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Any&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__ge__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Greater than or equal to (`&gt;=`) rich comparison.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__lt__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 </code></pre></div>
@@ -2214,7 +2214,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__gt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Any&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__gt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Greater than (`&gt;`) rich comparison.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__le__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 </code></pre></div>
@@ -2245,7 +2245,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__le__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Any&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__le__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Less than or equal to (`&lt;=`) rich comparison.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__lt__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 </code></pre></div>
@@ -2275,7 +2275,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Any&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Less than (`&lt;`) rich comparison.&quot;&quot;&quot;</span>
     <span class="n">other_semver</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_other_type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
@@ -2321,7 +2321,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Any&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Not equal to (`!=`) rich comparison.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 </code></pre></div>
@@ -2354,8 +2354,8 @@ the end of the version, after a plus (<code>+</code>).</p></td>
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@no_type_check</span>
 <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
-    <span class="bp">cls</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="s2">&quot;Optional[str]&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="s2">&quot;Union[str, int]&quot;</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;SemanticVersion&quot;</span><span class="p">:</span>
+    <span class="bp">cls</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SemanticVersion</span><span class="p">:</span>
     <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span> <span class="n">version</span> <span class="k">if</span> <span class="n">version</span> <span class="k">else</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_build_version</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="p">)</span>
@@ -2474,7 +2474,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
   </thead>
   <tbody>
     <tr>
-      <td><code>&#39;SemanticVersion&#39;</code></td>
+      <td><code>SemanticVersion</code></td>
       <td><p>The next version.</p></td>
     </tr>
   </tbody>
@@ -2496,7 +2496,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 </table>
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">next_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version_part</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;SemanticVersion&quot;</span><span class="p">:</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">next_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version_part</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SemanticVersion</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the next version for the specified version part.</span>
 
 <span class="sd">    Parameters:</span>
@@ -2564,7 +2564,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
       </tr>
       <tr>
         <td><code>max_filler</code></td>
-        <td><code>&#39;Optional[Union[str, int]]&#39;</code></td>
+        <td><code>str | int | None</code></td>
         <td><p>The maximum value for the version part to decrement.</p></td>
         <td><code>99</code></td>
       </tr>
@@ -2580,7 +2580,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
   </thead>
   <tbody>
     <tr>
-      <td><code>&#39;SemanticVersion&#39;</code></td>
+      <td><code>SemanticVersion</code></td>
       <td><p>The previous version.</p></td>
     </tr>
   </tbody>
@@ -2603,8 +2603,8 @@ the end of the version, after a plus (<code>+</code>).</p></td>
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">previous_version</span><span class="p">(</span>
-    <span class="bp">self</span><span class="p">,</span> <span class="n">version_part</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">max_filler</span><span class="p">:</span> <span class="s2">&quot;Optional[Union[str, int]]&quot;</span> <span class="o">=</span> <span class="mi">99</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;SemanticVersion&quot;</span><span class="p">:</span>
+    <span class="bp">self</span><span class="p">,</span> <span class="n">version_part</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">max_filler</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="mi">99</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SemanticVersion</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the previous version for the specified version part.</span>
 
 <span class="sd">    Parameters:</span>
@@ -2747,7 +2747,7 @@ ignore rule by the user, if no update should be suggested.</p>
 
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">create_ignore_rules</span><span class="p">(</span><span class="n">specifier_set</span><span class="p">:</span> <span class="n">SpecifierSet</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;IgnoreRules&quot;</span><span class="p">:</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">create_ignore_rules</span><span class="p">(</span><span class="n">specifier_set</span><span class="p">:</span> <span class="n">SpecifierSet</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IgnoreRules</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create ignore rules based on version specifier set.</span>
 
 <span class="sd">    The only ignore rules needed are related to versions that should be explicitly</span>
@@ -2785,7 +2785,7 @@ ignore rule by the user, if no update should be suggested.</p>
 
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">find_minimum_py_version</span><span class="p">(</span><span class="n">marker</span><span class="p">:</span> <span class="s2">&quot;Marker&quot;</span><span class="p">,</span> <span class="n">project_py_version</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">find_minimum_py_version</span><span class="p">(</span><span class="n">marker</span><span class="p">:</span> <span class="n">Marker</span><span class="p">,</span> <span class="n">project_py_version</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Find the minimum Python version from a marker.&quot;&quot;&quot;</span>
     <span class="n">split_py_version</span> <span class="o">=</span> <span class="n">project_py_version</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
 
@@ -2867,7 +2867,7 @@ and if <code>requires_python</code> is <code>Marker("python_version &lt; '3.6'")
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_min_max_py_version</span><span class="p">(</span>  <span class="c1"># pylint: disable=too-many-branches,too-many-statements</span>
-    <span class="n">requires_python</span><span class="p">:</span> <span class="s2">&quot;Union[str, Marker]&quot;</span><span class="p">,</span>
+    <span class="n">requires_python</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Marker</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get minimum or maximum Python version from `requires_python`.</span>
 
@@ -3063,13 +3063,13 @@ required, the version is a semantic version.</p></td>
       </tr>
       <tr>
         <td><code>version_rules</code></td>
-        <td><code>&#39;IgnoreVersions&#39;</code></td>
+        <td><code>IgnoreVersions</code></td>
         <td><p>Version ignore rules.</p></td>
         <td><em>required</em></td>
       </tr>
       <tr>
         <td><code>semver_rules</code></td>
-        <td><code>&#39;IgnoreUpdateTypes&#39;</code></td>
+        <td><code>IgnoreUpdateTypes</code></td>
         <td><p>Semantic version ignore rules.</p></td>
         <td><em>required</em></td>
       </tr>
@@ -3096,8 +3096,8 @@ semantic version ignore rules.</p></td>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">ignore_version</span><span class="p">(</span>
     <span class="n">current</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">latest</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
-    <span class="n">version_rules</span><span class="p">:</span> <span class="s2">&quot;IgnoreVersions&quot;</span><span class="p">,</span>
-    <span class="n">semver_rules</span><span class="p">:</span> <span class="s2">&quot;IgnoreUpdateTypes&quot;</span><span class="p">,</span>
+    <span class="n">version_rules</span><span class="p">:</span> <span class="n">IgnoreVersions</span><span class="p">,</span>
+    <span class="n">semver_rules</span><span class="p">:</span> <span class="n">IgnoreUpdateTypes</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Determine whether the latest version can be ignored.</span>
 
@@ -3191,14 +3191,14 @@ semantic version ignore rules.</p></td>
   </thead>
   <tbody>
     <tr>
-      <td><code>&#39;IgnoreRulesCollection&#39;</code></td>
+      <td><code>IgnoreRulesCollection</code></td>
       <td><p>A parsed mapping of dependencies to ignore rules.</p></td>
     </tr>
   </tbody>
 </table>
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">parse_ignore_entries</span><span class="p">(</span><span class="n">entries</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">separator</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;IgnoreRulesCollection&quot;</span><span class="p">:</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">parse_ignore_entries</span><span class="p">(</span><span class="n">entries</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">separator</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IgnoreRulesCollection</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Parser for the `--ignore` option.</span>
 
 <span class="sd">    The `--ignore` option values are given as key/value-pairs in the form:</span>
@@ -3213,7 +3213,7 @@ semantic version ignore rules.</p></td>
 <span class="sd">        A parsed mapping of dependencies to ignore rules.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">ignore_entries</span><span class="p">:</span> <span class="s2">&quot;IgnoreRulesCollection&quot;</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">ignore_entries</span><span class="p">:</span> <span class="n">IgnoreRulesCollection</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">entries</span><span class="p">:</span>
         <span class="n">pairs</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">separator</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
@@ -3225,7 +3225,7 @@ semantic version ignore rules.</p></td>
                     <span class="sa">f</span><span class="s2">&quot;value: --ignore=</span><span class="si">{</span><span class="n">entry</span><span class="si">!r}</span><span class="s2">&quot;</span>
                 <span class="p">)</span>
 
-        <span class="n">ignore_entry</span><span class="p">:</span> <span class="s2">&quot;IgnoreEntry&quot;</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">ignore_entry</span><span class="p">:</span> <span class="n">IgnoreEntry</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">pairs</span><span class="p">:</span>
             <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span>
                 <span class="sa">r</span><span class="s2">&quot;^(?P&lt;key&gt;dependency-name|versions|update-types)=(?P&lt;value&gt;.*)$&quot;</span><span class="p">,</span>
@@ -3296,7 +3296,7 @@ semantic version ignore rules.</p></td>
   <tbody>
       <tr>
         <td><code>rules</code></td>
-        <td><code>&#39;IgnoreRules&#39;</code></td>
+        <td><code>IgnoreRules</code></td>
         <td><p>A set of ignore rules for one or more packages.</p></td>
         <td><em>required</em></td>
       </tr>
@@ -3312,7 +3312,7 @@ semantic version ignore rules.</p></td>
   </thead>
   <tbody>
     <tr>
-      <td><code>&#39;tuple[IgnoreVersions, IgnoreUpdateTypes]&#39;</code></td>
+      <td><code>tuple[IgnoreVersions, IgnoreUpdateTypes]</code></td>
       <td><p>A tuple of the parsed 'versions' and 'update-types' entries as dictionaries.</p></td>
     </tr>
   </tbody>
@@ -3320,8 +3320,8 @@ semantic version ignore rules.</p></td>
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">parse_ignore_rules</span><span class="p">(</span>
-    <span class="n">rules</span><span class="p">:</span> <span class="s2">&quot;IgnoreRules&quot;</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;tuple[IgnoreVersions, IgnoreUpdateTypes]&quot;</span><span class="p">:</span>
+    <span class="n">rules</span><span class="p">:</span> <span class="n">IgnoreRules</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">IgnoreVersions</span><span class="p">,</span> <span class="n">IgnoreUpdateTypes</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Parser for a specific set of ignore rules.</span>
 
 <span class="sd">    Parameters:</span>
@@ -3335,8 +3335,8 @@ semantic version ignore rules.</p></td>
         <span class="c1"># Ignore package altogether</span>
         <span class="k">return</span> <span class="p">[{</span><span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;=&quot;</span><span class="p">,</span> <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">}],</span> <span class="p">{}</span>
 
-    <span class="n">versions</span><span class="p">:</span> <span class="s2">&quot;IgnoreVersions&quot;</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">update_types</span><span class="p">:</span> <span class="s2">&quot;IgnoreUpdateTypes&quot;</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">versions</span><span class="p">:</span> <span class="n">IgnoreVersions</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">update_types</span><span class="p">:</span> <span class="n">IgnoreUpdateTypes</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="k">if</span> <span class="s2">&quot;versions&quot;</span> <span class="ow">in</span> <span class="n">rules</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">versions_entry</span> <span class="ow">in</span> <span class="n">rules</span><span class="p">[</span><span class="s2">&quot;versions&quot;</span><span class="p">]:</span>
@@ -3406,37 +3406,37 @@ semantic version ignore rules.</p></td>
   <tbody>
       <tr>
         <td><code>requirement</code></td>
-        <td><code>&#39;Requirement&#39;</code></td>
+        <td><code>Requirement</code></td>
         <td><p>The requirement to regenerate and fallback to.</p></td>
         <td><em>required</em></td>
       </tr>
       <tr>
         <td><code>name</code></td>
-        <td><code>&#39;Optional[str]&#39;</code></td>
+        <td><code>str | None</code></td>
         <td><p>A new name to use for the requirement.</p></td>
         <td><code>None</code></td>
       </tr>
       <tr>
         <td><code>extras</code></td>
-        <td><code>&#39;Optional[set[str]]&#39;</code></td>
+        <td><code>set[str] | None</code></td>
         <td><p>New extras to use for the requirement.</p></td>
         <td><code>None</code></td>
       </tr>
       <tr>
         <td><code>specifier</code></td>
-        <td><code>&#39;Optional[Union[SpecifierSet, str]]&#39;</code></td>
+        <td><code>SpecifierSet | str | None</code></td>
         <td><p>A new specifier set to use for the requirement.</p></td>
         <td><code>None</code></td>
       </tr>
       <tr>
         <td><code>url</code></td>
-        <td><code>&#39;Optional[str]&#39;</code></td>
+        <td><code>str | None</code></td>
         <td><p>A new URL to use for the requirement.</p></td>
         <td><code>None</code></td>
       </tr>
       <tr>
         <td><code>marker</code></td>
-        <td><code>&#39;Optional[Union[Marker, str]]&#39;</code></td>
+        <td><code>Marker | str | None</code></td>
         <td><p>A new marker to use for the requirement.</p></td>
         <td><code>None</code></td>
       </tr>
@@ -3467,13 +3467,13 @@ including extras), but before the specifier.</p></td>
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">regenerate_requirement</span><span class="p">(</span>
-    <span class="n">requirement</span><span class="p">:</span> <span class="s2">&quot;Requirement&quot;</span><span class="p">,</span>
+    <span class="n">requirement</span><span class="p">:</span> <span class="n">Requirement</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
-    <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;Optional[str]&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">extras</span><span class="p">:</span> <span class="s2">&quot;Optional[set[str]]&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">specifier</span><span class="p">:</span> <span class="s2">&quot;Optional[Union[SpecifierSet, str]]&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">url</span><span class="p">:</span> <span class="s2">&quot;Optional[str]&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">marker</span><span class="p">:</span> <span class="s2">&quot;Optional[Union[Marker, str]]&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">extras</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">specifier</span><span class="p">:</span> <span class="n">SpecifierSet</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">marker</span><span class="p">:</span> <span class="n">Marker</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">post_name_space</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Regenerate a requirement string including the given parameters.</span>
@@ -3547,7 +3547,7 @@ including extras), but before the specifier.</p></td>
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">update_specifier_set</span><span class="p">(</span>  <span class="c1"># pylint: disable=too-many-statements</span>
-    <span class="n">latest_version</span><span class="p">:</span> <span class="s2">&quot;Union[SemanticVersion, str]&quot;</span><span class="p">,</span> <span class="n">current_specifier_set</span><span class="p">:</span> <span class="n">SpecifierSet</span>
+    <span class="n">latest_version</span><span class="p">:</span> <span class="n">SemanticVersion</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span> <span class="n">current_specifier_set</span><span class="p">:</span> <span class="n">SpecifierSet</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SpecifierSet</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Update the specifier set to include the latest version.&quot;&quot;&quot;</span>
     <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -3655,7 +3655,7 @@ including extras), but before the specifier.</p></td>
         <span class="c1"># current specifier set is valid as is and already includes the latest version</span>
         <span class="k">if</span> <span class="n">updated_specifiers</span> <span class="o">!=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">]:</span>
             <span class="c1"># Otherwise, add updated specifier(s) to new specifier set</span>
-            <span class="n">new_specifier_set</span> <span class="o">|=</span> <span class="nb">set</span><span class="p">(</span><span class="n">Specifier</span><span class="p">(</span><span class="n">_</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">updated_specifiers</span><span class="p">)</span>
+            <span class="n">new_specifier_set</span> <span class="o">|=</span> <span class="p">{</span><span class="n">Specifier</span><span class="p">(</span><span class="n">_</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">updated_specifiers</span><span class="p">}</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">UnableToResolve</span><span class="p">(</span>
             <span class="s2">&quot;Cannot resolve how to update specifier set to include latest version.&quot;</span>
