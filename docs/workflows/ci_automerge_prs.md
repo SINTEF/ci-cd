@@ -107,18 +107,20 @@ jobs:
       git_username: "Casper Welzel Andersen"
       git_email: "CasperWA@github.com"
       changes: |
-        PYTHON=
-        python --version || PYTHON=NO
-        if [ -n "${PYTHON} ]; then
+        PYTHON="$(python --version || :)"
+        if [ -z "${PYTHON}" ]; then
           echo "Python not detected on the system."
           exit 1
         fi
-        PIP=
-        python -m pip --version || PIP=NO
-        if [ -n "${PYTHON} ]; then
-          echo "pip not detected to be installed for Python."
+
+        PIP="$(python -m pip --version || :)"
+        if [ -z "${PIP}" ]; then
+          echo "pip not detected to be installed for ${PYTHON}."
           exit 1
         fi
+
+        echo "Python: ${PYTHON}"
+        echo "pip: ${PIP}"
 
         python -m pip install -U pip
         pip install -U setuptools wheel

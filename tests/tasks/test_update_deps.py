@@ -10,7 +10,7 @@ if TYPE_CHECKING:
     from pathlib import Path
 
 
-def test_update_deps(tmp_path: "Path", caplog: pytest.LogCaptureFixture) -> None:
+def test_update_deps(tmp_path: Path, caplog: pytest.LogCaptureFixture) -> None:
     """Check update_deps runs with defaults."""
     import re
 
@@ -317,7 +317,7 @@ pep_508 = [
     ],
 )
 def test_ignore_rules_logic(
-    tmp_path: "Path", ignore_rules: list[str], expected_result: dict[str, str]
+    tmp_path: Path, ignore_rules: list[str], expected_result: dict[str, str]
 ) -> None:
     """Check the workflow of multiple interconnecting ignore rules are respected."""
     import re
@@ -402,7 +402,7 @@ dev = [
 
 
 def test_python_version_marker(
-    tmp_path: "Path", caplog: pytest.LogCaptureFixture
+    tmp_path: Path, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Check the python version marker is respected."""
     import re
@@ -458,7 +458,7 @@ dependencies = [
 
 
 def test_no_warn_when_project_name(
-    tmp_path: "Path", caplog: pytest.LogCaptureFixture
+    tmp_path: Path, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Check no warning is emitted if a dependency is also the project name.
 

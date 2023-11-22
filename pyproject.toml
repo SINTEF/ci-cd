@@ -20,6 +20,9 @@ classifiers = [
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Natural Language :: English",
     "Operating System :: OS Independent",
     "Private :: Do Not Upload",
@@ -32,6 +35,8 @@ dependencies = [
     "invoke ~=2.2",
     "packaging ~=23.2",
     "tomlkit ~=0.12.3",
+    "typing-extensions ~=4.7; python_version < '3.8'",
+    "typing-extensions ~=4.8; python_version >= '3.8'",
 ]
 
 [project.optional-dependencies]
@@ -39,7 +44,8 @@ docs = [
     "mike ~=2.0",
     "mkdocs ~=1.5",
     "mkdocs-awesome-pages-plugin ~=2.9",
-    "mkdocs-material ~=9.2",
+    "mkdocs-material ~=9.2; python_version < '3.8'",
+    "mkdocs-material ~=9.4; python_version >= '3.8'",
     "mkdocstrings[python-legacy] ~=0.22.0; python_version < '3.8'",
     "mkdocstrings[python-legacy] ~=0.24.0; python_version >= '3.8'",
 ]
@@ -66,7 +72,7 @@ Changelog = "https://SINTEF.github.io/ci-cd/latest/CHANGELOG"
 "ci-cd" = "ci_cd.main:program.run"
 
 [tool.mypy]
-python_version = "3.9"
+python_version = "3.7"
 ignore_missing_imports = true
 scripts_are_modules = true
 warn_unused_configs = true
@@ -82,9 +88,6 @@ max-branches = 18
 max-returns = 10
 
 [tool.pytest.ini_options]
-minversion = "7.0"
-filterwarnings = [
-    "ignore:.*imp module.*:DeprecationWarning",
-    # Remove when invoke updates to `inspect.signature()` or similar:
-    "ignore:.*inspect.getargspec().*:DeprecationWarning",
-]
+minversion = "7.4"
+addopts = ["--cov=ci_cd", "--cov-report=term-missing"]
+filterwarnings = ["error"]

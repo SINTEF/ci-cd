@@ -105,7 +105,7 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
 ):
     """Update dependencies in specified Python package's `pyproject.toml`."""
     if TYPE_CHECKING:  # pragma: no cover
-        context: "Context" = context  # type: ignore[no-redef]
+        context: Context = context  # type: ignore[no-redef]
         root_repo_path: str = root_repo_path  # type: ignore[no-redef]
         fail_fast: bool = fail_fast  # type: ignore[no-redef]
         pre_commit: bool = pre_commit  # type: ignore[no-redef]
@@ -130,7 +130,7 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
 
     if pre_commit and root_repo_path == ".":
         # Use git to determine repo root
-        result: "Result" = context.run("git rev-parse --show-toplevel", hide=True)
+        result: Result = context.run("git rev-parse --show-toplevel", hide=True)
         root_repo_path = result.stdout.strip("\n")
 
     pyproject_path = Path(root_repo_path).resolve() / "pyproject.toml"
@@ -261,7 +261,7 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
             LOGGER.debug("Min/max Python version from marker: %s", marker_py_version)
 
         # Check version from PyPI's online package index
-        out: "Result" = context.run(
+        out: Result = context.run(
             "pip index versions "
             f"--python-version {marker_py_version or py_version} "
             f"{parsed_requirement.name}",
@@ -342,8 +342,8 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
 
         # Apply ignore rules
         if parsed_requirement.name in ignore_rules or "*" in ignore_rules:
-            versions: "IgnoreVersions" = []
-            update_types: "IgnoreUpdateTypes" = {}
+            versions: IgnoreVersions = []
+            update_types: IgnoreUpdateTypes = {}
 
             if "*" in ignore_rules:
                 versions, update_types = parse_ignore_rules(ignore_rules["*"])

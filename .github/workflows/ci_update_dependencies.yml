@@ -87,6 +87,7 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: "${{ inputs.python_version }}"
+        allow-prereleases: true
 
     - name: Install `pre-commit` and dependencies
       if: inputs.update_pre-commit
@@ -114,14 +115,14 @@ jobs:
       if: inputs.update_pre-commit
       continue-on-error: true  # Still create the PR if this step fails
       run: |
-        if [ "${{ env.UPDATED_PRE_COMMIT_HOOKS }}" == "true" ]; then
+        if [ "${UPDATED_PRE_COMMIT_HOOKS}" == "true" ]; then
           SKIP=${{ inputs.skip_pre-commit_hooks }} pre-commit run --all-files
         fi
 
     - name: Possibly commit changes and updates
       if: inputs.update_pre-commit
       run: |
-        if [ "${{ env.UPDATED_PRE_COMMIT_HOOKS }}" == "true" ]; then
+        if [ "${UPDATED_PRE_COMMIT_HOOKS}" == "true" ]; then
           git commit -am "Update \`pre-commit\` hooks"
         fi
 
@@ -148,7 +149,7 @@ jobs:
 
     - name: Remove temporary file
       if: env.REMOVE_PR_BODY_FILE == 'true'
-      run: rm -f ${{ env.PR_BODY_FILE }}
+      run: rm -f ${PR_BODY_FILE}
 
     - name: Create PR
       id: cpr

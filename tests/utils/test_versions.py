@@ -200,14 +200,14 @@ def test_semanticversion_next_version_invalid() -> None:
 
 
 def _parametrize_ignore_version() -> (
-    "dict[str, tuple[str, str, IgnoreVersions, IgnoreUpdateTypes, bool]]"
+    dict[str, tuple[str, str, IgnoreVersions, IgnoreUpdateTypes, bool]]
 ):
     """Utility function for `test_ignore_version()`.
 
     The parametrized inputs are created in this function in order to have more
     meaningful IDs in the runtime overview.
     """
-    test_cases: "list[tuple[str, str, IgnoreVersions, IgnoreUpdateTypes, bool]]" = [
+    test_cases: list[tuple[str, str, IgnoreVersions, IgnoreUpdateTypes, bool]] = [
         ("1.1.1", "2.2.2", [{"operator": ">", "version": "2.2.2"}], {}, False),
         ("1.1.1", "2.2.2", [{"operator": ">", "version": "2.2"}], {}, True),
         ("1.1.1", "2.2.2", [{"operator": ">", "version": "2"}], {}, True),
@@ -724,7 +724,7 @@ def _parametrize_ignore_version() -> (
         ),
         ("1.1.1", "1.1.2", [], {}, True),
     ]
-    res: "dict[str, tuple[str, str, IgnoreVersions, IgnoreUpdateTypes, bool]]" = {}
+    res: dict[str, tuple[str, str, IgnoreVersions, IgnoreUpdateTypes, bool]] = {}
     for test_case in test_cases:
         if test_case[2] and test_case[3]:
             operator_version = ",".join(
@@ -756,8 +756,8 @@ def _parametrize_ignore_version() -> (
 def test_ignore_version(
     current: str,
     latest: str,
-    version_rules: "IgnoreVersions",
-    semver_rules: "IgnoreUpdateTypes",
+    version_rules: IgnoreVersions,
+    semver_rules: IgnoreUpdateTypes,
     expected_outcome: bool,
 ) -> None:
     """Check the expected ignore rules are resolved correctly."""
@@ -886,7 +886,7 @@ Instead, ignore_version() is {not expected_outcome}
 def test_parse_ignore_entries(
     entries: list[str],
     separator: str,
-    expected_outcome: "dict[str, IgnoreEntry]",
+    expected_outcome: dict[str, IgnoreEntry],
 ) -> None:
     """Check the `--ignore` option values are parsed as expected."""
     from ci_cd.utils.versions import parse_ignore_entries
@@ -950,8 +950,8 @@ Instead, parse_ignore_entries() returned:
     ],
 )
 def test_parse_ignore_rules(
-    rules: "IgnoreRules",
-    expected_outcome: "tuple[IgnoreVersions, IgnoreUpdateTypes]",
+    rules: IgnoreRules,
+    expected_outcome: tuple[IgnoreVersions, IgnoreUpdateTypes],
 ) -> None:
     """Check a specific set of ignore rules is parsed as expected."""
     from ci_cd.utils.versions import parse_ignore_rules
