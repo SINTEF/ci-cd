@@ -55,7 +55,7 @@ on:
 jobs:
   update-dependency-branch:
     name: Call external workflow
-    uses: SINTEF/ci-cd/.github/workflows/ci_automerge_prs.yml@v2.5.3
+    uses: SINTEF/ci-cd/.github/workflows/ci_automerge_prs.yml@v2.6.0
     if: github.repository_owner == 'SINTEF' && ( ( startsWith(github.event.pull_request.head.ref, 'dependabot/') && github.actor == 'dependabot[bot]' ) || ( github.event.pull_request.head.ref == 'ci/update-pyproject' && github.actor == 'CasperWA' ) )
     secrets:
       PAT: ${{ secrets.RELEASE_PAT }}
@@ -76,7 +76,7 @@ on:
 jobs:
   update-dependency-branch:
     name: Call external workflow
-    uses: SINTEF/ci-cd/.github/workflows/ci_automerge_prs.yml@v2.5.3
+    uses: SINTEF/ci-cd/.github/workflows/ci_automerge_prs.yml@v2.6.0
     if: github.repository_owner == 'SINTEF' && ( ( startsWith(github.event.pull_request.head.ref, 'dependabot/') && github.actor == 'dependabot[bot]' ) || ( github.event.pull_request.head.ref == 'ci/update-pyproject' && github.actor == 'CasperWA' ) )
     with:
       perform_changes: true
@@ -100,25 +100,27 @@ on:
 jobs:
   update-dependency-branch:
     name: Call external workflow
-    uses: SINTEF/ci-cd/.github/workflows/ci_automerge_prs.yml@v2.5.3
+    uses: SINTEF/ci-cd/.github/workflows/ci_automerge_prs.yml@v2.6.0
     if: github.repository_owner == 'SINTEF' && ( ( startsWith(github.event.pull_request.head.ref, 'dependabot/') && github.actor == 'dependabot[bot]' ) || ( github.event.pull_request.head.ref == 'ci/update-pyproject' && github.actor == 'CasperWA' ) )
     with:
       perform_changes: true
       git_username: "Casper Welzel Andersen"
       git_email: "CasperWA@github.com"
       changes: |
-        PYTHON=
-        python --version || PYTHON=NO
-        if [ -n "${PYTHON} ]; then
+        PYTHON="$(python --version || :)"
+        if [ -z "${PYTHON}" ]; then
           echo "Python not detected on the system."
           exit 1
         fi
-        PIP=
-        python -m pip --version || PIP=NO
-        if [ -n "${PYTHON} ]; then
-          echo "pip not detected to be installed for Python."
+
+        PIP="$(python -m pip --version || :)"
+        if [ -z "${PIP}" ]; then
+          echo "pip not detected to be installed for ${PYTHON}."
           exit 1
         fi
+
+        echo "Python: ${PYTHON}"
+        echo "pip: ${PIP}"
 
         python -m pip install -U pip
         pip install -U setuptools wheel
