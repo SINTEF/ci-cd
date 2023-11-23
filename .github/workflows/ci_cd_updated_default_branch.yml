@@ -354,7 +354,7 @@ jobs:
       with:
         token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
         branch: ${{ inputs.default_repo_branch }}
-        sleep: 15
+        pre_sleep: 15
         force: true
         tags: true
         unprotect_reviews: true
@@ -496,5 +496,5 @@ jobs:
       with:
         token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
         branch: ${{ inputs.permanent_dependencies_branch }}
-        sleep: 15
+        pre_sleep: 15
         force: ${{ env.FORCE_PUSH }}
