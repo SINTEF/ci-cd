@@ -74,12 +74,15 @@ class SemanticVersion(str):
 
     """
 
-    _regex = (
+    _semver_regex = (
         r"^(?P<major>0|[1-9]\d*)(?:\.(?P<minor>0|[1-9]\d*))?(?:\.(?P<patch>0|[1-9]\d*))?"
         r"(?:-(?P<pre_release>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)"
         r"(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?"
         r"(?:\+(?P<build>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$"
     )
+    """The regular expression for a semantic version.
+    See
+    https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string."""
 
     @no_type_check
     def __new__(
@@ -111,7 +114,7 @@ class SemanticVersion(str):
                 self._python_version = version
                 version = ".".join(str(_) for _ in version.release)
 
-            match = re.match(self._regex, version)
+            match = re.match(self._semver_regex, version)
             if match is None:
                 # Try to parse it as a Python version and try again
                 try:
@@ -125,7 +128,8 @@ class SemanticVersion(str):
                 # Success. Now let's redo the SemVer.org regular expression match
                 self._python_version = _python_version
                 match = re.match(
-                    self._regex, ".".join(str(_) for _ in _python_version.release)
+                    self._semver_regex,
+                    ".".join(str(_) for _ in _python_version.release),
                 )
                 if match is None:  # pragma: no cover
                     # This should not really be possible at this point, as the
@@ -219,45 +223,47 @@ class SemanticVersion(str):
 
     def as_python_version(self, shortened: bool = True) -> Version:
         """Return the Python version as defined by `packaging.version.Version`."""
-        if self.python_version:
-            # If the SemanticVersion was generated from a Version, return the original
-            # epoch (and the rest, if the release equals the current version).
-            # Otherwise, return it as a "base_version".
-
-            # epoch
-            redone_version = (
-                f"{self.python_version.epoch}!"
-                if self.python_version.epoch != 0
-                else ""
+        if not self.python_version:
+            return Version(
+                self.shortened()
+                if shortened
+                else ".".join(str(_) for _ in (self.major, self.minor, self.patch))
             )
 
-            # release
-            if shortened:
-                redone_version += self.shortened()
-            else:
-                redone_version += ".".join(
-                    str(_) for _ in (self.major, self.minor, self.patch)
-                )
+        # The SemanticVersion was generated from a Version. Return the original
+        # epoch (and the rest, if the release equals the current version).
 
-            if (self.major, self.minor, self.patch)[
-                : len(self.python_version.release)
-            ] == self.python_version.release:
-                # pre, post, dev, local
-                if self.python_version.pre is not None:
-                    redone_version += "".join(str(_) for _ in self.python_version.pre)
+        # epoch
+        redone_version = (
+            f"{self.python_version.epoch}!" if self.python_version.epoch != 0 else ""
+        )
 
-                if self.python_version.post is not None:
-                    redone_version += f".post{self.python_version.post}"
+        # release
+        if shortened:
+            redone_version += self.shortened()
+        else:
+            redone_version += ".".join(
+                str(_) for _ in (self.major, self.minor, self.patch)
+            )
 
-                if self.python_version.dev is not None:
-                    redone_version += f".dev{self.python_version.dev}"
+        if (self.major, self.minor, self.patch)[
+            : len(self.python_version.release)
+        ] == self.python_version.release:
+            # The release is the same as the current version. Add the pre, post, dev,
+            # and local parts, if any.
+            if self.python_version.pre is not None:
+                redone_version += "".join(str(_) for _ in self.python_version.pre)
 
-                if self.python_version.local is not None:
-                    redone_version += f"+{self.python_version.local}"
+            if self.python_version.post is not None:
+                redone_version += f".post{self.python_version.post}"
 
-            return Version(redone_version)
+            if self.python_version.dev is not None:
+                redone_version += f".dev{self.python_version.dev}"
 
-        return Version(self.shortened())
+            if self.python_version.local is not None:
+                redone_version += f"+{self.python_version.local}"
+
+        return Version(redone_version)
 
     def __str__(self) -> str:
         """Return the full version."""

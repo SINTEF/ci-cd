@@ -252,7 +252,8 @@ def test_semanticversion_python_version(
         if isinstance(version_, Version) or (
             isinstance(version_, str)
             and re.match(
-                SemanticVersion._regex, version_  # pylint: disable=protected-access
+                SemanticVersion._semver_regex,  # pylint: disable=protected-access
+                version_,
             )
             is None
         ):

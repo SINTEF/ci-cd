@@ -15,7 +15,7 @@ import tomlkit
 from invoke import task
 from packaging.markers import default_environment
 from packaging.requirements import InvalidRequirement, Requirement
-from packaging.version import Version
+from packaging.version import InvalidVersion, Version
 from tomlkit.exceptions import TOMLKitError
 
 from ci_cd.exceptions import InputError, UnableToResolve
@@ -281,7 +281,7 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
             hide=True,
         )
         package_latest_version_line = out.stdout.split(sep="\n", maxsplit=1)[0]
-        match = re.search(
+        match = re.match(
             r"(?P<package>\S+) \((?P<version>\S+)\)", package_latest_version_line
         )
         if match is None:
@@ -297,7 +297,21 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
             error = True
             continue
 
-        latest_version = Version(match.group("version"))
+        try:
+            latest_version = Version(match.group("version"))
+        except InvalidVersion as exc:
+            msg = (
+                f"Could not parse version {match.group('version')!r} from 'pip index "
+                f"versions' output for line:\n  {package_latest_version_line}.\n"
+                f"Exception: {exc}"
+            )
+            LOGGER.error(msg)
+            if fail_fast:
+                sys.exit(f"{Emoji.CROSS_MARK.value} {error_msg(msg)}")
+            print(error_msg(msg), file=sys.stderr, flush=True)
+            error = True
+            continue
+        LOGGER.debug("Retrieved latest version: %r", latest_version)
 
         # Here used to be a sanity check to ensure that the package name parsed from
         # pyproject.toml matches the name returned from 'pip index versions'.
@@ -377,7 +391,7 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
                     current_version = specifier.version.split(".")
                     break
             else:
-                if latest_version.epoch != 0:
+                if latest_version.epoch == 0:
                     current_version = "0.0.0".split(".")
                 else:
                     current_version = f"{latest_version.epoch}!0.0.0".split(".")
