@@ -1097,7 +1097,7 @@ all = ["{{ cookiecutter.project_slug }}[dev]"]
         # stderr. It SHOULD however be present in the logs.
         raise_msg = (
             f"^{re.escape(Emoji.CROSS_MARK.value)} "
-            r"{re.escape(error_msg(core_error_msg))}$"
+            f"{re.escape(error_msg(core_error_msg))}$"
         )
     else:
         raise_msg = (
