@@ -1019,9 +1019,161 @@ dependencies = ["pytest===7.0"]
 
     assert pyproject_file.read_text(encoding="utf8") == pyproject_file_data
 
-    assert re.search(log_msg, caplog.text) is not None, log_msg
+    assert (
+        re.search(log_msg, caplog.text) is not None
+    ), f"{log_msg!r} not found in {caplog.text}"
 
     if fail_fast:
         assert terminal_msg.search(capsys.readouterr().err) is None, terminal_msg
     else:
         assert terminal_msg.search(capsys.readouterr().err) is not None, terminal_msg
+
+
+@pytest.mark.parametrize(
+    ["skip_unnormalized_python_package_names", "fail_fast"],
+    [(True, True), (False, False), (False, True), (True, False)],
+    ids=[
+        "skip_unnormalized_python_package_names, fail_fast",
+        "no skip_unnormalized_python_package_names, no fail_fast",
+        "no skip_unnormalized_python_package_names, fail_fast",
+        "skip_unnormalized_python_package_names, no fail_fast",
+    ],
+)
+def test_skip_unnormalized_python_package_names(
+    tmp_path: Path,
+    skip_unnormalized_python_package_names: bool,
+    fail_fast: bool,
+    caplog: pytest.LogCaptureFixture,
+    capsys: pytest.CaptureFixture,
+) -> None:
+    """Ensure unnormalized Python package names are skipped."""
+    import re
+
+    from invoke import MockContext
+
+    from ci_cd.tasks.update_deps import update_deps
+    from ci_cd.utils.console_printing import Emoji, error_msg, info_msg
+
+    pyproject_file_data = """[project]
+name = "{{ cookiecutter.project_slug }}"
+requires-python = ">=3.8"
+
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest~=7.1"]
+all = ["{{ cookiecutter.project_slug }}[dev]"]
+"""
+    pyproject_file = tmp_path / "pyproject.toml"
+    pyproject_file.write_text(data=pyproject_file_data, encoding="utf8")
+
+    context = MockContext(
+        run={
+            re.compile(r".*pytest$"): "pytest (7.4.3)",
+        }
+    )
+
+    exception_message = (
+        "Expected package name at the start of dependency "
+        "specifier\n    {{ cookiecutter.project_slug }}[dev]\n    ^"
+    )
+
+    core_error_msg = (
+        "Could not parse requirement '{{ cookiecutter.project_slug }}[dev]' from "
+        f"pyproject.toml: {exception_message}"
+    )
+    core_info_msg = (
+        "Skipping requirement '{{ cookiecutter.project_slug }}[dev]', as unnormalized "
+        "Python package naming is allowed by user. Note, the requirements could "
+        f"not be parsed: {exception_message}"
+    )
+
+    terminal_error_msg = re.compile(re.escape(error_msg(core_error_msg)))
+    terminal_info_msg = re.compile(re.escape(info_msg(core_info_msg)))
+
+    if fail_fast:
+        # We test failing fast
+        # The error message will be part of the exception, and will not be in stdout or
+        # stderr. It SHOULD however be present in the logs.
+        raise_msg = (
+            f"^{re.escape(Emoji.CROSS_MARK.value)} "
+            r"{re.escape(error_msg(core_error_msg))}$"
+        )
+    else:
+        raise_msg = (
+            rf"^{re.escape(Emoji.CROSS_MARK.value)} Errors occurred! See printed "
+            r"statements above\.$"
+        )
+
+    if skip_unnormalized_python_package_names:
+        update_deps(
+            context,
+            root_repo_path=str(tmp_path),
+            skip_unnormalized_python_package_names=skip_unnormalized_python_package_names,
+            fail_fast=fail_fast,
+        )
+
+        stdouterr = capsys.readouterr()
+
+        assert (
+            re.search(re.escape(core_info_msg), caplog.text) is not None
+        ), f"{core_info_msg!r} not found in {caplog.text}"
+        assert (
+            terminal_info_msg.search(stdouterr.out) is not None
+        ), f"{terminal_info_msg!r} not found in {stdouterr.out}"
+
+        assert (
+            re.search(re.escape(core_error_msg), caplog.text) is None
+        ), f"{core_error_msg!r} unexpectedly found in {caplog.text}"
+        assert (
+            terminal_error_msg.search(stdouterr.err) is None
+        ), f"{terminal_error_msg!r} unexpectedly found in {stdouterr.err}"
+
+    else:
+        with pytest.raises(SystemExit, match=raise_msg):
+            update_deps(
+                context,
+                root_repo_path=str(tmp_path),
+                skip_unnormalized_python_package_names=(
+                    skip_unnormalized_python_package_names
+                ),
+                fail_fast=fail_fast,
+            )
+
+        stdouterr = capsys.readouterr()
+
+        assert (
+            re.search(re.escape(core_error_msg), caplog.text) is not None
+        ), f"{core_error_msg!r} not found in {caplog.text}"
+
+        assert (
+            re.search(re.escape(core_info_msg), caplog.text) is None
+        ), f"{core_info_msg!r} unexpectedly found in {caplog.text}"
+        assert (
+            terminal_info_msg.search(stdouterr.out) is None
+        ), f"{terminal_info_msg!r} unexpectedly found in {stdouterr.out}"
+
+        if fail_fast:
+            assert (
+                terminal_error_msg.search(stdouterr.err) is None
+            ), f"{terminal_error_msg!r} unexpectedly found in {stdouterr.err}"
+        else:
+            assert (
+                terminal_error_msg.search(stdouterr.err) is not None
+            ), f"{terminal_error_msg!r} not found in {stdouterr.err}"
+
+    # In both cases, the pyproject.toml file should be updated for pytest.
+    # When/if a more atomistic approach is taken, then this should *NOT* be the case
+    # for runs where an error occurs.
+    expected_pyproject_file_data = """[project]
+name = "{{ cookiecutter.project_slug }}"
+requires-python = ">=3.8"
+
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest~=7.4"]
+all = ["{{ cookiecutter.project_slug }}[dev]"]
+"""
+
+    assert pyproject_file.read_text(encoding="utf8") == expected_pyproject_file_data

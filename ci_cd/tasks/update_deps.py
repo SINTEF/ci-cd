@@ -35,6 +35,8 @@ from ci_cd.utils import (
 )
 
 if TYPE_CHECKING:  # pragma: no cover
+    from typing import Union
+
     from invoke import Context, Result
 
     from ci_cd.utils.versions import IgnoreUpdateTypes, IgnoreVersions
@@ -91,6 +93,11 @@ def _format_and_update_dependency(
             "key/value-pairs."
         ),
         "verbose": "Whether or not to print debug statements.",
+        "skip-unnormalized-python-package-names": (
+            "Whether to skip dependencies with unnormalized Python package names. "
+            "Normalization is outlined here: "
+            "https://packaging.python.org/en/latest/specifications/name-normalization."
+        ),
     },
     iterable=["ignore"],
 )
@@ -102,6 +109,7 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
     ignore=None,
     ignore_separator="...",
     verbose=False,
+    skip_unnormalized_python_package_names=False,
 ):
     """Update dependencies in specified Python package's `pyproject.toml`."""
     if TYPE_CHECKING:  # pragma: no cover
@@ -111,6 +119,9 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
         pre_commit: bool = pre_commit  # type: ignore[no-redef]
         ignore_separator: str = ignore_separator  # type: ignore[no-redef]
         verbose: bool = verbose  # type: ignore[no-redef]
+        skip_unnormalized_python_package_names: bool = (  # type: ignore[no-redef]
+            skip_unnormalized_python_package_names
+        )
 
     if not ignore:
         ignore: list[str] = []  # type: ignore[no-redef]
@@ -162,16 +173,12 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
     LOGGER.debug("Minimum required Python version: %s", py_version)
 
     # Retrieve the Python project's package name
-    project_name = pyproject.get("project", {}).get("name", "")
+    project_name: str = pyproject.get("project", {}).get("name", "")
     if not project_name:
         sys.exit(
             f"{Emoji.CROSS_MARK.value} Error: Could not find the Python project's name"
             " in 'pyproject.toml'."
         )
-
-    # Skip package if it is this project (this can happen for inter-relative extra
-    # dependencies)
-    already_handled_packages: set[str] = {project_name}
 
     # Build the list of dependencies listed in pyproject.toml
     dependencies: list[str] = pyproject.get("project", {}).get("dependencies", [])
@@ -181,13 +188,24 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
         dependencies.extend(optional_deps)
 
     # Placeholder and default variables
-    updated_packages = {}
-    error = False
+    already_handled_packages: set[Requirement] = set()
+    updated_packages: dict[str, str] = {}
+    error: bool = False
 
     for dependency in dependencies:
         try:
             parsed_requirement = Requirement(dependency)
         except InvalidRequirement as exc:
+            if skip_unnormalized_python_package_names:
+                msg = (
+                    f"Skipping requirement {dependency!r}, as unnormalized Python "
+                    "package naming is allowed by user. Note, the requirements could "
+                    f"not be parsed: {exc}"
+                )
+                LOGGER.info(msg)
+                print(info_msg(msg), flush=True)
+                continue
+
             msg = (
                 f"Could not parse requirement {dependency!r} from pyproject.toml: "
                 f"{exc}"
@@ -202,6 +220,22 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
 
         # Skip package if already handled
         if parsed_requirement in already_handled_packages:
+            continue
+
+        # Skip package if it is this project (this can happen for inter-relative extra
+        # dependencies)
+        if parsed_requirement.name == project_name:
+            msg = (
+                f"Dependency {parsed_requirement.name!r} is detected as being this "
+                "project and will be skipped."
+            )
+            LOGGER.info(msg)
+            print(info_msg(msg), flush=True)
+
+            _format_and_update_dependency(
+                parsed_requirement, dependency, pyproject_path
+            )
+            already_handled_packages.add(parsed_requirement)
             continue
 
         # Skip URL versioned dependencies
