@@ -49,14 +49,14 @@ An active internet connection and for PyPI not to be down.
 
 Any of these options can be given through the `args` key when defining the hook.
 
-| **Name** | **Description** | **Required** | **Default** | **Type** |
+| **Name** | **Description** | **Required** | **Type** | **Default** |
 |:--- |:--- |:---:|:---:|:---:|
-| `--root-repo-path` | A resolvable path to the root directory of the repository folder, where the `pyproject.toml` file can be found. | No | `.` | _string_ |
-| `--fail-fast` | Fail immediately if an error occurs. Otherwise, print and ignore all non-critical errors. | No | `False` | _boolean_ |
-| `--ignore` | Ignore-rules based on the `ignore` config option of Dependabot.</br></br>It should be of the format: `key=value...key=value`, i.e., an ellipsis (`...`) separator and then equal-sign-separated key/value-pairs.</br>Alternatively, the `--ignore-separator` can be set to something else to overwrite the ellipsis.</br></br>The only supported keys are: `dependency-name`, `versions`, and `update-types`.</br></br>Can be supplied multiple times per `dependency-name`. | No | | _string_ |
-| `--ignore-separator` | Value to use instead of ellipsis (`...`) as a separator in `--ignore` key/value-pairs. | No | | _string_ |
-| `--verbose` | Whether or not to print debug statements. | No | `False` | _boolean_ |
-| `--skip-unnormalized-python-package-names` | Whether to skip dependencies with unnormalized Python package names. Normalization is outlined [here](https://packaging.python.org/en/latest/specifications/name-normalization). | No | `False` | _boolean_ |
+| `--root-repo-path` | A resolvable path to the root directory of the repository folder, where the `pyproject.toml` file can be found. | No | _string_ | `.` |
+| `--fail-fast` | Fail immediately if an error occurs. Otherwise, print and ignore all non-critical errors. | No | _flag_ | |
+| `--ignore` | Ignore-rules based on the `ignore` config option of Dependabot.</br></br>It should be of the format: `key=value...key=value`, i.e., an ellipsis (`...`) separator and then equal-sign-separated key/value-pairs.</br>Alternatively, the `--ignore-separator` can be set to something else to overwrite the ellipsis.</br></br>The only supported keys are: `dependency-name`, `versions`, and `update-types`.</br></br>Can be supplied multiple times per `dependency-name`. | No | _string_ | |
+| `--ignore-separator` | Value to use instead of ellipsis (`...`) as a separator in `--ignore` key/value-pairs. | No | _string_ | |
+| `--verbose` | Whether or not to print debug statements. | No | _flag_ | |
+| `--skip-unnormalized-python-package-names` | Whether to skip dependencies with unnormalized Python package names. Normalization is outlined [here](https://packaging.python.org/en/latest/specifications/name-normalization). | No | _flag_ | |
 
 ## Usage example
 

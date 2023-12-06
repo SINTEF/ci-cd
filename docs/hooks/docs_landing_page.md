@@ -18,11 +18,11 @@ It is **required** that the root `README.md` exists and the documentation's land
 
 Any of these options can be given through the `args` key when defining the hook.
 
-| **Name** | **Description** | **Required** | **Default** | **Type** |
+| **Name** | **Description** | **Required** | **Type** | **Default** |
 |:--- |:--- |:---:|:---:|:---:|
-| `--docs-folder` | The folder name for the documentation root folder. | No | docs | _string_ |
-| `--replacement` | A replacement (mapping) to be performed on `README.md` when creating the documentation's landing page (`index.md`). This list _always_ includes replacing '`--docs-folder`/' with an empty string, in order to correct relative links. By default the value `(LICENSE),(LICENSE.md)` is set, but this will be overwritten if `args` is set.</br></br>This input option can be supplied multiple times. | No | (LICENSE),(LICENSE.md) | _string_ |
-| `--replacement-separator` | String to separate a replacement's 'old' to 'new' parts. Defaults to a comma (`,`). | No | , | _string_ |
+| `--docs-folder` | The folder name for the documentation root folder. | No | _string_ | `docs` |
+| `--replacement` | A replacement (mapping) to be performed on `README.md` when creating the documentation's landing page (`index.md`). This list _always_ includes replacing '`--docs-folder`/' with an empty string, in order to correct relative links. By default the value `(LICENSE),(LICENSE.md)` is set, but this will be overwritten if `args` is set.</br></br>This input option can be supplied multiple times. | No | _string_ | `(LICENSE),(LICENSE.md)` |
+| `--replacement-separator` | String to separate a replacement's 'old' to 'new' parts. Defaults to a comma (`,`). | No | _string_ | `,` |
 
 ## Usage example
 
