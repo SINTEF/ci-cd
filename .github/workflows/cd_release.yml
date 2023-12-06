@@ -279,7 +279,7 @@ jobs:
       with:
         token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
         branch: ${{ inputs.release_branch }}
-        sleep: 15
+        pre_sleep: 15
         force: true
         tags: true
         unprotect_reviews: true
@@ -308,7 +308,7 @@ jobs:
 
     - name: Publish package to TestPyPI
       if: inputs.test && inputs.publish_on_pypi && inputs.python_package
-      uses: pypa/gh-action-pypi-publish@v1.8.10
+      uses: pypa/gh-action-pypi-publish@release/v1
       with:
         user: __token__
         password: ${{ secrets.PyPI_token }}
@@ -316,7 +316,7 @@ jobs:
 
     - name: Publish package to PyPI
       if: ( ! inputs.test ) && inputs.publish_on_pypi && inputs.python_package
-      uses: pypa/gh-action-pypi-publish@v1.8.10
+      uses: pypa/gh-action-pypi-publish@release/v1
       with:
         user: __token__
         password: ${{ secrets.PyPI_token }}
