@@ -56,6 +56,7 @@ Any of these options can be given through the `args` key when defining the hook.
 | `--ignore` | Ignore-rules based on the `ignore` config option of Dependabot.</br></br>It should be of the format: `key=value...key=value`, i.e., an ellipsis (`...`) separator and then equal-sign-separated key/value-pairs.</br>Alternatively, the `--ignore-separator` can be set to something else to overwrite the ellipsis.</br></br>The only supported keys are: `dependency-name`, `versions`, and `update-types`.</br></br>Can be supplied multiple times per `dependency-name`. | No | | _string_ |
 | `--ignore-separator` | Value to use instead of ellipsis (`...`) as a separator in `--ignore` key/value-pairs. | No | | _string_ |
 | `--verbose` | Whether or not to print debug statements. | No | `False` | _boolean_ |
+| `--skip-unnormalized-python-package-names` | Whether to skip dependencies with unnormalized Python package names. Normalization is outlined [here](https://packaging.python.org/en/latest/specifications/name-normalization). | No | `False` | _boolean_ |
 
 ## Usage example
 
