@@ -1,0 +1,1548 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for GitHub Action resusable workflows">
+      
+      
+      
+        <link rel="canonical" href="https://SINTEF.github.io/ci-cd/2.7.0/workflows/ci_cd_updated_default_branch/">
+      
+      
+        <link rel="prev" href="../ci_automerge_prs/">
+      
+      
+        <link rel="next" href="../ci_check_pyproject_dependencies/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.0">
+    
+    
+      
+        <title>CI/CD - New updates to default branch - GH Action Reusable Workflows</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.45e1311d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../css/reference.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="lime" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#cicd-new-updates-to-default-branch" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="GH Action Reusable Workflows" class="md-header__button md-logo" aria-label="GH Action Reusable Workflows" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 14.27 10.64 13A11.242 11.242 0 0 0 5 10.18v6.95c2.61.34 5 1.34 7 2.82 2-1.48 4.39-2.48 7-2.82v-6.95c-2.16.39-4.09 1.39-5.64 2.82M19 8.15c.65-.1 1.32-.15 2-.15v11c-3.5 0-6.64 1.35-9 3.54C9.64 20.35 6.5 19 3 19V8c.68 0 1.35.05 2 .15 2.69.41 5.1 1.63 7 3.39 1.9-1.76 4.31-2.98 7-3.39M12 6c.27 0 .5-.1.71-.29.19-.21.29-.44.29-.71s-.1-.5-.29-.71C12.5 4.11 12.27 4 12 4s-.5.11-.71.29c-.18.21-.29.45-.29.71s.11.5.29.71c.21.19.45.29.71.29m2.12 1.12a2.997 2.997 0 1 1-4.24-4.24 2.997 2.997 0 1 1 4.24 4.24Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            GH Action Reusable Workflows
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              CI/CD - New updates to default branch
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/SINTEF/ci-cd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ci-cd
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="GH Action Reusable Workflows" class="md-nav__button md-logo" aria-label="GH Action Reusable Workflows" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 14.27 10.64 13A11.242 11.242 0 0 0 5 10.18v6.95c2.61.34 5 1.34 7 2.82 2-1.48 4.39-2.48 7-2.82v-6.95c-2.16.39-4.09 1.39-5.64 2.82M19 8.15c.65-.1 1.32-.15 2-.15v11c-3.5 0-6.64 1.35-9 3.54C9.64 20.35 6.5 19 3 19V8c.68 0 1.35.05 2 .15 2.69.41 5.1 1.63 7 3.39 1.9-1.76 4.31-2.98 7-3.39M12 6c.27 0 .5-.1.71-.29.19-.21.29-.44.29-.71s-.1-.5-.29-.71C12.5 4.11 12.27 4 12 4s-.5.11-.71.29c-.18.21-.29.45-.29.71s.11.5.29.71c.21.19.45.29.71.29m2.12 1.12a2.997 2.997 0 1 1-4.24-4.24 2.997 2.997 0 1 1 4.24 4.24Z"/></svg>
+
+    </a>
+    GH Action Reusable Workflows
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/SINTEF/ci-cd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ci-cd
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Workflows
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Workflows
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cd_release/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CD - Release
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ci_automerge_prs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CI - Activate auto-merging for PRs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    CI/CD - New updates to default branch
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    CI/CD - New updates to default branch
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#expectations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Expectations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Inputs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#secrets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Secrets
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage example
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ci_check_pyproject_dependencies/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CI - Check pyproject.toml dependencies
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ci_tests/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CI - Tests
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ci_update_dependencies/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CI - Update dependencies PR
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Hooks
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Hooks
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hooks/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hooks/docs_api_reference/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Update API Reference in Documentation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hooks/docs_landing_page/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Update Landing Page (index.md) for Documentation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hooks/update_pyproject/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Update dependencies in pyproject.toml
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../LICENSE/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    License
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CHANGELOG/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Changelog
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Developers
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Developers
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_1" id="__nav_6_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    API Reference
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1">
+            <span class="md-nav__icon md-icon"></span>
+            API Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api_reference/exceptions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    exceptions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api_reference/main/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    main
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_1_3" id="__nav_6_1_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    tasks
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            tasks
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api_reference/tasks/api_reference_docs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    api_reference_docs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api_reference/tasks/docs_index/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    docs_index
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api_reference/tasks/setver/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    setver
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api_reference/tasks/update_deps/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    update_deps
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_1_4" id="__nav_6_1_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    utils
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_1_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1_4">
+            <span class="md-nav__icon md-icon"></span>
+            utils
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api_reference/utils/console_printing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    console_printing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api_reference/utils/file_io/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    file_io
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api_reference/utils/versions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    versions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#expectations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Expectations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Inputs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#secrets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Secrets
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage example
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="cicd-new-updates-to-default-branch">CI/CD - New updates to default branch<a class="headerlink" href="#cicd-new-updates-to-default-branch" title="Permanent link">&para;</a></h1>
+<p><strong>File to use:</strong> <code>ci_cd_updated_default_branch.yml</code></p>
+<p>Keep your <code>permanent_dependencies_branch</code> branch up-to-date with changes in your main development branch, i.e., the <code>default_repo_branch</code>.</p>
+<p>Furthermore, this workflow can optionally update the <code>latest</code> <a href="https://github.com/jimporter/mike">mike</a>+<a href="https://www.mkdocs.org">MkDocs</a>+<a href="https://pages.github.com/">GitHub Pages</a>-framework documentation release alias, which represents the <code>default_repo_branch</code>.
+The workflow also alternatively supports the <a href="https://www.sphinx-doc.org/">Sphinx</a> framework.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If a PAT is not passed through for the <code>PAT</code> secret and <code>GITHUB_TOKEN</code> is used, beware that any other CI/CD jobs that run for, e.g., pull request events, may not run since <code>GITHUB_TOKEN</code>-generated PRs are designed to not start more workflows to avoid escalation.
+Hence, if it is important to run CI/CD workflows for pull requests, consider passing a PAT as a secret to this workflow represented by the <code>PAT</code> secret.</p>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>If this is to be used together with the <a href="../ci_update_dependencies/">CI - Update dependencies PR</a> workflow, the <code>pr_body_file</code> supplied to that workflow (if any) should match the <code>update_depednencies_pr_body_file</code> input in this workflow and be immutable within the first 8 lines, i.e., no check boxes or similar in the first 8 lines.
+Indeed, it is recommended to not supply <code>pr_body_file</code> to the <a href="../ci_update_dependencies/">CI - Update dependencies PR</a> workflow as well as to not supply the <code>update_dependencies_pr_body_file</code> in this workflow in this case.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Concerning the changelog generator, the specific input <code>changelog_exclude_labels</code> defaults to a list of different labels if not supplied, hence, if supplied, one might want to include these labels alongside any extra labels.
+The default value is given here as a help:<br />
+<code>'duplicate,question,invalid,wontfix'</code></p>
+</div>
+<p>If used together with the <a href="../../hooks/docs_api_reference/#using-it-together-with-cicd-workflows">Update API Reference in Documentation</a>, please align the <code>relative</code> input with the <code>--relative</code> option, when running the hook.
+See the <a href="../../hooks/docs_api_reference/#using-it-together-with-cicd-workflows">proper section</a> to understand why and how these options and inputs should be aligned.</p>
+<h2 id="expectations">Expectations<a class="headerlink" href="#expectations" title="Permanent link">&para;</a></h2>
+<p>The repository contains the following:</p>
+<ul>
+<li>(<strong>required</strong>) At least one Python package exists that can be pointed to for the <code>package_dirs</code> input.</li>
+<li>(<strong>required</strong>) <em>Only if also updating the documentation</em>, then the documentation should be contained in a root <code>docs</code> directory.</li>
+<li>(<strong>required</strong>) <em>Only if also updating the documentation</em>, then a root <code>README.md</code> file must exist and desired to be used as the documentation's landing page if the <code>update_docs_landing_page</code> is set to <code>true</code>, which is the default.</li>
+</ul>
+<h2 id="inputs">Inputs<a class="headerlink" href="#inputs" title="Permanent link">&para;</a></h2>
+<p>The following inputs are general inputs for the workflow as a whole.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>Name</strong></th>
+<th style="text-align: left;"><strong>Description</strong></th>
+<th style="text-align: center;"><strong>Required</strong></th>
+<th style="text-align: center;"><strong>Default</strong></th>
+<th style="text-align: center;"><strong>Type</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>git_username</code></td>
+<td style="text-align: left;">A git username (used to set the 'user.name' config option).</td>
+<td style="text-align: center;"><strong><em>Yes</em></strong></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>git_email</code></td>
+<td style="text-align: left;">A git user's email address (used to set the 'user.email' config option).</td>
+<td style="text-align: center;"><strong><em>Yes</em></strong></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>default_repo_branch</code></td>
+<td style="text-align: left;">The branch name of the repository's default branch. More specifically, the branch the PR should target.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">main</td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>test</code></td>
+<td style="text-align: left;">Whether to do a "dry run", i.e., run the workflow, but avoid pushing to 'permanent_dependencies_branch' branch and deploying documentation (if 'update_docs' is 'true').</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>false</code></td>
+<td style="text-align: center;"><em>boolean</em></td>
+</tr>
+</tbody>
+</table>
+<p>Inputs related to updating the permanent dependencies branch.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>Name</strong></th>
+<th style="text-align: left;"><strong>Description</strong></th>
+<th style="text-align: center;"><strong>Required</strong></th>
+<th style="text-align: center;"><strong>Default</strong></th>
+<th style="text-align: center;"><strong>Type</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>update_dependencies_branch</code></td>
+<td style="text-align: left;">Whether or not to update the permanent dependencies branch.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>true</code></td>
+<td style="text-align: center;"><em>boolean</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>permanent_dependencies_branch</code></td>
+<td style="text-align: left;">The branch name for the permanent dependency updates branch.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">ci/dependency-updates</td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>update_dependencies_pr_body_file</code></td>
+<td style="text-align: left;">Relative path to a PR body file from the root of the repository, which is used in the 'CI - Update dependencies PR' workflow, if used.</br></br>Example: <code>'.github/utils/pr_body_update_deps.txt'</code>.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+</tbody>
+</table>
+<p>Inputs related to building and releasing the documentation.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>Name</strong></th>
+<th style="text-align: left;"><strong>Description</strong></th>
+<th style="text-align: center;"><strong>Required</strong></th>
+<th style="text-align: center;"><strong>Default</strong></th>
+<th style="text-align: center;"><strong>Type</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>update_docs</code></td>
+<td style="text-align: left;">Whether or not to also run the 'docs' workflow job.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>false</code></td>
+<td style="text-align: center;"><em>boolean</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>update_python_api_ref</code></td>
+<td style="text-align: left;">Whether or not to update the Python API documentation reference.</br></br><strong>Note</strong>: If this is 'true', 'package_dirs' is <em>required</em>.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>true</code></td>
+<td style="text-align: center;"><em>boolean</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>package_dirs</code></td>
+<td style="text-align: left;">A multi-line string of paths to Python package directories relative to the repository directory to be considered for creating the Python API reference documentation.</br></br>Example: <code>'src/my_package'</code>.</br></br><strong>Important</strong>: This is <em>required</em> if 'update_docs' and 'update_python_api_ref' are 'true'.</br></br>See also <a href="../#single-vs-multi-line-input">Single vs multi-line input</a>.</td>
+<td style="text-align: center;"><strong><em>Yes</em> (if 'update_docs' and 'update_python_api_ref' are 'true')</strong></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>update_docs_landing_page</code></td>
+<td style="text-align: left;">Whether or not to update the documentation landing page. The landing page will be based on the root README.md file.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>true</code></td>
+<td style="text-align: center;"><em>boolean</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>python_version</code></td>
+<td style="text-align: left;">The Python version to use for the workflow.</br></br><strong>Note</strong>: This is only relevant if <code>update_pre-commit</code> is <code>true</code>.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">3.9</td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>doc_extras</code></td>
+<td style="text-align: left;">Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (<code>[]</code>) and be separated by commas (<code>,</code>) without any spaces.</br></br>Example: <code>'[docs]'</code>.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>relative</code></td>
+<td style="text-align: left;">Whether or not to use install the local Python package(s) as an editable.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>false</code></td>
+<td style="text-align: center;"><em>boolean</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>exclude_dirs</code></td>
+<td style="text-align: left;">A multi-line string of directories to exclude in the Python API reference documentation. Note, only directory names, not paths, may be included. Note, all folders and their contents with these names will be excluded. Defaults to <code>'__pycache__'</code>.</br></br><strong>Important</strong>: When a user value is set, the preset value is overwritten - hence <code>'__pycache__'</code> should be included in the user value if one wants to exclude these directories.</br></br>See also <a href="../#single-vs-multi-line-input">Single vs multi-line input</a>.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">__pycache__</td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>exclude_files</code></td>
+<td style="text-align: left;">A multi-line string of files to exclude in the Python API reference documentation. Note, only full file names, not paths, may be included, i.e., filename + file extension. Note, all files with these names will be excluded. Defaults to <code>'__init__.py'</code>.</br></br><strong>Important</strong>: When a user value is set, the preset value is overwritten - hence <code>'__init__.py'</code> should be included in the user value if one wants to exclude these files.</br></br>See also <a href="../#single-vs-multi-line-input">Single vs multi-line input</a>.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">__init__.py</td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>full_docs_dirs</code></td>
+<td style="text-align: left;">A multi-line string of directories in which to include everything - even those without documentation strings. This may be useful for a module full of data models or to ensure all class attributes are listed.</br></br>See also <a href="../#single-vs-multi-line-input">Single vs multi-line input</a>.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>full_docs_files</code></td>
+<td style="text-align: left;">A multi-line string of relative paths to files in which to include everything - even those without documentation strings. This may be useful for a file full of data models or to ensure all class attributes are listed.</br></br>See also <a href="../#single-vs-multi-line-input">Single vs multi-line input</a>.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>special_file_api_ref_options</code></td>
+<td style="text-align: left;">A multi-line string of combinations of a relative path to a Python file and a fully formed mkdocstrings option that should be added to the generated MarkDown file for the Python API reference documentation.</br>Example: <code>my_module/py_file.py,show_bases:false</code>.</br></br>Encapsulate the value in double quotation marks (<code>"</code>) if including spaces ( ).</br></br><strong>Important</strong>: If multiple <code>package_dirs</code> are supplied, the relative path MUST include/start with the appropriate 'package_dir' value, e.g., <code>"my_package/my_module/py_file.py,show_bases: false"</code>.</br></br>See also <a href="../#single-vs-multi-line-input">Single vs multi-line input</a>.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>landing_page_replacements</code></td>
+<td style="text-align: left;">A multi-line string of replacements (mappings) to be performed on README.md when creating the documentation's landing page (index.md). This list <em>always</em> includes replacing <code>'docs/'</code> with an empty string to correct relative links, i.e., this cannot be overwritten. By default <code>'(LICENSE)'</code> is replaced by <code>'(LICENSE.md)'</code>.</br></br>See also <a href="../#single-vs-multi-line-input">Single vs multi-line input</a>.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">(LICENSE),(LICENSE.md)</td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>landing_page_replacement_separator</code></td>
+<td style="text-align: left;">String to separate a mapping's 'old' to 'new' parts. Defaults to a comma (<code>,</code>).</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">,</td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>changelog_exclude_tags_regex</code></td>
+<td style="text-align: left;">A regular expression matching any tags that should be excluded from the CHANGELOG.md.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>changelog_exclude_labels</code></td>
+<td style="text-align: left;">Comma-separated list of labels to exclude from the CHANGELOG.md.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>docs_framework</code></td>
+<td style="text-align: left;">The documentation framework to use. This can only be either <code>'mkdocs'</code> or <code>'sphinx'</code>.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">mkdocs</td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>system_dependencies</code></td>
+<td style="text-align: left;">A single (space-separated) or multi-line string of Ubuntu APT packages to install prior to building the documentation.</br></br>See also <a href="../#single-vs-multi-line-input">Single vs multi-line input</a>.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+</tbody>
+</table>
+<p>Finally, inputs related <em>only</em> to the Sphinx framework when building and releasing the documentation.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>Name</strong></th>
+<th style="text-align: left;"><strong>Description</strong></th>
+<th style="text-align: center;"><strong>Required</strong></th>
+<th style="text-align: center;"><strong>Default</strong></th>
+<th style="text-align: center;"><strong>Type</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>sphinx-build_options</code></td>
+<td style="text-align: left;">Single (space-separated) or multi-line string of command-line options to use when calling <code>sphinx-build</code>.</br></br>See also <a href="../#single-vs-multi-line-input">Single vs multi-line input</a>.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>docs_folder</code></td>
+<td style="text-align: left;">The path to the root documentation folder relative to the repository root.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">docs</td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>build_target_folder</code></td>
+<td style="text-align: left;">The path to the target folder for the documentation build relative to the repository root.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">site</td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+</tbody>
+</table>
+<h2 id="secrets">Secrets<a class="headerlink" href="#secrets" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>Name</strong></th>
+<th style="text-align: left;"><strong>Description</strong></th>
+<th style="text-align: center;"><strong>Required</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>PAT</code></td>
+<td style="text-align: left;">A personal access token (PAT) with rights to update the <code>permanent_dependencies_branch</code>. This will fallback on <code>GITHUB_TOKEN</code>.</td>
+<td style="text-align: center;">No</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage-example">Usage example<a class="headerlink" href="#usage-example" title="Permanent link">&para;</a></h2>
+<p>The following is an example of how a workflow may look that calls <em>CI/CD - New updates to default branch</em>.
+It is meant to be complete as is.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CI - Activate auto-merging for Dependabot PRs</span>
+
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">push</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stable</span>
+
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">updates-to-stable</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Call external workflow</span>
+<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SINTEF/ci-cd/.github/workflows/ci_cd_updated_default_branch.yml@v2.7.0</span>
+<span class="w">    </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.repository_owner == &#39;SINTEF&#39;</span>
+<span class="w">    </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">git_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Casper</span><span class="nv"> </span><span class="s">Welzel</span><span class="nv"> </span><span class="s">Andersen&quot;</span>
+<span class="w">      </span><span class="nt">git_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CasperWA@github.com&quot;</span>
+<span class="w">      </span><span class="nt">default_repo_branch</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stable</span>
+<span class="w">      </span><span class="nt">permanent_dependencies_branch</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ci/dependency-updates&quot;</span>
+<span class="w">      </span><span class="nt">update_docs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">      </span><span class="nt">package_dirs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">        </span><span class="no">my_python_package</span>
+<span class="w">        </span><span class="no">my_other_python_package</span>
+<span class="w">      </span><span class="nt">doc_extras</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;[docs]&quot;</span>
+<span class="w">      </span><span class="nt">exclude_files</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">__init__.py,config.py</span>
+<span class="w">      </span><span class="nt">full_docs_dirs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">models</span>
+<span class="w">      </span><span class="nt">landing_page_replacements</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;(LICENSE);(LICENSE.md)|(tools);(../tools)&quot;</span>
+<span class="w">      </span><span class="nt">landing_page_replacements_mapping_separator</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;;&quot;</span>
+<span class="w">    </span><span class="nt">secrets</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">PAT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.PAT }}</span>
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2022 Casper Welzel Andersen & SINTEF
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://github.com/SINTEF" target="_blank" rel="noopener" title="SINTEF on GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M448 96c0-35.3-28.7-64-64-64H64C28.7 32 0 60.7 0 96v320c0 35.3 28.7 64 64 64h320c35.3 0 64-28.7 64-64V96zM265.8 407.7c0-1.8 0-6 .1-11.6.1-11.4.1-28.8.1-43.7 0-15.6-5.2-25.5-11.3-30.7 37-4.1 76-9.2 76-73.1 0-18.2-6.5-27.3-17.1-39 1.7-4.3 7.4-22-1.7-45-13.9-4.3-45.7 17.9-45.7 17.9-13.2-3.7-27.5-5.6-41.6-5.6s-28.4 1.9-41.6 5.6c0 0-31.8-22.2-45.7-17.9-9.1 22.9-3.5 40.6-1.7 45-10.6 11.7-15.6 20.8-15.6 39 0 63.6 37.3 69 74.3 73.1-4.8 4.3-9.1 11.7-10.6 22.3-9.5 4.3-33.8 11.7-48.3-13.9-9.1-15.8-25.5-17.1-25.5-17.1-16.2-.2-1.1 10.2-1.1 10.2 10.8 5 18.4 24.2 18.4 24.2 9.7 29.7 56.1 19.7 56.1 19.7 0 9 .1 21.7.1 30.6 0 4.8.1 8.6.1 10 0 4.3-3 9.5-11.5 8-66-22.1-112.2-84.9-112.2-158.3 0-91.8 70.2-161.5 162-161.5S388 165.6 388 257.4c.1 73.4-44.7 136.3-110.7 158.3-8.4 1.5-11.5-3.7-11.5-8zm-90.5-54.8c-.2-1.5 1.1-2.8 3-3.2 1.9-.2 3.7.6 3.9 1.9.3 1.3-1 2.6-3 3-1.9.4-3.7-.4-3.9-1.7zm-9.1 3.2c-2.2.2-3.7-.9-3.7-2.4 0-1.3 1.5-2.4 3.5-2.4 1.9-.2 3.7.9 3.7 2.4 0 1.3-1.5 2.4-3.5 2.4zm-14.3-2.2c-1.9-.4-3.2-1.9-2.8-3.2s2.4-1.9 4.1-1.5c2 .6 3.3 2.1 2.8 3.4-.4 1.3-2.4 1.9-4.1 1.3zm-12.5-7.3c-1.5-1.3-1.9-3.2-.9-4.1.9-1.1 2.8-.9 4.3.6 1.3 1.3 1.8 3.3.9 4.1-.9 1.1-2.8.9-4.3-.6zm-8.5-10c-1.1-1.5-1.1-3.2 0-3.9 1.1-.9 2.8-.2 3.7 1.3 1.1 1.5 1.1 3.3 0 4.1-.9.6-2.6 0-3.7-1.5zm-6.3-8.8c-1.1-1.3-1.3-2.8-.4-3.5.9-.9 2.4-.4 3.5.6 1.1 1.3 1.3 2.8.4 3.5-.9.9-2.4.4-3.5-.6zm-6-6.4c-1.3-.6-1.9-1.7-1.5-2.6.4-.6 1.5-.9 2.8-.4 1.3.7 1.9 1.8 1.5 2.6-.4.9-1.7 1.1-2.8.4z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/CasperWA" target="_blank" rel="noopener" title="Casper Welzel Andersen on GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7c377c4.min.js"></script>
+      
+    
+  </body>
+</html>
