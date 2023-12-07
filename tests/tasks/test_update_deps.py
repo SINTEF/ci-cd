@@ -21,7 +21,7 @@ def test_update_deps(tmp_path: Path, caplog: pytest.LogCaptureFixture) -> None:
     original_dependencies = {
         "invoke": "1.7",
         "tomlkit": "0.11.4",
-        "mike": "1.1",
+        "mike": "1!1.1",
         "pytest": "7.1",
         "pytest-cov": "3.0",
         "pre-commit": "2.20",
@@ -42,17 +42,26 @@ dependencies = [
 
 [project.optional-dependencies]
 docs = [
-    "mike >={original_dependencies['mike']},<3",
+    "mike >={original_dependencies['mike']},<1!3",
 ]
 testing = [
     "pytest ~={original_dependencies['pytest']}",
     "pytest-cov ~={original_dependencies['pytest-cov']},!=3.1",
+    "test-pkg <=1!3,!=1!2.0.1",
 ]
 dev = [
-    "mike >={original_dependencies['mike']},<3",
+    "mike >={original_dependencies['mike']},<1!3",
     "pre-commit~={original_dependencies['pre-commit']}",
     # "pylint ~={original_dependencies['pylint']},!=2.14.*",
     "test[testing]",
+]
+
+# Test epochs
+epoch = [
+    "epoch>=2!1.2,<2!2",
+    "epoch1~=2023.1.1",
+    "epoch2~=1!1.0",
+    "epoch3~=1!1.0.1",
 ]
 
 # List from https://peps.python.org/pep-0508/#complete-grammar
@@ -84,9 +93,9 @@ pep_508 = [
     context = MockContext(
         run={
             **{
-                re.compile(r".*invoke$"): "invoke (1.7.1)\n",
+                re.compile(r".*invoke$"): "invoke (1.7.1.post1)\n",
                 re.compile(r".*tomlkit$"): "tomlkit (1.0.0)",
-                re.compile(r".*mike$"): "mike (1.1.1)",
+                re.compile(r".*mike$"): "mike (1!1.1.1)",
                 re.compile(r".*pytest$"): "pytest (7.1.0)",
                 re.compile(r".*pytest-cov$"): "pytest-cov (3.1.5)",
                 re.compile(r".*pre-commit$"): "pre-commit (2.21.5)",
@@ -95,6 +104,11 @@ pep_508 = [
                 re.compile(r".*A.B-C_D$"): "A.B-C_D (1.2.3)",
                 re.compile(r".*aa$"): "aa (1.2.3)",
                 re.compile(r".*name$"): "name (1.2.3)",
+                re.compile(r".*test-pkg$"): "test-pkg (1!2.3)",
+                re.compile(r".*epoch$"): "epoch (2!2.0.4.post1)",
+                re.compile(r".*epoch1$"): "epoch1 (1!1.0.0)",
+                re.compile(r".*epoch2$"): "epoch2 (1!2.1.0)",
+                re.compile(r".*epoch3$"): "epoch3 (1!1.1.0.post1)",
             },
             **{re.compile(rf".*name{i}$"): f"name{i} (3.2.1)" for i in range(1, 12)},
         }
@@ -124,17 +138,26 @@ dependencies = [
 
 [project.optional-dependencies]
 docs = [
-    "mike >={original_dependencies['mike']},<3",
+    "mike >={original_dependencies['mike']},<1!3",
 ]
 testing = [
     "pytest ~={original_dependencies['pytest']}",
     "pytest-cov ~=3.1,!=3.1",
+    "test-pkg <=1!3,!=1!2.0.1",
 ]
 dev = [
-    "mike >={original_dependencies['mike']},<3",
+    "mike >={original_dependencies['mike']},<1!3",
     "pre-commit~=2.21",
     # "pylint ~={original_dependencies['pylint']},!=2.14.*",
     "test[testing]",
+]
+
+# Test epochs
+epoch = [
+    "epoch>=2!1.2,<2!3",
+    "epoch1~=2023.1.1,==1!1.0.0",
+    "epoch2>=1!1.0.0,<1!3",
+    "epoch3~=1!1.1.0",
 ]
 
 # List from https://peps.python.org/pep-0508/#complete-grammar

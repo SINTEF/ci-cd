@@ -15,6 +15,7 @@ import tomlkit
 from invoke import task
 from packaging.markers import default_environment
 from packaging.requirements import InvalidRequirement, Requirement
+from packaging.version import InvalidVersion, Version
 from tomlkit.exceptions import TOMLKitError
 
 from ci_cd.exceptions import InputError, UnableToResolve
@@ -42,6 +43,18 @@ if TYPE_CHECKING:  # pragma: no cover
 
 # Get logger
 LOGGER = logging.getLogger(__name__)
+
+
+VALID_PACKAGE_NAME_PATTERN = r"^([A-Z0-9]|[A-Z0-9][A-Z0-9._-]*[A-Z0-9])$"
+"""
+Pattern to validate package names.
+
+This is a valid non-normalized name, i.e., it can contain capital letters and
+underscores, periods, and multiples of these, including minus characters.
+
+See PEP 508 for more information, as well as the packaging documentation:
+https://packaging.python.org/en/latest/specifications/name-normalization/
+"""
 
 
 def _format_and_update_dependency(
@@ -269,8 +282,7 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
         )
         package_latest_version_line = out.stdout.split(sep="\n", maxsplit=1)[0]
         match = re.match(
-            r"(?P<package>[a-zA-Z0-9-_]+) \((?P<version>[0-9]+(?:\.[0-9]+){0,2})\)",
-            package_latest_version_line,
+            r"(?P<package>\S+) \((?P<version>\S+)\)", package_latest_version_line
         )
         if match is None:
             msg = (
@@ -285,7 +297,21 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
             error = True
             continue
 
-        latest_version: str = match.group("version")
+        try:
+            latest_version = Version(match.group("version"))
+        except InvalidVersion as exc:
+            msg = (
+                f"Could not parse version {match.group('version')!r} from 'pip index "
+                f"versions' output for line:\n  {package_latest_version_line}.\n"
+                f"Exception: {exc}"
+            )
+            LOGGER.error(msg)
+            if fail_fast:
+                sys.exit(f"{Emoji.CROSS_MARK.value} {error_msg(msg)}")
+            print(error_msg(msg), file=sys.stderr, flush=True)
+            error = True
+            continue
+        LOGGER.debug("Retrieved latest version: %r", latest_version)
 
         # Here used to be a sanity check to ensure that the package name parsed from
         # pyproject.toml matches the name returned from 'pip index versions'.
@@ -299,7 +325,7 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
         # Check whether pyproject.toml already uses the latest version
         # This is expected if the latest version equals a specifier with any of the
         # operators: ==, >=, or ~=.
-        split_latest_version = latest_version.split(".")
+        split_latest_version = latest_version.base_version.split(".")
         _continue = False
         for specifier in parsed_requirement.specifier:
             if specifier.operator in ["==", ">=", "~="]:
@@ -365,7 +391,10 @@ def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-s
                     current_version = specifier.version.split(".")
                     break
             else:
-                current_version = "0.0.0".split(".")
+                if latest_version.epoch == 0:
+                    current_version = "0.0.0".split(".")
+                else:
+                    current_version = f"{latest_version.epoch}!0.0.0".split(".")
 
             if ignore_version(
                 current=current_version,

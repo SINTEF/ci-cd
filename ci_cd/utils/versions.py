@@ -9,6 +9,7 @@ from typing import TYPE_CHECKING, no_type_check
 
 from packaging.markers import Marker, default_environment
 from packaging.specifiers import InvalidSpecifier, Specifier, SpecifierSet
+from packaging.version import InvalidVersion, Version
 
 from ci_cd.exceptions import InputError, InputParserError, UnableToResolve
 
@@ -73,24 +74,27 @@ class SemanticVersion(str):
 
     """
 
-    _REGEX = (
+    _semver_regex = (
         r"^(?P<major>0|[1-9]\d*)(?:\.(?P<minor>0|[1-9]\d*))?(?:\.(?P<patch>0|[1-9]\d*))?"
         r"(?:-(?P<pre_release>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)"
         r"(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?"
         r"(?:\+(?P<build>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$"
     )
+    """The regular expression for a semantic version.
+    See
+    https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string."""
 
     @no_type_check
     def __new__(
-        cls, version: str | None = None, **kwargs: str | int
+        cls, version: str | Version | None = None, **kwargs: str | int
     ) -> SemanticVersion:
         return super().__new__(
-            cls, version if version else cls._build_version(**kwargs)
+            cls, str(version) if version else cls._build_version(**kwargs)
         )
 
     def __init__(
         self,
-        version: str | None = None,
+        version: str | Version | None = None,
         *,
         major: str | int = "",
         minor: str | int | None = None,
@@ -98,18 +102,44 @@ class SemanticVersion(str):
         pre_release: str | None = None,
         build: str | None = None,
     ) -> None:
+        self._python_version: Version | None = None
+
         if version is not None:
             if major or minor or patch or pre_release or build:
                 raise ValueError(
                     "version cannot be specified along with other parameters"
                 )
 
-            match = re.match(self._REGEX, version)
+            if isinstance(version, Version):
+                self._python_version = version
+                version = ".".join(str(_) for _ in version.release)
+
+            match = re.match(self._semver_regex, version)
             if match is None:
-                raise ValueError(
-                    f"version ({version}) cannot be parsed as a semantic version "
-                    "according to the SemVer.org regular expression"
+                # Try to parse it as a Python version and try again
+                try:
+                    _python_version = Version(version)
+                except InvalidVersion as exc:
+                    raise ValueError(
+                        f"version ({version}) cannot be parsed as a semantic version "
+                        "according to the SemVer.org regular expression"
+                    ) from exc
+
+                # Success. Now let's redo the SemVer.org regular expression match
+                self._python_version = _python_version
+                match = re.match(
+                    self._semver_regex,
+                    ".".join(str(_) for _ in _python_version.release),
                 )
+                if match is None:  # pragma: no cover
+                    # This should not really be possible at this point, as the
+                    # Version.releasethis is a guaranteed match.
+                    # But we keep it here for sanity's sake.
+                    raise ValueError(
+                        f"version ({version}) cannot be parsed as a semantic version "
+                        "according to the SemVer.org regular expression"
+                    )
+
             major, minor, patch, pre_release, build = match.groups()
 
         self._major = int(major)
@@ -171,7 +201,7 @@ class SemanticVersion(str):
         return self._patch
 
     @property
-    def pre_release(self) -> None | str:
+    def pre_release(self) -> str | None:
         """The pre-release part of the version
 
         This is the part supplied after a minus (`-`), but before a plus (`+`).
@@ -179,15 +209,66 @@ class SemanticVersion(str):
         return self._pre_release
 
     @property
-    def build(self) -> None | str:
+    def build(self) -> str | None:
         """The build metadata part of the version.
 
         This is the part supplied at the end of the version, after a plus (`+`).
         """
         return self._build
 
+    @property
+    def python_version(self) -> Version | None:
+        """The Python version as defined by `packaging.version.Version`."""
+        return self._python_version
+
+    def as_python_version(self, shortened: bool = True) -> Version:
+        """Return the Python version as defined by `packaging.version.Version`."""
+        if not self.python_version:
+            return Version(
+                self.shortened()
+                if shortened
+                else ".".join(str(_) for _ in (self.major, self.minor, self.patch))
+            )
+
+        # The SemanticVersion was generated from a Version. Return the original
+        # epoch (and the rest, if the release equals the current version).
+
+        # epoch
+        redone_version = (
+            f"{self.python_version.epoch}!" if self.python_version.epoch != 0 else ""
+        )
+
+        # release
+        if shortened:
+            redone_version += self.shortened()
+        else:
+            redone_version += ".".join(
+                str(_) for _ in (self.major, self.minor, self.patch)
+            )
+
+        if (self.major, self.minor, self.patch)[
+            : len(self.python_version.release)
+        ] == self.python_version.release:
+            # The release is the same as the current version. Add the pre, post, dev,
+            # and local parts, if any.
+            if self.python_version.pre is not None:
+                redone_version += "".join(str(_) for _ in self.python_version.pre)
+
+            if self.python_version.post is not None:
+                redone_version += f".post{self.python_version.post}"
+
+            if self.python_version.dev is not None:
+                redone_version += f".dev{self.python_version.dev}"
+
+            if self.python_version.local is not None:
+                redone_version += f"+{self.python_version.local}"
+
+        return Version(redone_version)
+
     def __str__(self) -> str:
         """Return the full version."""
+        if self.python_version:
+            return str(self.as_python_version(shortened=False))
         return (
             f"{self.major}.{self.minor}.{self.patch}"
             f"{f'-{self.pre_release}' if self.pre_release else ''}"
@@ -196,7 +277,7 @@ class SemanticVersion(str):
 
     def __repr__(self) -> str:
         """Return the string representation of the object."""
-        return repr(self.__str__())
+        return f"{self.__class__.__name__}({self.__str__()!r})"
 
     def _validate_other_type(self, other: Any) -> SemanticVersion:
         """Initial check/validation of `other` before rich comparisons."""
@@ -208,7 +289,7 @@ class SemanticVersion(str):
         if isinstance(other, self.__class__):
             return other
 
-        if isinstance(other, str):
+        if isinstance(other, (Version, str)):
             try:
                 return self.__class__(other)
             except (TypeError, ValueError) as exc:
@@ -292,7 +373,7 @@ class SemanticVersion(str):
         return self.__class__(next_version)
 
     def previous_version(
-        self, version_part: str, max_filler: str | int | None = 99
+        self, version_part: str, max_filler: str | int | None = None
     ) -> SemanticVersion:
         """Return the previous version for the specified version part.
 
@@ -324,22 +405,15 @@ class SemanticVersion(str):
         if version_part == "major":
             prev_version = f"{self.major - 1}.{max_filler}.{max_filler}"
 
-        elif version_part == "minor":
+        elif version_part == "minor" or self.patch == 0:
             prev_version = (
-                f"{self.major -1 }.{max_filler}.{max_filler}"
+                f"{self.major - 1}.{max_filler}.{max_filler}"
                 if self.minor == 0
                 else f"{self.major}.{self.minor - 1}.{max_filler}"
             )
 
         else:
-            if self.patch == 0:
-                prev_version = (
-                    f"{self.major - 1}.{max_filler}.{max_filler}"
-                    if self.minor == 0
-                    else f"{self.major}.{self.minor - 1}.{max_filler}"
-                )
-            else:
-                prev_version = f"{self.major}.{self.minor}.{self.patch - 1}"
+            prev_version = f"{self.major}.{self.minor}.{self.patch - 1}"
 
         return self.__class__(prev_version)
 
@@ -447,8 +521,7 @@ def parse_ignore_rules(
     if "versions" in rules:
         for versions_entry in rules["versions"]:
             match = re.match(
-                r"^(?P<operator>>|<|<=|>=|==|!=|~=)\s*"
-                r"(?P<version>[0-9]+(?:\.[0-9]+){0,2})$",
+                r"^(?P<operator>>|<|<=|>=|==|!=|~=)\s*(?P<version>\S+)$",
                 versions_entry,
             )
             if match is None:
@@ -599,28 +672,25 @@ def _ignore_semver_rules(
             f"'patch' (you gave {semver_rules['version-update']!r})."
         )
 
-    if "major" in semver_rules["version-update"]:
-        if latest[0] != current[0]:
-            return True
-
-    elif "minor" in semver_rules["version-update"]:
-        if (
-            len(latest) >= 2
+    if (  # pylint: disable=too-many-boolean-expressions
+        ("major" in semver_rules["version-update"] and latest[0] != current[0])
+        or (
+            "minor" in semver_rules["version-update"]
+            and len(latest) >= 2
             and len(current) >= 2
             and latest[1] > current[1]
             and latest[0] == current[0]
-        ):
-            return True
-
-    elif "patch" in semver_rules["version-update"]:
-        if (
-            len(latest) >= 3
+        )
+        or (
+            "patch" in semver_rules["version-update"]
+            and len(latest) >= 3
             and len(current) >= 3
             and latest[2] > current[2]
             and latest[0] == current[0]
             and latest[1] == current[1]
-        ):
-            return True
+        )
+    ):
+        return True
 
     return False
 
@@ -723,16 +793,22 @@ def regenerate_requirement(
     return updated_dependency
 
 
-def update_specifier_set(  # pylint: disable=too-many-statements
-    latest_version: SemanticVersion | str, current_specifier_set: SpecifierSet
+def update_specifier_set(  # pylint: disable=too-many-statements,too-many-branches
+    latest_version: SemanticVersion | Version | str, current_specifier_set: SpecifierSet
 ) -> SpecifierSet:
     """Update the specifier set to include the latest version."""
     logger = logging.getLogger(__name__)
 
     latest_version = SemanticVersion(latest_version)
+
     new_specifier_set = set(current_specifier_set)
     updated_specifiers = []
-    split_latest_version = latest_version.split(".")
+    split_latest_version = (
+        latest_version.as_python_version(shortened=False).base_version.split(".")
+        if latest_version.python_version
+        else latest_version.split(".")
+    )
+    current_version_epochs = {Version(_.version).epoch for _ in current_specifier_set}
 
     logger.debug(
         "Received latest version: %s and current specifier set: %s",
@@ -758,8 +834,31 @@ def update_specifier_set(  # pylint: disable=too-many-statements
             # does not need updating. To communicate this, make updated_specifiers
             # non-empty, but include only an empty string.
             updated_specifiers.append("")
+
+    elif (
+        latest_version.python_version
+        and latest_version.as_python_version().epoch not in current_version_epochs
+    ):
+        # The latest version is *not* included in the specifier set.
+        # And the latest version is NOT in the same epoch as the current version range.
+
+        # Sanity check that the latest version's epoch is larger than the largest
+        # epoch in the specifier set.
+        if current_version_epochs and latest_version.as_python_version().epoch < max(
+            current_version_epochs
+        ):
+            raise UnableToResolve(
+                "The latest version's epoch is smaller than the largest epoch in "
+                "the specifier set."
+            )
+
+        # Simply add the latest version as a specifier.
+        updated_specifiers.append(f"=={latest_version}")
+
     else:
         # The latest version is *not* included in the specifier set.
+        # But we're in the right epoch.
+
         # Expect the latest version to be greater than the current version range.
         for specifier in current_specifier_set:
             # Simply expand the range if the version range is capped through a specifier
@@ -769,6 +868,7 @@ def update_specifier_set(  # pylint: disable=too-many-statements
                 updated_version = ".".join(
                     split_latest_version[: len(split_specifier_version)]
                 )
+
                 updated_specifiers.append(f"{specifier.operator}{updated_version}")
                 new_specifier_set.remove(specifier)
                 break
@@ -778,16 +878,25 @@ def update_specifier_set(  # pylint: disable=too-many-statements
                 # version up from the latest version
                 split_specifier_version = specifier.version.split(".")
 
+                updated_version = ""
+
+                # Add epoch if present
+                if (
+                    latest_version.python_version
+                    and latest_version.as_python_version().epoch != 0
+                ):
+                    updated_version += f"{latest_version.as_python_version().epoch}!"
+
                 # Up only the last version segment of the latest version according to
                 # what version segments are defined in the specifier version.
                 if len(split_specifier_version) == 1:
-                    updated_version = str(latest_version.next_version("major").major)
+                    updated_version += str(latest_version.next_version("major").major)
                 elif len(split_specifier_version) == 2:
-                    updated_version = ".".join(
+                    updated_version += ".".join(
                         latest_version.next_version("minor").split(".")[:2]
                     )
                 elif len(split_specifier_version) == 3:
-                    updated_version = latest_version.next_version("patch")
+                    updated_version += latest_version.next_version("patch")
                 else:
                     raise UnableToResolve(
                         "Invalid/unable to handle number of version parts: "
@@ -804,6 +913,14 @@ def update_specifier_set(  # pylint: disable=too-many-statements
                 # the minimum version
                 current_version = SemanticVersion(specifier.version)
 
+                # Add epoch if present
+                epoch = ""
+                if (
+                    latest_version.python_version
+                    and latest_version.as_python_version().epoch != 0
+                ):
+                    epoch += f"{latest_version.as_python_version().epoch}!"
+
                 if latest_version.major > current_version.major:
                     # Expand and change ~= to >= and < operators
 
@@ -812,12 +929,14 @@ def update_specifier_set(  # pylint: disable=too-many-statements
 
                     # < next major version up from latest_version
                     updated_specifiers.append(
-                        f"<{str(latest_version.next_version('major').major)}"
+                        f"<{epoch}{latest_version.next_version('major').major}"
                     )
                 else:
                     # Keep the ~= operator, but update to include the latest version as
                     # the minimum version
                     split_specifier_version = specifier.version.split(".")
+                    print(f"splitted version: {split_specifier_version}")
+                    print(f"splitted latest version: {split_latest_version}")
                     updated_version = ".".join(
                         split_latest_version[: len(split_specifier_version)]
                     )
