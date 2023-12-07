@@ -26,6 +26,11 @@ on:
         default: false
 
       # Update permanent dependencies branch
+      update_dependencies_branch:
+        description: "Whether or not to update the permanent dependencies branch."
+        required: false
+        type: boolean
+        default: true
       permanent_dependencies_branch:
         description: "The branch name for the permanent dependency updates branch."
         required: false
@@ -354,7 +359,7 @@ jobs:
       with:
         token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
         branch: ${{ inputs.default_repo_branch }}
-        sleep: 15
+        pre_sleep: 15
         force: true
         tags: true
         unprotect_reviews: true
@@ -438,7 +443,7 @@ jobs:
     name: Update permanent dependencies branch
     runs-on: ubuntu-latest
     needs: deploy_docs
-    if: always()
+    if: always() && inputs.update_dependencies_branch
 
     steps:
     - name: Checkout ${{ github.repository }}
@@ -496,5 +501,5 @@ jobs:
       with:
         token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
         branch: ${{ inputs.permanent_dependencies_branch }}
-        sleep: 15
+        pre_sleep: 15
         force: ${{ env.FORCE_PUSH }}

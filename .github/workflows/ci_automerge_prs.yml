@@ -67,7 +67,7 @@ jobs:
       with:
         token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
         branch: ${{ github.event.pull_request.head.ref }}
-        sleep: 15
+        pre_sleep: 15
         unprotect_reviews: true
 
     - name: Activate auto-merge

@@ -477,7 +477,7 @@ jobs:
 
         else
           STRICT=
-          echo "::warning file=ci_tests.yml,line=446,col=11,endColumn=18::Beware that the documentation may succeed building, but will not be rendered or built as intended. To ensure this is the case, set 'warnings_as_errors' to 'true' (using '--strict' (MkDocs) or '-W' (Sphinx))."
+          echo "::warning file=ci_tests.yml,line=467,col=11,endColumn=18::Beware that the documentation may succeed building, but will not be rendered or built as intended. To ensure this is the case, set 'warnings_as_errors' to 'true' (using '--strict' (MkDocs) or '-W' (Sphinx))."
         fi
 
         # Run build command

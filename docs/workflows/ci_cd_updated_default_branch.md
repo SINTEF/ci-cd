@@ -46,6 +46,7 @@ Inputs related to updating the permanent dependencies branch.
 
 | **Name** | **Description** | **Required** | **Default** | **Type** |
 |:--- |:--- |:---:|:---:|:---:|
+| `update_dependencies_branch` | Whether or not to update the permanent dependencies branch. | No | `true` | _boolean_ |
 | `permanent_dependencies_branch` | The branch name for the permanent dependency updates branch. | No | ci/dependency-updates | _string_ |
 | `update_dependencies_pr_body_file` | Relative path to a PR body file from the root of the repository, which is used in the 'CI - Update dependencies PR' workflow, if used.</br></br>Example: `'.github/utils/pr_body_update_deps.txt'`. | No | _Empty string_ | _string_ |
 
