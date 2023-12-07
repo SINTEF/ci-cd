@@ -1171,7 +1171,7 @@ See the <a href="../../hooks/docs_api_reference/#using-it-together-with-cicd-wor
 <h2 id="updating-instances-of-version-in-repository-files">Updating instances of version in repository files<a class="headerlink" href="#updating-instances-of-version-in-repository-files" title="Permanent link">&para;</a></h2>
 <p>The content of repository files can be updated to use the new version where necessary.
 This is done through the <code>version_update_changes</code> (and <code>version_update_changes_separator</code>) inputs.</p>
-<p>To see an example of how to use the <code>version_update_changes</code> (and <code>version_update_changes_separator</code>) see for example the <a href="https://github.com/SINTEF/ci-cd/blob/v2.6.0/.github/workflows/_local_cd_release.yml">workflow used by the SINTEF/ci-cd repository</a> calling the <em>CD Release</em> workflow.</p>
+<p>To see an example of how to use the <code>version_update_changes</code> (and <code>version_update_changes_separator</code>) see for example the <a href="https://github.com/SINTEF/ci-cd/blob/v2.7.0/.github/workflows/_local_cd_release.yml">workflow used by the SINTEF/ci-cd repository</a> calling the <em>CD Release</em> workflow.</p>
 <p>Some notes to consider and respect when using <code>version_update_changes</code> are:</p>
 <ul>
 <li>The value of <code>version_update_changes_separator</code> applies to <em>all</em> lines given in <code>version_update_changes</code>, meaning it should be a character, or series of characters, which will not be part of the actual content.</li>
@@ -1491,7 +1491,7 @@ It is meant to be complete as is.</p>
 <span class="nt">jobs</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">publish</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Publish package and documentation</span>
-<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SINTEF/ci-cd/.github/workflows/cd_release.yml@v2.6.0</span>
+<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SINTEF/ci-cd/.github/workflows/cd_release.yml@v2.7.0</span>
 <span class="w">    </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.repository == &#39;SINTEF/my-python-package&#39; &amp;&amp; startsWith(github.ref, &#39;refs/tags/v&#39;)</span>
 <span class="w">    </span><span class="nt">with</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">git_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Casper</span><span class="nv"> </span><span class="s">Welzel</span><span class="nv"> </span><span class="s">Andersen&quot;</span>
