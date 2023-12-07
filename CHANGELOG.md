@@ -1,5 +1,37 @@
 # Changelog
 
+## [v2.7.1](https://github.com/SINTEF/ci-cd/tree/v2.7.1) (2023-12-07)
+
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.7.0...v2.7.1)
+
+## [v2.7.0](https://github.com/SINTEF/ci-cd/tree/v2.7.0) (2023-12-07)
+
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.6.0...v2.7.0)
+
+**Implemented enhancements:**
+
+- Toggle allowing invalid package name chars [\#208](https://github.com/SINTEF/ci-cd/issues/208)
+- Support all newer Python versions [\#207](https://github.com/SINTEF/ci-cd/issues/207)
+- Support not using a permanent dependencies branch [\#183](https://github.com/SINTEF/ci-cd/issues/183)
+
+**Fixed bugs:**
+
+- Support epoch and post version segments [\#221](https://github.com/SINTEF/ci-cd/issues/221)
+- Utilize `packaging.version.Version` [\#220](https://github.com/SINTEF/ci-cd/pull/220) ([CasperWA](https://github.com/CasperWA))
+
+**Closed issues:**
+
+- Update to non-deprecated inputs in Actions [\#216](https://github.com/SINTEF/ci-cd/issues/216)
+
+**Merged pull requests:**
+
+- \[Auto-generated\] Update dependencies [\#228](https://github.com/SINTEF/ci-cd/pull/228) ([TEAM4-0](https://github.com/TEAM4-0))
+- Toggle for skipping dependency if it cannot be parsed [\#224](https://github.com/SINTEF/ci-cd/pull/224) ([CasperWA](https://github.com/CasperWA))
+- \[Auto-generated\] Update dependencies [\#223](https://github.com/SINTEF/ci-cd/pull/223) ([TEAM4-0](https://github.com/TEAM4-0))
+- Use non-deprecated actions inputs [\#219](https://github.com/SINTEF/ci-cd/pull/219) ([CasperWA](https://github.com/CasperWA))
+- Support Python 3.11, 3.12 and 3.13 [\#205](https://github.com/SINTEF/ci-cd/pull/205) ([CasperWA](https://github.com/CasperWA))
+- Make using dependencies branch toggleable [\#184](https://github.com/SINTEF/ci-cd/pull/184) ([CasperWA](https://github.com/CasperWA))
+
 ## [v2.6.0](https://github.com/SINTEF/ci-cd/tree/v2.6.0) (2023-11-17)
 
 [Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.5.3...v2.6.0)
