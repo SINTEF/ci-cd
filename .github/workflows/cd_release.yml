@@ -172,7 +172,7 @@ jobs:
         fetch-depth: 0
 
     - name: Set up Python ${{ inputs.python_version_build }}
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: "${{ inputs.python_version_build }}"
         allow-prereleases: true
@@ -347,7 +347,7 @@ jobs:
         ref: ${{ inputs.release_branch }}
 
     - name: Set up Python ${{ inputs.python_version_docs }}
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: "${{ inputs.python_version_docs }}"
         allow-prereleases: true
