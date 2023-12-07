@@ -3910,8 +3910,6 @@ including extras), but before the specifier.</p></td>
                     <span class="c1"># Keep the ~= operator, but update to include the latest version as</span>
                     <span class="c1"># the minimum version</span>
                     <span class="n">split_specifier_version</span> <span class="o">=</span> <span class="n">specifier</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;splitted version: </span><span class="si">{</span><span class="n">split_specifier_version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;splitted latest version: </span><span class="si">{</span><span class="n">split_latest_version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                     <span class="n">updated_version</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
                         <span class="n">split_latest_version</span><span class="p">[:</span> <span class="nb">len</span><span class="p">(</span><span class="n">split_specifier_version</span><span class="p">)]</span>
                     <span class="p">)</span>
