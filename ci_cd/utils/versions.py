@@ -935,8 +935,6 @@ def update_specifier_set(  # pylint: disable=too-many-statements,too-many-branch
                     # Keep the ~= operator, but update to include the latest version as
                     # the minimum version
                     split_specifier_version = specifier.version.split(".")
-                    print(f"splitted version: {split_specifier_version}")
-                    print(f"splitted latest version: {split_latest_version}")
                     updated_version = ".".join(
                         split_latest_version[: len(split_specifier_version)]
                     )
