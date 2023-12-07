@@ -911,13 +911,13 @@ def update_specifier_set(
                 # Up only the last version segment of the latest version according to
                 # what version segments are defined in the specifier version.
                 if len(split_specifier_version) == PART_TO_LENGTH_MAPPING["major"]:
-                    updated_version = str(latest_version.next_version("major").major)
+                    updated_version += str(latest_version.next_version("major").major)
                 elif len(split_specifier_version) == PART_TO_LENGTH_MAPPING["minor"]:
-                    updated_version = ".".join(
+                    updated_version += ".".join(
                         latest_version.next_version("minor").split(".")[:2]
                     )
                 elif len(split_specifier_version) == PART_TO_LENGTH_MAPPING["patch"]:
-                    updated_version = latest_version.next_version("patch")
+                    updated_version += latest_version.next_version("patch")
                 else:
                     raise UnableToResolve(
                         "Invalid/unable to handle number of version parts: "
@@ -1130,7 +1130,12 @@ def get_min_max_py_version(
         # See the _semi_valid_python_version() function for these values
         largest_value_for_a_patch_part = 18
         largest_value_for_a_minor_part = 12
-        largest_value_for_any_part = largest_value_for_a_patch_part
+        largest_value_for_a_major_part = 3
+        largest_value_for_any_part = max(
+            largest_value_for_a_patch_part,
+            largest_value_for_a_minor_part,
+            largest_value_for_a_major_part,
+        )
 
         while (
             not _semi_valid_python_version(parsed_py_version)
