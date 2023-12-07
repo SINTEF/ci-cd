@@ -20,7 +20,7 @@ def test_update_deps(tmp_path: Path, caplog: pytest.LogCaptureFixture) -> None:
     original_dependencies = {
         "invoke": "1.7",
         "tomlkit": "0.11.4",
-        "mike": "1.1",
+        "mike": "1!1.1",
         "pytest": "7.1",
         "pytest-cov": "3.0",
         "pre-commit": "2.20",
@@ -41,17 +41,26 @@ dependencies = [
 
 [project.optional-dependencies]
 docs = [
-    "mike >={original_dependencies['mike']},<3",
+    "mike >={original_dependencies['mike']},<1!3",
 ]
 testing = [
     "pytest ~={original_dependencies['pytest']}",
     "pytest-cov ~={original_dependencies['pytest-cov']},!=3.1",
+    "test-pkg <=1!3,!=1!2.0.1",
 ]
 dev = [
-    "mike >={original_dependencies['mike']},<3",
+    "mike >={original_dependencies['mike']},<1!3",
     "pre-commit~={original_dependencies['pre-commit']}",
     # "pylint ~={original_dependencies['pylint']},!=2.14.*",
     "test[testing]",
+]
+
+# Test epochs
+epoch = [
+    "epoch>=2!1.2,<2!2",
+    "epoch1~=2023.1.1",
+    "epoch2~=1!1.0",
+    "epoch3~=1!1.0.1",
 ]
 
 # List from https://peps.python.org/pep-0508/#complete-grammar
@@ -82,9 +91,9 @@ pep_508 = [
 
     context = MockContext(
         run={
-            re.compile(r".*invoke$"): "invoke (1.7.1)\n",
+            re.compile(r".*invoke$"): "invoke (1.7.1.post1)\n",
             re.compile(r".*tomlkit$"): "tomlkit (1.0.0)",
-            re.compile(r".*mike$"): "mike (1.1.1)",
+            re.compile(r".*mike$"): "mike (1!1.1.1)",
             re.compile(r".*pytest$"): "pytest (7.1.0)",
             re.compile(r".*pytest-cov$"): "pytest-cov (3.1.5)",
             re.compile(r".*pre-commit$"): "pre-commit (2.21.5)",
@@ -93,6 +102,11 @@ pep_508 = [
             re.compile(r".*A.B-C_D$"): "A.B-C_D (1.2.3)",
             re.compile(r".*aa$"): "aa (1.2.3)",
             re.compile(r".*name$"): "name (1.2.3)",
+            re.compile(r".*test-pkg$"): "test-pkg (1!2.3)",
+            re.compile(r".*epoch$"): "epoch (2!2.0.4.post1)",
+            re.compile(r".*epoch1$"): "epoch1 (1!1.0.0)",
+            re.compile(r".*epoch2$"): "epoch2 (1!2.1.0)",
+            re.compile(r".*epoch3$"): "epoch3 (1!1.1.0.post1)",
             **{re.compile(rf".*name{i}$"): f"name{i} (3.2.1)" for i in range(1, 12)},
         }
     )
@@ -121,17 +135,26 @@ dependencies = [
 
 [project.optional-dependencies]
 docs = [
-    "mike >={original_dependencies['mike']},<3",
+    "mike >={original_dependencies['mike']},<1!3",
 ]
 testing = [
     "pytest ~={original_dependencies['pytest']}",
     "pytest-cov ~=3.1,!=3.1",
+    "test-pkg <=1!3,!=1!2.0.1",
 ]
 dev = [
-    "mike >={original_dependencies['mike']},<3",
+    "mike >={original_dependencies['mike']},<1!3",
     "pre-commit~=2.21",
     # "pylint ~={original_dependencies['pylint']},!=2.14.*",
     "test[testing]",
+]
+
+# Test epochs
+epoch = [
+    "epoch>=2!1.2,<2!3",
+    "epoch1~=2023.1.1,==1!1.0.0",
+    "epoch2>=1!1.0.0,<1!3",
+    "epoch3~=1!1.1.0",
 ]
 
 # List from https://peps.python.org/pep-0508/#complete-grammar
@@ -767,7 +790,7 @@ dev = [{repr(optional_dependency) if optional_dependency else ""}]
             ), captured_stderr
 
 
-@pytest.mark.parametrize("fail_fast", [True, False], ids=["fail_fast", "no fail_fast"])
+@pytest.mark.parametrize("fail_fast", [True, False])
 def test_non_parseable_pip_index_versions(
     tmp_path: Path,
     fail_fast: bool,
@@ -870,9 +893,7 @@ dependencies = [
     assert pyproject_file.read_text(encoding="utf8") == pyproject_file_data
 
 
-@pytest.mark.parametrize(
-    "pre_commit", [True, False], ids=["pre-commit", "no pre-commit"]
-)
+@pytest.mark.parametrize("pre_commit", [True, False])
 def test_pre_commit(tmp_path: Path, pre_commit: bool) -> None:
     """Check pre-commit toggle."""
     import re
@@ -955,7 +976,7 @@ dependencies = ["pytest ~=7.4"]
         )
 
 
-@pytest.mark.parametrize("fail_fast", [True, False], ids=["fail_fast", "no fail_fast"])
+@pytest.mark.parametrize("fail_fast", [True, False])
 def test_unresolvable_specifier_set(
     tmp_path: Path,
     fail_fast: bool,
@@ -1016,9 +1037,153 @@ dependencies = ["pytest===7.0"]
 
     assert pyproject_file.read_text(encoding="utf8") == pyproject_file_data
 
-    assert re.search(log_msg, caplog.text) is not None, log_msg
+    assert (
+        re.search(log_msg, caplog.text) is not None
+    ), f"{log_msg!r} not found in {caplog.text}"
 
     if fail_fast:
         assert terminal_msg.search(capsys.readouterr().err) is None, terminal_msg
     else:
         assert terminal_msg.search(capsys.readouterr().err) is not None, terminal_msg
+
+
+@pytest.mark.parametrize("skip_unnormalized_python_package_names", [True, False])
+@pytest.mark.parametrize("fail_fast", [True, False])
+def test_skip_unnormalized_python_package_names(
+    tmp_path: Path,
+    skip_unnormalized_python_package_names: bool,
+    fail_fast: bool,
+    caplog: pytest.LogCaptureFixture,
+    capsys: pytest.CaptureFixture,
+) -> None:
+    """Ensure unnormalized Python package names are skipped."""
+    import re
+
+    from invoke import MockContext
+
+    from ci_cd.tasks.update_deps import update_deps
+    from ci_cd.utils.console_printing import Emoji, error_msg, info_msg
+
+    pyproject_file_data = """[project]
+name = "{{ cookiecutter.project_slug }}"
+requires-python = ">=3.8"
+
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest~=7.1"]
+all = ["{{ cookiecutter.project_slug }}[dev]"]
+"""
+    pyproject_file = tmp_path / "pyproject.toml"
+    pyproject_file.write_text(data=pyproject_file_data, encoding="utf8")
+
+    context = MockContext(
+        run={
+            re.compile(r".*pytest$"): "pytest (7.4.3)",
+        }
+    )
+
+    exception_message = (
+        "Expected package name at the start of dependency "
+        "specifier\n    {{ cookiecutter.project_slug }}[dev]\n    ^"
+    )
+
+    core_error_msg = (
+        "Could not parse requirement '{{ cookiecutter.project_slug }}[dev]' from "
+        f"pyproject.toml: {exception_message}"
+    )
+    core_info_msg = (
+        "Skipping requirement '{{ cookiecutter.project_slug }}[dev]', as unnormalized "
+        "Python package naming is allowed by user. Note, the requirements could "
+        f"not be parsed: {exception_message}"
+    )
+
+    terminal_error_msg = re.compile(re.escape(error_msg(core_error_msg)))
+    terminal_info_msg = re.compile(re.escape(info_msg(core_info_msg)))
+
+    if fail_fast:
+        # We test failing fast
+        # The error message will be part of the exception, and will not be in stdout or
+        # stderr. It SHOULD however be present in the logs.
+        raise_msg = (
+            f"^{re.escape(Emoji.CROSS_MARK.value)} "
+            f"{re.escape(error_msg(core_error_msg))}$"
+        )
+    else:
+        raise_msg = (
+            rf"^{re.escape(Emoji.CROSS_MARK.value)} Errors occurred! See printed "
+            r"statements above\.$"
+        )
+
+    if skip_unnormalized_python_package_names:
+        update_deps(
+            context,
+            root_repo_path=str(tmp_path),
+            skip_unnormalized_python_package_names=skip_unnormalized_python_package_names,
+            fail_fast=fail_fast,
+        )
+
+        stdouterr = capsys.readouterr()
+
+        assert (
+            re.search(re.escape(core_info_msg), caplog.text) is not None
+        ), f"{core_info_msg!r} not found in {caplog.text}"
+        assert (
+            terminal_info_msg.search(stdouterr.out) is not None
+        ), f"{terminal_info_msg!r} not found in {stdouterr.out}"
+
+        assert (
+            re.search(re.escape(core_error_msg), caplog.text) is None
+        ), f"{core_error_msg!r} unexpectedly found in {caplog.text}"
+        assert (
+            terminal_error_msg.search(stdouterr.err) is None
+        ), f"{terminal_error_msg!r} unexpectedly found in {stdouterr.err}"
+
+    else:
+        with pytest.raises(SystemExit, match=raise_msg):
+            update_deps(
+                context,
+                root_repo_path=str(tmp_path),
+                skip_unnormalized_python_package_names=(
+                    skip_unnormalized_python_package_names
+                ),
+                fail_fast=fail_fast,
+            )
+
+        stdouterr = capsys.readouterr()
+
+        assert (
+            re.search(re.escape(core_error_msg), caplog.text) is not None
+        ), f"{core_error_msg!r} not found in {caplog.text}"
+
+        assert (
+            re.search(re.escape(core_info_msg), caplog.text) is None
+        ), f"{core_info_msg!r} unexpectedly found in {caplog.text}"
+        assert (
+            terminal_info_msg.search(stdouterr.out) is None
+        ), f"{terminal_info_msg!r} unexpectedly found in {stdouterr.out}"
+
+        if fail_fast:
+            assert (
+                terminal_error_msg.search(stdouterr.err) is None
+            ), f"{terminal_error_msg!r} unexpectedly found in {stdouterr.err}"
+        else:
+            assert (
+                terminal_error_msg.search(stdouterr.err) is not None
+            ), f"{terminal_error_msg!r} not found in {stdouterr.err}"
+
+    # In both cases, the pyproject.toml file should be updated for pytest.
+    # When/if a more atomistic approach is taken, then this should *NOT* be the case
+    # for runs where an error occurs.
+    expected_pyproject_file_data = """[project]
+name = "{{ cookiecutter.project_slug }}"
+requires-python = ">=3.8"
+
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest~=7.4"]
+all = ["{{ cookiecutter.project_slug }}[dev]"]
+"""
+
+    assert pyproject_file.read_text(encoding="utf8") == expected_pyproject_file_data

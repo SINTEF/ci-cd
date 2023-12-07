@@ -80,7 +80,7 @@ check_untyped_defs = true
 
 [tool.pytest.ini_options]
 minversion = "7.4"
-addopts = ["--cov=ci_cd", "--cov-report=term-missing"]
+addopts = ["-rs", "--cov=ci_cd", "--cov-report=term-missing:skip-covered"]
 filterwarnings = ["error"]
 
 [tool.ruff.lint]
