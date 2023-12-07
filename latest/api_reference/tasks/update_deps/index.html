@@ -891,6 +891,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ci_cd.tasks.update_deps.VALID_PACKAGE_NAME_PATTERN" class="md-nav__link">
+    <span class="md-ellipsis">
+      VALID_PACKAGE_NAME_PATTERN
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ci_cd.tasks.update_deps.update_deps" class="md-nav__link">
     <span class="md-ellipsis">
       update_deps()
@@ -1075,6 +1084,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ci_cd.tasks.update_deps.VALID_PACKAGE_NAME_PATTERN" class="md-nav__link">
+    <span class="md-ellipsis">
+      VALID_PACKAGE_NAME_PATTERN
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ci_cd.tasks.update_deps.update_deps" class="md-nav__link">
     <span class="md-ellipsis">
       update_deps()
@@ -1116,6 +1134,29 @@
 
 
 
+
+
+
+  <div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ci_cd.tasks.update_deps.VALID_PACKAGE_NAME_PATTERN" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">VALID_PACKAGE_NAME_PATTERN</span></code>
+
+
+<a href="#ci_cd.tasks.update_deps.VALID_PACKAGE_NAME_PATTERN" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Pattern to validate package names.</p>
+<p>This is a valid non-normalized name, i.e., it can contain capital letters and
+underscores, periods, and multiples of these, including minus characters.</p>
+<p>See PEP 508 for more information, as well as the packaging documentation:
+https://packaging.python.org/en/latest/specifications/name-normalization/</p>
+    </div>
+
+  </div>
 
 
 
@@ -1339,8 +1380,7 @@
         <span class="p">)</span>
         <span class="n">package_latest_version_line</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span>
-            <span class="sa">r</span><span class="s2">&quot;(?P&lt;package&gt;[a-zA-Z0-9-_]+) \((?P&lt;version&gt;[0-9]+(?:\.[0-9]+){0,2})\)&quot;</span><span class="p">,</span>
-            <span class="n">package_latest_version_line</span><span class="p">,</span>
+            <span class="sa">r</span><span class="s2">&quot;(?P&lt;package&gt;\S+) \((?P&lt;version&gt;\S+)\)&quot;</span><span class="p">,</span> <span class="n">package_latest_version_line</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">match</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
@@ -1355,7 +1395,21 @@
             <span class="n">error</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">continue</span>
 
-        <span class="n">latest_version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;version&quot;</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">latest_version</span> <span class="o">=</span> <span class="n">Version</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;version&quot;</span><span class="p">))</span>
+        <span class="k">except</span> <span class="n">InvalidVersion</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Could not parse version </span><span class="si">{</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s1">&#39;version&#39;</span><span class="p">)</span><span class="si">!r}</span><span class="s2"> from &#39;pip index &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;versions&#39; output for line:</span><span class="se">\n</span><span class="s2">  </span><span class="si">{</span><span class="n">package_latest_version_line</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Exception: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">fail_fast</span><span class="p">:</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CROSS_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">error_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">error_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">),</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">continue</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Retrieved latest version: </span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">latest_version</span><span class="p">)</span>
 
         <span class="c1"># Here used to be a sanity check to ensure that the package name parsed from</span>
         <span class="c1"># pyproject.toml matches the name returned from &#39;pip index versions&#39;.</span>
@@ -1369,7 +1423,7 @@
         <span class="c1"># Check whether pyproject.toml already uses the latest version</span>
         <span class="c1"># This is expected if the latest version equals a specifier with any of the</span>
         <span class="c1"># operators: ==, &gt;=, or ~=.</span>
-        <span class="n">split_latest_version</span> <span class="o">=</span> <span class="n">latest_version</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+        <span class="n">split_latest_version</span> <span class="o">=</span> <span class="n">latest_version</span><span class="o">.</span><span class="n">base_version</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
         <span class="n">_continue</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">for</span> <span class="n">specifier</span> <span class="ow">in</span> <span class="n">parsed_requirement</span><span class="o">.</span><span class="n">specifier</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">specifier</span><span class="o">.</span><span class="n">operator</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;==&quot;</span><span class="p">,</span> <span class="s2">&quot;&gt;=&quot;</span><span class="p">,</span> <span class="s2">&quot;~=&quot;</span><span class="p">]:</span>
@@ -1435,7 +1489,10 @@
                     <span class="n">current_version</span> <span class="o">=</span> <span class="n">specifier</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
                     <span class="k">break</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">current_version</span> <span class="o">=</span> <span class="s2">&quot;0.0.0&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">latest_version</span><span class="o">.</span><span class="n">epoch</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">current_version</span> <span class="o">=</span> <span class="s2">&quot;0.0.0&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">current_version</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">latest_version</span><span class="o">.</span><span class="n">epoch</span><span class="si">}</span><span class="s2">!0.0.0&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">ignore_version</span><span class="p">(</span>
                 <span class="n">current</span><span class="o">=</span><span class="n">current_version</span><span class="p">,</span>

@@ -1052,6 +1052,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#ci_cd.utils.versions.SemanticVersion.python_version" class="md-nav__link">
+    <span class="md-ellipsis">
+      python_version
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ci_cd.utils.versions.SemanticVersion.__eq__" class="md-nav__link">
     <span class="md-ellipsis">
       __eq__()
@@ -1127,6 +1136,15 @@
   <a href="#ci_cd.utils.versions.SemanticVersion.__str__" class="md-nav__link">
     <span class="md-ellipsis">
       __str__()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ci_cd.utils.versions.SemanticVersion.as_python_version" class="md-nav__link">
+    <span class="md-ellipsis">
+      as_python_version()
     </span>
   </a>
   
@@ -1359,6 +1377,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#ci_cd.utils.versions.SemanticVersion.python_version" class="md-nav__link">
+    <span class="md-ellipsis">
+      python_version
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ci_cd.utils.versions.SemanticVersion.__eq__" class="md-nav__link">
     <span class="md-ellipsis">
       __eq__()
@@ -1434,6 +1461,15 @@
   <a href="#ci_cd.utils.versions.SemanticVersion.__str__" class="md-nav__link">
     <span class="md-ellipsis">
       __str__()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ci_cd.utils.versions.SemanticVersion.as_python_version" class="md-nav__link">
+    <span class="md-ellipsis">
+      as_python_version()
     </span>
   </a>
   
@@ -1740,24 +1776,27 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">_REGEX</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">_semver_regex</span> <span class="o">=</span> <span class="p">(</span>
         <span class="sa">r</span><span class="s2">&quot;^(?P&lt;major&gt;0|[1-9]\d*)(?:\.(?P&lt;minor&gt;0|[1-9]\d*))?(?:\.(?P&lt;patch&gt;0|[1-9]\d*))?&quot;</span>
         <span class="sa">r</span><span class="s2">&quot;(?:-(?P&lt;pre_release&gt;(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)&quot;</span>
         <span class="sa">r</span><span class="s2">&quot;(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?&quot;</span>
         <span class="sa">r</span><span class="s2">&quot;(?:\+(?P&lt;build&gt;[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$&quot;</span>
     <span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The regular expression for a semantic version.</span>
+<span class="sd">    See</span>
+<span class="sd">    https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string.&quot;&quot;&quot;</span>
 
     <span class="nd">@no_type_check</span>
     <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
-        <span class="bp">cls</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Version</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SemanticVersion</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span>
-            <span class="bp">cls</span><span class="p">,</span> <span class="n">version</span> <span class="k">if</span> <span class="n">version</span> <span class="k">else</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_build_version</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="bp">cls</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">version</span><span class="p">)</span> <span class="k">if</span> <span class="n">version</span> <span class="k">else</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_build_version</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Version</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">major</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
         <span class="n">minor</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1765,18 +1804,44 @@ the end of the version, after a plus (<code>+</code>).</p></td>
         <span class="n">pre_release</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">build</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_python_version</span><span class="p">:</span> <span class="n">Version</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+
         <span class="k">if</span> <span class="n">version</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">major</span> <span class="ow">or</span> <span class="n">minor</span> <span class="ow">or</span> <span class="n">patch</span> <span class="ow">or</span> <span class="n">pre_release</span> <span class="ow">or</span> <span class="n">build</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                     <span class="s2">&quot;version cannot be specified along with other parameters&quot;</span>
                 <span class="p">)</span>
 
-            <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_REGEX</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">version</span><span class="p">,</span> <span class="n">Version</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_python_version</span> <span class="o">=</span> <span class="n">version</span>
+                <span class="n">version</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">_</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">version</span><span class="o">.</span><span class="n">release</span><span class="p">)</span>
+
+            <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_semver_regex</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">match</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;version (</span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s2">) cannot be parsed as a semantic version &quot;</span>
-                    <span class="s2">&quot;according to the SemVer.org regular expression&quot;</span>
+                <span class="c1"># Try to parse it as a Python version and try again</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">_python_version</span> <span class="o">=</span> <span class="n">Version</span><span class="p">(</span><span class="n">version</span><span class="p">)</span>
+                <span class="k">except</span> <span class="n">InvalidVersion</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;version (</span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s2">) cannot be parsed as a semantic version &quot;</span>
+                        <span class="s2">&quot;according to the SemVer.org regular expression&quot;</span>
+                    <span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>
+
+                <span class="c1"># Success. Now let&#39;s redo the SemVer.org regular expression match</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_python_version</span> <span class="o">=</span> <span class="n">_python_version</span>
+                <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_semver_regex</span><span class="p">,</span>
+                    <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">_</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">_python_version</span><span class="o">.</span><span class="n">release</span><span class="p">),</span>
                 <span class="p">)</span>
+                <span class="k">if</span> <span class="n">match</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+                    <span class="c1"># This should not really be possible at this point, as the</span>
+                    <span class="c1"># Version.releasethis is a guaranteed match.</span>
+                    <span class="c1"># But we keep it here for sanity&#39;s sake.</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;version (</span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s2">) cannot be parsed as a semantic version &quot;</span>
+                        <span class="s2">&quot;according to the SemVer.org regular expression&quot;</span>
+                    <span class="p">)</span>
+
             <span class="n">major</span><span class="p">,</span> <span class="n">minor</span><span class="p">,</span> <span class="n">patch</span><span class="p">,</span> <span class="n">pre_release</span><span class="p">,</span> <span class="n">build</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_major</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">major</span><span class="p">)</span>
@@ -1838,7 +1903,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_patch</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">pre_release</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span> <span class="o">|</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">pre_release</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The pre-release part of the version</span>
 
 <span class="sd">        This is the part supplied after a minus (`-`), but before a plus (`+`).</span>
@@ -1846,15 +1911,66 @@ the end of the version, after a plus (<code>+</code>).</p></td>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pre_release</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span> <span class="o">|</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The build metadata part of the version.</span>
 
 <span class="sd">        This is the part supplied at the end of the version, after a plus (`+`).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build</span>
 
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">python_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Version</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The Python version as defined by `packaging.version.Version`.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_python_version</span>
+
+    <span class="k">def</span> <span class="nf">as_python_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shortened</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Version</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the Python version as defined by `packaging.version.Version`.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">python_version</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Version</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">shortened</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">shortened</span>
+                <span class="k">else</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">_</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">major</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">minor</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch</span><span class="p">))</span>
+            <span class="p">)</span>
+
+        <span class="c1"># The SemanticVersion was generated from a Version. Return the original</span>
+        <span class="c1"># epoch (and the rest, if the release equals the current version).</span>
+
+        <span class="c1"># epoch</span>
+        <span class="n">redone_version</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">python_version</span><span class="o">.</span><span class="n">epoch</span><span class="si">}</span><span class="s2">!&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">python_version</span><span class="o">.</span><span class="n">epoch</span> <span class="o">!=</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+        <span class="p">)</span>
+
+        <span class="c1"># release</span>
+        <span class="k">if</span> <span class="n">shortened</span><span class="p">:</span>
+            <span class="n">redone_version</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shortened</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">redone_version</span> <span class="o">+=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">_</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">major</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">minor</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">major</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">minor</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch</span><span class="p">)[</span>
+            <span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">python_version</span><span class="o">.</span><span class="n">release</span><span class="p">)</span>
+        <span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">python_version</span><span class="o">.</span><span class="n">release</span><span class="p">:</span>
+            <span class="c1"># The release is the same as the current version. Add the pre, post, dev,</span>
+            <span class="c1"># and local parts, if any.</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">python_version</span><span class="o">.</span><span class="n">pre</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">redone_version</span> <span class="o">+=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">_</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">python_version</span><span class="o">.</span><span class="n">pre</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">python_version</span><span class="o">.</span><span class="n">post</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">redone_version</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;.post</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">python_version</span><span class="o">.</span><span class="n">post</span><span class="si">}</span><span class="s2">&quot;</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">python_version</span><span class="o">.</span><span class="n">dev</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">redone_version</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;.dev</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">python_version</span><span class="o">.</span><span class="n">dev</span><span class="si">}</span><span class="s2">&quot;</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">python_version</span><span class="o">.</span><span class="n">local</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">redone_version</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;+</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">python_version</span><span class="o">.</span><span class="n">local</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="k">return</span> <span class="n">Version</span><span class="p">(</span><span class="n">redone_version</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the full version.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">python_version</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">as_python_version</span><span class="p">(</span><span class="n">shortened</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">major</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">minor</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">patch</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="sa">f</span><span class="s1">&#39;-</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pre_release</span><span class="si">}</span><span class="s1">&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">pre_release</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -1863,7 +1979,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the string representation of the object.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="fm">__str__</span><span class="p">())</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="si">!r}</span><span class="s2">)&quot;</span>
 
     <span class="k">def</span> <span class="nf">_validate_other_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SemanticVersion</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initial check/validation of `other` before rich comparisons.&quot;&quot;&quot;</span>
@@ -1875,7 +1991,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">other</span>
 
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="p">(</span><span class="n">Version</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
             <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
@@ -1959,7 +2075,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">next_version</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">previous_version</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">version_part</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">max_filler</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="mi">99</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">version_part</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">max_filler</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SemanticVersion</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the previous version for the specified version part.</span>
 
@@ -1991,22 +2107,15 @@ the end of the version, after a plus (<code>+</code>).</p></td>
         <span class="k">if</span> <span class="n">version_part</span> <span class="o">==</span> <span class="s2">&quot;major&quot;</span><span class="p">:</span>
             <span class="n">prev_version</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">major</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">max_filler</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">max_filler</span><span class="si">}</span><span class="s2">&quot;</span>
 
-        <span class="k">elif</span> <span class="n">version_part</span> <span class="o">==</span> <span class="s2">&quot;minor&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">version_part</span> <span class="o">==</span> <span class="s2">&quot;minor&quot;</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">prev_version</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">major</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"> </span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">max_filler</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">max_filler</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">major</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">max_filler</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">max_filler</span><span class="si">}</span><span class="s2">&quot;</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">minor</span> <span class="o">==</span> <span class="mi">0</span>
                 <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">major</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">minor</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">max_filler</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="p">)</span>
 
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">prev_version</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">major</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">max_filler</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">max_filler</span><span class="si">}</span><span class="s2">&quot;</span>
-                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">minor</span> <span class="o">==</span> <span class="mi">0</span>
-                    <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">major</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">minor</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">max_filler</span><span class="si">}</span><span class="s2">&quot;</span>
-                <span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">prev_version</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">major</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">minor</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">patch</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">prev_version</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">major</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">minor</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">patch</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">prev_version</span><span class="p">)</span>
 
@@ -2042,7 +2151,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 
 
 <h4 id="ci_cd.utils.versions.SemanticVersion.build" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">build</span><span class="p">:</span> <span class="kc">None</span> <span class="o">|</span> <span class="nb">str</span></code>
+<code class="highlight language-python"><span class="n">build</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span></code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-property"><code>property</code></small>
@@ -2135,7 +2244,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 
 
 <h4 id="ci_cd.utils.versions.SemanticVersion.pre_release" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">pre_release</span><span class="p">:</span> <span class="kc">None</span> <span class="o">|</span> <span class="nb">str</span></code>
+<code class="highlight language-python"><span class="n">pre_release</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span></code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-property"><code>property</code></small>
@@ -2148,6 +2257,29 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 
       <p>The pre-release part of the version</p>
 <p>This is the part supplied after a minus (<code>-</code>), but before a plus (<code>+</code>).</p>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="ci_cd.utils.versions.SemanticVersion.python_version" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">python_version</span><span class="p">:</span> <span class="n">Version</span> <span class="o">|</span> <span class="kc">None</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-property"><code>property</code></small>
+      <small class="doc doc-property doc-property-readonly"><code>readonly</code></small>
+  </span>
+
+<a href="#ci_cd.utils.versions.SemanticVersion.python_version" class="headerlink" title="Permanent link">&para;</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>The Python version as defined by <code>packaging.version.Version</code>.</p>
     </div>
 
   </div>
@@ -2383,10 +2515,10 @@ the end of the version, after a plus (<code>+</code>).</p></td>
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@no_type_check</span>
 <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
-    <span class="bp">cls</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span>
+    <span class="bp">cls</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Version</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SemanticVersion</span><span class="p">:</span>
     <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span>
-        <span class="bp">cls</span><span class="p">,</span> <span class="n">version</span> <span class="k">if</span> <span class="n">version</span> <span class="k">else</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_build_version</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">version</span><span class="p">)</span> <span class="k">if</span> <span class="n">version</span> <span class="k">else</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_build_version</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="p">)</span>
 </code></pre></div>
         </details>
@@ -2417,7 +2549,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the string representation of the object.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="fm">__str__</span><span class="p">())</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="si">!r}</span><span class="s2">)&quot;</span>
 </code></pre></div>
         </details>
     </div>
@@ -2447,11 +2579,80 @@ the end of the version, after a plus (<code>+</code>).</p></td>
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the full version.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">python_version</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">as_python_version</span><span class="p">(</span><span class="n">shortened</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
     <span class="k">return</span> <span class="p">(</span>
         <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">major</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">minor</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">patch</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="sa">f</span><span class="s1">&#39;-</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pre_release</span><span class="si">}</span><span class="s1">&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">pre_release</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="sa">f</span><span class="s1">&#39;+</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">build</span><span class="si">}</span><span class="s1">&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">build</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="si">}</span><span class="s2">&quot;</span>
     <span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="ci_cd.utils.versions.SemanticVersion.as_python_version" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">as_python_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shortened</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
+
+
+<a href="#ci_cd.utils.versions.SemanticVersion.as_python_version" class="headerlink" title="Permanent link">&para;</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Return the Python version as defined by <code>packaging.version.Version</code>.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">as_python_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shortened</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Version</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the Python version as defined by `packaging.version.Version`.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">python_version</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Version</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">shortened</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">shortened</span>
+            <span class="k">else</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">_</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">major</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">minor</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch</span><span class="p">))</span>
+        <span class="p">)</span>
+
+    <span class="c1"># The SemanticVersion was generated from a Version. Return the original</span>
+    <span class="c1"># epoch (and the rest, if the release equals the current version).</span>
+
+    <span class="c1"># epoch</span>
+    <span class="n">redone_version</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">python_version</span><span class="o">.</span><span class="n">epoch</span><span class="si">}</span><span class="s2">!&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">python_version</span><span class="o">.</span><span class="n">epoch</span> <span class="o">!=</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+    <span class="p">)</span>
+
+    <span class="c1"># release</span>
+    <span class="k">if</span> <span class="n">shortened</span><span class="p">:</span>
+        <span class="n">redone_version</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shortened</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">redone_version</span> <span class="o">+=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="nb">str</span><span class="p">(</span><span class="n">_</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">major</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">minor</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">major</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">minor</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch</span><span class="p">)[</span>
+        <span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">python_version</span><span class="o">.</span><span class="n">release</span><span class="p">)</span>
+    <span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">python_version</span><span class="o">.</span><span class="n">release</span><span class="p">:</span>
+        <span class="c1"># The release is the same as the current version. Add the pre, post, dev,</span>
+        <span class="c1"># and local parts, if any.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">python_version</span><span class="o">.</span><span class="n">pre</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">redone_version</span> <span class="o">+=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">_</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">python_version</span><span class="o">.</span><span class="n">pre</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">python_version</span><span class="o">.</span><span class="n">post</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">redone_version</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;.post</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">python_version</span><span class="o">.</span><span class="n">post</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">python_version</span><span class="o">.</span><span class="n">dev</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">redone_version</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;.dev</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">python_version</span><span class="o">.</span><span class="n">dev</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">python_version</span><span class="o">.</span><span class="n">local</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">redone_version</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;+</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">python_version</span><span class="o">.</span><span class="n">local</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="k">return</span> <span class="n">Version</span><span class="p">(</span><span class="n">redone_version</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
@@ -2565,7 +2766,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 
 
 <h4 id="ci_cd.utils.versions.SemanticVersion.previous_version" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">previous_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version_part</span><span class="p">,</span> <span class="n">max_filler</span><span class="o">=</span><span class="mi">99</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">previous_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version_part</span><span class="p">,</span> <span class="n">max_filler</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 
 <a href="#ci_cd.utils.versions.SemanticVersion.previous_version" class="headerlink" title="Permanent link">&para;</a></h4>
@@ -2595,7 +2796,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
         <td><code>max_filler</code></td>
         <td><code>str | int | None</code></td>
         <td><p>The maximum value for the version part to decrement.</p></td>
-        <td><code>99</code></td>
+        <td><code>None</code></td>
       </tr>
   </tbody>
 </table>
@@ -2632,7 +2833,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">previous_version</span><span class="p">(</span>
-    <span class="bp">self</span><span class="p">,</span> <span class="n">version_part</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">max_filler</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="mi">99</span>
+    <span class="bp">self</span><span class="p">,</span> <span class="n">version_part</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">max_filler</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SemanticVersion</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the previous version for the specified version part.</span>
 
@@ -2664,22 +2865,15 @@ the end of the version, after a plus (<code>+</code>).</p></td>
     <span class="k">if</span> <span class="n">version_part</span> <span class="o">==</span> <span class="s2">&quot;major&quot;</span><span class="p">:</span>
         <span class="n">prev_version</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">major</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">max_filler</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">max_filler</span><span class="si">}</span><span class="s2">&quot;</span>
 
-    <span class="k">elif</span> <span class="n">version_part</span> <span class="o">==</span> <span class="s2">&quot;minor&quot;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">version_part</span> <span class="o">==</span> <span class="s2">&quot;minor&quot;</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">prev_version</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">major</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"> </span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">max_filler</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">max_filler</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">major</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">max_filler</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">max_filler</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">minor</span> <span class="o">==</span> <span class="mi">0</span>
             <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">major</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">minor</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">max_filler</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="p">)</span>
 
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">prev_version</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">major</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">max_filler</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">max_filler</span><span class="si">}</span><span class="s2">&quot;</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">minor</span> <span class="o">==</span> <span class="mi">0</span>
-                <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">major</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">minor</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">max_filler</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">prev_version</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">major</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">minor</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">patch</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">prev_version</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">major</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">minor</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">patch</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span>
 
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">prev_version</span><span class="p">)</span>
 </code></pre></div>
@@ -3370,8 +3564,7 @@ semantic version ignore rules.</p></td>
     <span class="k">if</span> <span class="s2">&quot;versions&quot;</span> <span class="ow">in</span> <span class="n">rules</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">versions_entry</span> <span class="ow">in</span> <span class="n">rules</span><span class="p">[</span><span class="s2">&quot;versions&quot;</span><span class="p">]:</span>
             <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span>
-                <span class="sa">r</span><span class="s2">&quot;^(?P&lt;operator&gt;&gt;|&lt;|&lt;=|&gt;=|==|!=|~=)\s*&quot;</span>
-                <span class="sa">r</span><span class="s2">&quot;(?P&lt;version&gt;[0-9]+(?:\.[0-9]+){0,2})$&quot;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s2">&quot;^(?P&lt;operator&gt;&gt;|&lt;|&lt;=|&gt;=|==|!=|~=)\s*(?P&lt;version&gt;\S+)$&quot;</span><span class="p">,</span>
                 <span class="n">versions_entry</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="k">if</span> <span class="n">match</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -3575,16 +3768,22 @@ including extras), but before the specifier.</p></td>
 
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">update_specifier_set</span><span class="p">(</span>  <span class="c1"># pylint: disable=too-many-statements</span>
-    <span class="n">latest_version</span><span class="p">:</span> <span class="n">SemanticVersion</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span> <span class="n">current_specifier_set</span><span class="p">:</span> <span class="n">SpecifierSet</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">update_specifier_set</span><span class="p">(</span>  <span class="c1"># pylint: disable=too-many-statements,too-many-branches</span>
+    <span class="n">latest_version</span><span class="p">:</span> <span class="n">SemanticVersion</span> <span class="o">|</span> <span class="n">Version</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span> <span class="n">current_specifier_set</span><span class="p">:</span> <span class="n">SpecifierSet</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SpecifierSet</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Update the specifier set to include the latest version.&quot;&quot;&quot;</span>
     <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
     <span class="n">latest_version</span> <span class="o">=</span> <span class="n">SemanticVersion</span><span class="p">(</span><span class="n">latest_version</span><span class="p">)</span>
+
     <span class="n">new_specifier_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">current_specifier_set</span><span class="p">)</span>
     <span class="n">updated_specifiers</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">split_latest_version</span> <span class="o">=</span> <span class="n">latest_version</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+    <span class="n">split_latest_version</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">latest_version</span><span class="o">.</span><span class="n">as_python_version</span><span class="p">(</span><span class="n">shortened</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">base_version</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">latest_version</span><span class="o">.</span><span class="n">python_version</span>
+        <span class="k">else</span> <span class="n">latest_version</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">current_version_epochs</span> <span class="o">=</span> <span class="p">{</span><span class="n">Version</span><span class="p">(</span><span class="n">_</span><span class="o">.</span><span class="n">version</span><span class="p">)</span><span class="o">.</span><span class="n">epoch</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">current_specifier_set</span><span class="p">}</span>
 
     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
         <span class="s2">&quot;Received latest version: </span><span class="si">%s</span><span class="s2"> and current specifier set: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -3610,8 +3809,31 @@ including extras), but before the specifier.</p></td>
             <span class="c1"># does not need updating. To communicate this, make updated_specifiers</span>
             <span class="c1"># non-empty, but include only an empty string.</span>
             <span class="n">updated_specifiers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="p">(</span>
+        <span class="n">latest_version</span><span class="o">.</span><span class="n">python_version</span>
+        <span class="ow">and</span> <span class="n">latest_version</span><span class="o">.</span><span class="n">as_python_version</span><span class="p">()</span><span class="o">.</span><span class="n">epoch</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">current_version_epochs</span>
+    <span class="p">):</span>
+        <span class="c1"># The latest version is *not* included in the specifier set.</span>
+        <span class="c1"># And the latest version is NOT in the same epoch as the current version range.</span>
+
+        <span class="c1"># Sanity check that the latest version&#39;s epoch is larger than the largest</span>
+        <span class="c1"># epoch in the specifier set.</span>
+        <span class="k">if</span> <span class="n">current_version_epochs</span> <span class="ow">and</span> <span class="n">latest_version</span><span class="o">.</span><span class="n">as_python_version</span><span class="p">()</span><span class="o">.</span><span class="n">epoch</span> <span class="o">&lt;</span> <span class="nb">max</span><span class="p">(</span>
+            <span class="n">current_version_epochs</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="n">UnableToResolve</span><span class="p">(</span>
+                <span class="s2">&quot;The latest version&#39;s epoch is smaller than the largest epoch in &quot;</span>
+                <span class="s2">&quot;the specifier set.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Simply add the latest version as a specifier.</span>
+        <span class="n">updated_specifiers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;==</span><span class="si">{</span><span class="n">latest_version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># The latest version is *not* included in the specifier set.</span>
+        <span class="c1"># But we&#39;re in the right epoch.</span>
+
         <span class="c1"># Expect the latest version to be greater than the current version range.</span>
         <span class="k">for</span> <span class="n">specifier</span> <span class="ow">in</span> <span class="n">current_specifier_set</span><span class="p">:</span>
             <span class="c1"># Simply expand the range if the version range is capped through a specifier</span>
@@ -3621,6 +3843,7 @@ including extras), but before the specifier.</p></td>
                 <span class="n">updated_version</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
                     <span class="n">split_latest_version</span><span class="p">[:</span> <span class="nb">len</span><span class="p">(</span><span class="n">split_specifier_version</span><span class="p">)]</span>
                 <span class="p">)</span>
+
                 <span class="n">updated_specifiers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">specifier</span><span class="o">.</span><span class="n">operator</span><span class="si">}{</span><span class="n">updated_version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                 <span class="n">new_specifier_set</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">specifier</span><span class="p">)</span>
                 <span class="k">break</span>
@@ -3630,16 +3853,25 @@ including extras), but before the specifier.</p></td>
                 <span class="c1"># version up from the latest version</span>
                 <span class="n">split_specifier_version</span> <span class="o">=</span> <span class="n">specifier</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
 
+                <span class="n">updated_version</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+                <span class="c1"># Add epoch if present</span>
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="n">latest_version</span><span class="o">.</span><span class="n">python_version</span>
+                    <span class="ow">and</span> <span class="n">latest_version</span><span class="o">.</span><span class="n">as_python_version</span><span class="p">()</span><span class="o">.</span><span class="n">epoch</span> <span class="o">!=</span> <span class="mi">0</span>
+                <span class="p">):</span>
+                    <span class="n">updated_version</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">latest_version</span><span class="o">.</span><span class="n">as_python_version</span><span class="p">()</span><span class="o">.</span><span class="n">epoch</span><span class="si">}</span><span class="s2">!&quot;</span>
+
                 <span class="c1"># Up only the last version segment of the latest version according to</span>
                 <span class="c1"># what version segments are defined in the specifier version.</span>
                 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">split_specifier_version</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                    <span class="n">updated_version</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">latest_version</span><span class="o">.</span><span class="n">next_version</span><span class="p">(</span><span class="s2">&quot;major&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">major</span><span class="p">)</span>
+                    <span class="n">updated_version</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">latest_version</span><span class="o">.</span><span class="n">next_version</span><span class="p">(</span><span class="s2">&quot;major&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">major</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">split_specifier_version</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-                    <span class="n">updated_version</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                    <span class="n">updated_version</span> <span class="o">+=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
                         <span class="n">latest_version</span><span class="o">.</span><span class="n">next_version</span><span class="p">(</span><span class="s2">&quot;minor&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[:</span><span class="mi">2</span><span class="p">]</span>
                     <span class="p">)</span>
                 <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">split_specifier_version</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-                    <span class="n">updated_version</span> <span class="o">=</span> <span class="n">latest_version</span><span class="o">.</span><span class="n">next_version</span><span class="p">(</span><span class="s2">&quot;patch&quot;</span><span class="p">)</span>
+                    <span class="n">updated_version</span> <span class="o">+=</span> <span class="n">latest_version</span><span class="o">.</span><span class="n">next_version</span><span class="p">(</span><span class="s2">&quot;patch&quot;</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="n">UnableToResolve</span><span class="p">(</span>
                         <span class="s2">&quot;Invalid/unable to handle number of version parts: &quot;</span>
@@ -3656,6 +3888,14 @@ including extras), but before the specifier.</p></td>
                 <span class="c1"># the minimum version</span>
                 <span class="n">current_version</span> <span class="o">=</span> <span class="n">SemanticVersion</span><span class="p">(</span><span class="n">specifier</span><span class="o">.</span><span class="n">version</span><span class="p">)</span>
 
+                <span class="c1"># Add epoch if present</span>
+                <span class="n">epoch</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="n">latest_version</span><span class="o">.</span><span class="n">python_version</span>
+                    <span class="ow">and</span> <span class="n">latest_version</span><span class="o">.</span><span class="n">as_python_version</span><span class="p">()</span><span class="o">.</span><span class="n">epoch</span> <span class="o">!=</span> <span class="mi">0</span>
+                <span class="p">):</span>
+                    <span class="n">epoch</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">latest_version</span><span class="o">.</span><span class="n">as_python_version</span><span class="p">()</span><span class="o">.</span><span class="n">epoch</span><span class="si">}</span><span class="s2">!&quot;</span>
+
                 <span class="k">if</span> <span class="n">latest_version</span><span class="o">.</span><span class="n">major</span> <span class="o">&gt;</span> <span class="n">current_version</span><span class="o">.</span><span class="n">major</span><span class="p">:</span>
                     <span class="c1"># Expand and change ~= to &gt;= and &lt; operators</span>
 
@@ -3664,12 +3904,14 @@ including extras), but before the specifier.</p></td>
 
                     <span class="c1"># &lt; next major version up from latest_version</span>
                     <span class="n">updated_specifiers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;&lt;</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">latest_version</span><span class="o">.</span><span class="n">next_version</span><span class="p">(</span><span class="s1">&#39;major&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">major</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;&lt;</span><span class="si">{</span><span class="n">epoch</span><span class="si">}{</span><span class="n">latest_version</span><span class="o">.</span><span class="n">next_version</span><span class="p">(</span><span class="s1">&#39;major&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">major</span><span class="si">}</span><span class="s2">&quot;</span>
                     <span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="c1"># Keep the ~= operator, but update to include the latest version as</span>
                     <span class="c1"># the minimum version</span>
                     <span class="n">split_specifier_version</span> <span class="o">=</span> <span class="n">specifier</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;splitted version: </span><span class="si">{</span><span class="n">split_specifier_version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;splitted latest version: </span><span class="si">{</span><span class="n">split_latest_version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                     <span class="n">updated_version</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
                         <span class="n">split_latest_version</span><span class="p">[:</span> <span class="nb">len</span><span class="p">(</span><span class="n">split_specifier_version</span><span class="p">)]</span>
                     <span class="p">)</span>
