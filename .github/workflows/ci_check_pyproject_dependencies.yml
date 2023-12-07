@@ -11,11 +11,16 @@ on:
         description: "A git user's email address (used to set the 'user.email' config option)."
         required: true
         type: string
-      permanent_dependencies_branch:
-        description: "The branch name for the permanent dependency updates branch."
+      target_branch:
+        description: "The branch name for the target of the opened PR."
         required: false
         type: string
-        default: "ci/dependency-updates"
+        default: ""
+      permanent_dependencies_branch:  # DEPRECATED - v2.6.0 REMOVAL
+        description: "DEPRECATED - use `target_branch` instead. Will be removed in v2.6.0. The branch name for the permanent dependency updates branch."
+        required: false
+        type: string
+        default: ""
       python_version:
         description: "The Python version to use for the workflow."
         required: false
@@ -63,7 +68,7 @@ on:
         default: false
     secrets:
       PAT:
-        description: "A personal access token (PAT) with rights to update the `permanent_dependencies_branch`. This will fallback on `GITHUB_TOKEN`."
+        description: "A personal access token (PAT) with rights to create PRs. This will fallback on `GITHUB_TOKEN`."
         required: false
 
 jobs:
@@ -80,10 +85,38 @@ jobs:
           exit 1
         fi
 
-    - name: Checkout permanent dependencies branch in ${{ github.repository }}
+        # Check the deprecated 'permanent_dependencies_branch' input.
+        if [ -z "${{ inputs.target_branch }}" && -z "${{ inputs.permanent_dependencies_branch }}" ]; then
+          # Scenario expected to be: One has not explicitly set 'permanent_dependencies_branch' previously, using the (old) default value.
+          # While not knowing that it is now deprecated, and one should instead use 'target_branch' with an explicitly set value.
+          # Cause of action: Set 'target_branch' to the (old) default value, and emit a deprecation warning.
+
+          echo "::warning file=${{ github.workflow_ref }},title=Deprecation Warning::'permanent_dependencies_branch' is deprecated and will be removed in v2.6.0. Use 'target_branch' instead with explicit value. The old default value for 'permanent_dependencies_branch' was: 'ci/dependency-updates'."
+          echo "target_branch=ci/dependency-updates" >> $GITHUB_ENV
+        elif [ -z "${{ inputs.target_branch }}" && -n "${{ inputs.permanent_dependencies_branch }}" ]; then
+          # Scenario expected to be: One has set an explicit value for 'permanent_dependencies_branch' previously.
+          # While not knowing that it is now deprecated, and one should instead use 'target_branch' with an explicitly set value.
+          # Cause of action: Set 'target_branch' to the value of 'permanent_dependencies_branch', and emit a deprecation warning.
+
+          echo "::warning file=${{ github.workflow_ref }},title=Deprecation Warning::'permanent_dependencies_branch' is deprecated and will be removed in v2.6.0. Use 'target_branch' instead."
+          echo "target_branch=${{ inputs.permanent_dependencies_branch }}" >> $GITHUB_ENV
+        elif [ -n "${{ inputs.target_branch }}" && -n "${{ inputs.permanent_dependencies_branch }}" ]; then
+          # Scenario expected to be: One has set an explicit value for both 'target_branch' and forgotten to remove the explicit value set for 'permanent_dependencies_branch'.
+          # Cause of action: Emit a warning and use value for 'target_branch'.
+
+          echo "::warning file=${{ github.workflow_ref }},title=Deprecation Warning::'permanent_dependencies_branch' is deprecated and will be removed in v2.6.0. Use only 'target_branch' instead."
+          echo "target_branch=${{ inputs.target_branch }}" >> $GITHUB_ENV
+        elif [ -n "${{ inputs.target_branch }}" && -z "${{ inputs.permanent_dependencies_branch }}" ]; then
+          # Scenario expected to be: One has set an explicit value for 'target_branch' and is currently not using 'permanent_dependencies_branch'.
+          # Cause of action: Use value for 'target_branch'.
+
+          echo "target_branch=${{ inputs.target_branch }}" >> $GITHUB_ENV
+        fi
+
+    - name: Checkout ${{ env.target_branch }} in ${{ github.repository }}
       uses: actions/checkout@v4
       with:
-        ref: ${{ inputs.permanent_dependencies_branch }}
+        ref: ${{ env.target_branch }}
         fetch-depth: 0
 
     - name: Set up Python ${{ inputs.python_version }}
