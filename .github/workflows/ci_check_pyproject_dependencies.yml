@@ -56,6 +56,11 @@ on:
         required: false
         type: boolean
         default: false
+      skip_unnormalized_python_package_names:
+        description: "Whether to skip dependencies with unnormalized Python package names. Normalization is outlined here: https://packaging.python.org/en/latest/specifications/name-normalization. Default is `false`."
+        required: false
+        type: boolean
+        default: false
     secrets:
       PAT:
         description: "A personal access token (PAT) with rights to update the `permanent_dependencies_branch`. This will fallback on `GITHUB_TOKEN`."
@@ -125,12 +130,21 @@ jobs:
           FAIL_FAST=
         fi
 
+        if [ "${{ inputs.skip_unnormalized_python_package_names }}" == "true" ]; then
+          SKIP_UNNORMALIZED_PYTHON_PACKAGE_NAMES=--skip-unnormalized-python-package-names
+        else
+          SKIP_UNNORMALIZED_PYTHON_PACKAGE_NAMES=
+        fi
+
         IGNORE_OPTIONS=()
         while IFS= read -r line; do
           if [ -n "${line}" ]; then IGNORE_OPTIONS+=(--ignore="${line}"); fi
         done <<< "${{ inputs.ignore }}"
 
-        ci-cd update-deps ${FAIL_FAST} ${VERBOSE} \
+        ci-cd update-deps \
+          ${FAIL_FAST} \
+          ${VERBOSE} \
+          ${SKIP_UNNORMALIZED_PYTHON_PACKAGE_NAMES} \
           --root-repo-path="${PWD}" \
           --ignore-separator="..." \
           "${IGNORE_OPTIONS[@]}"
