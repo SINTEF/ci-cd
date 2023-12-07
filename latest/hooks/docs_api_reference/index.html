@@ -1159,8 +1159,8 @@ The latter is the default.</p>
 <th style="text-align: left;"><strong>Name</strong></th>
 <th style="text-align: left;"><strong>Description</strong></th>
 <th style="text-align: center;"><strong>Required</strong></th>
-<th style="text-align: center;"><strong>Default</strong></th>
 <th style="text-align: center;"><strong>Type</strong></th>
+<th style="text-align: center;"><strong>Default</strong></th>
 </tr>
 </thead>
 <tbody>
@@ -1168,64 +1168,64 @@ The latter is the default.</p>
 <td style="text-align: left;"><code>--package-dir</code></td>
 <td style="text-align: left;">Relative path to a package dir from the repository root, e.g., 'src/my_package'.</br></br>This input option can be supplied multiple times.</td>
 <td style="text-align: center;"><strong><em>Yes</em></strong></td>
-<td style="text-align: center;"></td>
 <td style="text-align: center;"><em>string</em></td>
+<td style="text-align: center;"></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>--docs-folder</code></td>
 <td style="text-align: left;">The folder name for the documentation root folder.</td>
 <td style="text-align: center;">No</td>
-<td style="text-align: center;">docs</td>
 <td style="text-align: center;"><em>string</em></td>
+<td style="text-align: center;"><code>docs</code></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>--unwanted-folder</code></td>
 <td style="text-align: left;">A folder to avoid including into the Python API reference documentation. If this is not supplied, it will default to <code>__pycache__</code>.</br></br><strong>Note</strong>: Only folder names, not paths, may be included.</br></br><strong>Note</strong>: All folders and their contents with these names will be excluded.</br></br>This input option can be supplied multiple times.</td>
 <td style="text-align: center;">No</td>
-<td style="text-align: center;">__pycache__</td>
 <td style="text-align: center;"><em>string</em></td>
+<td style="text-align: center;"><code>__pycache__</code></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>--unwanted-file</code></td>
 <td style="text-align: left;">A file to avoid including into the Python API reference documentation. If this is not supplied, it will default to <code>__init__.py</code></br></br><strong>Note</strong>: Only full file names, not paths, may be included, i.e., filename + file extension.</br></br><strong>Note</strong>: All files with these names will be excluded.</br></br>This input option can be supplied multiple times.</td>
 <td style="text-align: center;">No</td>
-<td style="text-align: center;">__init__.py</td>
 <td style="text-align: center;"><em>string</em></td>
+<td style="text-align: center;"><code>__init__.py</code></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>--full-docs-folder</code></td>
 <td style="text-align: left;">A folder in which to include everything - even those without documentation strings. This may be useful for a module full of data models or to ensure all class attributes are listed.</br></br>This input option can be supplied multiple times.</td>
 <td style="text-align: center;">No</td>
-<td style="text-align: center;"><em>Empty string</em></td>
 <td style="text-align: center;"><em>string</em></td>
+<td style="text-align: center;"></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>--full-docs-file</code></td>
 <td style="text-align: left;">A full relative path to a file in which to include everything - even those without documentation strings. This may be useful for a file full of data models or to ensure all class attributes are listed.</br></br>This input option can be supplied multiple times.</td>
 <td style="text-align: center;">No</td>
-<td style="text-align: center;"><em>Empty string</em></td>
 <td style="text-align: center;"><em>string</em></td>
+<td style="text-align: center;"></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>--special-option</code></td>
 <td style="text-align: left;">A combination of a relative path to a file and a fully formed mkdocstrings option that should be added to the generated MarkDown file. The combination should be comma-separated.</br>Example: <code>my_module/py_file.py,show_bases:false</code>.</br></br>Encapsulate the value in double quotation marks (<code>"</code>) if including spaces ( ).</br></br><strong>Important</strong>: If multiple package-dir options are supplied, the relative path MUST include/start with the package-dir value, e.g., <code>"my_package/my_module/py_file.py,show_bases: false"</code>.</br></br>This input option can be supplied multiple times. The options will be accumulated for the same file, if given several times.</td>
 <td style="text-align: center;">No</td>
-<td style="text-align: center;"><em>Empty string</em></td>
 <td style="text-align: center;"><em>string</em></td>
+<td style="text-align: center;"></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>--relative</code></td>
 <td style="text-align: left;">Whether or not to use relative Python import links in the API reference markdown files. See section <a href="#using-it-together-with-cicd-workflows">Using it together with CI/CD workflows</a> above.</td>
 <td style="text-align: center;">No</td>
-<td style="text-align: center;"><code>False</code></td>
-<td style="text-align: center;"><em>boolean</em></td>
+<td style="text-align: center;"><em>flag</em></td>
+<td style="text-align: center;"></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>--debug</code></td>
 <td style="text-align: left;">Whether or not to print debug statements.</td>
 <td style="text-align: center;">No</td>
-<td style="text-align: center;"><code>False</code></td>
-<td style="text-align: center;"><em>boolean</em></td>
+<td style="text-align: center;"><em>flag</em></td>
+<td style="text-align: center;"></td>
 </tr>
 </tbody>
 </table>

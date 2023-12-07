@@ -1194,8 +1194,8 @@ If <code>versions</code> and <code>update-types</code> are used together, they w
 <th style="text-align: left;"><strong>Name</strong></th>
 <th style="text-align: left;"><strong>Description</strong></th>
 <th style="text-align: center;"><strong>Required</strong></th>
-<th style="text-align: center;"><strong>Default</strong></th>
 <th style="text-align: center;"><strong>Type</strong></th>
+<th style="text-align: center;"><strong>Default</strong></th>
 </tr>
 </thead>
 <tbody>
@@ -1203,36 +1203,43 @@ If <code>versions</code> and <code>update-types</code> are used together, they w
 <td style="text-align: left;"><code>--root-repo-path</code></td>
 <td style="text-align: left;">A resolvable path to the root directory of the repository folder, where the <code>pyproject.toml</code> file can be found.</td>
 <td style="text-align: center;">No</td>
-<td style="text-align: center;"><code>.</code></td>
 <td style="text-align: center;"><em>string</em></td>
+<td style="text-align: center;"><code>.</code></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>--fail-fast</code></td>
 <td style="text-align: left;">Fail immediately if an error occurs. Otherwise, print and ignore all non-critical errors.</td>
 <td style="text-align: center;">No</td>
-<td style="text-align: center;"><code>False</code></td>
-<td style="text-align: center;"><em>boolean</em></td>
+<td style="text-align: center;"><em>flag</em></td>
+<td style="text-align: center;"></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>--ignore</code></td>
 <td style="text-align: left;">Ignore-rules based on the <code>ignore</code> config option of Dependabot.</br></br>It should be of the format: <code>key=value...key=value</code>, i.e., an ellipsis (<code>...</code>) separator and then equal-sign-separated key/value-pairs.</br>Alternatively, the <code>--ignore-separator</code> can be set to something else to overwrite the ellipsis.</br></br>The only supported keys are: <code>dependency-name</code>, <code>versions</code>, and <code>update-types</code>.</br></br>Can be supplied multiple times per <code>dependency-name</code>.</td>
 <td style="text-align: center;">No</td>
-<td style="text-align: center;"></td>
 <td style="text-align: center;"><em>string</em></td>
+<td style="text-align: center;"></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>--ignore-separator</code></td>
 <td style="text-align: left;">Value to use instead of ellipsis (<code>...</code>) as a separator in <code>--ignore</code> key/value-pairs.</td>
 <td style="text-align: center;">No</td>
-<td style="text-align: center;"></td>
 <td style="text-align: center;"><em>string</em></td>
+<td style="text-align: center;"></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>--verbose</code></td>
 <td style="text-align: left;">Whether or not to print debug statements.</td>
 <td style="text-align: center;">No</td>
-<td style="text-align: center;"><code>False</code></td>
-<td style="text-align: center;"><em>boolean</em></td>
+<td style="text-align: center;"><em>flag</em></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>--skip-unnormalized-python-package-names</code></td>
+<td style="text-align: left;">Whether to skip dependencies with unnormalized Python package names. Normalization is outlined <a href="https://packaging.python.org/en/latest/specifications/name-normalization">here</a>.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>flag</em></td>
+<td style="text-align: center;"></td>
 </tr>
 </tbody>
 </table>

@@ -1167,7 +1167,7 @@ https://packaging.python.org/en/latest/specifications/name-normalization/</p>
 
 
 <h3 id="ci_cd.tasks.update_deps.update_deps" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">update_deps</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">root_repo_path</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">fail_fast</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">pre_commit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ignore_separator</span><span class="o">=</span><span class="s1">&#39;...&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">update_deps</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">root_repo_path</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">fail_fast</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">pre_commit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ignore_separator</span><span class="o">=</span><span class="s1">&#39;...&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip_unnormalized_python_package_names</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
 
 <a href="#ci_cd.tasks.update_deps.update_deps" class="headerlink" title="Permanent link">&para;</a></h3>
@@ -1202,6 +1202,11 @@ https://packaging.python.org/en/latest/specifications/name-normalization/</p>
             <span class="s2">&quot;key/value-pairs.&quot;</span>
         <span class="p">),</span>
         <span class="s2">&quot;verbose&quot;</span><span class="p">:</span> <span class="s2">&quot;Whether or not to print debug statements.&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;skip-unnormalized-python-package-names&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">&quot;Whether to skip dependencies with unnormalized Python package names. &quot;</span>
+            <span class="s2">&quot;Normalization is outlined here: &quot;</span>
+            <span class="s2">&quot;https://packaging.python.org/en/latest/specifications/name-normalization.&quot;</span>
+        <span class="p">),</span>
     <span class="p">},</span>
     <span class="n">iterable</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ignore&quot;</span><span class="p">],</span>
 <span class="p">)</span>
@@ -1213,6 +1218,7 @@ https://packaging.python.org/en/latest/specifications/name-normalization/</p>
     <span class="n">ignore</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">ignore_separator</span><span class="o">=</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
     <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">skip_unnormalized_python_package_names</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Update dependencies in specified Python package&#39;s `pyproject.toml`.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
@@ -1222,6 +1228,9 @@ https://packaging.python.org/en/latest/specifications/name-normalization/</p>
         <span class="n">pre_commit</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">pre_commit</span>  <span class="c1"># type: ignore[no-redef]</span>
         <span class="n">ignore_separator</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">ignore_separator</span>  <span class="c1"># type: ignore[no-redef]</span>
         <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">verbose</span>  <span class="c1"># type: ignore[no-redef]</span>
+        <span class="n">skip_unnormalized_python_package_names</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="p">(</span>  <span class="c1"># type: ignore[no-redef]</span>
+            <span class="n">skip_unnormalized_python_package_names</span>
+        <span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">ignore</span><span class="p">:</span>
         <span class="n">ignore</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: ignore[no-redef]</span>
@@ -1273,16 +1282,12 @@ https://packaging.python.org/en/latest/specifications/name-normalization/</p>
     <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Minimum required Python version: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">py_version</span><span class="p">)</span>
 
     <span class="c1"># Retrieve the Python project&#39;s package name</span>
-    <span class="n">project_name</span> <span class="o">=</span> <span class="n">pyproject</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;project&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">project_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">pyproject</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;project&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">project_name</span><span class="p">:</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CROSS_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> Error: Could not find the Python project&#39;s name&quot;</span>
             <span class="s2">&quot; in &#39;pyproject.toml&#39;.&quot;</span>
         <span class="p">)</span>
-
-    <span class="c1"># Skip package if it is this project (this can happen for inter-relative extra</span>
-    <span class="c1"># dependencies)</span>
-    <span class="n">already_handled_packages</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">project_name</span><span class="p">}</span>
 
     <span class="c1"># Build the list of dependencies listed in pyproject.toml</span>
     <span class="n">dependencies</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">pyproject</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;project&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;dependencies&quot;</span><span class="p">,</span> <span class="p">[])</span>
@@ -1292,13 +1297,24 @@ https://packaging.python.org/en/latest/specifications/name-normalization/</p>
         <span class="n">dependencies</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">optional_deps</span><span class="p">)</span>
 
     <span class="c1"># Placeholder and default variables</span>
-    <span class="n">updated_packages</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">error</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">already_handled_packages</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="n">Requirement</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">updated_packages</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">error</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="k">for</span> <span class="n">dependency</span> <span class="ow">in</span> <span class="n">dependencies</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">parsed_requirement</span> <span class="o">=</span> <span class="n">Requirement</span><span class="p">(</span><span class="n">dependency</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">InvalidRequirement</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">skip_unnormalized_python_package_names</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Skipping requirement </span><span class="si">{</span><span class="n">dependency</span><span class="si">!r}</span><span class="s2">, as unnormalized Python &quot;</span>
+                    <span class="s2">&quot;package naming is allowed by user. Note, the requirements could &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;not be parsed: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+                <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">info_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">),</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="k">continue</span>
+
             <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;Could not parse requirement </span><span class="si">{</span><span class="n">dependency</span><span class="si">!r}</span><span class="s2"> from pyproject.toml: &quot;</span>
                 <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -1313,6 +1329,22 @@ https://packaging.python.org/en/latest/specifications/name-normalization/</p>
 
         <span class="c1"># Skip package if already handled</span>
         <span class="k">if</span> <span class="n">parsed_requirement</span> <span class="ow">in</span> <span class="n">already_handled_packages</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># Skip package if it is this project (this can happen for inter-relative extra</span>
+        <span class="c1"># dependencies)</span>
+        <span class="k">if</span> <span class="n">parsed_requirement</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">project_name</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Dependency </span><span class="si">{</span><span class="n">parsed_requirement</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2"> is detected as being this &quot;</span>
+                <span class="s2">&quot;project and will be skipped.&quot;</span>
+            <span class="p">)</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">info_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">),</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="n">_format_and_update_dependency</span><span class="p">(</span>
+                <span class="n">parsed_requirement</span><span class="p">,</span> <span class="n">dependency</span><span class="p">,</span> <span class="n">pyproject_path</span>
+            <span class="p">)</span>
+            <span class="n">already_handled_packages</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">parsed_requirement</span><span class="p">)</span>
             <span class="k">continue</span>
 
         <span class="c1"># Skip URL versioned dependencies</span>
