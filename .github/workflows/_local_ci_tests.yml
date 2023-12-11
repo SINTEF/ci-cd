@@ -21,7 +21,7 @@ jobs:
       # pylint
       pylint_runs: |
         --rcfile=pyproject.toml ci_cd
-        --rcfile=pyproject.toml --disable=import-outside-toplevel,redefined-outer-name tests
+        --rcfile=pyproject.toml --disable=import-outside-toplevel,redefined-outer-name --recursive=yes tests
 
       # build dist
       build_libs: flit
