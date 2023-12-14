@@ -20,7 +20,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.0">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.2">
     
     
       
@@ -28,7 +28,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.45e1311d.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.50c56a3b.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
@@ -1168,7 +1168,7 @@
     <span class="p">},</span>
     <span class="n">iterable</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;code_base_update&quot;</span><span class="p">],</span>
 <span class="p">)</span>
-<span class="k">def</span> <span class="nf">setver</span><span class="p">(</span>  <span class="c1"># pylint: disable=too-many-locals</span>
+<span class="k">def</span> <span class="nf">setver</span><span class="p">(</span>
     <span class="n">_</span><span class="p">,</span>
     <span class="n">package_dir</span><span class="p">,</span>
     <span class="n">version</span><span class="p">,</span>
@@ -1184,7 +1184,7 @@
         <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">version</span>  <span class="c1"># type: ignore[no-redef]</span>
         <span class="n">root_repo_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">root_repo_path</span>  <span class="c1"># type: ignore[no-redef]</span>
         <span class="n">code_base_update</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">code_base_update</span>  <span class="c1"># type: ignore[no-redef]</span>
-        <span class="n">code_base_update_separator</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">code_base_update_separator</span>  <span class="c1"># type: ignore[no-redef]  # pylint: disable=line-too-long</span>
+        <span class="n">code_base_update_separator</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">code_base_update_separator</span>  <span class="c1"># type: ignore[no-redef]</span>
         <span class="n">test</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">test</span>  <span class="c1"># type: ignore[no-redef]</span>
         <span class="n">fail_fast</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">fail_fast</span>  <span class="c1"># type: ignore[no-redef]</span>
 
@@ -1238,9 +1238,7 @@
                 <span class="p">)</span>
 
             <span class="n">filepath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span>
-                <span class="n">filepath</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="o">**</span><span class="p">{</span><span class="s2">&quot;package_dir&quot;</span><span class="p">:</span> <span class="n">package_dir</span><span class="p">,</span> <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="n">semantic_version</span><span class="p">}</span>
-                <span class="p">)</span>
+                <span class="n">filepath</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">package_dir</span><span class="o">=</span><span class="n">package_dir</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">semantic_version</span><span class="p">)</span>
             <span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">filepath</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
                 <span class="n">error_msg</span> <span class="o">=</span> <span class="p">(</span>
@@ -1261,9 +1259,7 @@
                 <span class="n">filepath</span><span class="p">,</span>
                 <span class="n">pattern</span><span class="p">,</span>
                 <span class="n">replacement</span><span class="p">,</span>
-                <span class="n">replacement</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="o">**</span><span class="p">{</span><span class="s2">&quot;package_dir&quot;</span><span class="p">:</span> <span class="n">package_dir</span><span class="p">,</span> <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="n">semantic_version</span><span class="p">}</span>
-                <span class="p">),</span>
+                <span class="n">replacement</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">package_dir</span><span class="o">=</span><span class="n">package_dir</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">semantic_version</span><span class="p">),</span>
             <span class="p">)</span>
             <span class="k">if</span> <span class="n">test</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span>
@@ -1272,7 +1268,7 @@
                 <span class="p">)</span>
                 <span class="nb">print</span><span class="p">(</span>
                     <span class="s2">&quot;replacement (handled): &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">replacement</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;package_dir&#39;</span><span class="p">:</span><span class="w"> </span><span class="n">package_dir</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;version&#39;</span><span class="p">:</span><span class="w"> </span><span class="n">semantic_version</span><span class="p">})</span><span class="si">}</span><span class="s2">&quot;</span>  <span class="c1"># pylint: disable=line-too-long</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">replacement</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">package_dir</span><span class="o">=</span><span class="n">package_dir</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="o">=</span><span class="n">semantic_version</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>  <span class="c1"># noqa: E501</span>
                 <span class="p">)</span>
 
             <span class="k">try</span><span class="p">:</span>
@@ -1281,7 +1277,7 @@
                     <span class="p">(</span>
                         <span class="n">pattern</span><span class="p">,</span>
                         <span class="n">replacement</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                            <span class="o">**</span><span class="p">{</span><span class="s2">&quot;package_dir&quot;</span><span class="p">:</span> <span class="n">package_dir</span><span class="p">,</span> <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="n">semantic_version</span><span class="p">}</span>
+                            <span class="n">package_dir</span><span class="o">=</span><span class="n">package_dir</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">semantic_version</span>
                         <span class="p">),</span>
                     <span class="p">),</span>
                 <span class="p">)</span>
@@ -1294,7 +1290,7 @@
                     <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CROSS_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> Error: Could not update file </span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="s2">&quot;</span>
                     <span class="sa">f</span><span class="s2">&quot; according to the given input:</span><span class="se">\n\n</span><span class="s2">  pattern: </span><span class="si">{</span><span class="n">pattern</span><span class="si">}</span><span class="se">\n</span><span class="s2">  &quot;</span>
                     <span class="s2">&quot;replacement: &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">replacement</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;package_dir&#39;</span><span class="p">:</span><span class="w"> </span><span class="n">package_dir</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;version&#39;</span><span class="p">:</span><span class="w"> </span><span class="n">semantic_version</span><span class="p">})</span><span class="si">}</span><span class="s2">&quot;</span>  <span class="c1"># pylint: disable=line-too-long</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">replacement</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">package_dir</span><span class="o">=</span><span class="n">package_dir</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="o">=</span><span class="n">semantic_version</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>  <span class="c1"># noqa: E501</span>
                 <span class="p">)</span>
 
     <span class="nb">print</span><span class="p">(</span>

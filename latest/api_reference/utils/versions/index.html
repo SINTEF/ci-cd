@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.0">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.2">
     
     
       
@@ -26,7 +26,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.45e1311d.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.50c56a3b.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
@@ -997,6 +997,57 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ci_cd.utils.versions.PART_TO_LENGTH_MAPPING" class="md-nav__link">
+    <span class="md-ellipsis">
+      PART_TO_LENGTH_MAPPING
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ci_cd.utils.versions.IgnoreEntryPair" class="md-nav__link">
+    <span class="md-ellipsis">
+      IgnoreEntryPair
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="IgnoreEntryPair">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ci_cd.utils.versions.IgnoreEntryPair.__getnewargs__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __getnewargs__()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ci_cd.utils.versions.IgnoreEntryPair.__new__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __new__()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ci_cd.utils.versions.IgnoreEntryPair.__repr__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __repr__()
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ci_cd.utils.versions.SemanticVersion" class="md-nav__link">
     <span class="md-ellipsis">
       SemanticVersion
@@ -1322,6 +1373,57 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ci_cd.utils.versions.PART_TO_LENGTH_MAPPING" class="md-nav__link">
+    <span class="md-ellipsis">
+      PART_TO_LENGTH_MAPPING
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ci_cd.utils.versions.IgnoreEntryPair" class="md-nav__link">
+    <span class="md-ellipsis">
+      IgnoreEntryPair
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="IgnoreEntryPair">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ci_cd.utils.versions.IgnoreEntryPair.__getnewargs__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __getnewargs__()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ci_cd.utils.versions.IgnoreEntryPair.__new__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __new__()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ci_cd.utils.versions.IgnoreEntryPair.__repr__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __repr__()
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ci_cd.utils.versions.SemanticVersion" class="md-nav__link">
     <span class="md-ellipsis">
       SemanticVersion
@@ -1613,6 +1715,161 @@
 
 
 
+  <div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ci_cd.utils.versions.PART_TO_LENGTH_MAPPING" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">PART_TO_LENGTH_MAPPING</span></code>
+
+
+<a href="#ci_cd.utils.versions.PART_TO_LENGTH_MAPPING" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Mapping of version-style name to their number of version parts.</p>
+<p>E.g., a minor version has two parts, so the length is <code>2</code>.</p>
+    </div>
+
+  </div>
+
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h3 id="ci_cd.utils.versions.IgnoreEntryPair" class="doc doc-heading">
+        <code>
+IgnoreEntryPair            (<span title="tuple">tuple</span>)
+        </code>
+
+
+
+<a href="#ci_cd.utils.versions.IgnoreEntryPair" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>A key/value-pair within an ignore entry.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">IgnoreEntryPair</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A key/value-pair within an ignore entry.&quot;&quot;&quot;</span>
+
+    <span class="n">key</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;dependency-name&quot;</span><span class="p">,</span> <span class="s2">&quot;versions&quot;</span><span class="p">,</span> <span class="s2">&quot;update-types&quot;</span><span class="p">]</span>
+    <span class="n">value</span><span class="p">:</span> <span class="nb">str</span>
+</code></pre></div>
+        </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="ci_cd.utils.versions.IgnoreEntryPair.__getnewargs__" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">__getnewargs__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
+
+<a href="#ci_cd.utils.versions.IgnoreEntryPair.__getnewargs__" class="headerlink" title="Permanent link">&para;</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Return self as a plain tuple.  Used by copy and pickle.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">__getnewargs__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="s1">&#39;Return self as a plain tuple.  Used by copy and pickle.&#39;</span>
+    <span class="k">return</span> <span class="n">_tuple</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="ci_cd.utils.versions.IgnoreEntryPair.__new__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__new__</span><span class="p">(</span><span class="n">_cls</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+      <small class="doc doc-property doc-property-staticmethod"><code>staticmethod</code></small>
+  </span>
+
+<a href="#ci_cd.utils.versions.IgnoreEntryPair.__new__" class="headerlink" title="Permanent link">&para;</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Create new instance of IgnoreEntryPair(key, value)</p>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="ci_cd.utils.versions.IgnoreEntryPair.__repr__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
+
+<a href="#ci_cd.utils.versions.IgnoreEntryPair.__repr__" class="headerlink" title="Permanent link">&para;</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Return a nicely formatted representation string</p>
+
+        <details class="quote">
+          <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="s1">&#39;Return a nicely formatted representation string&#39;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="n">repr_fmt</span> <span class="o">%</span> <span class="bp">self</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
 
   <div class="doc doc-object doc-class">
 
@@ -1787,9 +2044,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 <span class="sd">    https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string.&quot;&quot;&quot;</span>
 
     <span class="nd">@no_type_check</span>
-    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
-        <span class="bp">cls</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Version</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SemanticVersion</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Version</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span>
             <span class="bp">cls</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">version</span><span class="p">)</span> <span class="k">if</span> <span class="n">version</span> <span class="k">else</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_build_version</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="p">)</span>
@@ -2023,7 +2278,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Less than or equal to (`&lt;=`) rich comparison.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__lt__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Equal to (`==`) rich comparison.&quot;&quot;&quot;</span>
         <span class="n">other_semver</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_other_type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
@@ -2034,7 +2289,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
             <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_release</span> <span class="o">==</span> <span class="n">other_semver</span><span class="o">.</span><span class="n">pre_release</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Not equal to (`!=`) rich comparison.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
@@ -2308,7 +2563,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Equal to (`==`) rich comparison.&quot;&quot;&quot;</span>
     <span class="n">other_semver</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_other_type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
@@ -2482,7 +2737,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Not equal to (`!=`) rich comparison.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 </code></pre></div>
@@ -2514,9 +2769,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@no_type_check</span>
-<span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
-    <span class="bp">cls</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Version</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SemanticVersion</span><span class="p">:</span>
+<span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Version</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
     <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">version</span><span class="p">)</span> <span class="k">if</span> <span class="n">version</span> <span class="k">else</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_build_version</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="p">)</span>
@@ -3013,9 +3266,9 @@ ignore rule by the user, if no update should be suggested.</p>
     <span class="n">split_py_version</span> <span class="o">=</span> <span class="n">project_py_version</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_next_version</span><span class="p">(</span><span class="n">_version</span><span class="p">:</span> <span class="n">SemanticVersion</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SemanticVersion</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">split_py_version</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">split_py_version</span><span class="p">)</span> <span class="o">==</span> <span class="n">PART_TO_LENGTH_MAPPING</span><span class="p">[</span><span class="s2">&quot;major&quot;</span><span class="p">]:</span>
             <span class="k">return</span> <span class="n">_version</span><span class="o">.</span><span class="n">next_version</span><span class="p">(</span><span class="s2">&quot;major&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">split_py_version</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">split_py_version</span><span class="p">)</span> <span class="o">==</span> <span class="n">PART_TO_LENGTH_MAPPING</span><span class="p">[</span><span class="s2">&quot;minor&quot;</span><span class="p">]:</span>
             <span class="k">return</span> <span class="n">_version</span><span class="o">.</span><span class="n">next_version</span><span class="p">(</span><span class="s2">&quot;minor&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">_version</span><span class="o">.</span><span class="n">next_version</span><span class="p">(</span><span class="s2">&quot;patch&quot;</span><span class="p">)</span>
 
@@ -3089,7 +3342,7 @@ and if <code>requires_python</code> is <code>Marker("python_version &lt; '3.6'")
 </table>
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_min_max_py_version</span><span class="p">(</span>  <span class="c1"># pylint: disable=too-many-branches,too-many-statements</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_min_max_py_version</span><span class="p">(</span>
     <span class="n">requires_python</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Marker</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get minimum or maximum Python version from `requires_python`.</span>
@@ -3157,13 +3410,13 @@ and if <code>requires_python</code> is <code>Marker("python_version &lt; '3.6'")
             <span class="n">split_version</span> <span class="o">=</span> <span class="n">specifier</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
             <span class="n">parsed_version</span> <span class="o">=</span> <span class="n">SemanticVersion</span><span class="p">(</span><span class="n">specifier</span><span class="o">.</span><span class="n">version</span><span class="p">)</span>
 
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">split_version</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">split_version</span><span class="p">)</span> <span class="o">==</span> <span class="n">PART_TO_LENGTH_MAPPING</span><span class="p">[</span><span class="s2">&quot;major&quot;</span><span class="p">]:</span>
                 <span class="n">py_version</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">parsed_version</span><span class="o">.</span><span class="n">next_version</span><span class="p">(</span><span class="s2">&quot;major&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">major</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">split_version</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">split_version</span><span class="p">)</span> <span class="o">==</span> <span class="n">PART_TO_LENGTH_MAPPING</span><span class="p">[</span><span class="s2">&quot;minor&quot;</span><span class="p">]:</span>
                 <span class="n">py_version</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
                     <span class="n">parsed_version</span><span class="o">.</span><span class="n">next_version</span><span class="p">(</span><span class="s2">&quot;minor&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[:</span><span class="mi">2</span><span class="p">]</span>
                 <span class="p">)</span>
-            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">split_version</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">split_version</span><span class="p">)</span> <span class="o">==</span> <span class="n">PART_TO_LENGTH_MAPPING</span><span class="p">[</span><span class="s2">&quot;patch&quot;</span><span class="p">]:</span>
                 <span class="n">py_version</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">parsed_version</span><span class="o">.</span><span class="n">next_version</span><span class="p">(</span><span class="s2">&quot;patch&quot;</span><span class="p">))</span>
 
             <span class="k">break</span>
@@ -3211,26 +3464,31 @@ and if <code>requires_python</code> is <code>Marker("python_version &lt; '3.6'")
         <span class="n">split_py_version</span> <span class="o">=</span> <span class="n">py_version</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
         <span class="n">parsed_py_version</span> <span class="o">=</span> <span class="n">SemanticVersion</span><span class="p">(</span><span class="n">py_version</span><span class="p">)</span>
 
+        <span class="c1"># See the _semi_valid_python_version() function for these values</span>
+        <span class="n">largest_value_for_a_patch_part</span> <span class="o">=</span> <span class="mi">18</span>
+        <span class="n">largest_value_for_a_minor_part</span> <span class="o">=</span> <span class="mi">12</span>
+        <span class="n">largest_value_for_a_major_part</span> <span class="o">=</span> <span class="mi">3</span>
+        <span class="n">largest_value_for_any_part</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
+            <span class="n">largest_value_for_a_patch_part</span><span class="p">,</span>
+            <span class="n">largest_value_for_a_minor_part</span><span class="p">,</span>
+            <span class="n">largest_value_for_a_major_part</span><span class="p">,</span>
+        <span class="p">)</span>
+
         <span class="k">while</span> <span class="p">(</span>
             <span class="ow">not</span> <span class="n">_semi_valid_python_version</span><span class="p">(</span><span class="n">parsed_py_version</span><span class="p">)</span>
             <span class="ow">or</span> <span class="n">py_version</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">specifier_set</span>
         <span class="p">):</span>
             <span class="k">if</span> <span class="n">min_or_max</span> <span class="o">==</span> <span class="s2">&quot;min&quot;</span><span class="p">:</span>
-                <span class="k">if</span> <span class="p">(</span>  <span class="c1"># Largest value for a Python version patch part</span>
-                    <span class="n">parsed_py_version</span><span class="o">.</span><span class="n">patch</span> <span class="o">&gt;=</span> <span class="mi">18</span>
-                <span class="p">):</span>
+                <span class="k">if</span> <span class="n">parsed_py_version</span><span class="o">.</span><span class="n">patch</span> <span class="o">&gt;=</span> <span class="n">largest_value_for_a_patch_part</span><span class="p">:</span>
                     <span class="n">parsed_py_version</span> <span class="o">=</span> <span class="n">parsed_py_version</span><span class="o">.</span><span class="n">next_version</span><span class="p">(</span><span class="s2">&quot;minor&quot;</span><span class="p">)</span>
-                <span class="k">elif</span> <span class="p">(</span>  <span class="c1"># Largest value for a Python version minor part</span>
-                    <span class="n">parsed_py_version</span><span class="o">.</span><span class="n">minor</span> <span class="o">&gt;=</span> <span class="mi">12</span>
-                <span class="p">):</span>
+                <span class="k">elif</span> <span class="n">parsed_py_version</span><span class="o">.</span><span class="n">minor</span> <span class="o">&gt;=</span> <span class="n">largest_value_for_a_minor_part</span><span class="p">:</span>
                     <span class="n">parsed_py_version</span> <span class="o">=</span> <span class="n">parsed_py_version</span><span class="o">.</span><span class="n">next_version</span><span class="p">(</span><span class="s2">&quot;major&quot;</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">parsed_py_version</span> <span class="o">=</span> <span class="n">parsed_py_version</span><span class="o">.</span><span class="n">next_version</span><span class="p">(</span><span class="s2">&quot;patch&quot;</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">parsed_py_version</span> <span class="o">=</span> <span class="n">parsed_py_version</span><span class="o">.</span><span class="n">previous_version</span><span class="p">(</span>
                     <span class="n">length_to_part_mapping</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">split_py_version</span><span class="p">)],</span>
-                    <span class="c1"># Largest value for any part of a Python version (patch)</span>
-                    <span class="n">max_filler</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span>
+                    <span class="n">max_filler</span><span class="o">=</span><span class="n">largest_value_for_any_part</span><span class="p">,</span>
                 <span class="p">)</span>
 
             <span class="n">py_version</span> <span class="o">=</span> <span class="n">parsed_py_version</span><span class="o">.</span><span class="n">shortened</span><span class="p">()</span>
@@ -3459,14 +3717,17 @@ semantic version ignore rules.</p></td>
                     <span class="sa">f</span><span class="s2">&quot;Could not parse ignore configuration: </span><span class="si">{</span><span class="n">pair</span><span class="si">!r}</span><span class="s2"> (part of the &quot;</span>
                     <span class="sa">f</span><span class="s2">&quot;ignore option: </span><span class="si">{</span><span class="n">entry</span><span class="si">!r}</span><span class="s2">)&quot;</span>
                 <span class="p">)</span>
-            <span class="k">if</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;key&quot;</span><span class="p">)</span> <span class="ow">in</span> <span class="n">ignore_entry</span><span class="p">:</span>
+
+            <span class="n">parsed_pair</span> <span class="o">=</span> <span class="n">IgnoreEntryPair</span><span class="p">(</span><span class="o">**</span><span class="n">match</span><span class="o">.</span><span class="n">groupdict</span><span class="p">())</span>  <span class="c1"># type: ignore[arg-type]</span>
+
+            <span class="k">if</span> <span class="n">parsed_pair</span><span class="o">.</span><span class="n">key</span> <span class="ow">in</span> <span class="n">ignore_entry</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">InputParserError</span><span class="p">(</span>
                     <span class="s2">&quot;An ignore configuration can only be given once per option. The &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;configuration key </span><span class="si">{</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s1">&#39;key&#39;</span><span class="p">)</span><span class="si">!r}</span><span class="s2"> was found multiple &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;configuration key </span><span class="si">{</span><span class="n">parsed_pair</span><span class="o">.</span><span class="n">key</span><span class="si">!r}</span><span class="s2"> was found multiple &quot;</span>
                     <span class="sa">f</span><span class="s2">&quot;times in the option </span><span class="si">{</span><span class="n">entry</span><span class="si">!r}</span><span class="s2">&quot;</span>
                 <span class="p">)</span>
 
-            <span class="n">ignore_entry</span><span class="p">[</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;key&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>  <span class="c1"># type: ignore[index]  # pylint: disable=line-too-long</span>
+            <span class="n">ignore_entry</span><span class="p">[</span><span class="n">parsed_pair</span><span class="o">.</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">parsed_pair</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="s2">&quot;dependency-name&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ignore_entry</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">InputError</span><span class="p">(</span>
@@ -3474,14 +3735,17 @@ semantic version ignore rules.</p></td>
                 <span class="sa">f</span><span class="s2">&quot;configuration. Ignore option entry: </span><span class="si">{</span><span class="n">entry</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="p">)</span>
 
-        <span class="n">dependency_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">ignore_entry</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;dependency-name&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">dependency_name</span> <span class="o">=</span> <span class="n">ignore_entry</span><span class="p">[</span><span class="s2">&quot;dependency-name&quot;</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">dependency_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ignore_entries</span><span class="p">:</span>
             <span class="n">ignore_entries</span><span class="p">[</span><span class="n">dependency_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="n">key</span><span class="p">:</span> <span class="p">[</span><span class="n">value</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">ignore_entry</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>  <span class="c1"># type: ignore[misc]</span>
+                <span class="n">key</span><span class="p">:</span> <span class="p">[</span><span class="n">value</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">ignore_entry</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="o">!=</span> <span class="s2">&quot;dependency-name&quot;</span>
             <span class="p">}</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">ignore_entry</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="n">ignore_entries</span><span class="p">[</span><span class="n">dependency_name</span><span class="p">][</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>  <span class="c1"># type: ignore[index]</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="o">!=</span> <span class="s2">&quot;dependency-name&quot;</span><span class="p">:</span>
+                    <span class="n">ignore_entries</span><span class="p">[</span><span class="n">dependency_name</span><span class="p">][</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">ignore_entries</span>
 </code></pre></div>
@@ -3590,7 +3854,7 @@ semantic version ignore rules.</p></td>
                     <span class="s2">&quot;&#39;version-update:semver-patch&#39;.</span><span class="se">\n</span><span class="s2">Unparseable &#39;update-types&#39; &quot;</span>
                     <span class="sa">f</span><span class="s2">&quot;value: </span><span class="si">{</span><span class="n">update_type_entry</span><span class="si">!r}</span><span class="s2">&quot;</span>
                 <span class="p">)</span>
-            <span class="n">update_types</span><span class="p">[</span><span class="s2">&quot;version-update&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;semver_part&quot;</span><span class="p">))</span>  <span class="c1"># type: ignore[arg-type]  # pylint: disable=line-too-long</span>
+            <span class="n">update_types</span><span class="p">[</span><span class="s2">&quot;version-update&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;semver_part&quot;</span><span class="p">))</span>  <span class="c1"># type: ignore[arg-type]</span>
 
     <span class="k">return</span> <span class="n">versions</span><span class="p">,</span> <span class="n">update_types</span>
 </code></pre></div>
@@ -3730,7 +3994,7 @@ including extras), but before the specifier.</p></td>
             <span class="nb">str</span><span class="p">(</span><span class="n">_</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span>
                 <span class="n">specifier</span> <span class="ow">or</span> <span class="n">requirement</span><span class="o">.</span><span class="n">specifier</span><span class="p">,</span>
-                <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">spec</span><span class="p">:</span> <span class="n">spec</span><span class="o">.</span><span class="n">operator</span><span class="p">,</span>  <span class="c1"># type: ignore[attr-defined]</span>
+                <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">spec</span><span class="p">:</span> <span class="n">spec</span><span class="o">.</span><span class="n">operator</span><span class="p">,</span>
                 <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="p">)</span>
@@ -3768,7 +4032,7 @@ including extras), but before the specifier.</p></td>
 
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">update_specifier_set</span><span class="p">(</span>  <span class="c1"># pylint: disable=too-many-statements,too-many-branches</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">update_specifier_set</span><span class="p">(</span>
     <span class="n">latest_version</span><span class="p">:</span> <span class="n">SemanticVersion</span> <span class="o">|</span> <span class="n">Version</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span> <span class="n">current_specifier_set</span><span class="p">:</span> <span class="n">SpecifierSet</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SpecifierSet</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Update the specifier set to include the latest version.&quot;&quot;&quot;</span>
@@ -3864,13 +4128,13 @@ including extras), but before the specifier.</p></td>
 
                 <span class="c1"># Up only the last version segment of the latest version according to</span>
                 <span class="c1"># what version segments are defined in the specifier version.</span>
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">split_specifier_version</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">split_specifier_version</span><span class="p">)</span> <span class="o">==</span> <span class="n">PART_TO_LENGTH_MAPPING</span><span class="p">[</span><span class="s2">&quot;major&quot;</span><span class="p">]:</span>
                     <span class="n">updated_version</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">latest_version</span><span class="o">.</span><span class="n">next_version</span><span class="p">(</span><span class="s2">&quot;major&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">major</span><span class="p">)</span>
-                <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">split_specifier_version</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">split_specifier_version</span><span class="p">)</span> <span class="o">==</span> <span class="n">PART_TO_LENGTH_MAPPING</span><span class="p">[</span><span class="s2">&quot;minor&quot;</span><span class="p">]:</span>
                     <span class="n">updated_version</span> <span class="o">+=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
                         <span class="n">latest_version</span><span class="o">.</span><span class="n">next_version</span><span class="p">(</span><span class="s2">&quot;minor&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[:</span><span class="mi">2</span><span class="p">]</span>
                     <span class="p">)</span>
-                <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">split_specifier_version</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">split_specifier_version</span><span class="p">)</span> <span class="o">==</span> <span class="n">PART_TO_LENGTH_MAPPING</span><span class="p">[</span><span class="s2">&quot;patch&quot;</span><span class="p">]:</span>
                     <span class="n">updated_version</span> <span class="o">+=</span> <span class="n">latest_version</span><span class="o">.</span><span class="n">next_version</span><span class="p">(</span><span class="s2">&quot;patch&quot;</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="n">UnableToResolve</span><span class="p">(</span>
@@ -3904,7 +4168,7 @@ including extras), but before the specifier.</p></td>
 
                     <span class="c1"># &lt; next major version up from latest_version</span>
                     <span class="n">updated_specifiers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;&lt;</span><span class="si">{</span><span class="n">epoch</span><span class="si">}{</span><span class="n">latest_version</span><span class="o">.</span><span class="n">next_version</span><span class="p">(</span><span class="s1">&#39;major&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">major</span><span class="si">}</span><span class="s2">&quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;&lt;</span><span class="si">{</span><span class="n">epoch</span><span class="si">}{</span><span class="n">latest_version</span><span class="o">.</span><span class="n">next_version</span><span class="p">(</span><span class="s1">&#39;major&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">major</span><span class="si">!s}</span><span class="s2">&quot;</span>
                     <span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="c1"># Keep the ~= operator, but update to include the latest version as</span>
