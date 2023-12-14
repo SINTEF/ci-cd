@@ -5,7 +5,6 @@ This is specifically to be used with the MkDocs and mkdocstrings framework.
 """
 from __future__ import annotations
 
-# pylint: disable=duplicate-code
 import logging
 import os
 import re
@@ -97,7 +96,7 @@ LOGGER = logging.getLogger(__name__)
         "special_option",
     ],
 )
-def create_api_reference_docs(  # pylint: disable=too-many-locals,too-many-branches,too-many-statements,line-too-long
+def create_api_reference_docs(
     context,
     package_dir,
     pre_clean=False,
@@ -312,7 +311,11 @@ special_option: %s""",
                     f"{py_path_root}/{filename.stem}"
                     if str(relpath) == "."
                     or (str(relpath) == package.name and not single_package)
-                    else f"{py_path_root}/{relpath if single_package else relpath.relative_to(package.name)}/{filename.stem}"
+                    else (
+                        f"{py_path_root}/"
+                        f"{relpath if single_package else relpath.relative_to(package.name)}/"  # noqa: E501
+                        f"{filename.stem}"
+                    )
                 )
 
                 # Replace OS specific path separators with forward slashes before

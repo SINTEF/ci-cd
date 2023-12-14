@@ -1,5 +1,4 @@
 """Test `ci_cd.tasks.update_deps()`."""
-# pylint: disable=too-many-locals,too-many-lines
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -92,24 +91,22 @@ pep_508 = [
 
     context = MockContext(
         run={
-            **{
-                re.compile(r".*invoke$"): "invoke (1.7.1.post1)\n",
-                re.compile(r".*tomlkit$"): "tomlkit (1.0.0)",
-                re.compile(r".*mike$"): "mike (1!1.1.1)",
-                re.compile(r".*pytest$"): "pytest (7.1.0)",
-                re.compile(r".*pytest-cov$"): "pytest-cov (3.1.5)",
-                re.compile(r".*pre-commit$"): "pre-commit (2.21.5)",
-                re.compile(r".*pylint$"): "pylint (2.14.2)",
-                re.compile(r".* A$"): "A (1.2.3)",
-                re.compile(r".*A.B-C_D$"): "A.B-C_D (1.2.3)",
-                re.compile(r".*aa$"): "aa (1.2.3)",
-                re.compile(r".*name$"): "name (1.2.3)",
-                re.compile(r".*test-pkg$"): "test-pkg (1!2.3)",
-                re.compile(r".*epoch$"): "epoch (2!2.0.4.post1)",
-                re.compile(r".*epoch1$"): "epoch1 (1!1.0.0)",
-                re.compile(r".*epoch2$"): "epoch2 (1!2.1.0)",
-                re.compile(r".*epoch3$"): "epoch3 (1!1.1.0.post1)",
-            },
+            re.compile(r".*invoke$"): "invoke (1.7.1.post1)\n",
+            re.compile(r".*tomlkit$"): "tomlkit (1.0.0)",
+            re.compile(r".*mike$"): "mike (1!1.1.1)",
+            re.compile(r".*pytest$"): "pytest (7.1.0)",
+            re.compile(r".*pytest-cov$"): "pytest-cov (3.1.5)",
+            re.compile(r".*pre-commit$"): "pre-commit (2.21.5)",
+            re.compile(r".*pylint$"): "pylint (2.14.2)",
+            re.compile(r".* A$"): "A (1.2.3)",
+            re.compile(r".*A.B-C_D$"): "A.B-C_D (1.2.3)",
+            re.compile(r".*aa$"): "aa (1.2.3)",
+            re.compile(r".*name$"): "name (1.2.3)",
+            re.compile(r".*test-pkg$"): "test-pkg (1!2.3)",
+            re.compile(r".*epoch$"): "epoch (2!2.0.4.post1)",
+            re.compile(r".*epoch1$"): "epoch1 (1!1.0.0)",
+            re.compile(r".*epoch2$"): "epoch2 (1!2.1.0)",
+            re.compile(r".*epoch3$"): "epoch3 (1!1.1.0.post1)",
             **{re.compile(rf".*name{i}$"): f"name{i} (3.2.1)" for i in range(1, 12)},
         }
     )
@@ -696,7 +693,7 @@ requires-python = "~=3.7"
 
 
 @pytest.mark.parametrize(
-    "dependency,optional_dependency,fail_fast",
+    ("dependency", "optional_dependency", "fail_fast"),
     [
         ("(pytest)", "", False),
         ("", "(pytest)", False),
@@ -744,7 +741,7 @@ dev = [{repr(optional_dependency) if optional_dependency else ""}]
         # hence we'd expect the error to be raised for that one.
         raise_msg = (
             f"^{re.escape(Emoji.CROSS_MARK.value)} "
-            f"{re.escape(error_msg(log_msg.format(bad_dependency=dependency))[:-len(Color.RESET.value)])}.*"  # pylint: disable=line-too-long
+            f"{re.escape(error_msg(log_msg.format(bad_dependency=dependency))[:-len(Color.RESET.value)])}.*"
         )
     else:
         raise_msg = r".*Errors occurred! See printed statements above\.$"
@@ -793,7 +790,7 @@ dev = [{repr(optional_dependency) if optional_dependency else ""}]
             ), captured_stderr
 
 
-@pytest.mark.parametrize("fail_fast", [True, False], ids=["fail_fast", "no fail_fast"])
+@pytest.mark.parametrize("fail_fast", [True, False])
 def test_non_parseable_pip_index_versions(
     tmp_path: Path,
     fail_fast: bool,
@@ -896,9 +893,7 @@ dependencies = [
     assert pyproject_file.read_text(encoding="utf8") == pyproject_file_data
 
 
-@pytest.mark.parametrize(
-    "pre_commit", [True, False], ids=["pre-commit", "no pre-commit"]
-)
+@pytest.mark.parametrize("pre_commit", [True, False])
 def test_pre_commit(tmp_path: Path, pre_commit: bool) -> None:
     """Check pre-commit toggle."""
     import re
@@ -981,7 +976,7 @@ dependencies = ["pytest ~=7.4"]
         )
 
 
-@pytest.mark.parametrize("fail_fast", [True, False], ids=["fail_fast", "no fail_fast"])
+@pytest.mark.parametrize("fail_fast", [True, False])
 def test_unresolvable_specifier_set(
     tmp_path: Path,
     fail_fast: bool,
@@ -1052,16 +1047,8 @@ dependencies = ["pytest===7.0"]
         assert terminal_msg.search(capsys.readouterr().err) is not None, terminal_msg
 
 
-@pytest.mark.parametrize(
-    ["skip_unnormalized_python_package_names", "fail_fast"],
-    [(True, True), (False, False), (False, True), (True, False)],
-    ids=[
-        "skip_unnormalized_python_package_names, fail_fast",
-        "no skip_unnormalized_python_package_names, no fail_fast",
-        "no skip_unnormalized_python_package_names, fail_fast",
-        "skip_unnormalized_python_package_names, no fail_fast",
-    ],
-)
+@pytest.mark.parametrize("skip_unnormalized_python_package_names", [True, False])
+@pytest.mark.parametrize("fail_fast", [True, False])
 def test_skip_unnormalized_python_package_names(
     tmp_path: Path,
     skip_unnormalized_python_package_names: bool,

@@ -1,11 +1,10 @@
 """Handle versions."""
-# pylint: disable=too-many-lines
 from __future__ import annotations
 
 import logging
 import operator
 import re
-from typing import TYPE_CHECKING, no_type_check
+from typing import TYPE_CHECKING, NamedTuple, no_type_check
 
 from packaging.markers import Marker, default_environment
 from packaging.specifiers import InvalidSpecifier, Specifier, SpecifierSet
@@ -17,7 +16,7 @@ if TYPE_CHECKING:  # pragma: no cover
     from typing import Any, Dict, List
 
     from packaging.requirements import Requirement
-    from typing_extensions import Literal
+    from typing_extensions import Literal, Self
 
     IgnoreEntry = Dict[Literal["dependency-name", "versions", "update-types"], str]
 
@@ -28,6 +27,24 @@ if TYPE_CHECKING:  # pragma: no cover
     IgnoreUpdateTypes = Dict[
         Literal["version-update"], List[Literal["major", "minor", "patch"]]
     ]
+
+
+PART_TO_LENGTH_MAPPING = {
+    "major": 1,
+    "minor": 2,
+    "patch": 3,
+}
+"""Mapping of version-style name to their number of version parts.
+
+E.g., a minor version has two parts, so the length is `2`.
+"""
+
+
+class IgnoreEntryPair(NamedTuple):
+    """A key/value-pair within an ignore entry."""
+
+    key: Literal["dependency-name", "versions", "update-types"]
+    value: str
 
 
 class SemanticVersion(str):
@@ -85,9 +102,7 @@ class SemanticVersion(str):
     https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string."""
 
     @no_type_check
-    def __new__(
-        cls, version: str | Version | None = None, **kwargs: str | int
-    ) -> SemanticVersion:
+    def __new__(cls, version: str | Version | None = None, **kwargs: str | int) -> Self:
         return super().__new__(
             cls, str(version) if version else cls._build_version(**kwargs)
         )
@@ -321,7 +336,7 @@ class SemanticVersion(str):
         """Less than or equal to (`<=`) rich comparison."""
         return self.__lt__(other) or self.__eq__(other)
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: object) -> bool:
         """Equal to (`==`) rich comparison."""
         other_semver = self._validate_other_type(other)
 
@@ -332,7 +347,7 @@ class SemanticVersion(str):
             and self.pre_release == other_semver.pre_release
         )
 
-    def __ne__(self, other: Any) -> bool:
+    def __ne__(self, other: object) -> bool:
         """Not equal to (`!=`) rich comparison."""
         return not self.__eq__(other)
 
@@ -472,14 +487,17 @@ def parse_ignore_entries(entries: list[str], separator: str) -> IgnoreRulesColle
                     f"Could not parse ignore configuration: {pair!r} (part of the "
                     f"ignore option: {entry!r})"
                 )
-            if match.group("key") in ignore_entry:
+
+            parsed_pair = IgnoreEntryPair(**match.groupdict())  # type: ignore[arg-type]
+
+            if parsed_pair.key in ignore_entry:
                 raise InputParserError(
                     "An ignore configuration can only be given once per option. The "
-                    f"configuration key {match.group('key')!r} was found multiple "
+                    f"configuration key {parsed_pair.key!r} was found multiple "
                     f"times in the option {entry!r}"
                 )
 
-            ignore_entry[match.group("key")] = match.group("value").strip()  # type: ignore[index]  # pylint: disable=line-too-long
+            ignore_entry[parsed_pair.key] = parsed_pair.value.strip()
 
         if "dependency-name" not in ignore_entry:
             raise InputError(
@@ -487,14 +505,17 @@ def parse_ignore_entries(entries: list[str], separator: str) -> IgnoreRulesColle
                 f"configuration. Ignore option entry: {entry}"
             )
 
-        dependency_name: str = ignore_entry.pop("dependency-name", "")
+        dependency_name = ignore_entry["dependency-name"]
         if dependency_name not in ignore_entries:
             ignore_entries[dependency_name] = {
-                key: [value] for key, value in ignore_entry.items()  # type: ignore[misc]
+                key: [value]
+                for key, value in ignore_entry.items()
+                if key != "dependency-name"
             }
         else:
             for key, value in ignore_entry.items():
-                ignore_entries[dependency_name][key].append(value)  # type: ignore[index]
+                if key != "dependency-name":
+                    ignore_entries[dependency_name][key].append(value)
 
     return ignore_entries
 
@@ -547,7 +568,7 @@ def parse_ignore_rules(
                     "'version-update:semver-patch'.\nUnparseable 'update-types' "
                     f"value: {update_type_entry!r}"
                 )
-            update_types["version-update"].append(match.group("semver_part"))  # type: ignore[arg-type]  # pylint: disable=line-too-long
+            update_types["version-update"].append(match.group("semver_part"))  # type: ignore[arg-type]
 
     return versions, update_types
 
@@ -599,7 +620,7 @@ def _ignore_version_rules_semver(
                 semver_latest, semver_version_rule
             ):
                 decision_version_rule = True
-        elif "~=" == version_rule["operator"]:
+        elif version_rule["operator"] == "~=":
             # The '~=' operator is a special case, as it's not a direct comparison
             # operator, but rather a range operator. The '~=' operator is used to
             # specify a minimum version, but with some flexibility in the last part.
@@ -672,19 +693,19 @@ def _ignore_semver_rules(
             f"'patch' (you gave {semver_rules['version-update']!r})."
         )
 
-    if (  # pylint: disable=too-many-boolean-expressions
+    if (
         ("major" in semver_rules["version-update"] and latest[0] != current[0])
         or (
             "minor" in semver_rules["version-update"]
-            and len(latest) >= 2
-            and len(current) >= 2
+            and len(latest) >= PART_TO_LENGTH_MAPPING["minor"]
+            and len(current) >= PART_TO_LENGTH_MAPPING["minor"]
             and latest[1] > current[1]
             and latest[0] == current[0]
         )
         or (
             "patch" in semver_rules["version-update"]
-            and len(latest) >= 3
-            and len(current) >= 3
+            and len(latest) >= PART_TO_LENGTH_MAPPING["patch"]
+            and len(current) >= PART_TO_LENGTH_MAPPING["patch"]
             and latest[2] > current[2]
             and latest[0] == current[0]
             and latest[1] == current[1]
@@ -777,7 +798,7 @@ def regenerate_requirement(
             str(_)
             for _ in sorted(
                 specifier or requirement.specifier,
-                key=lambda spec: spec.operator,  # type: ignore[attr-defined]
+                key=lambda spec: spec.operator,
                 reverse=True,
             )
         )
@@ -793,7 +814,7 @@ def regenerate_requirement(
     return updated_dependency
 
 
-def update_specifier_set(  # pylint: disable=too-many-statements,too-many-branches
+def update_specifier_set(
     latest_version: SemanticVersion | Version | str, current_specifier_set: SpecifierSet
 ) -> SpecifierSet:
     """Update the specifier set to include the latest version."""
@@ -889,13 +910,13 @@ def update_specifier_set(  # pylint: disable=too-many-statements,too-many-branch
 
                 # Up only the last version segment of the latest version according to
                 # what version segments are defined in the specifier version.
-                if len(split_specifier_version) == 1:
+                if len(split_specifier_version) == PART_TO_LENGTH_MAPPING["major"]:
                     updated_version += str(latest_version.next_version("major").major)
-                elif len(split_specifier_version) == 2:
+                elif len(split_specifier_version) == PART_TO_LENGTH_MAPPING["minor"]:
                     updated_version += ".".join(
                         latest_version.next_version("minor").split(".")[:2]
                     )
-                elif len(split_specifier_version) == 3:
+                elif len(split_specifier_version) == PART_TO_LENGTH_MAPPING["patch"]:
                     updated_version += latest_version.next_version("patch")
                 else:
                     raise UnableToResolve(
@@ -929,7 +950,7 @@ def update_specifier_set(  # pylint: disable=too-many-statements,too-many-branch
 
                     # < next major version up from latest_version
                     updated_specifiers.append(
-                        f"<{epoch}{latest_version.next_version('major').major}"
+                        f"<{epoch}{latest_version.next_version('major').major!s}"
                     )
                 else:
                     # Keep the ~= operator, but update to include the latest version as
@@ -976,7 +997,7 @@ def _semi_valid_python_version(version: SemanticVersion) -> bool:
             f"Invalid Python major version: {version.major}. Expected 1, 2, or 3."
         )
 
-    if version.minor not in range(0, 12 + 1) or version.patch not in range(0, 18 + 1):
+    if version.minor not in range(12 + 1) or version.patch not in range(18 + 1):
         # Either:
         #   Not a valid Python minor version (0, 1, 2, ..., 12)
         #   Not a valid Python patch version (0, 1, 2, ..., 18)
@@ -984,7 +1005,7 @@ def _semi_valid_python_version(version: SemanticVersion) -> bool:
     return True
 
 
-def get_min_max_py_version(  # pylint: disable=too-many-branches,too-many-statements
+def get_min_max_py_version(
     requires_python: str | Marker,
 ) -> str:
     """Get minimum or maximum Python version from `requires_python`.
@@ -1052,13 +1073,13 @@ def get_min_max_py_version(  # pylint: disable=too-many-branches,too-many-statem
             split_version = specifier.version.split(".")
             parsed_version = SemanticVersion(specifier.version)
 
-            if len(split_version) == 1:
+            if len(split_version) == PART_TO_LENGTH_MAPPING["major"]:
                 py_version = str(parsed_version.next_version("major").major)
-            elif len(split_version) == 2:
+            elif len(split_version) == PART_TO_LENGTH_MAPPING["minor"]:
                 py_version = ".".join(
                     parsed_version.next_version("minor").split(".")[:2]
                 )
-            elif len(split_version) == 3:
+            elif len(split_version) == PART_TO_LENGTH_MAPPING["patch"]:
                 py_version = str(parsed_version.next_version("patch"))
 
             break
@@ -1106,26 +1127,31 @@ def get_min_max_py_version(  # pylint: disable=too-many-branches,too-many-statem
         split_py_version = py_version.split(".")
         parsed_py_version = SemanticVersion(py_version)
 
+        # See the _semi_valid_python_version() function for these values
+        largest_value_for_a_patch_part = 18
+        largest_value_for_a_minor_part = 12
+        largest_value_for_a_major_part = 3
+        largest_value_for_any_part = max(
+            largest_value_for_a_patch_part,
+            largest_value_for_a_minor_part,
+            largest_value_for_a_major_part,
+        )
+
         while (
             not _semi_valid_python_version(parsed_py_version)
             or py_version not in specifier_set
         ):
             if min_or_max == "min":
-                if (  # Largest value for a Python version patch part
-                    parsed_py_version.patch >= 18
-                ):
+                if parsed_py_version.patch >= largest_value_for_a_patch_part:
                     parsed_py_version = parsed_py_version.next_version("minor")
-                elif (  # Largest value for a Python version minor part
-                    parsed_py_version.minor >= 12
-                ):
+                elif parsed_py_version.minor >= largest_value_for_a_minor_part:
                     parsed_py_version = parsed_py_version.next_version("major")
                 else:
                     parsed_py_version = parsed_py_version.next_version("patch")
             else:
                 parsed_py_version = parsed_py_version.previous_version(
                     length_to_part_mapping[len(split_py_version)],
-                    # Largest value for any part of a Python version (patch)
-                    max_filler=18,
+                    max_filler=largest_value_for_any_part,
                 )
 
             py_version = parsed_py_version.shortened()
@@ -1139,9 +1165,9 @@ def find_minimum_py_version(marker: Marker, project_py_version: str) -> str:
     split_py_version = project_py_version.split(".")
 
     def _next_version(_version: SemanticVersion) -> SemanticVersion:
-        if len(split_py_version) == 1:
+        if len(split_py_version) == PART_TO_LENGTH_MAPPING["major"]:
             return _version.next_version("major")
-        if len(split_py_version) == 2:
+        if len(split_py_version) == PART_TO_LENGTH_MAPPING["minor"]:
             return _version.next_version("minor")
         return _version.next_version("patch")
 

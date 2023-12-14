@@ -1,5 +1,4 @@
 """Tests for utils/versions.py"""
-# pylint: disable=too-many-lines
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -141,9 +140,9 @@ def test_semanticversion_invalid() -> None:
     ]
     for input_, exc_msg in invalid_inputs:
         with pytest.raises(ValueError, match=exc_msg):
-            SemanticVersion(  # pylint: disable=expression-not-assigned
-                **input_
-            ) if isinstance(input_, dict) else SemanticVersion(input_)
+            SemanticVersion(**input_) if isinstance(input_, dict) else SemanticVersion(
+                input_
+            )
 
 
 def test_semanticversion_invalid_comparisons() -> None:
@@ -252,7 +251,7 @@ def test_semanticversion_python_version(
         if isinstance(version_, Version) or (
             isinstance(version_, str)
             and re.match(
-                SemanticVersion._semver_regex,  # pylint: disable=protected-access
+                SemanticVersion._semver_regex,
                 version_,
             )
             is None
@@ -273,9 +272,9 @@ def test_semanticversion_python_version(
                 f"{Version(version_) if isinstance(version_, str) else version_}"
             )
 
-            assert (
-                repr(semver)
-                == f"SemanticVersion({str(semver.as_python_version(shortened=False))!r})"
+            assert repr(semver) == (
+                "SemanticVersion("
+                f"{str(semver.as_python_version(shortened=False))!r})"
             )
         else:
             # The version is parsed as a regular semantic version, where the 'local'
@@ -1098,7 +1097,7 @@ def test_ignore_version_fails() -> None:
 
 
 @pytest.mark.parametrize(
-    ["requires_python", "expected_outcome"],
+    ("requires_python", "expected_outcome"),
     [
         # Minimum operators
         # >=

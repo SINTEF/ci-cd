@@ -1,5 +1,4 @@
 """Test `ci_cd.tasks.api_reference_docs`."""
-# pylint: disable=too-many-locals
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -495,7 +494,7 @@ def test_larger_package(tmp_path: Path) -> None:
         package_dir / "module" / "submodule",
         package_dir / "second_module",
     ]
-    for destination in [package_dir] + new_submodules:
+    for destination in [package_dir, *new_submodules]:
         shutil.copytree(
             src=Path(__file__).resolve().parent.parent.parent / "ci_cd",
             dst=destination,
@@ -741,7 +740,10 @@ def test_larger_multi_packages(tmp_path: Path) -> None:
         ) == 'title: "tasks"\n'
         assert (package_dir / "tasks" / "api_reference_docs.md").read_text(
             encoding="utf8"
-        ) == f"# api_reference_docs\n\n::: {package_dir.name}.tasks.api_reference_docs\n"
+        ) == (
+            "# api_reference_docs\n\n::: "
+            f"{package_dir.name}.tasks.api_reference_docs\n"
+        )
         assert (package_dir / "tasks" / "docs_index.md").read_text(
             encoding="utf8"
         ) == f"# docs_index\n\n::: {package_dir.name}.tasks.docs_index\n"
