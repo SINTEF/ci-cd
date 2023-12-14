@@ -3,12 +3,16 @@ from __future__ import annotations
 
 import platform
 from enum import Enum
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:  # pragma: no cover
+    from typing_extensions import Self
 
 
 class Emoji(str, Enum):
     """Unicode strings for certain emojis."""
 
-    def __new__(cls, value: str) -> Emoji:
+    def __new__(cls, value: str) -> Self:
         obj = str.__new__(cls, value)
         if platform.system() == "Windows":
             # Windows does not support unicode emojis, so we replace them with
@@ -27,7 +31,7 @@ class Emoji(str, Enum):
 class Color(str, Enum):
     """ANSI escape sequences for colors."""
 
-    def __new__(cls, value: str) -> Color:
+    def __new__(cls, value: str) -> Self:
         obj = str.__new__(cls, value)
         obj._value_ = value
         return obj
@@ -49,7 +53,7 @@ class Color(str, Enum):
 class Formatting(str, Enum):
     """ANSI escape sequences for formatting."""
 
-    def __new__(cls, value: str) -> Formatting:
+    def __new__(cls, value: str) -> Self:
         obj = str.__new__(cls, value)
         obj._value_ = value
         return obj

@@ -40,7 +40,7 @@ if TYPE_CHECKING:  # pragma: no cover
     },
     iterable=["replacement"],
 )
-def create_docs_index(  # pylint: disable=too-many-locals
+def create_docs_index(
     context,
     pre_commit=False,
     root_repo_path=".",

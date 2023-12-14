@@ -2,7 +2,6 @@
 
 Update dependencies in a `pyproject.toml` file.
 """
-# pylint: disable=duplicate-code
 from __future__ import annotations
 
 import logging
@@ -142,7 +141,7 @@ def _format_and_update_dependency(
     },
     iterable=["ignore"],
 )
-def update_deps(  # pylint: disable=too-many-branches,too-many-locals,too-many-statements
+def update_deps(
     context,
     root_repo_path=".",
     fail_fast=False,

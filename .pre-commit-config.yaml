@@ -19,19 +19,8 @@ repos:
     - id: trailing-whitespace
       args: [--markdown-linebreak-ext=md]
 
-  # isort is a tool to sort and group import statements in Python files
-  # It works on files in-place
-  - repo: https://github.com/timothycrosley/isort
-    rev: 5.12.0
-    hooks:
-    - id: isort
-      args:
-      - "--profile=black"
-      - "--filter-files"
-      - "--skip-gitignore"
-      - "--add-import=from __future__ import annotations"
-
-  # pyupgrade is a tool to automatically upgrade Python syntax for newer versions
+  # pyupgrade is a tool for automatically upgrading Python syntax for newer versions of
+  # the language
   # It works on files in-place
   - repo: https://github.com/asottile/pyupgrade
     # Latest version for Python 3.7: 3.3.2
@@ -39,7 +28,7 @@ repos:
     rev: v3.15.0
     hooks:
     - id: pyupgrade
-      args: ["--py37-plus"]
+      args: [--py37-plus]
 
   # Black is a code style and formatter
   # It works on files in-place
@@ -47,6 +36,22 @@ repos:
     rev: 23.11.0
     hooks:
     - id: black
+
+  # ruff is a Python linter, incl. import sorter and formatter
+  # It works partly on files in-place
+  # More information can be found in its documentation:
+  # https://docs.astral.sh/ruff/
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.7
+    hooks:
+    - id: ruff
+      # Fix what can be fixed in-place and exit with non-zero status if files were
+      # changed and/or there are rules violations.
+      args:
+      - "--fix"
+      - "--exit-non-zero-on-fix"
+      - "--show-fixes"
+      - "--no-unsafe-fixes"
 
   # Bandit is a security linter
   # More information can be found in its documentation:
@@ -74,34 +79,3 @@ repos:
     - id: docs-api-reference
       args:
       - "--package-dir=ci_cd"
-
-  - repo: local
-    hooks:
-    # pylint is a Python linter
-    # It is run through the local environment to ensure external packages can be
-    # imported without issue.
-    # For more information about pylint see its documentation at:
-    # https://pylint.pycqa.org/en/latest/
-    - id: pylint
-      name: pylint
-      entry: pylint
-      args: ["--rcfile=pyproject.toml"]
-      language: python
-      types: [python]
-      require_serial: true
-      exclude: ^tests/.*$
-    # pylint is a Python linter
-    # It is run through the local environment to ensure external packages can be
-    # imported without issue.
-    # For more information about pylint see its documentation at:
-    # https://pylint.pycqa.org/en/latest/
-    - id: pylint-tests
-      name: pylint - tests
-      entry: pylint
-      args:
-      - "--rcfile=pyproject.toml"
-      - "--disable=import-outside-toplevel,redefined-outer-name"
-      language: python
-      types: [python]
-      require_serial: true
-      files: ^tests/.*$
