@@ -79,8 +79,8 @@ jobs:
     steps:
     - name: Validate inputs
       run: |
-        if [[ ! "${{ inputs.python_version}}" =~ ^3\.([7-9]|1[0-3])(\..*)?$ ]]; then
-          echo "Python version '${{ inputs.python_version}}' is not supported."
+        if [[ ! "${{ inputs.python_version }}" =~ ^3\.([7-9]|1[0-3])(\..*)?$ ]]; then
+          echo "Python version '${{ inputs.python_version }}' is not supported."
           echo "Supported versions are: 3.7, 3.8, 3.9, 3.10, 3.11, 3.12, 3.13."
           exit 1
         fi
@@ -233,7 +233,7 @@ jobs:
         token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
         committer: "${{ inputs.git_username }} <${{ inputs.git_email }}>"
         author: "${{ inputs.git_username }} <${{ inputs.git_email }}>"
-        branch: ci/update-pyproject${{ inputs.branch_name_extension && format('/{0}', inputs.branch_name_extension) || ''}}
+        branch: ci/update-pyproject${{ inputs.branch_name_extension && format('/{0}', inputs.branch_name_extension) || '' }}
         delete-branch: true
         title: "[Auto-generated] Check & update dependencies (`pyproject.toml`)"
         body: ${{ steps.pr_body.outputs.result }}

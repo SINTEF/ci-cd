@@ -171,7 +171,7 @@ jobs:
     steps:
     - name: Release check
       run: |
-        COMMIT_MSG="$(gh api /repos/${{ github.repository}}/commits/${{ inputs.default_repo_branch }} --jq '.commit.message')"
+        COMMIT_MSG="$(gh api /repos/${{ github.repository }}/commits/${{ inputs.default_repo_branch }} --jq '.commit.message')"
         if [[ "${COMMIT_MSG}" =~ ^Release\ v.*$ ]] || [ "${COMMIT_MSG}" == "[bot] Update documentation" ]; then
           echo "In a release or just ran this job - do not run this job !"
           echo "RELEASE_RUN=true" >> $GITHUB_ENV
@@ -186,14 +186,14 @@ jobs:
       if: env.RELEASE_RUN == 'false'
       run: |
         valid_frameworks=("mkdocs sphinx")
-        if [[ ! " ${valid_frameworks[*]} " =~ " ${{ inputs.docs_framework}} " ]]; then
-            echo "The input '${{ inputs.docs_framework}}' is not supported."
+        if [[ ! " ${valid_frameworks[*]} " =~ " ${{ inputs.docs_framework }} " ]]; then
+            echo "The input '${{ inputs.docs_framework }}' is not supported."
             echo "Valid inputs are: ${valid_frameworks[*]}"
             exit 1
         fi
 
-        if [[ ! "${{ inputs.python_version}}" =~ ^3\.([7-9]|1[0-3])(\..*)?$ ]]; then
-          echo "Python version '${{ inputs.python_version}}' is not supported."
+        if [[ ! "${{ inputs.python_version }}" =~ ^3\.([7-9]|1[0-3])(\..*)?$ ]]; then
+          echo "Python version '${{ inputs.python_version }}' is not supported."
           echo "Supported versions are: 3.7, 3.8, 3.9, 3.10, 3.11, 3.12, 3.13."
           exit 1
         fi
@@ -372,7 +372,7 @@ jobs:
         else
           echo 'CHANGELOG_EXCLUDE_TAGS_REGEX=' >> $GITHUB_ENV
         fi
-        if [ -n "${{ inputs.changelog_exclude_labels}}" ]; then
+        if [ -n "${{ inputs.changelog_exclude_labels }}" ]; then
           echo 'CHANGELOG_EXCLUDE_LABELS=--exclude-labels "${{ inputs.changelog_exclude_labels }}"' >> $GITHUB_ENV
         else
           echo 'CHANGELOG_EXCLUDE_LABELS=' >> $GITHUB_ENV
@@ -476,7 +476,7 @@ jobs:
       run: |
         git fetch origin
 
-        LATEST_PR_BODY="$(gh api /repos/${{ github.repository}}/pulls -X GET -f state=closed -f per_page=1 -f sort=updated -f direction=desc --jq '.[].body')"
+        LATEST_PR_BODY="$(gh api /repos/${{ github.repository }}/pulls -X GET -f state=closed -f per_page=1 -f sort=updated -f direction=desc --jq '.[].body')"
         cat ${PR_BODY_FILE} | head -8 > .tmp_file.txt
         if [ -z "$(printf '%s\n' "${LATEST_PR_BODY}" | head -8 | diff - .tmp_file.txt --strip-trailing-cr)" ]; then
           echo "The dependencies have just been updated! Reset to ${{ inputs.default_repo_branch }}."
