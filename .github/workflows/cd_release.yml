@@ -296,10 +296,11 @@ jobs:
         fi
 
         if [ -n "${PREVIOUS_VERSION}" ]; then
-          echo 'SINCE_PREVIOUS_VERSION=--since-tag "${PREVIOUS_VERSION}"' >> $GITHUB_ENV
+          SINCE_PREVIOUS_VERSION=--since-tag "${PREVIOUS_VERSION}"
         else
-          echo 'SINCE_PREVIOUS_VERSION=' >> $GITHUB_ENV
+          SINCE_PREVIOUS_VERSION=
         fi
+        echo "SINCE_PREVIOUS_VERSION=${SINCE_PREVIOUS_VERSION}" >> $GITHUB_ENV
 
     - name: Create release-specific changelog
       uses: docker://githubchangeloggenerator/github-changelog-generator:1.16.2
