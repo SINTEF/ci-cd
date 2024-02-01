@@ -1,4 +1,5 @@
 """Tests for utils/versions.py"""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -140,8 +141,10 @@ def test_semanticversion_invalid() -> None:
     ]
     for input_, exc_msg in invalid_inputs:
         with pytest.raises(ValueError, match=exc_msg):
-            SemanticVersion(**input_) if isinstance(input_, dict) else SemanticVersion(
-                input_
+            (
+                SemanticVersion(**input_)
+                if isinstance(input_, dict)
+                else SemanticVersion(input_)
             )
 
 
@@ -826,13 +829,13 @@ def _parametrize_ignore_version() -> (
                 f"semver-{test_case[3]['version-update']}-latest={test_case[1]}"
             ] = test_case
         elif test_case[2]:
-            res[
-                ",".join(f"{_['operator']}{_['version']}" for _ in test_case[2])
-            ] = test_case
+            res[",".join(f"{_['operator']}{_['version']}" for _ in test_case[2])] = (
+                test_case
+            )
         elif test_case[3]:
-            res[
-                f"semver-{test_case[3]['version-update']}-latest={test_case[1]}"
-            ] = test_case
+            res[f"semver-{test_case[3]['version-update']}-latest={test_case[1]}"] = (
+                test_case
+            )
         else:
             res["no rules"] = test_case
     assert len(res) == len(test_cases)

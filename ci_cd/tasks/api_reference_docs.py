@@ -3,6 +3,7 @@
 Create Python API reference in the documentation.
 This is specifically to be used with the MkDocs and mkdocstrings framework.
 """
+
 from __future__ import annotations
 
 import logging

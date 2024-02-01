@@ -2,6 +2,7 @@
 
 Create the documentation index (home) page from `README.md`.
 """
+
 from __future__ import annotations
 
 import re

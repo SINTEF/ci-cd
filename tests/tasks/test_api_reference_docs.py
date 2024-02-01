@@ -1,4 +1,5 @@
 """Test `ci_cd.tasks.api_reference_docs`."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
