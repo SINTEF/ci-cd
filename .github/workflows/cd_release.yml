@@ -249,7 +249,8 @@ jobs:
           done
         fi
 
-        git commit -am "Release ${REF} - Changelog"
+        git add -- .
+        git commit -m "Release ${REF} - Changelog"
 
         if [ -z "${{ inputs.tag_message_file }}" ] || [ ! -f "${{ inputs.tag_message_file }}" ]; then
           TAG_MSG_FILE=.tmp_tag-msg_${{ github.run_id }}_${{ github.run_number }}_${{ github.run_attempt }}.txt

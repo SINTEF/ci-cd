@@ -123,7 +123,8 @@ jobs:
       if: inputs.update_pre-commit
       run: |
         if [ "${UPDATED_PRE_COMMIT_HOOKS}" == "true" ]; then
-          git commit -am "Update \`pre-commit\` hooks"
+          git add -- .
+          git commit -m "Update \`pre-commit\` hooks"
         fi
 
     - name: Set PR body
