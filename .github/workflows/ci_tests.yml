@@ -350,8 +350,8 @@ jobs:
 
     - name: Validate inputs
       run: |
-        if [[ "${framework}" == "mkdocs" && ! "${{ inputs.python_version_docs}}" =~ ^3\.([7-9]|1[0-3])(\..*)?$ ]]; then
-          echo "Python version '${{ inputs.python_version_docs}}' is not supported."
+        if [[ "${framework}" == "mkdocs" && ! "${{ inputs.python_version_docs }}" =~ ^3\.([7-9]|1[0-3])(\..*)?$ ]]; then
+          echo "Python version '${{ inputs.python_version_docs }}' is not supported."
           echo "Supported versions are: 3.7, 3.8, 3.9, 3.10, 3.11, 3.12, 3.13."
           exit 1
         fi
@@ -391,7 +391,7 @@ jobs:
         python -m pip install -U pip
         pip install -U setuptools wheel
         pip install ${EDITABLE}.${{ inputs.install_extras }}
-        pip install git+https://github.com/SINTEF/ci-cd.git@v2.7.1
+        pip install git+https://github.com/SINTEF/ci-cd.git@v2.7.3
 
     - name: Update API Reference
       if: env.framework == 'mkdocs' && inputs.update_python_api_ref

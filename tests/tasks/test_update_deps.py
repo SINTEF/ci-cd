@@ -1,4 +1,5 @@
 """Test `ci_cd.tasks.update_deps()`."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING

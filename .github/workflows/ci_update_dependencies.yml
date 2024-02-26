@@ -123,7 +123,8 @@ jobs:
       if: inputs.update_pre-commit
       run: |
         if [ "${UPDATED_PRE_COMMIT_HOOKS}" == "true" ]; then
-          git commit -am "Update \`pre-commit\` hooks"
+          git add -- .
+          git commit -m "Update \`pre-commit\` hooks"
         fi
 
     - name: Set PR body
@@ -143,7 +144,7 @@ jobs:
 
     - name: Fetch PR body
       id: pr_body
-      uses: chuhlomin/render-template@v1.8
+      uses: chuhlomin/render-template@v1.9
       with:
         template: ${{ env.PR_BODY_FILE }}
 
@@ -153,7 +154,7 @@ jobs:
 
     - name: Create PR
       id: cpr
-      uses: peter-evans/create-pull-request@v5
+      uses: peter-evans/create-pull-request@v6
       with:
         token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
         committer: "${{ inputs.git_username }} <${{ inputs.git_email }}>"

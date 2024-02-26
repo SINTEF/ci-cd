@@ -1,5 +1,38 @@
 # Changelog
 
+## [v2.7.3](https://github.com/SINTEF/ci-cd/tree/v2.7.3) (2024-02-14)
+
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.7.2...v2.7.3)
+
+**Fixed bugs:**
+
+- Use `git add -- .` instead of `git commit -a` [\#236](https://github.com/SINTEF/ci-cd/issues/236)
+
+**Merged pull requests:**
+
+- \[Auto-generated\] Update dependencies [\#241](https://github.com/SINTEF/ci-cd/pull/241) ([TEAM4-0](https://github.com/TEAM4-0))
+- Use git add -- . instead of git commit -a [\#240](https://github.com/SINTEF/ci-cd/pull/240) ([CasperWA](https://github.com/CasperWA))
+- \[Auto-generated\] Update dependencies [\#239](https://github.com/SINTEF/ci-cd/pull/239) ([TEAM4-0](https://github.com/TEAM4-0))
+
+## [v2.7.2](https://github.com/SINTEF/ci-cd/tree/v2.7.2) (2024-01-13)
+
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.7.1...v2.7.2)
+
+**Fixed bugs:**
+
+- Support first release [\#232](https://github.com/SINTEF/ci-cd/issues/232)
+
+**Closed issues:**
+
+- Use ruff instead of pylint \(and isort\) in code base [\#191](https://github.com/SINTEF/ci-cd/issues/191)
+
+**Merged pull requests:**
+
+- \[Auto-generated\] Update dependencies [\#235](https://github.com/SINTEF/ci-cd/pull/235) ([TEAM4-0](https://github.com/TEAM4-0))
+- Go through another env var to set --since-tag [\#233](https://github.com/SINTEF/ci-cd/pull/233) ([CasperWA](https://github.com/CasperWA))
+- \[Auto-generated\] Update dependencies [\#231](https://github.com/SINTEF/ci-cd/pull/231) ([TEAM4-0](https://github.com/TEAM4-0))
+- Update to ruff \(instead of pylint \(and isort\)\) [\#192](https://github.com/SINTEF/ci-cd/pull/192) ([CasperWA](https://github.com/CasperWA))
+
 ## [v2.7.1](https://github.com/SINTEF/ci-cd/tree/v2.7.1) (2023-12-07)
 
 [Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.7.0...v2.7.1)

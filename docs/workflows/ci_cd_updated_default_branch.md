@@ -103,7 +103,7 @@ on:
 jobs:
   updates-to-stable:
     name: Call external workflow
-    uses: SINTEF/ci-cd/.github/workflows/ci_cd_updated_default_branch.yml@v2.7.1
+    uses: SINTEF/ci-cd/.github/workflows/ci_cd_updated_default_branch.yml@v2.7.3
     if: github.repository_owner == 'SINTEF'
     with:
       git_username: "Casper Welzel Andersen"

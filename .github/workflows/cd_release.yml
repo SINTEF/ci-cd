@@ -160,8 +160,8 @@ jobs:
     steps:
     - name: Validate inputs
       run: |
-        if [[ ! "${{ inputs.python_version_build}}" =~ ^3\.([7-9]|1[0-3])(\..*)?$ ]]; then
-          echo "Python version '${{ inputs.python_version_build}}' is not supported."
+        if [[ ! "${{ inputs.python_version_build }}" =~ ^3\.([7-9]|1[0-3])(\..*)?$ ]]; then
+          echo "Python version '${{ inputs.python_version_build }}' is not supported."
           echo "Supported versions are: 3.7, 3.8, 3.9, 3.10, 3.11, 3.12, 3.13."
           exit 1
         fi
@@ -188,7 +188,7 @@ jobs:
         if [ -n "${{ inputs.build_libs }}" ]; then
           pip install ${{ inputs.build_libs }}
         fi
-        pip install git+https://github.com/SINTEF/ci-cd.git@v2.7.1
+        pip install git+https://github.com/SINTEF/ci-cd.git@v2.7.3
 
     - name: Parse changelog configuration
       run: |
@@ -197,11 +197,13 @@ jobs:
         else
           echo 'CHANGELOG_EXCLUDE_TAGS_REGEX=' >> $GITHUB_ENV
         fi
-        if [ -n "${{ inputs.changelog_exclude_labels}}" ]; then
+
+        if [ -n "${{ inputs.changelog_exclude_labels }}" ]; then
           echo 'CHANGELOG_EXCLUDE_LABELS=--exclude-labels "${{ inputs.changelog_exclude_labels }}"' >> $GITHUB_ENV
         else
           echo 'CHANGELOG_EXCLUDE_LABELS=' >> $GITHUB_ENV
         fi
+
         PROJECT=$(echo $GITHUB_REPOSITORY | cut -d/ -f2- )
         echo "CHANGELOG_PROJECT=--project ${PROJECT}" >> $GITHUB_ENV
 
@@ -247,7 +249,8 @@ jobs:
           done
         fi
 
-        git commit -am "Release ${REF} - Changelog"
+        git add -- .
+        git commit -m "Release ${REF} - Changelog"
 
         if [ -z "${{ inputs.tag_message_file }}" ] || [ ! -f "${{ inputs.tag_message_file }}" ]; then
           TAG_MSG_FILE=.tmp_tag-msg_${{ github.run_id }}_${{ github.run_number }}_${{ github.run_attempt }}.txt
@@ -288,15 +291,22 @@ jobs:
     - name: Get tagged versions
       run: |
         if [ -n "${{ inputs.changelog_exclude_tags_regex }}" ]; then
-          echo "PREVIOUS_VERSION=$(git tag -l --sort -version:refname | grep -v -E "${{ inputs.changelog_exclude_tags_regex }}" | sed -n 2p)" >> $GITHUB_ENV
+          PREVIOUS_VERSION="$(git tag -l --sort -version:refname | grep -v -E "${{ inputs.changelog_exclude_tags_regex }}" | sed -n 2p)"
         else
-          echo "PREVIOUS_VERSION=$(git tag -l --sort -version:refname | sed -n 2p)" >> $GITHUB_ENV
+          PREVIOUS_VERSION="$(git tag -l --sort -version:refname | sed -n 2p)"
         fi
+
+        if [ -n "${PREVIOUS_VERSION}" ]; then
+          SINCE_PREVIOUS_VERSION="--since-tag="${PREVIOUS_VERSION}""
+        else
+          SINCE_PREVIOUS_VERSION=
+        fi
+        echo "SINCE_PREVIOUS_VERSION=${SINCE_PREVIOUS_VERSION}" >> $GITHUB_ENV
 
     - name: Create release-specific changelog
       uses: docker://githubchangeloggenerator/github-changelog-generator:1.16.2
       with:
-        args: --user "${{ github.repository_owner }}" ${{ env.CHANGELOG_PROJECT }} --token "${{ secrets.PAT || secrets.GITHUB_TOKEN }}" --release-branch "${{ inputs.release_branch }}" --since-tag "${{ env.PREVIOUS_VERSION }}" --output release_changelog.md --usernames-as-github-logins ${{ env.CHANGELOG_EXCLUDE_TAGS_REGEX }} ${{ env.CHANGELOG_EXCLUDE_LABELS }}
+        args: --user "${{ github.repository_owner }}" ${{ env.CHANGELOG_PROJECT }} --token "${{ secrets.PAT || secrets.GITHUB_TOKEN }}" --release-branch "${{ inputs.release_branch }}" ${{ env.SINCE_PREVIOUS_VERSION }} --output release_changelog.md --usernames-as-github-logins ${{ env.CHANGELOG_EXCLUDE_TAGS_REGEX }} ${{ env.CHANGELOG_EXCLUDE_LABELS }}
 
     - name: Append changelog to release body
       run: |
@@ -334,8 +344,8 @@ jobs:
     - name: Check input
       run: |
         valid_frameworks=("mkdocs sphinx")
-        if [[ ! " ${valid_frameworks[*]} " =~ " ${{ inputs.docs_framework}} " ]]; then
-            echo "The input '${{ inputs.docs_framework}}' is not supported."
+        if [[ ! " ${valid_frameworks[*]} " =~ " ${{ inputs.docs_framework }} " ]]; then
+            echo "The input '${{ inputs.docs_framework }}' is not supported."
             echo "Valid inputs are: ${valid_frameworks[*]}"
             exit 1
         fi

@@ -1,4 +1,5 @@
 """Relevant tools for printing to the console."""
+
 from __future__ import annotations
 
 import platform

@@ -59,7 +59,8 @@ jobs:
         git config --global user.name "${{ inputs.git_username }}"
         git config --global user.email "${{ inputs.git_email }}"
 
-        git commit -am "Auto-merge extra changes."
+        git add -- .
+        git commit -m "Auto-merge extra changes."
 
     - name: Push changes to '${{ github.event.pull_request.head.ref }}'
       if: inputs.perform_changes

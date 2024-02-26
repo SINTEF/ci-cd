@@ -79,8 +79,8 @@ jobs:
     steps:
     - name: Validate inputs
       run: |
-        if [[ ! "${{ inputs.python_version}}" =~ ^3\.([7-9]|1[0-3])(\..*)?$ ]]; then
-          echo "Python version '${{ inputs.python_version}}' is not supported."
+        if [[ ! "${{ inputs.python_version }}" =~ ^3\.([7-9]|1[0-3])(\..*)?$ ]]; then
+          echo "Python version '${{ inputs.python_version }}' is not supported."
           echo "Supported versions are: 3.7, 3.8, 3.9, 3.10, 3.11, 3.12, 3.13."
           exit 1
         fi
@@ -137,7 +137,7 @@ jobs:
         python -m pip install -U ${VERBOSE} pip
         pip install -U ${VERBOSE} setuptools wheel
         pip install ${VERBOSE} .${{ inputs.install_extras }}
-        pip install ${VERBOSE} git+https://github.com/SINTEF/ci-cd.git@v2.7.1
+        pip install ${VERBOSE} git+https://github.com/SINTEF/ci-cd.git@v2.7.3
 
     - name: Set up git user
       run: |
@@ -217,7 +217,7 @@ jobs:
     - name: Fetch PR body
       if: env.UPDATE_DEPS == 'true'
       id: pr_body
-      uses: chuhlomin/render-template@v1.8
+      uses: chuhlomin/render-template@v1.9
       with:
         template: ${{ env.PR_BODY_FILE }}
 
@@ -228,12 +228,12 @@ jobs:
     - name: Create PR
       if: env.UPDATE_DEPS == 'true'
       id: cpr
-      uses: peter-evans/create-pull-request@v5
+      uses: peter-evans/create-pull-request@v6
       with:
         token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
         committer: "${{ inputs.git_username }} <${{ inputs.git_email }}>"
         author: "${{ inputs.git_username }} <${{ inputs.git_email }}>"
-        branch: ci/update-pyproject${{ inputs.branch_name_extension && format('/{0}', inputs.branch_name_extension) || ''}}
+        branch: ci/update-pyproject${{ inputs.branch_name_extension && format('/{0}', inputs.branch_name_extension) || '' }}
         delete-branch: true
         title: "[Auto-generated] Check & update dependencies (`pyproject.toml`)"
         body: ${{ steps.pr_body.outputs.result }}
