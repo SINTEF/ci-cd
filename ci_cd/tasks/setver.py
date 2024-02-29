@@ -75,21 +75,35 @@ def setver(
         test: bool = test  # type: ignore[no-redef]
         fail_fast: bool = fail_fast  # type: ignore[no-redef]
 
+    # Validate inputs
+    # Version
     try:
         semantic_version = SemanticVersion(version)
     except ValueError:
-        sys.exit(
-            "Error: Please specify version as a semantic version (SemVer) or "
-            "PEP 440 version. The version may be prepended by a 'v'."
+        msg = (
+            "Please specify version as a semantic version (SemVer) or PEP 440 version. "
+            "The version may be prepended by a 'v'."
         )
+        sys.exit(f"{Emoji.CROSS_MARK.value} {error_msg(msg)}")
 
+    # Root repo path
+    root_repo = Path(root_repo_path).resolve()
+    if not root_repo.exists():
+        msg = (
+            f"Could not find the repository root at: {root_repo} (user provided: "
+            f"{root_repo_path!r})"
+        )
+        sys.exit(f"{Emoji.CROSS_MARK.value} {error_msg(msg)}")
+
+    # Run the task with defaults
     if not code_base_update:
-        init_file = Path(root_repo_path).resolve() / package_dir / "__init__.py"
+        init_file = root_repo / package_dir / "__init__.py"
         if not init_file.exists():
-            sys.exit(
-                f"{Emoji.CROSS_MARK.value} Error: Could not find the Python package's "
-                f"root '__init__.py' file at: {init_file}"
+            msg = (
+                "Could not find the Python package's root '__init__.py' file at: "
+                f"{init_file}"
             )
+            sys.exit(f"{Emoji.CROSS_MARK.value} {error_msg(msg)}")
 
         update_file(
             init_file,
@@ -135,7 +149,7 @@ def setver(
         )
 
         if not filepath.is_absolute():
-            filepath = Path(root_repo_path).resolve() / filepath
+            filepath = root_repo / filepath
 
         if not filepath.exists():
             msg = f"Could not find the user-provided file at: {filepath}"
