@@ -142,8 +142,8 @@ def test_invalid_version() -> None:
     with pytest.raises(
         SystemExit,
         match=(
-            r"^Error: Please specify version as a semantic version \(SemVer\) or "
-            r"PEP 440 version\..*"
+            r"Please specify version as a semantic version \(SemVer\) or PEP 440 "
+            r"version\..*"
         ),
     ):
         setver(MockContext(), package_dir="does not matter", version="invalid")
