@@ -14,7 +14,7 @@ from typing import TYPE_CHECKING
 
 from invoke import task
 
-from ci_cd.utils import Emoji, SemanticVersion, update_file
+from ci_cd.utils import Emoji, SemanticVersion, error_msg, update_file
 
 # Get logger
 LOGGER = logging.getLogger(__name__)
@@ -22,7 +22,7 @@ LOGGER = logging.getLogger(__name__)
 
 @task(
     help={
-        "version": "Version to set.",
+        "version": "Version to set. Must be either a SemVer or a PEP 440 version.",
         "package-dir": (
             "Relative path to package dir from the repository root, "
             "e.g. 'src/my_package'."
@@ -45,9 +45,13 @@ LOGGER = logging.getLogger(__name__)
             "The string separator to use for '--code-base-update' values."
         ),
         "fail_fast": (
-            "Whether to exist the task immediately upon failure or wait until the end."
+            "Whether to exit the task immediately upon failure or wait until the end. "
+            "Note, no code changes will happen if an error occurs."
         ),
-        "test": "Whether to print extra debugging statements.",
+        "test": (
+            "Whether to do a dry run or not. If set, the task will not make any "
+            "changes to the code base."
+        ),
     },
     iterable=["code_base_update"],
 )
@@ -71,21 +75,13 @@ def setver(
         test: bool = test  # type: ignore[no-redef]
         fail_fast: bool = fail_fast  # type: ignore[no-redef]
 
-    match = re.fullmatch(
-        (
-            r"v?(?P<major>[0-9]+)\.(?P<minor>[0-9]+)\.(?P<patch>[0-9]+)"
-            r"(?:-(?P<pre_release>[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?"
-            r"(?:\+(?P<build>[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?"
-        ),
-        version,
-    )
-    if not match:
+    try:
+        semantic_version = SemanticVersion(version)
+    except ValueError:
         sys.exit(
-            "Error: Please specify version as "
-            "'Major.Minor.Patch(-Pre-Release+Build Metadata)' or "
-            "'vMajor.Minor.Patch(-Pre-Release+Build Metadata)'"
+            "Error: Please specify version as a semantic version (SemVer) or "
+            "PEP 440 version. The version may be prepended by a 'v'."
         )
-    semantic_version = SemanticVersion(**match.groupdict())
 
     if not code_base_update:
         init_file = Path(root_repo_path).resolve() / package_dir / "__init__.py"
@@ -102,80 +98,115 @@ def setver(
                 f'__version__ = "{semantic_version}"',
             ),
         )
-    else:
-        errors: list[str] = []
-        for code_update in code_base_update:
-            try:
-                filepath, pattern, replacement = code_update.split(
-                    code_base_update_separator
-                )
-            except ValueError:
-                msg = traceback.format_exc()
-                LOGGER.error(msg)
-                if test:
-                    print(msg)
-                sys.exit(
-                    f"{Emoji.CROSS_MARK.value} Error: Could not properly extract "
-                    "'file path', 'pattern', 'replacement string' from the "
-                    f"'--code-base-update'={code_update}"
-                )
 
-            filepath = Path(
-                filepath.format(package_dir=package_dir, version=semantic_version)
-            ).resolve()
-            if not filepath.exists():
-                error_msg = (
-                    f"{Emoji.CROSS_MARK.value} Error: Could not find the "
-                    f"user-provided file at: {filepath}"
-                )
-                if fail_fast:
-                    sys.exit(error_msg)
-                errors.append(error_msg)
-                continue
+        # Success, done
+        print(
+            f"{Emoji.PARTY_POPPER.value} Bumped version for {package_dir} to "
+            f"{semantic_version}."
+        )
+        return
 
-            LOGGER.debug(
-                """filepath: %s
+    # Code base updates were provided
+    # First, validate the inputs
+    validated_code_base_updates: list[tuple[Path, str, str, str]] = []
+    error: bool = False
+    for code_update in code_base_update:
+        try:
+            filepath, pattern, replacement = code_update.split(
+                code_base_update_separator
+            )
+        except ValueError as exc:
+            msg = (
+                "Could not properly extract 'file path', 'pattern', "
+                f"'replacement string' from the '--code-base-update'={code_update}:"
+                f"\n{exc}"
+            )
+            LOGGER.error(msg)
+            LOGGER.debug("Traceback: %s", traceback.format_exc())
+            if fail_fast:
+                sys.exit(f"{Emoji.CROSS_MARK.value} {error_msg(msg)}")
+            print(error_msg(msg), file=sys.stderr, flush=True)
+            error = True
+            continue
+
+        # Resolve file path
+        filepath = Path(
+            filepath.format(package_dir=package_dir, version=semantic_version)
+        )
+
+        if not filepath.is_absolute():
+            filepath = Path(root_repo_path).resolve() / filepath
+
+        if not filepath.exists():
+            msg = f"Could not find the user-provided file at: {filepath}"
+            LOGGER.error(msg)
+            if fail_fast:
+                sys.exit(f"{Emoji.CROSS_MARK.value} {error_msg(msg)}")
+            print(error_msg(msg), file=sys.stderr, flush=True)
+            error = True
+            continue
+
+        LOGGER.debug(
+            """filepath: %s
 pattern: %r
 replacement (input): %s
 replacement (handled): %s
 """,
+            filepath,
+            pattern,
+            replacement,
+            replacement.format(package_dir=package_dir, version=semantic_version),
+        )
+
+        validated_code_base_updates.append(
+            (
+                filepath,
+                pattern,
+                replacement.format(package_dir=package_dir, version=semantic_version),
+                replacement,
+            )
+        )
+
+    if error:
+        sys.exit(
+            f"{Emoji.CROSS_MARK.value} Errors occurred! See printed statements above."
+        )
+
+    for (
+        filepath,
+        pattern,
+        replacement,
+        input_replacement,
+    ) in validated_code_base_updates:
+        if test:
+            print(
+                f"filepath: {filepath}\npattern: {pattern!r}\n"
+                f"replacement (input): {input_replacement}\n"
+                f"replacement (handled): {replacement}"
+            )
+            continue
+
+        try:
+            update_file(filepath, (pattern, replacement))
+        except re.error as exc:
+            if validated_code_base_updates[0] != (
                 filepath,
                 pattern,
                 replacement,
-                replacement.format(package_dir=package_dir, version=semantic_version),
+                input_replacement,
+            ):
+                msg = "Some files have already been updated !\n\n "
+
+            msg += (
+                f"Could not update file {filepath} according to the given input:\n\n  "
+                f"pattern: {pattern}\n  replacement: {replacement}\n\nException: "
+                f"{exc}"
             )
-            if test:
-                print(
-                    f"filepath: {filepath}\npattern: {pattern!r}\n"
-                    f"replacement (input): {replacement}"
-                )
-                print(
-                    "replacement (handled): "
-                    f"{replacement.format(package_dir=package_dir, version=semantic_version)}"  # noqa: E501
-                )
+            LOGGER.error(msg)
+            LOGGER.debug("Traceback: %s", traceback.format_exc())
+            sys.exit(f"{Emoji.CROSS_MARK.value} {error_msg(msg)}")
 
-            try:
-                update_file(
-                    filepath,
-                    (
-                        pattern,
-                        replacement.format(
-                            package_dir=package_dir, version=semantic_version
-                        ),
-                    ),
-                )
-            except re.error:
-                msg = traceback.format_exc()
-                LOGGER.error(msg)
-                if test:
-                    print(msg)
-                sys.exit(
-                    f"{Emoji.CROSS_MARK.value} Error: Could not update file {filepath}"
-                    f" according to the given input:\n\n  pattern: {pattern}\n  "
-                    "replacement: "
-                    f"{replacement.format(package_dir=package_dir, version=semantic_version)}"  # noqa: E501
-                )
-
+    # Success, done
     print(
         f"{Emoji.PARTY_POPPER.value} Bumped version for {package_dir} to "
         f"{semantic_version}."
