@@ -2,117 +2,117 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://SINTEF.github.io/ci-cd/latest/</loc>
-         <lastmod>2024-02-14</lastmod>
+         <lastmod>2024-02-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://SINTEF.github.io/ci-cd/latest/CHANGELOG/</loc>
-         <lastmod>2024-02-14</lastmod>
+         <lastmod>2024-02-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://SINTEF.github.io/ci-cd/latest/LICENSE/</loc>
-         <lastmod>2024-02-14</lastmod>
+         <lastmod>2024-02-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://SINTEF.github.io/ci-cd/latest/api_reference/exceptions/</loc>
-         <lastmod>2024-02-14</lastmod>
+         <lastmod>2024-02-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://SINTEF.github.io/ci-cd/latest/api_reference/main/</loc>
-         <lastmod>2024-02-14</lastmod>
+         <lastmod>2024-02-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://SINTEF.github.io/ci-cd/latest/api_reference/tasks/api_reference_docs/</loc>
-         <lastmod>2024-02-14</lastmod>
+         <lastmod>2024-02-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://SINTEF.github.io/ci-cd/latest/api_reference/tasks/docs_index/</loc>
-         <lastmod>2024-02-14</lastmod>
+         <lastmod>2024-02-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://SINTEF.github.io/ci-cd/latest/api_reference/tasks/setver/</loc>
-         <lastmod>2024-02-14</lastmod>
+         <lastmod>2024-02-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://SINTEF.github.io/ci-cd/latest/api_reference/tasks/update_deps/</loc>
-         <lastmod>2024-02-14</lastmod>
+         <lastmod>2024-02-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://SINTEF.github.io/ci-cd/latest/api_reference/utils/console_printing/</loc>
-         <lastmod>2024-02-14</lastmod>
+         <lastmod>2024-02-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://SINTEF.github.io/ci-cd/latest/api_reference/utils/file_io/</loc>
-         <lastmod>2024-02-14</lastmod>
+         <lastmod>2024-02-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://SINTEF.github.io/ci-cd/latest/api_reference/utils/versions/</loc>
-         <lastmod>2024-02-14</lastmod>
+         <lastmod>2024-02-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://SINTEF.github.io/ci-cd/latest/hooks/</loc>
-         <lastmod>2024-02-14</lastmod>
+         <lastmod>2024-02-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://SINTEF.github.io/ci-cd/latest/hooks/docs_api_reference/</loc>
-         <lastmod>2024-02-14</lastmod>
+         <lastmod>2024-02-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://SINTEF.github.io/ci-cd/latest/hooks/docs_landing_page/</loc>
-         <lastmod>2024-02-14</lastmod>
+         <lastmod>2024-02-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://SINTEF.github.io/ci-cd/latest/hooks/update_pyproject/</loc>
-         <lastmod>2024-02-14</lastmod>
+         <lastmod>2024-02-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://SINTEF.github.io/ci-cd/latest/workflows/</loc>
-         <lastmod>2024-02-14</lastmod>
+         <lastmod>2024-02-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://SINTEF.github.io/ci-cd/latest/workflows/cd_release/</loc>
-         <lastmod>2024-02-14</lastmod>
+         <lastmod>2024-02-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://SINTEF.github.io/ci-cd/latest/workflows/ci_automerge_prs/</loc>
-         <lastmod>2024-02-14</lastmod>
+         <lastmod>2024-02-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://SINTEF.github.io/ci-cd/latest/workflows/ci_cd_updated_default_branch/</loc>
-         <lastmod>2024-02-14</lastmod>
+         <lastmod>2024-02-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://SINTEF.github.io/ci-cd/latest/workflows/ci_check_pyproject_dependencies/</loc>
-         <lastmod>2024-02-14</lastmod>
+         <lastmod>2024-02-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://SINTEF.github.io/ci-cd/latest/workflows/ci_tests/</loc>
-         <lastmod>2024-02-14</lastmod>
+         <lastmod>2024-02-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://SINTEF.github.io/ci-cd/latest/workflows/ci_update_dependencies/</loc>
-         <lastmod>2024-02-14</lastmod>
+         <lastmod>2024-02-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
