@@ -188,7 +188,7 @@ jobs:
         if [ -n "${{ inputs.build_libs }}" ]; then
           pip install ${{ inputs.build_libs }}
         fi
-        pip install git+https://github.com/SINTEF/ci-cd.git@v2.7.3
+        pip install git+https://github.com/SINTEF/ci-cd.git@v2.7.4
 
     - name: Parse changelog configuration
       run: |

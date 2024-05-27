@@ -1,5 +1,18 @@
 # Changelog
 
+## [v2.7.4](https://github.com/SINTEF/ci-cd/tree/v2.7.4) (2024-02-29)
+
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.7.3...v2.7.4)
+
+**Implemented enhancements:**
+
+- Use Python versioning regex in `setver` [\#243](https://github.com/SINTEF/ci-cd/issues/243)
+
+**Merged pull requests:**
+
+- \[Auto-generated\] Update dependencies [\#246](https://github.com/SINTEF/ci-cd/pull/246) ([TEAM4-0](https://github.com/TEAM4-0))
+- Update setver task [\#244](https://github.com/SINTEF/ci-cd/pull/244) ([CasperWA](https://github.com/CasperWA))
+
 ## [v2.7.3](https://github.com/SINTEF/ci-cd/tree/v2.7.3) (2024-02-14)
 
 [Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.7.2...v2.7.3)

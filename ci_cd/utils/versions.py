@@ -295,6 +295,40 @@ class SemanticVersion(str):
         """Return the string representation of the object."""
         return f"{self.__class__.__name__}({self.__str__()!r})"
 
+    def __getattribute__(self, name: str) -> Any:
+        """Return the attribute value."""
+        accepted_python_attributes = (
+            "epoch",
+            "release",
+            "pre",
+            "post",
+            "dev",
+            "local",
+            "public",
+            "base_version",
+            "micro",
+        )
+
+        try:
+            return object.__getattribute__(self, name)
+        except AttributeError as exc:
+            # Try returning the attribute from the Python version, if it is in a list
+            # of accepted attributes
+            if name not in accepted_python_attributes:
+                raise AttributeError(
+                    f"{self.__class__.__name__} object has no attribute {name!r}"
+                ) from exc
+
+            python_version = object.__getattribute__(self, "as_python_version")(
+                shortened=False
+            )
+            try:
+                return getattr(python_version, name)
+            except AttributeError as exc:
+                raise AttributeError(
+                    f"{self.__class__.__name__} object has no attribute {name!r}"
+                ) from exc
+
     def _validate_other_type(self, other: Any) -> SemanticVersion:
         """Initial check/validation of `other` before rich comparisons."""
         not_implemented_exc = NotImplementedError(
