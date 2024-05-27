@@ -84,9 +84,9 @@ def _update_pyproject(
             index = pyproject["project"]["optional-dependencies"][extra_name].index(
                 original_dependency
             )
-            pyproject["project"]["optional-dependencies"][extra_name][
-                index
-            ] = updated_dependency.replace('"', "'")
+            pyproject["project"]["optional-dependencies"][extra_name][index] = (
+                updated_dependency.replace('"', "'")
+            )
 
 
 def _format_and_update_dependency(
