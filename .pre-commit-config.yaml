@@ -25,7 +25,7 @@ repos:
   - repo: https://github.com/asottile/pyupgrade
     # Latest version for Python 3.7: 3.3.2
     # Latest version for Python 3.8: 3.8.0
-    rev: v3.15.2
+    rev: v3.16.0
     hooks:
     - id: pyupgrade
       args: [--py37-plus]
@@ -42,7 +42,7 @@ repos:
   # More information can be found in its documentation:
   # https://docs.astral.sh/ruff/
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.4.7
+    rev: v0.4.8
     hooks:
     - id: ruff
       # Fix what can be fixed in-place and exit with non-zero status if files were
