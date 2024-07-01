@@ -728,7 +728,7 @@ def _ignore_semver_rules(
             f"'patch' (you gave {semver_rules['version-update']!r})."
         )
 
-    if (
+    return bool(
         ("major" in semver_rules["version-update"] and latest[0] != current[0])
         or (
             "minor" in semver_rules["version-update"]
@@ -745,10 +745,7 @@ def _ignore_semver_rules(
             and latest[0] == current[0]
             and latest[1] == current[1]
         )
-    ):
-        return True
-
-    return False
+    )
 
 
 def ignore_version(
@@ -783,12 +780,10 @@ def ignore_version(
         return True
 
     # semver rules
-    if "version-update" in semver_rules and _ignore_semver_rules(
-        current, latest, semver_rules
-    ):
-        return True
-
-    return False
+    return bool(
+        "version-update" in semver_rules
+        and _ignore_semver_rules(current, latest, semver_rules)
+    )
 
 
 def regenerate_requirement(
@@ -1032,12 +1027,12 @@ def _semi_valid_python_version(version: SemanticVersion) -> bool:
             f"Invalid Python major version: {version.major}. Expected 1, 2, or 3."
         )
 
-    if version.minor not in range(12 + 1) or version.patch not in range(18 + 1):
-        # Either:
-        #   Not a valid Python minor version (0, 1, 2, ..., 12)
-        #   Not a valid Python patch version (0, 1, 2, ..., 18)
-        return False
-    return True
+    # Either:
+    #   Not a valid Python minor version (0, 1, 2, ..., 12)
+    #   Not a valid Python patch version (0, 1, 2, ..., 18)
+    return not bool(
+        version.minor not in range(12 + 1) or version.patch not in range(18 + 1)
+    )
 
 
 def get_min_max_py_version(
