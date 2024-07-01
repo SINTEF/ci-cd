@@ -3706,12 +3706,10 @@ semantic version ignore rules.</p></td>
         <span class="k">return</span> <span class="kc">True</span>
 
     <span class="c1"># semver rules</span>
-    <span class="k">if</span> <span class="s2">&quot;version-update&quot;</span> <span class="ow">in</span> <span class="n">semver_rules</span> <span class="ow">and</span> <span class="n">_ignore_semver_rules</span><span class="p">(</span>
-        <span class="n">current</span><span class="p">,</span> <span class="n">latest</span><span class="p">,</span> <span class="n">semver_rules</span>
-    <span class="p">):</span>
-        <span class="k">return</span> <span class="kc">True</span>
-
-    <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span>
+        <span class="s2">&quot;version-update&quot;</span> <span class="ow">in</span> <span class="n">semver_rules</span>
+        <span class="ow">and</span> <span class="n">_ignore_semver_rules</span><span class="p">(</span><span class="n">current</span><span class="p">,</span> <span class="n">latest</span><span class="p">,</span> <span class="n">semver_rules</span><span class="p">)</span>
+    <span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
