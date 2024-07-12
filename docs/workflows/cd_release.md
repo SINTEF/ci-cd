@@ -1,6 +1,15 @@
 # CD - Release
 <!-- markdownlint-disable MD007 -->
 
+!!! warning "Important"
+    The default for `publish_on_pypi` has changed from `true` to `false` in version `2.8.0`.
+
+    To keep using the previous behaviour, set `publish_on_pypi: true` in the workflow file.
+
+    This change has been introduced to push for the use of PyPI's [Trusted Publisher](https://docs.pypi.org/trusted-publishers/) feature, which is not yet supported by reusable/callable workflows.
+
+    See the [Using PyPI's Trusted Publisher](#using-pypis-trusted-publisher) section for more information on how to migrate to this feature.
+
 **File to use:** `cd_release.yml`
 
 There are 2 jobs in this workflow, which run in sequence.
@@ -23,6 +32,88 @@ This is specifically for adding a changelog to the GitHub release body.
 
 If used together with the [Update API Reference in Documentation](../hooks/docs_api_reference.md#using-it-together-with-cicd-workflows), please align the `relative` input with the `--relative` option, when running the hook.
 See the [proper section](../hooks/docs_api_reference.md#using-it-together-with-cicd-workflows) to understand why and how these options and inputs should be aligned.
+
+## Using PyPI's Trusted Publisher
+
+PyPI has introduced a feature called [Trusted Publisher](https://docs.pypi.org/trusted-publishers/) which allows for a more secure way of publishing packages using [OpenID Connect (OIDC)](https://openid.net/connect/).
+This feature is [not yet supported by reusable/callable workflows](https://github.com/pypa/gh-action-pypi-publish/tree/release/v1?tab=readme-ov-file#trusted-publishing), but can be used by setting up a GitHub Action workflow in your repository that calls the `cd_release.yml` workflow in one job, setting the `publish_on_pypi` input to `false` and the `upload_distribution` input to `true`, and then using the uploaded artifact to publish the package to PyPI in a subsequent job.
+
+In this way you can still benefit from the `cd_release.yml` dynamically updated workflow, while using PyPI's Trusted Publisher feature.
+
+!!! info
+    The artifact name is statically set to `dist`.
+    If the workflow is run multiple times, the artifact will be overwritten.
+    Retention time for the artifact is kept at the GitHub default (currently 90 days).
+
+!!! warning "Important"
+    The `id-token:write` permission is required by the PyPI upload action for Trusted Publishers.
+
+The following is an example of how a workflow may look that calls _CD - Release_ and uses the uploaded built distribution artifact to publish the package to PyPI.
+Note, the non-default `dists` directory is chosen for the built distribution, and the artifact is downloaded to the `my-dists` directory.
+
+```yaml
+name: CD - Publish
+
+on:
+  release:
+    types:
+    - published
+
+jobs:
+  build:
+    name: Build distribution & publish documentation
+    if: github.repository == 'SINTEF/my-python-package' && startsWith(github.ref, 'refs/tags/v')
+    uses: SINTEF/ci-cd/.github/workflows/cd_release.yml@v2.7.4
+    with:
+      # General
+      git_username: "Casper Welzel Andersen"
+      git_email: "CasperWA@github.com"
+      release_branch: stable
+
+      # Build distribution
+      python_package: true
+      package_dirs: my_python_package
+      install_extras: "[dev,build]"
+      build_libs: build
+      build_cmd: "python -m build -o dists"
+      build_dir: dists
+      publish_on_pypi: false
+      upload_distribution: true
+
+      # Publish documentation
+      update_docs: true
+      doc_extras: "[docs]"
+      docs_framework: mkdocs
+
+    secrets:
+      PAT: ${{ secrets.PAT }}
+
+  publish:
+    name: Publish to PyPI
+    needs: build
+    runs-on: ubuntu-latest
+
+    # Using environments is recommended by PyPI when using Trusted Publishers
+    environment: release
+
+    # The id-token:write permission is required by the PyPI upload action for
+    # Trusted Publishers
+    permissions:
+      id-token: write
+
+    steps:
+      - name: Download distribution
+        uses: actions/download-artifact@v4
+        with:
+          name: dist  # The artifact will always be called 'dist'
+          path: my-dists
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          # The path to the distribution to upload
+          package-dir: my-dists
+```
 
 ## Updating instances of version in repository files
 
@@ -80,17 +171,19 @@ Inputs related to updating the version, building and releasing the Python packag
 
 | **Name** | **Description** | **Required** | **Default** | **Type** |
 |:--- |:--- |:---:|:---:|:---:|
+| `publish_on_pypi` | Whether or not to publish on PyPI.</br></br>**Note**: This is only relevant if 'python_package' is 'true', which is the default.</br></br>**Important**: The default has changed from `true` to `false` to push for the use of PyPI's [Trusted Publisher](https://docs.pypi.org/trusted-publishers/) feature.</br>See the [Using PyPI's Trusted Publisher](#using-pypis-trusted-publisher) section for more information on how to migrate to this feature. | **Yes (will be non-required in v2.9)** | `false` | _boolean_ |
 | `python_package` | Whether or not this is a Python package, where the version should be updated in the `'package_dir'/__init__.py` for the possibly several 'package_dir' lines given in the `package_dirs` input and a build and release to PyPI should be performed. | No | `true` | _boolean_ |
 | `python_version_build` | The Python version to use for the workflow when building the package. | No | 3.9 | _string_ |
 | `package_dirs` | A multi-line string of paths to Python package directories relative to the repository directory to have its `__version__` value updated.</br></br>Example: `'src/my_package'`.</br></br>**Important**: This is _required_ if 'python_package' is 'true', which is the default.</br></br>See also [Single vs multi-line input](index.md#single-vs-multi-line-input). | **_Yes_ (if 'python_package' is 'true')** | | _string_ |
 | `version_update_changes` | A multi-line string of changes to be implemented in the repository files upon updating the version. The string should be made up of three parts: 'file path', 'pattern', and 'replacement string'. These are separated by the 'version_update_changes_separator' value.</br>The 'file path' must _always_ either be relative to the repository root directory or absolute.</br>The 'pattern' should be given as a 'raw' Python string.</br></br>See also [Single vs multi-line input](index.md#single-vs-multi-line-input). | No | _Empty string_ | _string_ |
 | `version_update_changes_separator` | The separator to use for 'version_update_changes' when splitting the three parts of each string. | No | , | _string_ |
 | `build_libs` | A space-separated list of packages to install via PyPI (`pip install`). | No | _Empty string_ | _string_ |
-| `build_cmd` | The package build command, e.g., `'flit build'` or `'python -m build'` (default). | No | `python -m build` | _string_ |
+| `build_cmd` | The package build command, e.g., `'flit build'` or `'python -m build'`. | No | `python -m build --outdir dist .` | _string_ |
+| `build_dir` | The directory where the built distribution is located. This should reflect the directory used in the build command or by default by the build library. | No | `dist` | _string_ |
 | `tag_message_file` | Relative path to a release tag message file from the root of the repository.</br></br>Example: `'.github/utils/release_tag_msg.txt'`. | No | _Empty string_ | _string_ |
 | `changelog_exclude_tags_regex` | A regular expression matching any tags that should be excluded from the CHANGELOG.md. | No | _Empty string_ | _string_ |
 | `changelog_exclude_labels` | Comma-separated list of labels to exclude from the CHANGELOG.md. | No | _Empty string_ | _string_ |
-| `publish_on_pypi` | Whether or not to publish on PyPI.</br></br>**Note**: This is only relevant if 'python_package' is 'true', which is the default. | No | `true` | _boolean_ |
+| `upload_distribution` | Whether or not to upload the built distribution as an artifact.</br></br>**Note**: This is only relevant if 'python_package' is 'true', which is the default. | No | `true` | _boolean_ |
 
 Inputs related to building and releasing the documentation in general.
 
@@ -142,16 +235,22 @@ jobs:
     uses: SINTEF/ci-cd/.github/workflows/cd_release.yml@v2.7.4
     if: github.repository == 'SINTEF/my-python-package' && startsWith(github.ref, 'refs/tags/v')
     with:
+      # General
       git_username: "Casper Welzel Andersen"
       git_email: "CasperWA@github.com"
       release_branch: stable
+
+      # Publish distribution
       package_dirs: my_python_package
       install_extras: "[dev,build]"
       build_cmd: "pip install flit && flit build"
       tag_message_file: ".github/utils/release_tag_msg.txt"
+      changelog_exclude_labels: "skip_changelog,duplicate"
+      publish_on_pypi: true
+
+      # Publish documentation
       update_docs: true
       doc_extras: "[docs]"
-      exclude_labels: "skip_changelog,duplicate"
     secrets:
       PyPI_token: ${{ secrets.PYPI_TOKEN }}
       PAT: ${{ secrets.PAT }}

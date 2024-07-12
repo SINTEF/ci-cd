@@ -2,6 +2,15 @@
 
 **Current version to use:** `v2.7.4`
 
+!!! warning "Important"
+    The default for `publish_on_pypi` in the [_CD - Release_ workflow](./workflows/cd_release.md) has changed from `true` to `false` in version `2.8.0`.
+
+    To keep using the previous behaviour, set `publish_on_pypi: true` in the workflow file.
+
+    This change has been introduced to push for the use of PyPI's [Trusted Publisher](https://docs.pypi.org/trusted-publishers/) feature, which is not yet supported by reusable/callable workflows.
+
+    See the [Using PyPI's Trusted Publisher](./workflows/cd_release.md#using-pypis-trusted-publisher) section for more information on how to migrate to this feature.
+
 Use tried and tested continuous integration (CI) and continuous deployment (CD) tools from this repository.
 
 Currently, the repository offers GitHub Actions callable/reusable workflows and [pre-commit](https://pre-commit.com) hooks.
