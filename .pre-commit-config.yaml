@@ -42,7 +42,7 @@ repos:
   # More information can be found in its documentation:
   # https://docs.astral.sh/ruff/
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.5.1
+    rev: v0.5.4
     hooks:
     - id: ruff
       # Fix what can be fixed in-place and exit with non-zero status if files were
@@ -69,7 +69,7 @@ repos:
   # The project's documentation can be found at:
   # https://mypy.readthedocs.io/en/stable/index.html
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.10.1
+    rev: v1.11.0
     hooks:
     - id: mypy
 
