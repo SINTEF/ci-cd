@@ -1,5 +1,54 @@
 # Changelog
 
+## [Unreleased](https://github.com/SINTEF/ci-cd/tree/HEAD)
+
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.8.0...HEAD)
+
+# Support Trusted Publishers from PyPI
+
+[Trusted Publishers](https://docs.pypi.org/trusted-publishers/using-a-publisher/) from [PyPI](https://pypi.org) is now supported via uploading the distribution(s) as artifacts (for more information about GitHub Actions artifacts, see [the GitHub Docs](https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts)).
+
+**Breaking change**: This is not a "true" breaking change - but it may cause certain workflows to fail that uses the callable workflow _CD - Release_: The parameter `publish_on_pypi` has become required, meaning one _must_ provide it in the `with` section of the calling workflow. For more information, see [the documentation page for the _CD - Release_ workflow](https://sintef.github.io/ci-cd/2.8.0/workflows/cd_release/).
+
+## DX updates
+
+Several fixes from the development tools have been implemented into the code base.
+
+## [v2.8.0](https://github.com/SINTEF/ci-cd/tree/v2.8.0) (2024-07-29)
+
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.7.4...v2.8.0)
+
+# Support Trusted Publishers from PyPI
+
+[Trusted Publishers](https://docs.pypi.org/trusted-publishers/using-a-publisher/) from [PyPI](https://pypi.org) is now supported via uploading the distribution(s) as artifacts (for more information about GitHub Actions artifacts, see [the GitHub Docs](https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts)).
+
+**Breaking change**: This is not a "true" breaking change - but it may cause certain workflows to fail that uses the callable workflow _CD - Release_: The parameter `publish_on_pypi` has become required, meaning one _must_ provide it in the `with` section of the calling workflow. For more information, see [the documentation page for the _CD - Release_ workflow](https://sintef.github.io/ci-cd/2.8.0/workflows/cd_release/).
+
+## DX updates
+
+Several fixes from the development tools have been implemented into the code base.
+
+**Implemented enhancements:**
+
+- Support new PyPI Trusted Publisher [\#180](https://github.com/SINTEF/ci-cd/issues/180)
+
+**Merged pull requests:**
+
+- \[pre-commit.ci\] pre-commit autoupdate [\#268](https://github.com/SINTEF/ci-cd/pull/268) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- Push for PyPI Trusted Publisher usage [\#267](https://github.com/SINTEF/ci-cd/pull/267) ([CasperWA](https://github.com/CasperWA))
+- \[pre-commit.ci\] pre-commit autoupdate [\#266](https://github.com/SINTEF/ci-cd/pull/266) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[Auto-generated\] Update dependencies [\#265](https://github.com/SINTEF/ci-cd/pull/265) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[pre-commit.ci\] pre-commit autoupdate [\#264](https://github.com/SINTEF/ci-cd/pull/264) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#263](https://github.com/SINTEF/ci-cd/pull/263) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[Auto-generated\] Update dependencies [\#262](https://github.com/SINTEF/ci-cd/pull/262) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[pre-commit.ci\] pre-commit autoupdate [\#261](https://github.com/SINTEF/ci-cd/pull/261) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#259](https://github.com/SINTEF/ci-cd/pull/259) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#257](https://github.com/SINTEF/ci-cd/pull/257) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[Auto-generated\] Update dependencies [\#255](https://github.com/SINTEF/ci-cd/pull/255) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[pre-commit.ci\] pre-commit autoupdate [\#254](https://github.com/SINTEF/ci-cd/pull/254) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[Auto-generated\] Update dependencies [\#250](https://github.com/SINTEF/ci-cd/pull/250) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[Auto-generated\] Update dependencies [\#247](https://github.com/SINTEF/ci-cd/pull/247) ([TEAM4-0](https://github.com/TEAM4-0))
+
 ## [v2.7.4](https://github.com/SINTEF/ci-cd/tree/v2.7.4) (2024-02-29)
 
 [Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.7.3...v2.7.4)
