@@ -7,11 +7,16 @@
     ]
   },
   {
-    "version": "2.7.4",
-    "title": "2.7.4",
+    "version": "2.8.0",
+    "title": "2.8.0",
     "aliases": [
       "stable"
     ]
+  },
+  {
+    "version": "2.7.4",
+    "title": "2.7.4",
+    "aliases": []
   },
   {
     "version": "2.7.3",
