@@ -36,6 +36,11 @@ on:
         default: false
 
       # Update Python package version, build and release on PyPI
+      publish_on_pypi:
+        description: "Whether or not to publish on PyPI. **Note**: This is only relevant if 'python_package' is 'true', which is the default."
+        required: true
+        type: boolean
+        default: false
       python_package:
         description: "Whether or not this is a Python package, where the version should be updated in the 'package_dir'/__init__.py for the possibly several 'package_dir' lines given in the 'package_dirs' input and a build and release to PyPI should be performed."
         required: false
@@ -67,10 +72,15 @@ on:
         type: string
         default: ""
       build_cmd:
-        description: "The package build command, e.g., `'flit build'` or `'python -m build'` (default)."
+        description: "The package build command, e.g., `'flit build'` or `'python -m build'`."
         required: false
         type: string
-        default: "python -m build"
+        default: "python -m build --outdir dist ."
+      build_dir:
+        description: "The directory where the built distribution is located. This should reflect the directory used in the build command or by default by the build library."
+        required: false
+        type: string
+        default: "dist"
       tag_message_file:
         description: "Relative path to a release tag message file from the root of the repository. Example: `'.github/utils/release_tag_msg.txt'`."
         required: false
@@ -86,8 +96,8 @@ on:
         required: false
         type: string
         default: ""
-      publish_on_pypi:
-        description: "Whether or not to publish on PyPI. **Note**: This is only relevant if 'python_package' is 'true', which is the default."
+      upload_distribution:
+        description: "Whether or not to upload the built distribution as an artifact. **Note**: This is only relevant if 'python_package' is 'true', which is the default."
         required: false
         type: boolean
         default: true
@@ -316,6 +326,15 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
 
+    - name: Upload source distribution
+      if: inputs.upload_distribution && inputs.python_package
+      uses: actions/upload-artifact@v4
+      with:
+        name: dist
+        path: ${{ inputs.build_dir }}
+        if-no-files-found: error
+        overwrite: true
+
     - name: Publish package to TestPyPI
       if: inputs.test && inputs.publish_on_pypi && inputs.python_package
       uses: pypa/gh-action-pypi-publish@release/v1
@@ -323,6 +342,7 @@ jobs:
         user: __token__
         password: ${{ secrets.PyPI_token }}
         repository-url: https://test.pypi.org/legacy/
+        packages-dir: ${{ inputs.build_dir }}
 
     - name: Publish package to PyPI
       if: ( ! inputs.test ) && inputs.publish_on_pypi && inputs.python_package
@@ -330,6 +350,7 @@ jobs:
       with:
         user: __token__
         password: ${{ secrets.PyPI_token }}
+        packages-dir: ${{ inputs.build_dir }}
 
   docs:
     name: Deploy release documentation
