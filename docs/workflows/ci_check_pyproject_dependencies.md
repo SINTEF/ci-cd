@@ -66,6 +66,8 @@ The repository contains the following:
 | `permanent_dependencies_branch` | **DEPRECATED** - Will be removed in v2.6.0. Use `target_branch` instead.</br></br>The branch name for the permanent dependency updates branch. | No | ci/dependency-updates | _string_ |
 | `python_version` | The Python version to use for the workflow. | No | 3.9 | _string_ |
 | `install_extras` | Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces.</br></br>Example: `'[dev,release]'`. | No | _Empty string_ | _string_ |
+| `pip_index_url` | A URL to a PyPI repository index. | No | `https://pypi.org/simple/` | _string_ |
+| `pip_extra_index_urls` | A space-delimited string of URLs to additional PyPI repository indices. | No | _Empty string_ | _string_ |
 | `pr_body_file` | Relative path to PR body file from the root of the repository.</br></br>Example: `'.github/utils/pr_body_deps_check.txt'`. | No | _Empty string_ | _string_ |
 | `fail_fast` | Whether the task to update dependencies should fail if any error occurs. | No | `false` | _boolean_ |
 | `pr_labels` | A comma separated list of strings of GitHub labels to use for the created PR. | No | _Empty string_ | _string_ |

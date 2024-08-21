@@ -41,6 +41,8 @@ The following inputs are general inputs for the workflow as a whole.
 | `git_email` | A git user's email address (used to set the 'user.email' config option). | **_Yes_** | | _string_ |
 | `default_repo_branch` | The branch name of the repository's default branch. More specifically, the branch the PR should target. | No | main | _string_ |
 | `test` | Whether to do a "dry run", i.e., run the workflow, but avoid pushing to 'permanent_dependencies_branch' branch and deploying documentation (if 'update_docs' is 'true'). | No | `false` | _boolean_ |
+| `pip_index_url` | A URL to a PyPI repository index. | No | `https://pypi.org/simple/` | _string_ |
+| `pip_extra_index_urls` | A space-delimited string of URLs to additional PyPI repository indices. | No | _Empty string_ | _string_ |
 
 Inputs related to updating the permanent dependencies branch.
 

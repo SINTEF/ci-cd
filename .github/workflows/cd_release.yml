@@ -34,6 +34,16 @@ on:
         required: false
         type: boolean
         default: false
+      pip_index_url:
+        description: "A URL to a PyPI repository index. Defaults to 'https://pypi.org/simple/'."
+        required: false
+        type: string
+        default: "https://pypi.org/simple/"
+      pip_extra_index_urls:
+        description: "A space-delimited string of URLs to additional PyPI repository indices."
+        required: false
+        type: string
+        default: ""
 
       # Update Python package version, build and release on PyPI
       publish_on_pypi:
@@ -199,28 +209,32 @@ jobs:
           pip install ${{ inputs.build_libs }}
         fi
         pip install git+https://github.com/SINTEF/ci-cd.git@v2.8.0
+      env:
+        PIP_INDEX_URL: ${{ inputs.pip_index_url }}
+        PIP_EXTRA_INDEX_URL: ${{ inputs.pip_extra_index_urls }}
 
     - name: Parse changelog configuration
+      id: changelog_config
       run: |
         if [ -n "${{ inputs.changelog_exclude_tags_regex }}" ]; then
-          echo 'CHANGELOG_EXCLUDE_TAGS_REGEX=--exclude-tags-regex "${{ inputs.changelog_exclude_tags_regex }}"' >> $GITHUB_ENV
+          echo 'changelog_exclude_tags_regex=--exclude-tags-regex "${{ inputs.changelog_exclude_tags_regex }}"' >> $GITHUB_OUTPUT
         else
-          echo 'CHANGELOG_EXCLUDE_TAGS_REGEX=' >> $GITHUB_ENV
+          echo 'changelog_exclude_tags_regex=' >> $GITHUB_OUTPUT
         fi
 
         if [ -n "${{ inputs.changelog_exclude_labels }}" ]; then
-          echo 'CHANGELOG_EXCLUDE_LABELS=--exclude-labels "${{ inputs.changelog_exclude_labels }}"' >> $GITHUB_ENV
+          echo 'changelog_exclude_labels=--exclude-labels "${{ inputs.changelog_exclude_labels }}"' >> $GITHUB_OUTPUT
         else
-          echo 'CHANGELOG_EXCLUDE_LABELS=' >> $GITHUB_ENV
+          echo 'changelog_exclude_labels=' >> $GITHUB_OUTPUT
         fi
 
         PROJECT=$(echo $GITHUB_REPOSITORY | cut -d/ -f2- )
-        echo "CHANGELOG_PROJECT=--project ${PROJECT}" >> $GITHUB_ENV
+        echo "changelog_project=--project ${PROJECT}" >> $GITHUB_OUTPUT
 
     - name: Update changelog
       uses: docker://githubchangeloggenerator/github-changelog-generator:1.16.2
       with:
-        args: --user "${{ github.repository_owner }}" ${{ env.CHANGELOG_PROJECT }} --token "${{ secrets.PAT || secrets.GITHUB_TOKEN }}" --release-branch "${{ inputs.release_branch }}" ${{ env.CHANGELOG_EXCLUDE_TAGS_REGEX }} ${{ env.CHANGELOG_EXCLUDE_LABELS }}
+        args: --user "${{ github.repository_owner }}" ${{ steps.changelog_config.outputs.changelog_project }} --token "${{ secrets.PAT || secrets.GITHUB_TOKEN }}" --release-branch "${{ inputs.release_branch }}" ${{ steps.changelog_config.outputs.changelog_exclude_tags_regex }} ${{ steps.changelog_config.outputs.changelog_exclude_labels }}
 
     - name: Set up git user
       run: |
@@ -299,6 +313,7 @@ jobs:
         debug: ${{ inputs.test }}
 
     - name: Get tagged versions
+      id: tagged_versions
       run: |
         if [ -n "${{ inputs.changelog_exclude_tags_regex }}" ]; then
           PREVIOUS_VERSION="$(git tag -l --sort -version:refname | grep -v -E "${{ inputs.changelog_exclude_tags_regex }}" | sed -n 2p)"
@@ -311,12 +326,12 @@ jobs:
         else
           SINCE_PREVIOUS_VERSION=
         fi
-        echo "SINCE_PREVIOUS_VERSION=${SINCE_PREVIOUS_VERSION}" >> $GITHUB_ENV
+        echo "since_previous_version=${SINCE_PREVIOUS_VERSION}" >> $GITHUB_OUTPUT
 
     - name: Create release-specific changelog
       uses: docker://githubchangeloggenerator/github-changelog-generator:1.16.2
       with:
-        args: --user "${{ github.repository_owner }}" ${{ env.CHANGELOG_PROJECT }} --token "${{ secrets.PAT || secrets.GITHUB_TOKEN }}" --release-branch "${{ inputs.release_branch }}" ${{ env.SINCE_PREVIOUS_VERSION }} --output release_changelog.md --usernames-as-github-logins ${{ env.CHANGELOG_EXCLUDE_TAGS_REGEX }} ${{ env.CHANGELOG_EXCLUDE_LABELS }}
+        args: --user "${{ github.repository_owner }}" ${{ steps.changelog_config.outputs.changelog_project }} --token "${{ secrets.PAT || secrets.GITHUB_TOKEN }}" --release-branch "${{ inputs.release_branch }}" ${{ steps.tagged_versions.outputs.since_previous_version }} --output release_changelog.md --usernames-as-github-logins ${{ steps.changelog_config.outputs.changelog_exclude_tags_regex }} ${{ steps.changelog_config.outputs.changelog_exclude_labels }}
 
     - name: Append changelog to release body
       run: |
@@ -423,6 +438,9 @@ jobs:
           echo "Unknown framework: ${{ inputs.docs_framework }}"
           exit 1
         fi
+      env:
+        PIP_INDEX_URL: ${{ inputs.pip_index_url }}
+        PIP_EXTRA_INDEX_URL: ${{ inputs.pip_extra_index_urls }}
 
     - name: Set up git user
       run: |

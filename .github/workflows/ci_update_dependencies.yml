@@ -51,6 +51,16 @@ on:
         required: false
         type: string
         default: ""
+      pip_index_url:
+        description: "A URL to a PyPI repository index. Defaults to 'https://pypi.org/simple/'."
+        required: false
+        type: string
+        default: "https://pypi.org/simple/"
+      pip_extra_index_urls:
+        description: "A space-delimited string of URLs to additional PyPI repository indices."
+        required: false
+        type: string
+        default: ""
       skip_pre-commit_hooks:
         description: "A comma-separated list of pre-commit hook IDs to skip when running `pre-commit` after updating hooks. This is only relevant if `update_pre-commit` is `true`."
         required: false
@@ -96,8 +106,12 @@ jobs:
         pip install -U setuptools wheel
         pip install pre-commit
         pip install .${{ inputs.install_extras }}
+      env:
+        PIP_INDEX_URL: ${{ inputs.pip_index_url }}
+        PIP_EXTRA_INDEX_URL: ${{ inputs.pip_extra_index_urls }}
 
     - name: Auto-update `pre-commit` hooks
+      id: update_pre_commit
       if: inputs.update_pre-commit
       run: |
         pre-commit autoupdate
@@ -105,52 +119,53 @@ jobs:
         if [ -n "$(git status --porcelain .pre-commit-config.yaml)" ]; then
           # Set environment variable notifying next steps that the hooks changed
           echo "Pre-commit hooks have been updated !"
-          echo "UPDATED_PRE_COMMIT_HOOKS=true" >> $GITHUB_ENV
+          echo "updated_pre_commit_hooks=true" >> $GITHUB_OUTPUT
         else
           echo "No pre-commit hooks have been updated."
-          echo "UPDATED_PRE_COMMIT_HOOKS=false" >> $GITHUB_ENV
+          echo "updated_pre_commit_hooks=false" >> $GITHUB_OUTPUT
         fi
 
     - name: Possibly run `pre-commit` with updated hooks
       if: inputs.update_pre-commit
       continue-on-error: true  # Still create the PR if this step fails
       run: |
-        if [ "${UPDATED_PRE_COMMIT_HOOKS}" == "true" ]; then
+        if [ "${{ steps.update_pre_commit.outputs.updated_pre_commit_hooks}}" == "true" ]; then
           SKIP=${{ inputs.skip_pre-commit_hooks }} pre-commit run --all-files
         fi
 
     - name: Possibly commit changes and updates
       if: inputs.update_pre-commit
       run: |
-        if [ "${UPDATED_PRE_COMMIT_HOOKS}" == "true" ]; then
+        if [ "${{ steps.update_pre_commit.outputs.updated_pre_commit_hooks}}" == "true" ]; then
           git add -- .
           git commit -m "Update \`pre-commit\` hooks"
         fi
 
     - name: Set PR body
+      id: pr_body_config
       run: |
         if [ -z "${{ inputs.pr_body_file }}" ] || [ ! -f "${{ inputs.pr_body_file }}" ]; then
           PR_BODY_FILE=.tmp_pr-body_${{ github.run_id }}_${{ github.run_number }}_${{ github.run_attempt }}.txt
-          echo "PR_BODY_FILE=${PR_BODY_FILE}" >> $GITHUB_ENV
+          echo "pr_body_file=${PR_BODY_FILE}" >> $GITHUB_OUTPUT
 
           echo -e "### Update dependencies\n\nAutomatically created PR from [\`${{ inputs.permanent_dependencies_branch }}\`](https://github.com/${{ github.repository }}/tree/${{ inputs.permanent_dependencies_branch }}).\n\nThe PR is based on the ['CI - Update dependencies PR' workflow](https://SINTEF.github.io/ci-cd/latest/workflows/ci_update_dependencies/) in [SINTEF/ci-cd](https://github.com/SINTEF/ci-cd).\n\n#### To do\n\n- [ ] Check that the diff is sensible, and that tests and builds pass with the new dependency versions.\n${{ inputs.extra_to_dos }}" > ${PR_BODY_FILE}
           echo "Using default PR body."
-          echo "REMOVE_PR_BODY_FILE=true" >> $GITHUB_ENV
+          echo "remove_pr_body_file=true" >> $GITHUB_OUTPUT
         else
           echo "Using found PR body text file at ${{ inputs.pr_body_file }}."
-          echo "PR_BODY_FILE=${{ inputs.pr_body_file }}" >> $GITHUB_ENV
-          echo "REMOVE_PR_BODY_FILE=false" >> $GITHUB_ENV
+          echo "pr_body_file=${{ inputs.pr_body_file }}" >> $GITHUB_OUTPUT
+          echo "remove_pr_body_file=false" >> $GITHUB_OUTPUT
         fi
 
     - name: Fetch PR body
       id: pr_body
       uses: chuhlomin/render-template@v1.10
       with:
-        template: ${{ env.PR_BODY_FILE }}
+        template: ${{ steps.pr_body_config.outputs.pr_body_file }}
 
     - name: Remove temporary file
-      if: env.REMOVE_PR_BODY_FILE == 'true'
-      run: rm -f ${PR_BODY_FILE}
+      if: steps.pr_body_config.outputs.remove_pr_body_file == 'true'
+      run: rm -f ${{ steps.pr_body_config.outputs.pr_body_file }}
 
     - name: Create PR
       id: cpr

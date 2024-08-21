@@ -166,6 +166,8 @@ The following inputs are general inputs for the workflow as a whole.
 | `install_extras` | Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces.</br></br>Example: `'[dev,release]'`. | No | _Empty string_ | _string_ |
 | `relative` | Whether or not to use install the local Python package(s) as an editable. | No | `false` | _boolean_ |
 | `test` | Whether to use the TestPyPI repository index instead of PyPI as well as output debug statements in both workflow jobs. | No | `false` | _boolean_ |
+| `pip_index_url` | A URL to a PyPI repository index. | No | `https://pypi.org/simple/` | _string_ |
+| `pip_extra_index_urls` | A space-delimited string of URLs to additional PyPI repository indices. | No | _Empty string_ | _string_ |
 
 Inputs related to updating the version, building and releasing the Python package to PyPI.
 

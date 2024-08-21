@@ -24,6 +24,16 @@ on:
         required: false
         type: boolean
         default: false
+      pip_index_url:
+        description: "A URL to a PyPI repository index. Defaults to 'https://pypi.org/simple/'."
+        required: false
+        type: string
+        default: "https://pypi.org/simple/"
+      pip_extra_index_urls:
+        description: "A space-delimited string of URLs to additional PyPI repository indices."
+        required: false
+        type: string
+        default: ""
 
       # Update permanent dependencies branch
       update_dependencies_branch:
@@ -170,20 +180,21 @@ jobs:
 
     steps:
     - name: Release check
+      id: release_check
       run: |
         COMMIT_MSG="$(gh api /repos/${{ github.repository }}/commits/${{ inputs.default_repo_branch }} --jq '.commit.message')"
         if [[ "${COMMIT_MSG}" =~ ^Release\ v.*$ ]] || [ "${COMMIT_MSG}" == "[bot] Update documentation" ]; then
           echo "In a release or just ran this job - do not run this job !"
-          echo "RELEASE_RUN=true" >> $GITHUB_ENV
+          echo "release_run=true" >> $GITHUB_OUTPUT
         else
           echo "Not a release and did not just run this job - update docs"
-          echo "RELEASE_RUN=false" >> $GITHUB_ENV
+          echo "release_run=false" >> $GITHUB_OUTPUT
         fi
       env:
         GITHUB_TOKEN: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
 
     - name: Validate inputs
-      if: env.RELEASE_RUN == 'false'
+      if: steps.release_check.outputs.release_run == 'false'
       run: |
         valid_frameworks=("mkdocs sphinx")
         if [[ ! " ${valid_frameworks[*]} " =~ " ${{ inputs.docs_framework }} " ]]; then
@@ -199,20 +210,20 @@ jobs:
         fi
 
     - name: Checkout ${{ github.repository }}
-      if: env.RELEASE_RUN == 'false'
+      if: steps.release_check.outputs.release_run == 'false'
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
     - name: Set up Python ${{ inputs.python_version }}
-      if: env.RELEASE_RUN == 'false'
+      if: steps.release_check.outputs.release_run == 'false'
       uses: actions/setup-python@v5
       with:
         python-version: "${{ inputs.python_version }}"
         allow-prereleases: true
 
     - name: Install system dependencies
-      if: env.RELEASE_RUN == 'false' && inputs.system_dependencies != ''
+      if: steps.release_check.outputs.release_run == 'false' && inputs.system_dependencies != ''
       run: |
         if [[ "${{ inputs.system_dependencies }}" =~ \n ]]; then
           # Expected to be a multi-line string
@@ -228,7 +239,7 @@ jobs:
         sudo apt update && sudo apt install -y "${SYSTEM_PACKAGES[@]}"
 
     - name: Install Python dependencies
-      if: env.RELEASE_RUN == 'false'
+      if: steps.release_check.outputs.release_run == 'false'
       run: |
         EDITABLE=
         if [ "${{ inputs.relative }}" == "true" ]; then EDITABLE=-e ; fi
@@ -253,19 +264,22 @@ jobs:
           echo "Unknown framework: ${{ inputs.docs_framework }}"
           exit 1
         fi
+      env:
+        PIP_INDEX_URL: ${{ inputs.pip_index_url }}
+        PIP_EXTRA_INDEX_URL: ${{ inputs.pip_extra_index_urls }}
 
     - name: Set up git user
-      if: env.RELEASE_RUN == 'false'
+      if: steps.release_check.outputs.release_run == 'false'
       run: |
         git config --global user.name "${{ inputs.git_username }}"
         git config --global user.email "${{ inputs.git_email }}"
 
     - name: Clean working tree
-      if: env.RELEASE_RUN == 'false'
+      if: steps.release_check.outputs.release_run == 'false'
       run: git checkout -- .
 
     - name: Update API Reference
-      if: env.RELEASE_RUN == 'false' && inputs.docs_framework == 'mkdocs' && inputs.update_python_api_ref
+      if: steps.release_check.outputs.release_run == 'false' && inputs.docs_framework == 'mkdocs' && inputs.update_python_api_ref
       run: |
         if [ -z "${{ inputs.package_dirs }}" ]; then
           echo "'package_dirs' MUST be supplied, since 'update_docs' and 'update_python_api_ref' were set to 'true' and using the MkDocs framework."
@@ -313,7 +327,7 @@ jobs:
           "${SPECIAL_OPTIONS[@]}"
 
     - name: Update landing page
-      if: env.RELEASE_RUN == 'false' && inputs.docs_framework == 'mkdocs' && inputs.update_docs_landing_page
+      if: steps.release_check.outputs.release_run == 'false' && inputs.docs_framework == 'mkdocs' && inputs.update_docs_landing_page
       run: |
         # Ensure the default replacement for LICENSE linking works with a custom
         # separator
@@ -333,7 +347,8 @@ jobs:
           "${REPLACEMENTS[@]}"
 
     - name: Determine if (MkDocs) documentation was updated
-      if: env.RELEASE_RUN == 'false' && inputs.docs_framework == 'mkdocs'
+      id: docs_updated
+      if: steps.release_check.outputs.release_run == 'false' && inputs.docs_framework == 'mkdocs'
       run: |
         if [ -n "$(git status --porcelain docs/api_reference docs/index.md)" ]; then
           echo -e "\u27b0 Discrepancies found !"
@@ -354,7 +369,7 @@ jobs:
         fi
 
     - name: Update '${{ inputs.default_repo_branch }}'
-      if: env.RELEASE_RUN == 'false' && env.UPDATE_DEFAULT_BRANCH == 'true' && ( ! inputs.test )
+      if: steps.release_check.outputs.release_run == 'false' && env.UPDATE_DEFAULT_BRANCH == 'true' && ( ! inputs.test )
       uses: CasperWA/push-protected@v2
       with:
         token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
@@ -365,31 +380,32 @@ jobs:
         unprotect_reviews: true
 
     - name: Parse changelog configuration
-      if: env.RELEASE_RUN == 'false'
+      id: changelog_config
+      if: steps.release_check.outputs.release_run == 'false'
       run: |
         if [ -n "${{ inputs.changelog_exclude_tags_regex }}" ]; then
-          echo 'CHANGELOG_EXCLUDE_TAGS_REGEX=--exclude-tags-regex "${{ inputs.changelog_exclude_tags_regex }}"' >> $GITHUB_ENV
+          echo 'changelog_exclude_tags_regex=--exclude-tags-regex "${{ inputs.changelog_exclude_tags_regex }}"' >> $GITHUB_OUTPUT
         else
-          echo 'CHANGELOG_EXCLUDE_TAGS_REGEX=' >> $GITHUB_ENV
+          echo 'changelog_exclude_tags_regex=' >> $GITHUB_OUTPUT
         fi
         if [ -n "${{ inputs.changelog_exclude_labels }}" ]; then
-          echo 'CHANGELOG_EXCLUDE_LABELS=--exclude-labels "${{ inputs.changelog_exclude_labels }}"' >> $GITHUB_ENV
+          echo 'changelog_exclude_labels=--exclude-labels "${{ inputs.changelog_exclude_labels }}"' >> $GITHUB_OUTPUT
         else
-          echo 'CHANGELOG_EXCLUDE_LABELS=' >> $GITHUB_ENV
+          echo 'changelog_exclude_labels=' >> $GITHUB_OUTPUT
         fi
         PROJECT=$(echo $GITHUB_REPOSITORY | cut -d/ -f2- )
-        echo "CHANGELOG_PROJECT=--project ${PROJECT}" >> $GITHUB_ENV
+        echo "changelog_project=--project ${PROJECT}" >> $GITHUB_OUTPUT
 
     # Note: This updated changelog will only exist for the `latest` documentation
     # release.
     - name: Update changelog with unreleased changes
-      if: env.RELEASE_RUN == 'false'
+      if: steps.release_check.outputs.release_run == 'false'
       uses: docker://githubchangeloggenerator/github-changelog-generator:1.16.2
       with:
-        args: --user "${{ github.repository_owner }}" ${{ env.CHANGELOG_PROJECT }} --token "${{ secrets.PAT || secrets.GITHUB_TOKEN }}" --release-branch "${{ inputs.default_repo_branch }}" --future-release "Unreleased changes" ${{ env.CHANGELOG_EXCLUDE_TAGS_REGEX }} ${{ env.CHANGELOG_EXCLUDE_LABELS }}
+        args: --user "${{ github.repository_owner }}" ${{ steps.changelog_config.outputs.changelog_project }} --token "${{ secrets.PAT || secrets.GITHUB_TOKEN }}" --release-branch "${{ inputs.default_repo_branch }}" --future-release "Unreleased changes" ${{ steps.changelog_config.outputs.changelog_exclude_tags_regex }} ${{ steps.changelog_config.outputs.changelog_exclude_labels }}
 
     - name: Build (& deploy MkDocs) documentation
-      if: env.RELEASE_RUN == 'false' && ( ! inputs.test )
+      if: steps.release_check.outputs.release_run == 'false' && ( ! inputs.test )
       run: |
         if [ "${{ inputs.docs_framework }}" == "sphinx" ]; then
           if [[ "${{ inputs.sphinx-build_options }}" =~ \n ]]; then
@@ -432,7 +448,7 @@ jobs:
         fi
 
     - name: Deploy Sphinx documentation
-      if: env.RELEASE_RUN == 'false' && inputs.docs_framework == 'sphinx' && ( ! inputs.test )
+      if: steps.release_check.outputs.release_run == 'false' && inputs.docs_framework == 'sphinx' && ( ! inputs.test )
       uses: JamesIves/github-pages-deploy-action@v4
       with:
         folder: ${{ inputs.build_target_folder }}
@@ -458,38 +474,40 @@ jobs:
         git config --global user.email "${{ inputs.git_email }}"
 
     - name: Get PR body
+      id: pr_body_config
       run: |
         if [ -z "${{ inputs.update_dependencies_pr_body_file }}" ] || [ ! -f "${{ inputs.update_dependencies_pr_body_file }}" ]; then
           PR_BODY_FILE=.tmp_pr-body_${{ github.run_id }}_${{ github.run_number }}_${{ github.run_attempt }}.txt
-          echo "PR_BODY_FILE=${PR_BODY_FILE}" >> $GITHUB_ENV
+          echo "pr_body_file=${PR_BODY_FILE}" >> $GITHUB_OUTPUT
 
           echo -e "### Update dependencies\n\nAutomatically created PR from [\`${{ inputs.permanent_dependencies_branch }}\`](https://github.com/${{ github.repository }}/tree/${{ inputs.permanent_dependencies_branch }}).\n\nThe PR is based on the ['CI - Update dependencies PR' workflow](https://SINTEF.github.io/ci-cd/latest/workflows/ci_update_dependencies/) in [SINTEF/ci-cd](https://github.com/SINTEF/ci-cd).\n\n#### To do\n" > ${PR_BODY_FILE}
           echo "Using default PR body (similar to the one used in the 'CI - Update dependencies PR' workflow)."
-          echo "REMOVE_PR_BODY_FILE=true" >> $GITHUB_ENV
+          echo "remove_pr_body_file=true" >> $GITHUB_OUTPUT
         else
           echo "Using found PR body text file at ${{ inputs.update_dependencies_pr_body_file }}."
-          echo "PR_BODY_FILE=${{ inputs.update_dependencies_pr_body_file }}" >> $GITHUB_ENV
-          echo "REMOVE_PR_BODY_FILE=false" >> $GITHUB_ENV
+          echo "pr_body_file=${{ inputs.update_dependencies_pr_body_file }}" >> $GITHUB_OUTPUT
+          echo "remove_pr_body_file=false" >> $GITHUB_OUTPUT
         fi
 
     - name: Update '${{ inputs.permanent_dependencies_branch }}'
+      id: update_dependencies_branch
       run: |
         git fetch origin
 
         LATEST_PR_BODY="$(gh api /repos/${{ github.repository }}/pulls -X GET -f state=closed -f per_page=1 -f sort=updated -f direction=desc --jq '.[].body')"
-        cat ${PR_BODY_FILE} | head -8 > .tmp_file.txt
+        cat ${{ steps.pr_body_config.outputs.pr_body_file }} | head -8 > .tmp_file.txt
         if [ -z "$(printf '%s\n' "${LATEST_PR_BODY}" | head -8 | diff - .tmp_file.txt --strip-trailing-cr)" ]; then
           echo "The dependencies have just been updated! Reset to ${{ inputs.default_repo_branch }}."
           git reset --hard origin/${{ inputs.default_repo_branch }}
-          echo "FORCE_PUSH=yes" >> $GITHUB_ENV
+          echo "force_push=yes" >> $GITHUB_OUTPUT
         else
           echo "Merge new updates to ${{ inputs.default_repo_branch }} into ${{ inputs.permanent_dependencies_branch }}"
           git merge -m "Keep '${{ inputs.permanent_dependencies_branch }}' up-to-date with '${{ inputs.default_repo_branch }}'" origin/${{ inputs.default_repo_branch }}
-          echo "FORCE_PUSH=no" >> $GITHUB_ENV
+          echo "force_push=no" >> $GITHUB_OUTPUT
         fi
 
-        if [ "${REMOVE_PR_BODY_FILE}" == "true" ] && [ -f "${PR_BODY_FILE}" ]; then
-          rm -f "${PR_BODY_FILE}"
+        if [ "${{ steps.pr_body_config.outputs.remove_pr_body_file }}" == "true" ] && [ -f "${{ steps.pr_body_config.outputs.pr_body }}" ]; then
+          rm -f "${{ steps.pr_body_config.outputs.pr_body }}"
         fi
         if [ -f ".tmp_file.txt" ]; then rm -f .tmp_file.txt; fi
       env:
@@ -502,4 +520,4 @@ jobs:
         token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
         branch: ${{ inputs.permanent_dependencies_branch }}
         pre_sleep: 15
-        force: ${{ env.FORCE_PUSH }}
+        force: ${{ steps.update_dependencies_branch.outputs.force_push }}
