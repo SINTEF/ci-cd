@@ -453,6 +453,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#globalgeneral-inputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Global/General inputs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#run-pre-commit" class="md-nav__link">
     <span class="md-ellipsis">
       Run pre-commit
@@ -1207,6 +1216,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#globalgeneral-inputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Global/General inputs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#run-pre-commit" class="md-nav__link">
     <span class="md-ellipsis">
       Run pre-commit
@@ -1386,6 +1404,28 @@ By default, they will all run and should be actively "turned off".</p>
 <h2 id="ci-jobs">CI jobs<a class="headerlink" href="#ci-jobs" title="Permanent link">&para;</a></h2>
 <p>The following sections summarizes each job and the individual inputs necessary for it to function or to adjust how it runs.
 Note, a full list of possible inputs and secrets will be given in a separate table at the end of this page.</p>
+<h3 id="globalgeneral-inputs">Global/General inputs<a class="headerlink" href="#globalgeneral-inputs" title="Permanent link">&para;</a></h3>
+<p>These inputs are general and apply to all jobs in this workflow.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>Name</strong></th>
+<th style="text-align: left;"><strong>Description</strong></th>
+<th style="text-align: center;"><strong>Required</strong></th>
+<th style="text-align: center;"><strong>Default</strong></th>
+<th style="text-align: center;"><strong>Type</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>install_extras</code></td>
+<td style="text-align: left;">Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (<code>[]</code>) and be separated by commas (<code>,</code>) without any spaces.</br></br>Example: <code>'[dev,pre-commit]'</code>.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+</tbody>
+</table>
 <h3 id="run-pre-commit">Run <code>pre-commit</code><a class="headerlink" href="#run-pre-commit" title="Permanent link">&para;</a></h3>
 <p>Run the <a href="https://pre-commit.com"><code>pre-commit</code></a> tool for all files in the repository according to the repository's configuration file.</p>
 <h4 id="expectations">Expectations<a class="headerlink" href="#expectations" title="Permanent link">&para;</a></h4>
@@ -1419,8 +1459,15 @@ For more information about <code>pre-commit</code>, please see the tool's websit
 <td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td style="text-align: left;"><code>install_extras</code></td>
-<td style="text-align: left;">Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (<code>[]</code>) and be separated by commas (<code>,</code>) without any spaces.</br></br>Example: <code>'[dev,pre-commit]'</code>.</td>
+<td style="text-align: left;"><code>pip_index_url_pre-commit</code></td>
+<td style="text-align: left;">A URL to a PyPI repository index.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>https://pypi.org/simple/</code></td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>pip_extra_index_urls_pre-commit</code></td>
+<td style="text-align: left;">A space-delimited string of URLs to additional PyPI repository indices.</td>
 <td style="text-align: center;">No</td>
 <td style="text-align: center;"><em>Empty string</em></td>
 <td style="text-align: center;"><em>string</em></td>
@@ -1479,8 +1526,15 @@ For each line in <code>pylint_runs</code>, <code>pylint</code> will be executed.
 <td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
-<td style="text-align: left;"><code>install_extras</code></td>
-<td style="text-align: left;">Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (<code>[]</code>) and be separated by commas (<code>,</code>) without any spaces.</br></br>Example: <code>'[dev,pre-commit]'</code>.</td>
+<td style="text-align: left;"><code>pip_index_url_pylint_safety</code></td>
+<td style="text-align: left;">A URL to a PyPI repository index.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>https://pypi.org/simple/</code></td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>pip_extra_index_urls_pylint_safety</code></td>
+<td style="text-align: left;">A space-delimited string of URLs to additional PyPI repository indices.</td>
 <td style="text-align: center;">No</td>
 <td style="text-align: center;"><em>Empty string</em></td>
 <td style="text-align: center;"><em>string</em></td>
@@ -1547,6 +1601,20 @@ For each line in <code>pylint_runs</code>, <code>pylint</code> will be executed.
 <td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
+<td style="text-align: left;"><code>pip_index_url_package</code></td>
+<td style="text-align: left;">A URL to a PyPI repository index.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>https://pypi.org/simple/</code></td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>pip_extra_index_urls_package</code></td>
+<td style="text-align: left;">A space-delimited string of URLs to additional PyPI repository indices.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+<tr>
 <td style="text-align: left;"><code>build_libs</code></td>
 <td style="text-align: left;">A space-separated list of packages to install via PyPI (<code>pip install</code>).</td>
 <td style="text-align: center;">No</td>
@@ -1604,6 +1672,20 @@ For Sphinx, it requires at minimum the files created from running <code>sphinx-q
 <td style="text-align: left;">The Python version to use for the <code>build documentation</code> test job.</td>
 <td style="text-align: center;">No</td>
 <td style="text-align: center;">3.9</td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>pip_index_url_docs</code></td>
+<td style="text-align: left;">A URL to a PyPI repository index.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>https://pypi.org/simple/</code></td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>pip_extra_index_urls_docs</code></td>
+<td style="text-align: left;">A space-delimited string of URLs to additional PyPI repository indices.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
 <td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
@@ -1668,13 +1750,6 @@ For Sphinx, it requires at minimum the files created from running <code>sphinx-q
 <td style="text-align: center;">No</td>
 <td style="text-align: center;"><code>true</code></td>
 <td style="text-align: center;"><em>boolean</em></td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>install_extras</code></td>
-<td style="text-align: left;">Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (<code>[]</code>) and be separated by commas (<code>,</code>) without any spaces.</br></br><strong>Example</strong>: <code>'[dev,docs]'</code>.</td>
-<td style="text-align: center;">No</td>
-<td style="text-align: center;"><em>Empty string</em></td>
-<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>package_dirs</code></td>
@@ -1859,6 +1934,27 @@ However, it is recommended to instead refer to the job-specific tables of inputs
 <td style="text-align: center;"><em>boolean</em></td>
 </tr>
 <tr>
+<td style="text-align: left;"><code>python_version_pre-commit</code></td>
+<td style="text-align: left;">The Python version to use for the <code>pre-commit</code> test job.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">3.9</td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>pip_index_url_pre-commit</code></td>
+<td style="text-align: left;">A URL to a PyPI repository index.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>https://pypi.org/simple/</code></td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>pip_extra_index_urls_pre-commit</code></td>
+<td style="text-align: left;">A space-delimited string of URLs to additional PyPI repository indices.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+<tr>
 <td style="text-align: left;"><code>skip_pre-commit_hooks</code></td>
 <td style="text-align: left;">A comma-separated list of pre-commit hook IDs to skip when running <code>pre-commit</code> after updating hooks.</td>
 <td style="text-align: center;">No</td>
@@ -1878,6 +1974,27 @@ However, it is recommended to instead refer to the job-specific tables of inputs
 <td style="text-align: center;">No</td>
 <td style="text-align: center;"><code>true</code></td>
 <td style="text-align: center;"><em>boolean</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>python_version_pylint_safety</code></td>
+<td style="text-align: left;">The Python version to use for the <code>pylint</code> and <code>safety</code> test jobs.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">3.9</td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>pip_index_url_pylint_safety</code></td>
+<td style="text-align: left;">A URL to a PyPI repository index.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>https://pypi.org/simple/</code></td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>pip_extra_index_urls_pylint_safety</code></td>
+<td style="text-align: left;">A space-delimited string of URLs to additional PyPI repository indices.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>pylint_targets</code></td>
@@ -1915,6 +2032,27 @@ However, it is recommended to instead refer to the job-specific tables of inputs
 <td style="text-align: center;"><em>boolean</em></td>
 </tr>
 <tr>
+<td style="text-align: left;"><code>python_version_package</code></td>
+<td style="text-align: left;">The Python version to use for the <code>build package</code> test job.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">3.9</td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>pip_index_url_package</code></td>
+<td style="text-align: left;">A URL to a PyPI repository index.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>https://pypi.org/simple/</code></td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>pip_extra_index_urls_package</code></td>
+<td style="text-align: left;">A space-delimited string of URLs to additional PyPI repository indices.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+<tr>
 <td style="text-align: left;"><code>build_libs</code></td>
 <td style="text-align: left;">A space-separated list of packages to install via PyPI (<code>pip install</code>).</td>
 <td style="text-align: center;">No</td>
@@ -1940,6 +2078,20 @@ However, it is recommended to instead refer to the job-specific tables of inputs
 <td style="text-align: left;">The Python version to use for the <code>build documentation</code> test job.</td>
 <td style="text-align: center;">No</td>
 <td style="text-align: center;">3.9</td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>pip_index_url_docs</code></td>
+<td style="text-align: left;">A URL to a PyPI repository index.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><code>https://pypi.org/simple/</code></td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>pip_extra_index_urls_docs</code></td>
+<td style="text-align: left;">A space-delimited string of URLs to additional PyPI repository indices.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
 <td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
