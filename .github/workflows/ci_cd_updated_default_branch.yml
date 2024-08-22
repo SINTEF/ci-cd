@@ -14,6 +14,11 @@ on:
         type: string
 
       # General - OPTIONAL
+      runner:
+        description: "The runner to use for the workflow. Note, the callable workflow expects a Linux/Unix system."
+        required: false
+        type: string
+        default: ubuntu-latest
       default_repo_branch:
         description: "The branch name of the repository's default branch. More specifically, the branch that triggered this workflow."
         required: false
@@ -169,7 +174,7 @@ on:
 jobs:
   deploy_docs:
     name: Deploy `latest` documentation
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runner }}
     if: inputs.update_docs
 
     permissions:
@@ -457,7 +462,7 @@ jobs:
 
   update-dependencies-branch:
     name: Update permanent dependencies branch
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runner }}
     needs: deploy_docs
     if: always() && inputs.update_dependencies_branch
 

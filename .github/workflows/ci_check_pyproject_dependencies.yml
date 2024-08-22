@@ -3,6 +3,7 @@ name: CI - Check pyproject.toml dependencies
 on:
   workflow_call:
     inputs:
+      # REQUIRED
       git_username:
         description: "A git username (used to set the 'user.name' config option)."
         required: true
@@ -11,6 +12,13 @@ on:
         description: "A git user's email address (used to set the 'user.email' config option)."
         required: true
         type: string
+
+      # OPTIONAL
+      runner:
+        description: "The runner to use for the workflow. Note, the callable workflow expects a Linux/Unix system."
+        required: false
+        type: string
+        default: ubuntu-latest
       target_branch:
         description: "The branch name for the target of the opened PR."
         required: false
@@ -84,7 +92,7 @@ on:
 jobs:
   check-dependencies:
     name: Check & update dependencies in `pyproject.toml`
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runner }}
 
     steps:
     - name: Validate inputs

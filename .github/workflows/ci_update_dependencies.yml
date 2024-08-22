@@ -3,6 +3,7 @@ name: CI - Update dependencies PR
 on:
   workflow_call:
     inputs:
+      # REQUIRED
       git_username:
         description: "A git username (used to set the 'user.name' config option)."
         required: true
@@ -11,6 +12,13 @@ on:
         description: "A git user's email address (used to set the 'user.email' config option)."
         required: true
         type: string
+
+      # OPTIONAL
+      runner:
+        description: "The runner to use for the workflow. Note, the callable workflow expects a Linux/Unix system."
+        required: false
+        type: string
+        default: ubuntu-latest
       permanent_dependencies_branch:
         description: "The branch name for the permanent dependency updates branch."
         required: false
@@ -74,7 +82,7 @@ on:
 jobs:
   create-collected-pr:
     name: Single dependabot PR
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runner }}
 
     steps:
     - name: Checkout ${{ github.repository }}

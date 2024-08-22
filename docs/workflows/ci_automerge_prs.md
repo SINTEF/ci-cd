@@ -28,6 +28,7 @@ This workflow can _only_ be called if the triggering event from the caller workf
 
 | **Name** | **Description** | **Required** | **Default** | **Type** |
 |:--- |:--- |:---:|:---:|:---:|
+| `runner` | The runner to use for the workflow. Note, the callable workflow expects a Linux/Unix system.. | No | ubuntu-latest | _string_ |
 | `perform_changes` | Whether or not to perform and commit changes to the PR branch prior to activating auto-merge. | No | | _boolean_ |
 | `git_username` | A git username (used to set the 'user.name' config option).</br>**Required** if `perform_changes` is 'true'. | No | | _string_ |
 | `git_email` | A git user's email address (used to set the 'user.email' config option).</br>**Required** if `perform_changes` is 'true'. | No | | _string_ |

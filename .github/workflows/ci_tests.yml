@@ -4,6 +4,11 @@ on:
   workflow_call:
     inputs:
       # General
+      runner:
+        description: "The runner to use for the workflow. Note, the callable workflow expects a Linux/Unix system."
+        required: false
+        type: string
+        default: ubuntu-latest
       install_extras:
         description: "Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces. Example: `'[dev,pre-commit]'`."
         required: false
@@ -243,7 +248,7 @@ jobs:
   pre-commit:
     name: Run `pre-commit`
     if: inputs.run_pre-commit
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runner }}
 
     steps:
     - name: Checkout ${{ github.repository }}
@@ -270,7 +275,7 @@ jobs:
   pylint_and_safety:
     name: Run `pylint` & `safety`
     if: inputs.run_pylint || inputs.run_safety
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runner }}
 
     steps:
     - name: Checkout ${{ github.repository }}
@@ -344,7 +349,7 @@ jobs:
   build-package:
     name: Build distribution package
     if: inputs.run_build_package
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runner }}
 
     steps:
     - name: Checkout ${{ github.repository }}
@@ -373,7 +378,7 @@ jobs:
   docs:
     name: Build Documentation
     if: inputs.run_build_docs
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runner }}
 
     steps:
     - name: Determine framework

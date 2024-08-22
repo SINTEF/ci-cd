@@ -163,6 +163,7 @@ The following inputs are general inputs for the workflow as a whole.
 | `git_username` | A git username (used to set the 'user.name' config option). | **_Yes_** | | _string_ |
 | `git_email` | A git user's email address (used to set the 'user.email' config option). | **_Yes_** | | _string_ |
 | `release_branch` | The branch name to release/publish from. | **_Yes_** | main | _string_ |
+| `runner` | The runner to use for the workflow. Note, the callable workflow expects a Linux/Unix system.. | No | ubuntu-latest | _string_ |
 | `install_extras` | Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces.</br></br>Example: `'[dev,release]'`. | No | _Empty string_ | _string_ |
 | `relative` | Whether or not to use install the local Python package(s) as an editable. | No | `false` | _boolean_ |
 | `test` | Whether to use the TestPyPI repository index instead of PyPI as well as output debug statements in both workflow jobs. | No | `false` | _boolean_ |

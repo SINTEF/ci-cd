@@ -3,6 +3,11 @@ name: CI - Activate auto-merging for PRs
 on:
   workflow_call:
     inputs:
+      runner:
+        description: "The runner to use for the workflow. Note, the callable workflow expects a Linux/Unix system."
+        required: false
+        type: string
+        default: ubuntu-latest
       perform_changes:
         description: "Whether or not to perform and commit changes to the PR branch prior to activating auto-merge."
         required: false
@@ -30,7 +35,7 @@ jobs:
   activate-auto-merge:
     name: Activate auto-merging for PR
     if: github.event_name == 'pull_request_target'
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runner }}
 
     steps:
     - name: Checkout ${{ github.repository }}
