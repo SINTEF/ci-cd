@@ -636,9 +636,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#unreleased" class="md-nav__link">
+  <a href="#unreleased-changes-2024-08-22" class="md-nav__link">
     <span class="md-ellipsis">
-      Unreleased
+      Unreleased changes (2024-08-22)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v281-2024-08-22" class="md-nav__link">
+    <span class="md-ellipsis">
+      v2.8.1 (2024-08-22)
     </span>
   </a>
   
@@ -646,24 +655,6 @@
       
         <li class="md-nav__item">
   <a href="#support-custom-pypi-indices" class="md-nav__link">
-    <span class="md-ellipsis">
-      Support custom PyPI indices
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#v281-2024-08-21" class="md-nav__link">
-    <span class="md-ellipsis">
-      v2.8.1 (2024-08-21)
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#support-custom-pypi-indices_1" class="md-nav__link">
     <span class="md-ellipsis">
       Support custom PyPI indices
     </span>
@@ -1075,9 +1066,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#unreleased" class="md-nav__link">
+  <a href="#unreleased-changes-2024-08-22" class="md-nav__link">
     <span class="md-ellipsis">
-      Unreleased
+      Unreleased changes (2024-08-22)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v281-2024-08-22" class="md-nav__link">
+    <span class="md-ellipsis">
+      v2.8.1 (2024-08-22)
     </span>
   </a>
   
@@ -1085,24 +1085,6 @@
       
         <li class="md-nav__item">
   <a href="#support-custom-pypi-indices" class="md-nav__link">
-    <span class="md-ellipsis">
-      Support custom PyPI indices
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#v281-2024-08-21" class="md-nav__link">
-    <span class="md-ellipsis">
-      v2.8.1 (2024-08-21)
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#support-custom-pypi-indices_1" class="md-nav__link">
     <span class="md-ellipsis">
       Support custom PyPI indices
     </span>
@@ -1135,8 +1117,18 @@
 
 
 <h1 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">&para;</a></h1>
-<h2 id="unreleased"><a href="https://github.com/SINTEF/ci-cd/tree/HEAD">Unreleased</a><a class="headerlink" href="#unreleased" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/SINTEF/ci-cd/compare/v2.8.1...HEAD">Full Changelog</a></p>
+<h2 id="unreleased-changes-2024-08-22"><a href="https://github.com/SINTEF/ci-cd/tree/Unreleased changes">Unreleased changes</a> (2024-08-22)<a class="headerlink" href="#unreleased-changes-2024-08-22" title="Permanent link">&para;</a></h2>
+<p><a href="https://github.com/SINTEF/ci-cd/compare/v2.8.1...Unreleased changes">Full Changelog</a></p>
+<p><strong>Implemented enhancements:</strong></p>
+<ul>
+<li>Support self-hosted runners <a href="https://github.com/SINTEF/ci-cd/issues/279">#279</a></li>
+</ul>
+<p><strong>Merged pull requests:</strong></p>
+<ul>
+<li>Add <code>runner</code> input for all callable workflows <a href="https://github.com/SINTEF/ci-cd/pull/280">#280</a> (<a href="https://github.com/CasperWA">CasperWA</a>)</li>
+</ul>
+<h2 id="v281-2024-08-22"><a href="https://github.com/SINTEF/ci-cd/tree/v2.8.1">v2.8.1</a> (2024-08-22)<a class="headerlink" href="#v281-2024-08-22" title="Permanent link">&para;</a></h2>
+<p><a href="https://github.com/SINTEF/ci-cd/compare/v2.8.0...v2.8.1">Full Changelog</a></p>
 <h2 id="support-custom-pypi-indices">Support custom PyPI indices<a class="headerlink" href="#support-custom-pypi-indices" title="Permanent link">&para;</a></h2>
 <p>All callable workflows now have support for setting the <code>PIP_INDEX_URL</code> and <code>PIP_EXTRA_INDEX_URL</code> environment variable whenever <code>pip install</code> is being invoked.
 Note, the <code>PIP_EXTRA_INDEX_URL</code> allows for multiple URLs to be provided, given they are space-delimited.</p>
@@ -1145,12 +1137,6 @@ Note, the <code>PIP_EXTRA_INDEX_URL</code> allows for multiple URLs to be provid
 <ul>
 <li>Support custom pip index URL(s) <a href="https://github.com/SINTEF/ci-cd/issues/276">#276</a></li>
 </ul>
-<h2 id="v281-2024-08-21"><a href="https://github.com/SINTEF/ci-cd/tree/v2.8.1">v2.8.1</a> (2024-08-21)<a class="headerlink" href="#v281-2024-08-21" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/SINTEF/ci-cd/compare/v2.8.0...v2.8.1">Full Changelog</a></p>
-<h2 id="support-custom-pypi-indices_1">Support custom PyPI indices<a class="headerlink" href="#support-custom-pypi-indices_1" title="Permanent link">&para;</a></h2>
-<p>All callable workflows now have support for setting the <code>PIP_INDEX_URL</code> and <code>PIP_EXTRA_INDEX_URL</code> environment variable whenever <code>pip install</code> is being invoked.
-Note, the <code>PIP_EXTRA_INDEX_URL</code> allows for multiple URLs to be provided, given they are space-delimited.</p>
-<p>For more information on the specific workflow, see the documentation.</p>
 <p><strong>Merged pull requests:</strong></p>
 <ul>
 <li>Support adding pip index URLs <a href="https://github.com/SINTEF/ci-cd/pull/277">#277</a> (<a href="https://github.com/CasperWA">CasperWA</a>)</li>

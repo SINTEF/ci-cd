@@ -1229,6 +1229,13 @@ If <code>versions</code> and <code>update-types</code> are used together, they w
 <td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
+<td style="text-align: left;"><code>runner</code></td>
+<td style="text-align: left;">The runner to use for the workflow. Note, the callable workflow expects a Linux/Unix system..</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">ubuntu-latest</td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+<tr>
 <td style="text-align: left;"><code>target_branch</code></td>
 <td style="text-align: left;">The branch name for the target of the opened PR.</br></br><strong>Note</strong>: If a value is not given for this nor <code>permanent_dependencies_branch</code>, the default value for <code>permanent_dependencies_branch</code> will be used until v2.6.0, whereafter providing an explicit value for <code>target_branch</code> is <strong>required</strong>.</td>
 <td style="text-align: center;">No</td>
