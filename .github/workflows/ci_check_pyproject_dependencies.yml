@@ -252,7 +252,7 @@ jobs:
     - name: Create PR
       if: steps.ci_cd.outputs.update_dependencies == 'true'
       id: cpr
-      uses: peter-evans/create-pull-request@v6
+      uses: peter-evans/create-pull-request@v7
       with:
         token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
         committer: "${{ inputs.git_username }} <${{ inputs.git_email }}>"
