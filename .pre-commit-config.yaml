@@ -8,7 +8,7 @@ repos:
   # To get an overview of them all as well as the ones used here, please see
   # https://github.com/pre-commit/pre-commit-hooks#hooks-available
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0
+    rev: v5.0.0
     hooks:
     - id: end-of-file-fixer
     - id: debug-statements
@@ -42,7 +42,7 @@ repos:
   # More information can be found in its documentation:
   # https://docs.astral.sh/ruff/
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.6.8
+    rev: v0.6.9
     hooks:
     - id: ruff
       # Fix what can be fixed in-place and exit with non-zero status if files were
