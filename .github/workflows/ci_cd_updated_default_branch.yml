@@ -252,7 +252,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -U setuptools wheel
         pip install ${EDITABLE}.${{ inputs.doc_extras }}
-        pip install git+https://github.com/SINTEF/ci-cd.git@v2.8.2
+        pip install git+https://github.com/SINTEF/ci-cd.git@v2.8.3
 
         INSTALLED_PACKAGES=$(pip freeze)
         if [ "${{ inputs.docs_framework }}" == "mkdocs" ]; then

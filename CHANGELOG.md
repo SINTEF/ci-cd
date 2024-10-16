@@ -1,19 +1,29 @@
 # Changelog
 
-## [Unreleased](https://github.com/SINTEF/ci-cd/tree/HEAD)
+## [v2.8.3](https://github.com/SINTEF/ci-cd/tree/v2.8.3) (2024-10-15)
 
-[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.8.2...HEAD)
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.8.2...v2.8.3)
 
-## Support self-hosted runners
+## Update GitHub Actions
 
-The `runs-on` key can not be specified via the `runner` input, which is available for all callable workflows.
-This means one can use the callable workflows with self-hosted runners, for example.
+Update the used GitHub Actions in the callable workflows.
 
-It is worth noting that the workflows are built with Linux/Unix systems in mind, hence specifying `windows-latest` may lead to issues with certain workflows. This is also true if the self-hosted runner is not Linux/Unix-based.
+## DX
 
-**Implemented enhancements:**
+Update development tools and dependencies for an improved developer experience.
 
-- Support self-hosted runners [\#279](https://github.com/SINTEF/ci-cd/issues/279)
+**Merged pull requests:**
+
+- \[Auto-generated\] Update dependencies [\#297](https://github.com/SINTEF/ci-cd/pull/297) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[pre-commit.ci\] pre-commit autoupdate [\#293](https://github.com/SINTEF/ci-cd/pull/293) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#292](https://github.com/SINTEF/ci-cd/pull/292) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[Auto-generated\] Update dependencies [\#291](https://github.com/SINTEF/ci-cd/pull/291) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[pre-commit.ci\] pre-commit autoupdate [\#290](https://github.com/SINTEF/ci-cd/pull/290) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#289](https://github.com/SINTEF/ci-cd/pull/289) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#288](https://github.com/SINTEF/ci-cd/pull/288) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#287](https://github.com/SINTEF/ci-cd/pull/287) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[Auto-generated\] Update dependencies [\#283](https://github.com/SINTEF/ci-cd/pull/283) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[pre-commit.ci\] pre-commit autoupdate [\#282](https://github.com/SINTEF/ci-cd/pull/282) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
 
 ## [v2.8.2](https://github.com/SINTEF/ci-cd/tree/v2.8.2) (2024-08-22)
 
@@ -25,6 +35,10 @@ The `runs-on` key can not be specified via the `runner` input, which is availabl
 This means one can use the callable workflows with self-hosted runners, for example.
 
 It is worth noting that the workflows are built with Linux/Unix systems in mind, hence specifying `windows-latest` may lead to issues with certain workflows. This is also true if the self-hosted runner is not Linux/Unix-based.
+
+**Implemented enhancements:**
+
+- Support self-hosted runners [\#279](https://github.com/SINTEF/ci-cd/issues/279)
 
 **Merged pull requests:**
 
