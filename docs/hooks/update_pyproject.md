@@ -66,7 +66,7 @@ It is meant to be complete as is.
 ```yaml
 repos:
   - repo: https://github.com/SINTEF/ci-cd
-    rev: v2.7.4
+    rev: v2.8.3
     hooks:
     - id: update-pyproject
       args:

@@ -1,5 +1,108 @@
 # Changelog
 
+## [v2.8.3](https://github.com/SINTEF/ci-cd/tree/v2.8.3) (2024-10-15)
+
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.8.2...v2.8.3)
+
+## Update GitHub Actions
+
+Update the used GitHub Actions in the callable workflows.
+
+## DX
+
+Update development tools and dependencies for an improved developer experience.
+
+**Merged pull requests:**
+
+- \[Auto-generated\] Update dependencies [\#297](https://github.com/SINTEF/ci-cd/pull/297) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[pre-commit.ci\] pre-commit autoupdate [\#293](https://github.com/SINTEF/ci-cd/pull/293) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#292](https://github.com/SINTEF/ci-cd/pull/292) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[Auto-generated\] Update dependencies [\#291](https://github.com/SINTEF/ci-cd/pull/291) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[pre-commit.ci\] pre-commit autoupdate [\#290](https://github.com/SINTEF/ci-cd/pull/290) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#289](https://github.com/SINTEF/ci-cd/pull/289) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#288](https://github.com/SINTEF/ci-cd/pull/288) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#287](https://github.com/SINTEF/ci-cd/pull/287) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[Auto-generated\] Update dependencies [\#283](https://github.com/SINTEF/ci-cd/pull/283) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[pre-commit.ci\] pre-commit autoupdate [\#282](https://github.com/SINTEF/ci-cd/pull/282) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+
+## [v2.8.2](https://github.com/SINTEF/ci-cd/tree/v2.8.2) (2024-08-22)
+
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.8.1...v2.8.2)
+
+## Support self-hosted runners
+
+The `runs-on` key can not be specified via the `runner` input, which is available for all callable workflows.
+This means one can use the callable workflows with self-hosted runners, for example.
+
+It is worth noting that the workflows are built with Linux/Unix systems in mind, hence specifying `windows-latest` may lead to issues with certain workflows. This is also true if the self-hosted runner is not Linux/Unix-based.
+
+**Implemented enhancements:**
+
+- Support self-hosted runners [\#279](https://github.com/SINTEF/ci-cd/issues/279)
+
+**Merged pull requests:**
+
+- Add `runner` input for all callable workflows [\#280](https://github.com/SINTEF/ci-cd/pull/280) ([CasperWA](https://github.com/CasperWA))
+
+## [v2.8.1](https://github.com/SINTEF/ci-cd/tree/v2.8.1) (2024-08-22)
+
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.8.0...v2.8.1)
+
+## Support custom PyPI indices
+
+All callable workflows now have support for setting the `PIP_INDEX_URL` and `PIP_EXTRA_INDEX_URL` environment variable whenever `pip install` is being invoked.
+Note, the `PIP_EXTRA_INDEX_URL` allows for multiple URLs to be provided, given they are space-delimited.
+
+For more information on the specific workflow, see the documentation.
+
+**Implemented enhancements:**
+
+- Support custom pip index URL\(s\) [\#276](https://github.com/SINTEF/ci-cd/issues/276)
+
+**Merged pull requests:**
+
+- Support adding pip index URLs [\#277](https://github.com/SINTEF/ci-cd/pull/277) ([CasperWA](https://github.com/CasperWA))
+- \[pre-commit.ci\] pre-commit autoupdate [\#275](https://github.com/SINTEF/ci-cd/pull/275) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#274](https://github.com/SINTEF/ci-cd/pull/274) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#273](https://github.com/SINTEF/ci-cd/pull/273) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[Auto-generated\] Update dependencies [\#272](https://github.com/SINTEF/ci-cd/pull/272) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[pre-commit.ci\] pre-commit autoupdate [\#271](https://github.com/SINTEF/ci-cd/pull/271) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+
+## [v2.8.0](https://github.com/SINTEF/ci-cd/tree/v2.8.0) (2024-07-29)
+
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.7.4...v2.8.0)
+
+# Support Trusted Publishers from PyPI
+
+[Trusted Publishers](https://docs.pypi.org/trusted-publishers/using-a-publisher/) from [PyPI](https://pypi.org) is now supported via uploading the distribution(s) as artifacts (for more information about GitHub Actions artifacts, see [the GitHub Docs](https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts)).
+
+**Breaking change**: This is not a "true" breaking change - but it may cause certain workflows to fail that uses the callable workflow _CD - Release_: The parameter `publish_on_pypi` has become required, meaning one _must_ provide it in the `with` section of the calling workflow. For more information, see [the documentation page for the _CD - Release_ workflow](https://sintef.github.io/ci-cd/2.8.0/workflows/cd_release/).
+
+## DX updates
+
+Several fixes from the development tools have been implemented into the code base.
+
+**Implemented enhancements:**
+
+- Support new PyPI Trusted Publisher [\#180](https://github.com/SINTEF/ci-cd/issues/180)
+
+**Merged pull requests:**
+
+- \[pre-commit.ci\] pre-commit autoupdate [\#268](https://github.com/SINTEF/ci-cd/pull/268) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- Push for PyPI Trusted Publisher usage [\#267](https://github.com/SINTEF/ci-cd/pull/267) ([CasperWA](https://github.com/CasperWA))
+- \[pre-commit.ci\] pre-commit autoupdate [\#266](https://github.com/SINTEF/ci-cd/pull/266) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[Auto-generated\] Update dependencies [\#265](https://github.com/SINTEF/ci-cd/pull/265) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[pre-commit.ci\] pre-commit autoupdate [\#264](https://github.com/SINTEF/ci-cd/pull/264) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#263](https://github.com/SINTEF/ci-cd/pull/263) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[Auto-generated\] Update dependencies [\#262](https://github.com/SINTEF/ci-cd/pull/262) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[pre-commit.ci\] pre-commit autoupdate [\#261](https://github.com/SINTEF/ci-cd/pull/261) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#259](https://github.com/SINTEF/ci-cd/pull/259) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#257](https://github.com/SINTEF/ci-cd/pull/257) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[Auto-generated\] Update dependencies [\#255](https://github.com/SINTEF/ci-cd/pull/255) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[pre-commit.ci\] pre-commit autoupdate [\#254](https://github.com/SINTEF/ci-cd/pull/254) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[Auto-generated\] Update dependencies [\#250](https://github.com/SINTEF/ci-cd/pull/250) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[Auto-generated\] Update dependencies [\#247](https://github.com/SINTEF/ci-cd/pull/247) ([TEAM4-0](https://github.com/TEAM4-0))
+
 ## [v2.7.4](https://github.com/SINTEF/ci-cd/tree/v2.7.4) (2024-02-29)
 
 [Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.7.3...v2.7.4)

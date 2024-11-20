@@ -37,7 +37,7 @@ Here is an example of different lines given as value for the `ignore` option tha
 # ...
 jobs:
   check-dependencies:
-    uses: SINTEF/ci-cd/.github/workflows/ci_check_pyproject_dependencies.yml@v2.7.4
+    uses: SINTEF/ci-cd/.github/workflows/ci_check_pyproject_dependencies.yml@v2.8.3
     with:
       # ...
       # For Sphinx, ignore all updates for/from version 4.5.0 and up / keep the minimum version for Sphinx at 4.5.0.
@@ -62,10 +62,13 @@ The repository contains the following:
 |:--- |:--- |:---:|:---:|:---:|
 | `git_username` | A git username (used to set the 'user.name' config option). | **_Yes_** | | _string_ |
 | `git_email` | A git user's email address (used to set the 'user.email' config option). | **_Yes_** | | _string_ |
+| `runner` | The runner to use for the workflow. Note, the callable workflow expects a Linux/Unix system.. | No | ubuntu-latest | _string_ |
 | `target_branch` | The branch name for the target of the opened PR.</br></br>**Note**: If a value is not given for this nor `permanent_dependencies_branch`, the default value for `permanent_dependencies_branch` will be used until v2.6.0, whereafter providing an explicit value for `target_branch` is **required**. | No | _Empty string_ | _string_ |
 | `permanent_dependencies_branch` | **DEPRECATED** - Will be removed in v2.6.0. Use `target_branch` instead.</br></br>The branch name for the permanent dependency updates branch. | No | ci/dependency-updates | _string_ |
 | `python_version` | The Python version to use for the workflow. | No | 3.9 | _string_ |
 | `install_extras` | Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces.</br></br>Example: `'[dev,release]'`. | No | _Empty string_ | _string_ |
+| `pip_index_url` | A URL to a PyPI repository index. | No | `https://pypi.org/simple/` | _string_ |
+| `pip_extra_index_urls` | A space-delimited string of URLs to additional PyPI repository indices. | No | _Empty string_ | _string_ |
 | `pr_body_file` | Relative path to PR body file from the root of the repository.</br></br>Example: `'.github/utils/pr_body_deps_check.txt'`. | No | _Empty string_ | _string_ |
 | `fail_fast` | Whether the task to update dependencies should fail if any error occurs. | No | `false` | _boolean_ |
 | `pr_labels` | A comma separated list of strings of GitHub labels to use for the created PR. | No | _Empty string_ | _string_ |
@@ -96,7 +99,7 @@ on:
 jobs:
   check-dependencies:
     name: Call external workflow
-    uses: SINTEF/ci-cd/.github/workflows/ci_check_pyproject_dependencies.yml@v2.7.4
+    uses: SINTEF/ci-cd/.github/workflows/ci_check_pyproject_dependencies.yml@v2.8.3
     if: github.repository_owner == 'SINTEF'
     with:
       git_username: "Casper Welzel Andersen"

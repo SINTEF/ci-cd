@@ -8,7 +8,7 @@ repos:
   # To get an overview of them all as well as the ones used here, please see
   # https://github.com/pre-commit/pre-commit-hooks#hooks-available
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0
+    rev: v5.0.0
     hooks:
     - id: end-of-file-fixer
     - id: debug-statements
@@ -25,7 +25,7 @@ repos:
   - repo: https://github.com/asottile/pyupgrade
     # Latest version for Python 3.7: 3.3.2
     # Latest version for Python 3.8: 3.8.0
-    rev: v3.16.0
+    rev: v3.19.0
     hooks:
     - id: pyupgrade
       args: [--py37-plus]
@@ -33,7 +33,7 @@ repos:
   # Black is a code style and formatter
   # It works on files in-place
   - repo: https://github.com/psf/black
-    rev: 24.4.2
+    rev: 24.10.0
     hooks:
     - id: black
 
@@ -42,7 +42,7 @@ repos:
   # More information can be found in its documentation:
   # https://docs.astral.sh/ruff/
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.5.4
+    rev: v0.7.4
     hooks:
     - id: ruff
       # Fix what can be fixed in-place and exit with non-zero status if files were
@@ -57,7 +57,7 @@ repos:
   # More information can be found in its documentation:
   # https://bandit.readthedocs.io/en/latest/
   - repo: https://github.com/PyCQA/bandit
-    rev: 1.7.9
+    rev: 1.7.10
     hooks:
     - id: bandit
       args: ["-r"]
@@ -69,12 +69,12 @@ repos:
   # The project's documentation can be found at:
   # https://mypy.readthedocs.io/en/stable/index.html
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.11.0
+    rev: v1.13.0
     hooks:
     - id: mypy
 
   - repo: https://github.com/SINTEF/ci-cd
-    rev: v2.7.4
+    rev: v2.8.3
     hooks:
     - id: docs-api-reference
       args:

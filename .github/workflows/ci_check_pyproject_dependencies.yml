@@ -3,6 +3,7 @@ name: CI - Check pyproject.toml dependencies
 on:
   workflow_call:
     inputs:
+      # REQUIRED
       git_username:
         description: "A git username (used to set the 'user.name' config option)."
         required: true
@@ -11,6 +12,13 @@ on:
         description: "A git user's email address (used to set the 'user.email' config option)."
         required: true
         type: string
+
+      # OPTIONAL
+      runner:
+        description: "The runner to use for the workflow. Note, the callable workflow expects a Linux/Unix system."
+        required: false
+        type: string
+        default: ubuntu-latest
       target_branch:
         description: "The branch name for the target of the opened PR."
         required: false
@@ -28,6 +36,16 @@ on:
         default: "3.9"
       install_extras:
         description: "Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces. Example: `'[dev,release]'`."
+        required: false
+        type: string
+        default: ""
+      pip_index_url:
+        description: "A URL to a PyPI repository index. Defaults to 'https://pypi.org/simple/'."
+        required: false
+        type: string
+        default: "https://pypi.org/simple/"
+      pip_extra_index_urls:
+        description: "A space-delimited string of URLs to additional PyPI repository indices."
         required: false
         type: string
         default: ""
@@ -74,14 +92,15 @@ on:
 jobs:
   check-dependencies:
     name: Check & update dependencies in `pyproject.toml`
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runner }}
 
     steps:
     - name: Validate inputs
+      id: validate_inputs
       run: |
-        if [[ ! "${{ inputs.python_version }}" =~ ^3\.([7-9]|1[0-3])(\..*)?$ ]]; then
+        if [[ ! "${{ inputs.python_version }}" =~ ^3\.([7-9]|1[0-4])(\..*)?$ ]]; then
           echo "Python version '${{ inputs.python_version }}' is not supported."
-          echo "Supported versions are: 3.7, 3.8, 3.9, 3.10, 3.11, 3.12, 3.13."
+          echo "Supported versions are: 3.7, 3.8, 3.9, 3.10, 3.11, 3.12, 3.13, 3.14."
           exit 1
         fi
 
@@ -92,31 +111,31 @@ jobs:
           # Cause of action: Set 'target_branch' to the (old) default value, and emit a deprecation warning.
 
           echo "::warning file=${{ github.workflow_ref }},title=Deprecation Warning::'permanent_dependencies_branch' is deprecated and will be removed in v2.6.0. Use 'target_branch' instead with explicit value. The old default value for 'permanent_dependencies_branch' was: 'ci/dependency-updates'."
-          echo "target_branch=ci/dependency-updates" >> $GITHUB_ENV
+          echo "target_branch=ci/dependency-updates" >> $GITHUB_OUTPUT
         elif [ -z "${{ inputs.target_branch }}" ] && [ -n "${{ inputs.permanent_dependencies_branch }}" ]; then
           # Scenario expected to be: One has set an explicit value for 'permanent_dependencies_branch' previously.
           # While not knowing that it is now deprecated, and one should instead use 'target_branch' with an explicitly set value.
           # Cause of action: Set 'target_branch' to the value of 'permanent_dependencies_branch', and emit a deprecation warning.
 
           echo "::warning file=${{ github.workflow_ref }},title=Deprecation Warning::'permanent_dependencies_branch' is deprecated and will be removed in v2.6.0. Use 'target_branch' instead."
-          echo "target_branch=${{ inputs.permanent_dependencies_branch }}" >> $GITHUB_ENV
+          echo "target_branch=${{ inputs.permanent_dependencies_branch }}" >> $GITHUB_OUTPUT
         elif [ -n "${{ inputs.target_branch }}" ] && [ -n "${{ inputs.permanent_dependencies_branch }}" ]; then
           # Scenario expected to be: One has set an explicit value for both 'target_branch' and forgotten to remove the explicit value set for 'permanent_dependencies_branch'.
           # Cause of action: Emit a warning and use value for 'target_branch'.
 
           echo "::warning file=${{ github.workflow_ref }},title=Deprecation Warning::'permanent_dependencies_branch' is deprecated and will be removed in v2.6.0. Use only 'target_branch' instead."
-          echo "target_branch=${{ inputs.target_branch }}" >> $GITHUB_ENV
+          echo "target_branch=${{ inputs.target_branch }}" >> $GITHUB_OUTPUT
         elif [ -n "${{ inputs.target_branch }}" ] && [ -z "${{ inputs.permanent_dependencies_branch }}" ]; then
           # Scenario expected to be: One has set an explicit value for 'target_branch' and is currently not using 'permanent_dependencies_branch'.
           # Cause of action: Use value for 'target_branch'.
 
-          echo "target_branch=${{ inputs.target_branch }}" >> $GITHUB_ENV
+          echo "target_branch=${{ inputs.target_branch }}" >> $GITHUB_OUTPUT
         fi
 
-    - name: Checkout ${{ env.target_branch }} in ${{ github.repository }}
+    - name: Checkout ${{ steps.validate_inputs.outputs.target_branch }} in ${{ github.repository }}
       uses: actions/checkout@v4
       with:
-        ref: ${{ env.target_branch }}
+        ref: ${{ steps.validate_inputs.outputs.target_branch }}
         fetch-depth: 0
 
     - name: Set up Python ${{ inputs.python_version }}
@@ -137,7 +156,10 @@ jobs:
         python -m pip install -U ${VERBOSE} pip
         pip install -U ${VERBOSE} setuptools wheel
         pip install ${VERBOSE} .${{ inputs.install_extras }}
-        pip install ${VERBOSE} git+https://github.com/SINTEF/ci-cd.git@v2.7.4
+        pip install ${VERBOSE} git+https://github.com/SINTEF/ci-cd.git@v2.8.3
+      env:
+        PIP_INDEX_URL: ${{ inputs.pip_index_url }}
+        PIP_EXTRA_INDEX_URL: ${{ inputs.pip_extra_index_urls }}
 
     - name: Set up git user
       run: |
@@ -149,6 +171,7 @@ jobs:
         git config --global user.email "${{ inputs.git_email }}"
 
     - name: Run ci-cd task
+      id: ci_cd
       run: |
         if [ "${{ inputs.debug }}" == "true" ]; then
           set -x
@@ -187,15 +210,16 @@ jobs:
         fi
 
         if [ -n "$(git status --porcelain pyproject.toml)" ]; then
-          echo "UPDATE_DEPS=true" >> $GITHUB_ENV
+          echo "update_dependencies=true" >> $GITHUB_OUTPUT
           git add pyproject.toml
           git commit -m "Update dependencies in \`pyproject.toml\`"
         else
-          echo "UPDATE_DEPS=false" >> $GITHUB_ENV
+          echo "update_dependencies=false" >> $GITHUB_OUTPUT
         fi
 
     - name: Set PR body
-      if: env.UPDATE_DEPS == 'true'
+      id: pr_body_config
+      if: steps.ci_cd.outputs.update_dependencies == 'true'
       run: |
         if [ "${{ inputs.debug }}" == "true" ]; then
           set -x
@@ -203,32 +227,32 @@ jobs:
 
         if [ -z "${{ inputs.pr_body_file }}" ] || [ ! -f "${{ inputs.pr_body_file }}" ]; then
           PR_BODY_FILE=.tmp_pr-body_${{ github.run_id }}_${{ github.run_number }}_${{ github.run_attempt }}.txt
-          echo "PR_BODY_FILE=${PR_BODY_FILE}" >> $GITHUB_ENV
+          echo "pr_body_file=${PR_BODY_FILE}" >> $GITHUB_OUTPUT
 
           echo -e "### Update dependencies (\`pyproject.toml\`)\n\nAutomatically created PR based on the ['CI - Check pyproject.toml dependencies' workflow](https://SINTEF.github.io/ci-cd/latest/workflows/ci_check_pyproject_dependencies/) in [SINTEF/ci-cd](https://github.com/SINTEF/ci-cd)." > ${PR_BODY_FILE}
           echo "Using default PR body."
-          echo "REMOVE_PR_BODY_FILE=true" >> $GITHUB_ENV
+          echo "remove_pr_body_file=true" >> $GITHUB_OUTPUT
         else
           echo "Using found PR body text file at ${{ inputs.pr_body_file }}."
-          echo "PR_BODY_FILE=${{ inputs.pr_body_file }}" >> $GITHUB_ENV
-          echo "REMOVE_PR_BODY_FILE=false" >> $GITHUB_ENV
+          echo "pr_body_file=${{ inputs.pr_body_file }}" >> $GITHUB_OUTPUT
+          echo "remove_pr_body_file=false" >> $GITHUB_OUTPUT
         fi
 
     - name: Fetch PR body
-      if: env.UPDATE_DEPS == 'true'
+      if: steps.ci_cd.outputs.update_dependencies == 'true'
       id: pr_body
       uses: chuhlomin/render-template@v1.10
       with:
-        template: ${{ env.PR_BODY_FILE }}
+        template: ${{ steps.pr_body_config.outputs.pr_body_file }}
 
     - name: Remove temporary file
-      if: env.REMOVE_PR_BODY_FILE == 'true'
-      run: rm -f ${PR_BODY_FILE}
+      if: steps.pr_body_config.outputs.remove_pr_body_file == 'true'
+      run: rm -f ${{ steps.pr_body_config.outputs.pr_body_file }}
 
     - name: Create PR
-      if: env.UPDATE_DEPS == 'true'
+      if: steps.ci_cd.outputs.update_dependencies == 'true'
       id: cpr
-      uses: peter-evans/create-pull-request@v6
+      uses: peter-evans/create-pull-request@v7
       with:
         token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
         committer: "${{ inputs.git_username }} <${{ inputs.git_email }}>"
