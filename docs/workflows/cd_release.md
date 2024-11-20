@@ -112,7 +112,7 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           # The path to the distribution to upload
-          package-dir: my-dists
+          packages-dir: my-dists/
 ```
 
 ## Updating instances of version in repository files
