@@ -17,7 +17,7 @@ if TYPE_CHECKING:  # pragma: no cover
     from typing import Any, Dict, List
 
     from packaging.requirements import Requirement
-    from typing_extensions import Literal, Self
+    from typing_extensions import Literal
 
     IgnoreEntry = Dict[Literal["dependency-name", "versions", "update-types"], str]
 
