@@ -14,7 +14,13 @@ from packaging.version import InvalidVersion, Version
 from ci_cd.exceptions import InputError, InputParserError, UnableToResolve
 
 if TYPE_CHECKING:  # pragma: no cover
+    import sys
     from typing import Any, Dict, List
+
+    if sys.version_info >= (3, 11):
+        from typing import Self
+    else:
+        from typing_extensions import Self
 
     from packaging.requirements import Requirement
     from typing_extensions import Literal
