@@ -1196,7 +1196,7 @@ This is specifically to be used with the MkDocs and mkdocstrings framework.</p>
         <span class="s2">&quot;special_option&quot;</span><span class="p">,</span>
     <span class="p">],</span>
 <span class="p">)</span>
-<span class="k">def</span> <span class="nf">create_api_reference_docs</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_api_reference_docs</span><span class="p">(</span>
     <span class="n">context</span><span class="p">,</span>
     <span class="n">package_dir</span><span class="p">,</span>
     <span class="n">pre_clean</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -1238,7 +1238,7 @@ This is specifically to be used with the MkDocs and mkdocstrings framework.</p>
     <span class="n">docs_folder</span><span class="p">:</span> <span class="n">PurePosixPath</span> <span class="o">=</span> <span class="n">PurePosixPath</span><span class="p">(</span><span class="n">docs_folder</span><span class="p">)</span>  <span class="c1"># type: ignore[no-redef]</span>
     <span class="n">full_docs_folder</span> <span class="o">=</span> <span class="p">[</span><span class="n">Path</span><span class="p">(</span><span class="n">PurePosixPath</span><span class="p">(</span><span class="n">_</span><span class="p">))</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">full_docs_folder</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">write_file</span><span class="p">(</span><span class="n">full_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_file</span><span class="p">(</span><span class="n">full_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Write file with `content` to `full_path`&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">full_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
             <span class="n">cached_content</span> <span class="o">=</span> <span class="n">full_path</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span>

@@ -1177,7 +1177,7 @@ CICDException            (<span title="Exception">Exception</span>)
 
         <details class="quote">
           <summary>Source code in <code>ci_cd/exceptions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">CICDException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+          <div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">CICDException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Top-level package exception class.&quot;&quot;&quot;</span>
 </code></pre></div>
         </details>
@@ -1208,7 +1208,7 @@ InputError            (<span title="ValueError">ValueError</span>, <a class="aut
 
         <details class="quote">
           <summary>Source code in <code>ci_cd/exceptions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">InputError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">CICDException</span><span class="p">):</span>
+          <div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">InputError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">CICDException</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;There is an error with the input given to a task.&quot;&quot;&quot;</span>
 </code></pre></div>
         </details>
@@ -1239,7 +1239,7 @@ InputParserError            (<a class="autorefs autorefs-internal" title="ci_cd.
 
         <details class="quote">
           <summary>Source code in <code>ci_cd/exceptions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">InputParserError</span><span class="p">(</span><span class="n">InputError</span><span class="p">):</span>
+          <div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">InputParserError</span><span class="p">(</span><span class="n">InputError</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The input could not be parsed, it may be wrongly formatted.&quot;&quot;&quot;</span>
 </code></pre></div>
         </details>
@@ -1270,7 +1270,7 @@ UnableToResolve            (<a class="autorefs autorefs-internal" title="ci_cd.e
 
         <details class="quote">
           <summary>Source code in <code>ci_cd/exceptions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">UnableToResolve</span><span class="p">(</span><span class="n">CICDException</span><span class="p">):</span>
+          <div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">UnableToResolve</span><span class="p">(</span><span class="n">CICDException</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Unable to resolve a task or sub-task.&quot;&quot;&quot;</span>
 </code></pre></div>
         </details>

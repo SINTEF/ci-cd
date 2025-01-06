@@ -1761,7 +1761,7 @@ IgnoreEntryPair            (<span title="tuple">tuple</span>)
 
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">IgnoreEntryPair</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+          <div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">IgnoreEntryPair</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A key/value-pair within an ignore entry.&quot;&quot;&quot;</span>
 
     <span class="n">key</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;dependency-name&quot;</span><span class="p">,</span> <span class="s2">&quot;versions&quot;</span><span class="p">,</span> <span class="s2">&quot;update-types&quot;</span><span class="p">]</span>
@@ -1802,7 +1802,7 @@ IgnoreEntryPair            (<span title="tuple">tuple</span>)
 
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">__getnewargs__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">__getnewargs__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="s1">&#39;Return self as a plain tuple.  Used by copy and pickle.&#39;</span>
     <span class="k">return</span> <span class="n">_tuple</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </code></pre></div>
@@ -1856,7 +1856,7 @@ IgnoreEntryPair            (<span title="tuple">tuple</span>)
 
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="s1">&#39;Return a nicely formatted representation string&#39;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="n">repr_fmt</span> <span class="o">%</span> <span class="bp">self</span>
 </code></pre></div>
@@ -1995,7 +1995,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 </table>
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">SemanticVersion</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
+          <div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">SemanticVersion</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A semantic version.</span>
 
 <span class="sd">    See [SemVer.org](https://semver.org) for more information about semantic</span>
@@ -2050,12 +2050,12 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 <span class="sd">    https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string.&quot;&quot;&quot;</span>
 
     <span class="nd">@no_type_check</span>
-    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Version</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Version</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span>
             <span class="bp">cls</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">version</span><span class="p">)</span> <span class="k">if</span> <span class="n">version</span> <span class="k">else</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_build_version</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Version</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
@@ -2086,7 +2086,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                         <span class="sa">f</span><span class="s2">&quot;version (</span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s2">) cannot be parsed as a semantic version &quot;</span>
                         <span class="s2">&quot;according to the SemVer.org regular expression&quot;</span>
-                    <span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>
+                    <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
 
                 <span class="c1"># Success. Now let&#39;s redo the SemVer.org regular expression match</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_python_version</span> <span class="o">=</span> <span class="n">_python_version</span>
@@ -2112,7 +2112,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
         <span class="bp">self</span><span class="o">.</span><span class="n">_build</span> <span class="o">=</span> <span class="n">build</span> <span class="k">if</span> <span class="n">build</span> <span class="k">else</span> <span class="kc">None</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">_build_version</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_build_version</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">major</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">minor</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -2149,22 +2149,22 @@ the end of the version, after a plus (<code>+</code>).</p></td>
         <span class="k">return</span> <span class="n">version</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">major</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">major</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The major version.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_major</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">minor</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">minor</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The minor version.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_minor</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">patch</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">patch</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The patch version.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_patch</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">pre_release</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">pre_release</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The pre-release part of the version</span>
 
 <span class="sd">        This is the part supplied after a minus (`-`), but before a plus (`+`).</span>
@@ -2172,7 +2172,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pre_release</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The build metadata part of the version.</span>
 
 <span class="sd">        This is the part supplied at the end of the version, after a plus (`+`).</span>
@@ -2180,11 +2180,11 @@ the end of the version, after a plus (<code>+</code>).</p></td>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">python_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Version</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">python_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Version</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The Python version as defined by `packaging.version.Version`.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_python_version</span>
 
-    <span class="k">def</span> <span class="nf">as_python_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shortened</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Version</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">as_python_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shortened</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Version</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the Python version as defined by `packaging.version.Version`.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">python_version</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">Version</span><span class="p">(</span>
@@ -2228,7 +2228,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 
         <span class="k">return</span> <span class="n">Version</span><span class="p">(</span><span class="n">redone_version</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the full version.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">python_version</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">as_python_version</span><span class="p">(</span><span class="n">shortened</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
@@ -2238,11 +2238,11 @@ the end of the version, after a plus (<code>+</code>).</p></td>
             <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="sa">f</span><span class="s1">&#39;+</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">build</span><span class="si">}</span><span class="s1">&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">build</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the string representation of the object.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="si">!r}</span><span class="s2">)&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the attribute value.&quot;&quot;&quot;</span>
         <span class="n">accepted_python_attributes</span> <span class="o">=</span> <span class="p">(</span>
             <span class="s2">&quot;epoch&quot;</span><span class="p">,</span>
@@ -2264,7 +2264,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
             <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">accepted_python_attributes</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
                     <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> object has no attribute </span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s2">&quot;</span>
-                <span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>
+                <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
 
             <span class="n">python_version</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;as_python_version&quot;</span><span class="p">)(</span>
                 <span class="n">shortened</span><span class="o">=</span><span class="kc">False</span>
@@ -2274,9 +2274,9 @@ the end of the version, after a plus (<code>+</code>).</p></td>
             <span class="k">except</span> <span class="ne">AttributeError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
                     <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> object has no attribute </span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s2">&quot;</span>
-                <span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>
+                <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
 
-    <span class="k">def</span> <span class="nf">_validate_other_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SemanticVersion</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_validate_other_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SemanticVersion</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initial check/validation of `other` before rich comparisons.&quot;&quot;&quot;</span>
         <span class="n">not_implemented_exc</span> <span class="o">=</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;Rich comparison not implemented between </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> and &quot;</span>
@@ -2290,11 +2290,11 @@ the end of the version, after a plus (<code>+</code>).</p></td>
             <span class="k">try</span><span class="p">:</span>
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
             <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">not_implemented_exc</span> <span class="kn">from</span> <span class="nn">exc</span>
+                <span class="k">raise</span> <span class="n">not_implemented_exc</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
 
         <span class="k">raise</span> <span class="n">not_implemented_exc</span>
 
-    <span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Less than (`&lt;`) rich comparison.&quot;&quot;&quot;</span>
         <span class="n">other_semver</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_other_type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
@@ -2314,11 +2314,11 @@ the end of the version, after a plus (<code>+</code>).</p></td>
                     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_release</span> <span class="o">&lt;</span> <span class="n">other_semver</span><span class="o">.</span><span class="n">pre_release</span>
         <span class="k">return</span> <span class="kc">False</span>
 
-    <span class="k">def</span> <span class="fm">__le__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__le__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Less than or equal to (`&lt;=`) rich comparison.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__lt__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Equal to (`==`) rich comparison.&quot;&quot;&quot;</span>
         <span class="n">other_semver</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_other_type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
@@ -2329,19 +2329,19 @@ the end of the version, after a plus (<code>+</code>).</p></td>
             <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_release</span> <span class="o">==</span> <span class="n">other_semver</span><span class="o">.</span><span class="n">pre_release</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Not equal to (`!=`) rich comparison.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__ge__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__ge__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Greater than or equal to (`&gt;=`) rich comparison.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__lt__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__gt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__gt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Greater than (`&gt;`) rich comparison.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__le__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">next_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version_part</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SemanticVersion</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">next_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version_part</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SemanticVersion</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the next version for the specified version part.</span>
 
 <span class="sd">        Parameters:</span>
@@ -2369,7 +2369,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">next_version</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">previous_version</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">previous_version</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">version_part</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">max_filler</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SemanticVersion</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the previous version for the specified version part.</span>
@@ -2414,7 +2414,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">prev_version</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">shortened</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">shortened</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a shortened version of the version.</span>
 
 <span class="sd">        The shortened version is the full version, but without the patch and/or minor</span>
@@ -2603,7 +2603,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Equal to (`==`) rich comparison.&quot;&quot;&quot;</span>
     <span class="n">other_semver</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_other_type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
@@ -2640,7 +2640,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__ge__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__ge__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Greater than or equal to (`&gt;=`) rich comparison.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__lt__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 </code></pre></div>
@@ -2670,7 +2670,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the attribute value.&quot;&quot;&quot;</span>
     <span class="n">accepted_python_attributes</span> <span class="o">=</span> <span class="p">(</span>
         <span class="s2">&quot;epoch&quot;</span><span class="p">,</span>
@@ -2692,7 +2692,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
         <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">accepted_python_attributes</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> object has no attribute </span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s2">&quot;</span>
-            <span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>
+            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
 
         <span class="n">python_version</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;as_python_version&quot;</span><span class="p">)(</span>
             <span class="n">shortened</span><span class="o">=</span><span class="kc">False</span>
@@ -2702,7 +2702,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
         <span class="k">except</span> <span class="ne">AttributeError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> object has no attribute </span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s2">&quot;</span>
-            <span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>
+            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
 </code></pre></div>
         </details>
     </div>
@@ -2730,7 +2730,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__gt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__gt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Greater than (`&gt;`) rich comparison.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__le__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 </code></pre></div>
@@ -2761,7 +2761,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__le__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__le__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Less than or equal to (`&lt;=`) rich comparison.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__lt__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 </code></pre></div>
@@ -2791,7 +2791,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Less than (`&lt;`) rich comparison.&quot;&quot;&quot;</span>
     <span class="n">other_semver</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_other_type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
@@ -2837,7 +2837,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Not equal to (`!=`) rich comparison.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 </code></pre></div>
@@ -2869,7 +2869,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@no_type_check</span>
-<span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Version</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Version</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
     <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">version</span><span class="p">)</span> <span class="k">if</span> <span class="n">version</span> <span class="k">else</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_build_version</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="p">)</span>
@@ -2900,7 +2900,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the string representation of the object.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="si">!r}</span><span class="s2">)&quot;</span>
 </code></pre></div>
@@ -2930,7 +2930,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the full version.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">python_version</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">as_python_version</span><span class="p">(</span><span class="n">shortened</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
@@ -2963,7 +2963,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">as_python_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shortened</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Version</span><span class="p">:</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">as_python_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shortened</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Version</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the Python version as defined by `packaging.version.Version`.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">python_version</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">Version</span><span class="p">(</span>
@@ -3079,7 +3079,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 </table>
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">next_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version_part</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SemanticVersion</span><span class="p">:</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">next_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version_part</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SemanticVersion</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the next version for the specified version part.</span>
 
 <span class="sd">    Parameters:</span>
@@ -3185,7 +3185,7 @@ the end of the version, after a plus (<code>+</code>).</p></td>
 </table>
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">previous_version</span><span class="p">(</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">previous_version</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">version_part</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">max_filler</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SemanticVersion</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the previous version for the specified version part.</span>
@@ -3270,7 +3270,7 @@ version if they are <code>0</code>, and without the pre-release and build metada
 </table>
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">shortened</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">shortened</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a shortened version of the version.</span>
 
 <span class="sd">    The shortened version is the full version, but without the patch and/or minor</span>
@@ -3323,7 +3323,7 @@ ignore rule by the user, if no update should be suggested.</p>
 
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">create_ignore_rules</span><span class="p">(</span><span class="n">specifier_set</span><span class="p">:</span> <span class="n">SpecifierSet</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IgnoreRules</span><span class="p">:</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">create_ignore_rules</span><span class="p">(</span><span class="n">specifier_set</span><span class="p">:</span> <span class="n">SpecifierSet</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IgnoreRules</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create ignore rules based on version specifier set.</span>
 
 <span class="sd">    The only ignore rules needed are related to versions that should be explicitly</span>
@@ -3361,11 +3361,11 @@ ignore rule by the user, if no update should be suggested.</p>
 
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">find_minimum_py_version</span><span class="p">(</span><span class="n">marker</span><span class="p">:</span> <span class="n">Marker</span><span class="p">,</span> <span class="n">project_py_version</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">find_minimum_py_version</span><span class="p">(</span><span class="n">marker</span><span class="p">:</span> <span class="n">Marker</span><span class="p">,</span> <span class="n">project_py_version</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Find the minimum Python version from a marker.&quot;&quot;&quot;</span>
     <span class="n">split_py_version</span> <span class="o">=</span> <span class="n">project_py_version</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_next_version</span><span class="p">(</span><span class="n">_version</span><span class="p">:</span> <span class="n">SemanticVersion</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SemanticVersion</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_next_version</span><span class="p">(</span><span class="n">_version</span><span class="p">:</span> <span class="n">SemanticVersion</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SemanticVersion</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">split_py_version</span><span class="p">)</span> <span class="o">==</span> <span class="n">PART_TO_LENGTH_MAPPING</span><span class="p">[</span><span class="s2">&quot;major&quot;</span><span class="p">]:</span>
             <span class="k">return</span> <span class="n">_version</span><span class="o">.</span><span class="n">next_version</span><span class="p">(</span><span class="s2">&quot;major&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">split_py_version</span><span class="p">)</span> <span class="o">==</span> <span class="n">PART_TO_LENGTH_MAPPING</span><span class="p">[</span><span class="s2">&quot;minor&quot;</span><span class="p">]:</span>
@@ -3442,7 +3442,7 @@ and if <code>requires_python</code> is <code>Marker("python_version &lt; '3.6'")
 </table>
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_min_max_py_version</span><span class="p">(</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_min_max_py_version</span><span class="p">(</span>
     <span class="n">requires_python</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Marker</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get minimum or maximum Python version from `requires_python`.</span>
@@ -3489,7 +3489,7 @@ and if <code>requires_python</code> is <code>Marker("python_version &lt; '3.6'")
     <span class="k">except</span> <span class="n">InvalidSpecifier</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">UnableToResolve</span><span class="p">(</span>
             <span class="s2">&quot;Cannot parse &#39;requires_python&#39; as a specifier set.&quot;</span>
-        <span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>
+        <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
 
     <span class="n">py_version</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
     <span class="n">min_or_max</span> <span class="o">=</span> <span class="s2">&quot;min&quot;</span>
@@ -3674,7 +3674,7 @@ semantic version ignore rules.</p></td>
 </table>
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">ignore_version</span><span class="p">(</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ignore_version</span><span class="p">(</span>
     <span class="n">current</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">latest</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">version_rules</span><span class="p">:</span> <span class="n">IgnoreVersions</span><span class="p">,</span>
@@ -3777,7 +3777,7 @@ semantic version ignore rules.</p></td>
 </table>
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">parse_ignore_entries</span><span class="p">(</span><span class="n">entries</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">separator</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IgnoreRulesCollection</span><span class="p">:</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">parse_ignore_entries</span><span class="p">(</span><span class="n">entries</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">separator</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IgnoreRulesCollection</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Parser for the `--ignore` option.</span>
 
 <span class="sd">    The `--ignore` option values are given as key/value-pairs in the form:</span>
@@ -3904,7 +3904,7 @@ semantic version ignore rules.</p></td>
 </table>
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">parse_ignore_rules</span><span class="p">(</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">parse_ignore_rules</span><span class="p">(</span>
     <span class="n">rules</span><span class="p">:</span> <span class="n">IgnoreRules</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">IgnoreVersions</span><span class="p">,</span> <span class="n">IgnoreUpdateTypes</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Parser for a specific set of ignore rules.</span>
@@ -4050,7 +4050,7 @@ including extras), but before the specifier.</p></td>
 </table>
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">regenerate_requirement</span><span class="p">(</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">regenerate_requirement</span><span class="p">(</span>
     <span class="n">requirement</span><span class="p">:</span> <span class="n">Requirement</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -4130,7 +4130,7 @@ including extras), but before the specifier.</p></td>
 
         <details class="quote">
           <summary>Source code in <code>ci_cd/utils/versions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">update_specifier_set</span><span class="p">(</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">update_specifier_set</span><span class="p">(</span>
     <span class="n">latest_version</span><span class="p">:</span> <span class="n">SemanticVersion</span> <span class="o">|</span> <span class="n">Version</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span> <span class="n">current_specifier_set</span><span class="p">:</span> <span class="n">SpecifierSet</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SpecifierSet</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Update the specifier set to include the latest version.&quot;&quot;&quot;</span>
