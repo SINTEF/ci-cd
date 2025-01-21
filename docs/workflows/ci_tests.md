@@ -180,7 +180,7 @@ jobs:
     uses: SINTEF/ci-cd/.github/workflows/ci_tests.yml@v2.8.3
     with:
       python_version_pylint_safety: "3.8"
-      python_version_docs: "3.7"
+      python_version_docs: "3.9"
       install_extras: "[dev,docs]"
       skip_pre-commit_hooks: pylint
       pylint_options: --rcfile=pyproject.toml
@@ -208,7 +208,7 @@ jobs:
     uses: SINTEF/ci-cd/.github/workflows/ci_tests.yml@v2.8.3
     with:
       python_version_pylint_safety: "3.8"
-      python_version_docs: "3.7"
+      python_version_docs: "3.9"
       install_extras: "[dev,docs]"
       skip_pre-commit_hooks: pylint
       pylint_runs: |

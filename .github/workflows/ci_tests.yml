@@ -405,9 +405,9 @@ jobs:
 
     - name: Validate inputs
       run: |
-        if [[ "${{ steps.determine_framework.outputs.framework }}" == "mkdocs" && ! "${{ inputs.python_version_docs }}" =~ ^3\.([7-9]|1[0-4])(\..*)?$ ]]; then
+        if [[ "${{ steps.determine_framework.outputs.framework }}" == "mkdocs" && ! "${{ inputs.python_version_docs }}" =~ ^3\.([8-9]|1[0-4])(\..*)?$ ]]; then
           echo "Python version '${{ inputs.python_version_docs }}' is not supported."
-          echo "Supported versions are: 3.7, 3.8, 3.9, 3.10, 3.11, 3.12, 3.13, 3.14."
+          echo "Supported versions are: 3.8, 3.9, 3.10, 3.11, 3.12, 3.13, 3.14."
           exit 1
         fi
 
