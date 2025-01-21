@@ -98,9 +98,9 @@ jobs:
     - name: Validate inputs
       id: validate_inputs
       run: |
-        if [[ ! "${{ inputs.python_version }}" =~ ^3\.([7-9]|1[0-4])(\..*)?$ ]]; then
+        if [[ ! "${{ inputs.python_version }}" =~ ^3\.([8-9]|1[0-4])(\..*)?$ ]]; then
           echo "Python version '${{ inputs.python_version }}' is not supported."
-          echo "Supported versions are: 3.7, 3.8, 3.9, 3.10, 3.11, 3.12, 3.13, 3.14."
+          echo "Supported versions are: 3.8, 3.9, 3.10, 3.11, 3.12, 3.13, 3.14."
           exit 1
         fi
 
