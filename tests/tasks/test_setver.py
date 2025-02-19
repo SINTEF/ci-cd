@@ -365,7 +365,8 @@ def test_init_file_not_found() -> None:
 
 @pytest.mark.parametrize("fail_fast", [True, False])
 def test_invalid_code_base_update(fail_fast: bool) -> None:
-    """Test setver emits an error and stops when given an invalid code_base_update."""
+    """Test setver emits an error and stops when given an invalid code_base_update
+    concerning the splitter."""
     from invoke import MockContext
 
     from ci_cd.tasks.setver import setver
@@ -405,5 +406,38 @@ def test_invalid_code_base_filepaths(fail_fast: bool) -> None:
             package_dir="does not matter",
             version="0.1.0",
             code_base_update=["invalid,invalid,invalid again"],
+            fail_fast=fail_fast,
+        )
+
+
+@pytest.mark.parametrize("fail_fast", [True, False])
+def test_invalid_code_base_update_regex(fail_fast: bool, tmp_path: Path) -> None:
+    """Test setver emits an error and stops when given invalid regex in
+    code_base_update."""
+    from invoke import MockContext
+
+    from ci_cd.tasks.setver import setver
+
+    # No matter fail_fast, the error message will be the same, since this happens after
+    # the logic of failing fast. Here we just fail.
+    error_msg = "Could not update file"
+
+    # Create __init__.py file
+    package_dir = tmp_path / "src" / "my_package"
+    package_dir.mkdir(parents=True)
+    (package_dir / "__init__.py").write_text("__version__ = '0.0.0'\n")
+
+    # Create a file to update
+    file_to_update = package_dir / "file_to_update"
+    file_to_update.write_text("version = '0.0.0'\n")
+
+    with pytest.raises(SystemExit, match=error_msg):
+        # Here the regex is invalid because the first parenthesis is being escaped
+        setver(
+            MockContext(),
+            package_dir="does not matter",
+            version="0.1.0",
+            code_base_update=[rf"{file_to_update.resolve()},\(?:'|\"),{{version}}"],
+            code_base_update_separator=",",
             fail_fast=fail_fast,
         )
