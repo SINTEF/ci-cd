@@ -1339,13 +1339,15 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="n">update_file</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">replacement</span><span class="p">))</span>
         <span class="k">except</span> <span class="n">re</span><span class="o">.</span><span class="n">error</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
             <span class="k">if</span> <span class="n">validated_code_base_updates</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="p">(</span>
                 <span class="n">filepath</span><span class="p">,</span>
                 <span class="n">pattern</span><span class="p">,</span>
                 <span class="n">replacement</span><span class="p">,</span>
                 <span class="n">input_replacement</span><span class="p">,</span>
             <span class="p">):</span>
-                <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Some files have already been updated !</span><span class="se">\n\n</span><span class="s2"> &quot;</span>
+                <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot;Some files have already been updated !</span><span class="se">\n\n</span><span class="s2"> &quot;</span>
 
             <span class="n">msg</span> <span class="o">+=</span> <span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;Could not update file </span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="s2"> according to the given input:</span><span class="se">\n\n</span><span class="s2">  &quot;</span>
