@@ -203,13 +203,15 @@ replacement (handled): %s
         try:
             update_file(filepath, (pattern, replacement))
         except re.error as exc:
+            msg = ""
+
             if validated_code_base_updates[0] != (
                 filepath,
                 pattern,
                 replacement,
                 input_replacement,
             ):
-                msg = "Some files have already been updated !\n\n "
+                msg += "Some files have already been updated !\n\n "
 
             msg += (
                 f"Could not update file {filepath} according to the given input:\n\n  "
