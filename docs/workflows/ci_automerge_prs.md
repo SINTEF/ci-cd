@@ -56,7 +56,7 @@ on:
 jobs:
   update-dependency-branch:
     name: Call external workflow
-    uses: SINTEF/ci-cd/.github/workflows/ci_automerge_prs.yml@v2.9.0
+    uses: SINTEF/ci-cd/.github/workflows/ci_automerge_prs.yml@v2.9.1
     if: github.repository_owner == 'SINTEF' && ( ( startsWith(github.event.pull_request.head.ref, 'dependabot/') && github.actor == 'dependabot[bot]' ) || ( github.event.pull_request.head.ref == 'ci/update-pyproject' && github.actor == 'CasperWA' ) )
     secrets:
       PAT: ${{ secrets.RELEASE_PAT }}
@@ -77,7 +77,7 @@ on:
 jobs:
   update-dependency-branch:
     name: Call external workflow
-    uses: SINTEF/ci-cd/.github/workflows/ci_automerge_prs.yml@v2.9.0
+    uses: SINTEF/ci-cd/.github/workflows/ci_automerge_prs.yml@v2.9.1
     if: github.repository_owner == 'SINTEF' && ( ( startsWith(github.event.pull_request.head.ref, 'dependabot/') && github.actor == 'dependabot[bot]' ) || ( github.event.pull_request.head.ref == 'ci/update-pyproject' && github.actor == 'CasperWA' ) )
     with:
       perform_changes: true
@@ -101,7 +101,7 @@ on:
 jobs:
   update-dependency-branch:
     name: Call external workflow
-    uses: SINTEF/ci-cd/.github/workflows/ci_automerge_prs.yml@v2.9.0
+    uses: SINTEF/ci-cd/.github/workflows/ci_automerge_prs.yml@v2.9.1
     if: github.repository_owner == 'SINTEF' && ( ( startsWith(github.event.pull_request.head.ref, 'dependabot/') && github.actor == 'dependabot[bot]' ) || ( github.event.pull_request.head.ref == 'ci/update-pyproject' && github.actor == 'CasperWA' ) )
     with:
       perform_changes: true

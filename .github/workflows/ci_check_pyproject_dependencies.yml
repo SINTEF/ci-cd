@@ -156,7 +156,7 @@ jobs:
         python -m pip install -U ${VERBOSE} pip
         pip install -U ${VERBOSE} setuptools wheel
         pip install ${VERBOSE} .${{ inputs.install_extras }}
-        pip install ${VERBOSE} git+https://github.com/SINTEF/ci-cd.git@v2.9.0
+        pip install ${VERBOSE} git+https://github.com/SINTEF/ci-cd.git@v2.9.1
       env:
         PIP_INDEX_URL: ${{ inputs.pip_index_url }}
         PIP_EXTRA_INDEX_URL: ${{ inputs.pip_extra_index_urls }}

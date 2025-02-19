@@ -63,7 +63,7 @@ jobs:
   build:
     name: Build distribution & publish documentation
     if: github.repository == 'SINTEF/my-python-package' && startsWith(github.ref, 'refs/tags/v')
-    uses: SINTEF/ci-cd/.github/workflows/cd_release.yml@v2.9.0
+    uses: SINTEF/ci-cd/.github/workflows/cd_release.yml@v2.9.1
     with:
       # General
       git_username: "Casper Welzel Andersen"
@@ -120,7 +120,7 @@ jobs:
 The content of repository files can be updated to use the new version where necessary.
 This is done through the `version_update_changes` (and `version_update_changes_separator`) inputs.
 
-To see an example of how to use the `version_update_changes` (and `version_update_changes_separator`) see for example the [workflow used by the SINTEF/ci-cd repository](https://github.com/SINTEF/ci-cd/blob/v2.9.0/.github/workflows/_local_cd_release.yml) calling the _CD Release_ workflow.
+To see an example of how to use the `version_update_changes` (and `version_update_changes_separator`) see for example the [workflow used by the SINTEF/ci-cd repository](https://github.com/SINTEF/ci-cd/blob/v2.9.1/.github/workflows/_local_cd_release.yml) calling the _CD Release_ workflow.
 
 Some notes to consider and respect when using `version_update_changes` are:
 
@@ -235,7 +235,7 @@ on:
 jobs:
   publish:
     name: Publish package and documentation
-    uses: SINTEF/ci-cd/.github/workflows/cd_release.yml@v2.9.0
+    uses: SINTEF/ci-cd/.github/workflows/cd_release.yml@v2.9.1
     if: github.repository == 'SINTEF/my-python-package' && startsWith(github.ref, 'refs/tags/v')
     with:
       # General

@@ -2,15 +2,31 @@
 
 ## [Unreleased](https://github.com/SINTEF/ci-cd/tree/HEAD)
 
-[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.9.0...HEAD)
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.9.1...HEAD)
 
-## Update Python version support
+### Minor fix update
 
-Drop Python 3.9 support, while adding Python 3.14 support.
+Fix minor issue and update dev tools and dependencies.
 
-### DX
+**Fixed bugs:**
 
-Several updates for developer tools and dependencies.
+- Fix bug in `setver` task [\#322](https://github.com/SINTEF/ci-cd/issues/322)
+
+## [v2.9.1](https://github.com/SINTEF/ci-cd/tree/v2.9.1) (2025-02-19)
+
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.9.0...v2.9.1)
+
+### Minor fix update
+
+Fix minor issue and update dev tools and dependencies.
+
+**Merged pull requests:**
+
+- Make sure to instantiate str variable before adding to it [\#323](https://github.com/SINTEF/ci-cd/pull/323) ([CasperWA](https://github.com/CasperWA))
+- \[pre-commit.ci\] pre-commit autoupdate [\#321](https://github.com/SINTEF/ci-cd/pull/321) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#320](https://github.com/SINTEF/ci-cd/pull/320) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[Auto-generated\] Update dependencies [\#318](https://github.com/SINTEF/ci-cd/pull/318) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[pre-commit.ci\] pre-commit autoupdate [\#317](https://github.com/SINTEF/ci-cd/pull/317) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
 
 ## [v2.9.0](https://github.com/SINTEF/ci-cd/tree/v2.9.0) (2025-01-21)
 
