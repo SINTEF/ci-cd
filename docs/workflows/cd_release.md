@@ -198,7 +198,6 @@ Inputs related to building and releasing the documentation in general.
 | `python_version_docs` | The Python version to use for the workflow when building the documentation. | No | 3.9 | _string_ |
 | `doc_extras` | Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces.</br></br>Note, if this is empty, 'install_extras' will be used as a fallback.</br></br>Example: `'[docs]'`. | No | _Empty string_ | _string_ |
 | `docs_framework` | The documentation framework to use. This can only be either `'mkdocs'` or `'sphinx'`. | No | mkdocs | _string_ |
-| `docs_system_dependencies` | A single (space-separated) or multi-line string of Ubuntu APT packages to install prior to building the documentation.</br></br>See also [Single vs multi-line input](index.md#single-vs-multi-line-input). | No | _Empty string_ | _string_ |
 
 Inputs related _only_ to the **MkDocs** framework.
 

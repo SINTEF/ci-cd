@@ -143,11 +143,6 @@ on:
         required: false
         type: string
         default: "mkdocs"
-      docs_system_dependencies:
-        description: "A single (space-separated) or multi-line string of Ubuntu APT packages to install prior to building the documentation."
-        required: false
-        type: string
-        default: ""
 
       # MkDocs
       mkdocs_update_latest:
@@ -425,17 +420,17 @@ jobs:
         allow-prereleases: true
 
     - name: Install system dependencies
-      if: inputs.docs_system_dependencies != ''
+      if: inputs.system_dependencies != ''
       run: |
-        if [[ "${{ inputs.docs_system_dependencies }}" =~ \n ]]; then
+        if [[ "${{ inputs.system_dependencies }}" =~ \n ]]; then
           # Expected to be a multi-line string
           SYSTEM_PACKAGES=()
           while IFS= read -r line; do
             if [ -n "${line}" ]; then SYSTEM_PACKAGES+=("${line}"); fi
-          done <<< "${{ inputs.docs_system_dependencies }}"
+          done <<< "${{ inputs.system_dependencies }}"
         else
           # Expected to be a single-line string
-          SYSTEM_PACKAGES=(${{ inputs.docs_system_dependencies }})
+          SYSTEM_PACKAGES=(${{ inputs.system_dependencies }})
         fi
 
         sudo apt update && sudo apt install -y "${SYSTEM_PACKAGES[@]}"
