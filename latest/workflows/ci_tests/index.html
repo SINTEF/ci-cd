@@ -1462,6 +1462,13 @@ Note, a full list of possible inputs and secrets will be given in a separate tab
 <td style="text-align: center;"><em>Empty string</em></td>
 <td style="text-align: center;"><em>string</em></td>
 </tr>
+<tr>
+<td style="text-align: left;"><code>system_dependencies</code></td>
+<td style="text-align: left;">A single (space-separated) or multi-line string of Ubuntu APT packages to install prior to installing the local repository.</br></br>See also <a href="../#single-vs-multi-line-input">Single vs multi-line input</a>.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
 </tbody>
 </table>
 <h3 id="run-pre-commit">Run <code>pre-commit</code><a class="headerlink" href="#run-pre-commit" title="Permanent link">&para;</a></h3>
@@ -1734,13 +1741,6 @@ For Sphinx, it requires at minimum the files created from running <code>sphinx-q
 <td style="text-align: center;"><em>boolean</em></td>
 </tr>
 <tr>
-<td style="text-align: left;"><code>system_dependencies</code></td>
-<td style="text-align: left;">A single (space-separated) or multi-line string of Ubuntu APT packages to install prior to building the documentation.</br></br>See also <a href="../#single-vs-multi-line-input">Single vs multi-line input</a>.</td>
-<td style="text-align: center;">No</td>
-<td style="text-align: center;"><em>Empty string</em></td>
-<td style="text-align: center;"><em>string</em></td>
-</tr>
-<tr>
 <td style="text-align: left;"><code>warnings_as_errors</code></td>
 <td style="text-align: left;">Build the documentation in 'strict' mode, treating warnings as errors.</br></br><strong>Important</strong>: If this is set to <code>false</code>, beware that the documentation may <em>not</em> be rendered or built as one may have intended.</br></br>Default: <code>true</code>.</td>
 <td style="text-align: center;">No</td>
@@ -1972,6 +1972,13 @@ However, it is recommended to instead refer to the job-specific tables of inputs
 <td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
+<td style="text-align: left;"><code>system_dependencies</code></td>
+<td style="text-align: left;">A single (space-separated) or multi-line string of Ubuntu APT packages to install prior to installing the local repository.</br></br>See also <a href="../#single-vs-multi-line-input">Single vs multi-line input</a>.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+<tr>
 <td style="text-align: left;"><code>run_pre-commit</code></td>
 <td style="text-align: left;">Run the <code>pre-commit</code> test job.</td>
 <td style="text-align: center;">No</td>
@@ -2145,13 +2152,6 @@ However, it is recommended to instead refer to the job-specific tables of inputs
 <td style="text-align: center;">No</td>
 <td style="text-align: center;"><code>false</code></td>
 <td style="text-align: center;"><em>boolean</em></td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>system_dependencies</code></td>
-<td style="text-align: left;">A single (space-separated) or multi-line string of Ubuntu APT packages to install prior to building the documentation.</td>
-<td style="text-align: center;">No</td>
-<td style="text-align: center;"><em>Empty string</em></td>
-<td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>warnings_as_errors</code></td>

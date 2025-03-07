@@ -1228,6 +1228,7 @@ Retention time for the artifact is kept at the GitHub default (currently 90 days
 </div>
 <p>The following is an example of how a workflow may look that calls <em>CD - Release</em> and uses the uploaded built distribution artifact to publish the package to PyPI.
 Note, the non-default <code>dists</code> directory is chosen for the built distribution, and the artifact is downloaded to the <code>my-dists</code> directory.</p>
+<!-- markdownlint-disable-next-line MD046 -->
 <div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CD - Publish</span>
 
 <span class="nt">on</span><span class="p">:</span>
@@ -1369,6 +1370,13 @@ E.g., <code>{package_dir}/__init__.py</code> will become <code>ci_cd/__init__.py
 <tr>
 <td style="text-align: left;"><code>install_extras</code></td>
 <td style="text-align: left;">Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (<code>[]</code>) and be separated by commas (<code>,</code>) without any spaces.</br></br>Example: <code>'[dev,release]'</code>.</td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;"><em>Empty string</em></td>
+<td style="text-align: center;"><em>string</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>system_dependencies</code></td>
+<td style="text-align: left;">A single (space-separated) or multi-line string of Ubuntu APT packages to install prior to installing the local repository.</br></br>See also <a href="../#single-vs-multi-line-input">Single vs multi-line input</a>.</td>
 <td style="text-align: center;">No</td>
 <td style="text-align: center;"><em>Empty string</em></td>
 <td style="text-align: center;"><em>string</em></td>
@@ -1548,13 +1556,6 @@ E.g., <code>{package_dir}/__init__.py</code> will become <code>ci_cd/__init__.py
 <td style="text-align: center;">mkdocs</td>
 <td style="text-align: center;"><em>string</em></td>
 </tr>
-<tr>
-<td style="text-align: left;"><code>system_dependencies</code></td>
-<td style="text-align: left;">A single (space-separated) or multi-line string of Ubuntu APT packages to install prior to building the documentation.</br></br>See also <a href="../#single-vs-multi-line-input">Single vs multi-line input</a>.</td>
-<td style="text-align: center;">No</td>
-<td style="text-align: center;"><em>Empty string</em></td>
-<td style="text-align: center;"><em>string</em></td>
-</tr>
 </tbody>
 </table>
 <p>Inputs related <em>only</em> to the <strong>MkDocs</strong> framework.</p>
@@ -1638,6 +1639,7 @@ E.g., <code>{package_dir}/__init__.py</code> will become <code>ci_cd/__init__.py
 <h2 id="usage-example">Usage example<a class="headerlink" href="#usage-example" title="Permanent link">&para;</a></h2>
 <p>The following is an example of how a workflow may look that calls <em>CD - Release</em>.
 It is meant to be complete as is.</p>
+<!-- markdownlint-disable-next-line MD046 -->
 <div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CD - Publish</span>
 
 <span class="nt">on</span><span class="p">:</span>
