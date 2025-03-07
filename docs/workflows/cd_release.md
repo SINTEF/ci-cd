@@ -51,6 +51,7 @@ In this way you can still benefit from the `cd_release.yml` dynamically updated 
 The following is an example of how a workflow may look that calls _CD - Release_ and uses the uploaded built distribution artifact to publish the package to PyPI.
 Note, the non-default `dists` directory is chosen for the built distribution, and the artifact is downloaded to the `my-dists` directory.
 
+<!-- markdownlint-disable-next-line MD046 -->
 ```yaml
 name: CD - Publish
 
@@ -165,6 +166,7 @@ The following inputs are general inputs for the workflow as a whole.
 | `release_branch` | The branch name to release/publish from. | **_Yes_** | main | _string_ |
 | `runner` | The runner to use for the workflow. Note, the callable workflow expects a Linux/Unix system.. | No | ubuntu-latest | _string_ |
 | `install_extras` | Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces.</br></br>Example: `'[dev,release]'`. | No | _Empty string_ | _string_ |
+| `system_dependencies` | A single (space-separated) or multi-line string of Ubuntu APT packages to install prior to installing the local repository.</br></br>See also [Single vs multi-line input](index.md#single-vs-multi-line-input). | No | _Empty string_ | _string_ |
 | `relative` | Whether or not to use install the local Python package(s) as an editable. | No | `false` | _boolean_ |
 | `test` | Whether to use the TestPyPI repository index instead of PyPI as well as output debug statements in both workflow jobs. | No | `false` | _boolean_ |
 | `pip_index_url` | A URL to a PyPI repository index. | No | `https://pypi.org/simple/` | _string_ |
@@ -196,7 +198,7 @@ Inputs related to building and releasing the documentation in general.
 | `python_version_docs` | The Python version to use for the workflow when building the documentation. | No | 3.9 | _string_ |
 | `doc_extras` | Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces.</br></br>Note, if this is empty, 'install_extras' will be used as a fallback.</br></br>Example: `'[docs]'`. | No | _Empty string_ | _string_ |
 | `docs_framework` | The documentation framework to use. This can only be either `'mkdocs'` or `'sphinx'`. | No | mkdocs | _string_ |
-| `system_dependencies` | A single (space-separated) or multi-line string of Ubuntu APT packages to install prior to building the documentation.</br></br>See also [Single vs multi-line input](index.md#single-vs-multi-line-input). | No | _Empty string_ | _string_ |
+| `docs_system_dependencies` | A single (space-separated) or multi-line string of Ubuntu APT packages to install prior to building the documentation.</br></br>See also [Single vs multi-line input](index.md#single-vs-multi-line-input). | No | _Empty string_ | _string_ |
 
 Inputs related _only_ to the **MkDocs** framework.
 
@@ -224,6 +226,7 @@ Finally, inputs related _only_ to the **Sphinx** framework.
 The following is an example of how a workflow may look that calls _CD - Release_.
 It is meant to be complete as is.
 
+<!-- markdownlint-disable-next-line MD046 -->
 ```yaml
 name: CD - Publish
 
