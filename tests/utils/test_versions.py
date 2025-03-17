@@ -1084,16 +1084,16 @@ def test_ignore_version_fails() -> None:
         InputParserError, match=r"^Only valid values for 'version-update' are.*"
     ):
         ignore_version(
-            current="1.1.1".split("."),
-            latest="2.2.2".split("."),
+            current=["1", "1", "1"],
+            latest=["2", "2", "2"],
             version_rules=[],
             semver_rules={"version-update": ["build"]},  # type: ignore[list-item]
         )
 
     with pytest.raises(InputError):
         ignore_version(
-            current="1.1.1".split("."),
-            latest="2.2.2".split("."),
+            current=["1", "1", "1"],
+            latest=["2", "2", "2"],
             version_rules=[{"operator": "~=", "version": "2"}],
             semver_rules={},
         )

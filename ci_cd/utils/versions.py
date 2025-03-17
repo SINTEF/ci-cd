@@ -1210,7 +1210,7 @@ def find_minimum_py_version(marker: Marker, project_py_version: str) -> str:
     min_py_version = SemanticVersion(project_py_version)
 
     environment_keys = default_environment().keys()
-    empty_environment = {key: "" for key in environment_keys}
+    empty_environment = dict.fromkeys(environment_keys, "")
     python_version_centric_environment = empty_environment
     python_version_centric_environment.update({"python_version": min_py_version})
 
