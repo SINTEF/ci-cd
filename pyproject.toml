@@ -35,7 +35,7 @@ dependencies = [
     "invoke ~=2.2",
     "packaging ~=24.2",
     "tomlkit ~=0.13.2",
-    "typing-extensions ~=4.12",
+    "typing-extensions ~=4.13",
 ]
 
 [project.optional-dependencies]
