@@ -39,6 +39,11 @@ on:
         required: false
         type: string
         default: ""
+      system_dependencies:
+        description: "A single (space-separated) or multi-line string of Ubuntu APT packages to install prior to installing the local repository."
+        required: false
+        type: string
+        default: ""
       pip_index_url:
         description: "A URL to a PyPI repository index. Defaults to 'https://pypi.org/simple/'."
         required: false
@@ -98,9 +103,9 @@ jobs:
     - name: Validate inputs
       id: validate_inputs
       run: |
-        if [[ ! "${{ inputs.python_version }}" =~ ^3\.([7-9]|1[0-4])(\..*)?$ ]]; then
+        if [[ ! "${{ inputs.python_version }}" =~ ^3\.([8-9]|1[0-4])(\..*)?$ ]]; then
           echo "Python version '${{ inputs.python_version }}' is not supported."
-          echo "Supported versions are: 3.7, 3.8, 3.9, 3.10, 3.11, 3.12, 3.13, 3.14."
+          echo "Supported versions are: 3.8, 3.9, 3.10, 3.11, 3.12, 3.13, 3.14."
           exit 1
         fi
 
@@ -144,6 +149,22 @@ jobs:
         python-version: "${{ inputs.python_version }}"
         allow-prereleases: true
 
+    - name: Install system dependencies
+      if: inputs.system_dependencies != ''
+      run: |
+        if [[ "${{ inputs.system_dependencies }}" =~ \n ]]; then
+          # Expected to be a multi-line string
+          SYSTEM_PACKAGES=()
+          while IFS= read -r line; do
+            if [ -n "${line}" ]; then SYSTEM_PACKAGES+=("${line}"); fi
+          done <<< "${{ inputs.system_dependencies }}"
+        else
+          # Expected to be a single-line string
+          SYSTEM_PACKAGES=(${{ inputs.system_dependencies }})
+        fi
+
+        sudo apt update && sudo apt install -y "${SYSTEM_PACKAGES[@]}"
+
     - name: Install Python dependencies
       run: |
         if [ "${{ inputs.debug }}" == "true" ]; then
@@ -156,7 +177,7 @@ jobs:
         python -m pip install -U ${VERBOSE} pip
         pip install -U ${VERBOSE} setuptools wheel
         pip install ${VERBOSE} .${{ inputs.install_extras }}
-        pip install ${VERBOSE} git+https://github.com/SINTEF/ci-cd.git@v2.8.3
+        pip install ${VERBOSE} git+https://github.com/SINTEF/ci-cd.git@v2.9.2
       env:
         PIP_INDEX_URL: ${{ inputs.pip_index_url }}
         PIP_EXTRA_INDEX_URL: ${{ inputs.pip_extra_index_urls }}

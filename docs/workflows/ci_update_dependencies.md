@@ -42,6 +42,7 @@ There are no expectations of the repo when using this workflow.
 | `update_pre-commit` | Whether or not to update pre-commit hooks as part of creating the PR. | No | `false` | _boolean_ |
 | `python_version` | The Python version to use for the workflow.</br></br>**Note**: This is only relevant if `update_pre-commit` is `true`. | No | 3.9 | _string_ |
 | `install_extras` | Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces.</br></br>Example: `'[dev,pre-commit]'`.</br></br>**Note**: This is only relevant if `update_pre-commit` is `true`. | No | _Empty string_ | _string_ |
+| `system_dependencies` | A single (space-separated) or multi-line string of Ubuntu APT packages to install prior to installing the local repository.</br></br>See also [Single vs multi-line input](index.md#single-vs-multi-line-input). | No | _Empty string_ | _string_ |
 | `pip_index_url` | A URL to a PyPI repository index.</br></br>**Note**: This is only relevant if `update_pre-commit` is `true`. | No | `https://pypi.org/simple/` | _string_ |
 | `pip_extra_index_urls` | A space-delimited string of URLs to additional PyPI repository indices.</br></br>**Note**: This is only relevant if `update_pre-commit` is `true`. | No | _Empty string_ | _string_ |
 | `skip_pre-commit_hooks` | A comma-separated list of pre-commit hook IDs to skip when running `pre-commit` after updating hooks.</br></br>**Note**: This is only relevant if `update_pre-commit` is `true`. | No | _Empty string_ | _string_ |
@@ -68,7 +69,7 @@ on:
 jobs:
   check-dependencies:
     name: Call external workflow
-    uses: SINTEF/ci-cd/.github/workflows/ci_update_dependencies.yml@v2.8.3
+    uses: SINTEF/ci-cd/.github/workflows/ci_update_dependencies.yml@v2.9.2
     if: github.repository_owner == 'SINTEF'
     with:
       git_username: "Casper Welzel Andersen"

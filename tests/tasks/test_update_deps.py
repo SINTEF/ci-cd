@@ -33,7 +33,7 @@ def test_update_deps(tmp_path: Path, caplog: pytest.LogCaptureFixture) -> None:
         data=f"""
 [project]
 name = "test"
-requires-python = "~=3.7"
+requires-python = "~=3.8"
 
 dependencies = [
     "invoke ~={original_dependencies['invoke']}",
@@ -127,7 +127,7 @@ pep_508 = [
     expected_updated_pyproject_file = f"""
 [project]
 name = "test"
-requires-python = "~=3.7"
+requires-python = "~=3.8"
 
 dependencies = [
     "invoke ~={original_dependencies['invoke']}",
@@ -353,7 +353,7 @@ def test_ignore_rules_logic(
         data="""
 [project]
 name = "test"
-requires-python = "~=3.7"
+requires-python = "~=3.8"
 
 dependencies = [
     "invoke ~=1.7",
@@ -641,7 +641,7 @@ def test_non_parseable_pyproject_toml(tmp_path: Path) -> None:
 
 @pytest.mark.parametrize(
     "requires_python",
-    ["", 'requires-python = "invalid"', 'requires-python = "3.7"'],
+    ["", 'requires-python = "invalid"', 'requires-python = "3.8"'],
     ids=["missing", "invalid", "missing operator"],
 )
 def test_no_requires_python_in_pyproject_toml(
@@ -681,7 +681,7 @@ def test_missing_project_package_name(tmp_path: Path) -> None:
     pyproject_file.write_text(
         data="""
 [project]
-requires-python = "~=3.7"
+requires-python = "~=3.8"
 """,
         encoding="utf8",
     )

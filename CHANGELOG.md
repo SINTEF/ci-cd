@@ -1,5 +1,105 @@
 # Changelog
 
+## [Unreleased](https://github.com/SINTEF/ci-cd/tree/HEAD)
+
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.9.2...HEAD)
+
+## Introduce `system_dependencies` for all relevant workflows
+
+A `system_dependencies` input has been added to all workflows that install the local Python package. This is to install Ubuntu APT package prior to installing the Python package.
+
+Where the `system_dependencies` input was already defined, it has now been elevated to a general input that will work for other jobs in the same workflow as well.
+
+Update documentation accordingly.
+
+## DX
+
+Update dependencies and developer tools.
+
+**Implemented enhancements:**
+
+- Support install system dependencies prior to Python package [\#327](https://github.com/SINTEF/ci-cd/issues/327)
+
+## [v2.9.2](https://github.com/SINTEF/ci-cd/tree/v2.9.2) (2025-03-07)
+
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.9.1...v2.9.2)
+
+## Introduce `system_dependencies` for all relevant workflows
+
+A `system_dependencies` input has been added to all workflows that install the local Python package. This is to install Ubuntu APT package prior to installing the Python package.
+
+Where the `system_dependencies` input was already defined, it has now been elevated to a general input that will work for other jobs in the same workflow as well.
+
+Update documentation accordingly.
+
+## DX
+
+Update dependencies and developer tools.
+
+**Merged pull requests:**
+
+- Introduce the `system_dependencies` input [\#328](https://github.com/SINTEF/ci-cd/pull/328) ([CasperWA](https://github.com/CasperWA))
+- \[Auto-generated\] Update dependencies [\#326](https://github.com/SINTEF/ci-cd/pull/326) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[pre-commit.ci\] pre-commit autoupdate [\#325](https://github.com/SINTEF/ci-cd/pull/325) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+
+## [v2.9.1](https://github.com/SINTEF/ci-cd/tree/v2.9.1) (2025-02-19)
+
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.9.0...v2.9.1)
+
+### Minor fix update
+
+Fix minor issue and update dev tools and dependencies.
+
+**Fixed bugs:**
+
+- Fix bug in `setver` task [\#322](https://github.com/SINTEF/ci-cd/issues/322)
+
+**Merged pull requests:**
+
+- Make sure to instantiate str variable before adding to it [\#323](https://github.com/SINTEF/ci-cd/pull/323) ([CasperWA](https://github.com/CasperWA))
+- \[pre-commit.ci\] pre-commit autoupdate [\#321](https://github.com/SINTEF/ci-cd/pull/321) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#320](https://github.com/SINTEF/ci-cd/pull/320) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[Auto-generated\] Update dependencies [\#318](https://github.com/SINTEF/ci-cd/pull/318) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[pre-commit.ci\] pre-commit autoupdate [\#317](https://github.com/SINTEF/ci-cd/pull/317) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+
+## [v2.9.0](https://github.com/SINTEF/ci-cd/tree/v2.9.0) (2025-01-21)
+
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.8.3...v2.9.0)
+
+## Update Python version support
+
+Drop Python 3.9 support, while adding Python 3.14 support.
+
+### DX
+
+Several updates for developer tools and dependencies.
+
+**Implemented enhancements:**
+
+- Support Python 3.14 \(pre\) [\#294](https://github.com/SINTEF/ci-cd/issues/294)
+
+**Closed issues:**
+
+- Example for using trusted puclihser uses wrong key [\#299](https://github.com/SINTEF/ci-cd/issues/299)
+
+**Merged pull requests:**
+
+- Remove support for Python 3.7 [\#315](https://github.com/SINTEF/ci-cd/pull/315) ([CasperWA](https://github.com/CasperWA))
+- \[pre-commit.ci\] pre-commit autoupdate [\#314](https://github.com/SINTEF/ci-cd/pull/314) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#313](https://github.com/SINTEF/ci-cd/pull/313) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#312](https://github.com/SINTEF/ci-cd/pull/312) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[Auto-generated\] Update dependencies [\#311](https://github.com/SINTEF/ci-cd/pull/311) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[pre-commit.ci\] pre-commit autoupdate [\#309](https://github.com/SINTEF/ci-cd/pull/309) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[Auto-generated\] Update dependencies [\#308](https://github.com/SINTEF/ci-cd/pull/308) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[pre-commit.ci\] pre-commit autoupdate [\#307](https://github.com/SINTEF/ci-cd/pull/307) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#306](https://github.com/SINTEF/ci-cd/pull/306) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#304](https://github.com/SINTEF/ci-cd/pull/304) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#303](https://github.com/SINTEF/ci-cd/pull/303) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#301](https://github.com/SINTEF/ci-cd/pull/301) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- Corrected a typo in pypi publishing example, package-dir -\> packages-dir [\#300](https://github.com/SINTEF/ci-cd/pull/300) ([francescalb](https://github.com/francescalb))
+- \[pre-commit.ci\] pre-commit autoupdate [\#298](https://github.com/SINTEF/ci-cd/pull/298) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- Add support for Python 3.14 [\#295](https://github.com/SINTEF/ci-cd/pull/295) ([CasperWA](https://github.com/CasperWA))
+
 ## [v2.8.3](https://github.com/SINTEF/ci-cd/tree/v2.8.3) (2024-10-15)
 
 [Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.8.2...v2.8.3)

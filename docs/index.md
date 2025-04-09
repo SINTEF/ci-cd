@@ -1,6 +1,6 @@
 # CI/CD tools
 
-**Current version to use:** `v2.8.3`
+**Current version to use:** `v2.9.2`
 
 !!! warning "Important"
     The default for `publish_on_pypi` in the [_CD - Release_ workflow](./workflows/cd_release.md) has changed from `true` to `false` in version `2.8.0`.

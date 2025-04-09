@@ -37,7 +37,7 @@ Here is an example of different lines given as value for the `ignore` option tha
 # ...
 jobs:
   check-dependencies:
-    uses: SINTEF/ci-cd/.github/workflows/ci_check_pyproject_dependencies.yml@v2.8.3
+    uses: SINTEF/ci-cd/.github/workflows/ci_check_pyproject_dependencies.yml@v2.9.2
     with:
       # ...
       # For Sphinx, ignore all updates for/from version 4.5.0 and up / keep the minimum version for Sphinx at 4.5.0.
@@ -67,12 +67,13 @@ The repository contains the following:
 | `permanent_dependencies_branch` | **DEPRECATED** - Will be removed in v2.6.0. Use `target_branch` instead.</br></br>The branch name for the permanent dependency updates branch. | No | ci/dependency-updates | _string_ |
 | `python_version` | The Python version to use for the workflow. | No | 3.9 | _string_ |
 | `install_extras` | Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces.</br></br>Example: `'[dev,release]'`. | No | _Empty string_ | _string_ |
+| `system_dependencies` | A single (space-separated) or multi-line string of Ubuntu APT packages to install prior to installing the local repository.</br></br>See also [Single vs multi-line input](index.md#single-vs-multi-line-input). | No | _Empty string_ | _string_ |
 | `pip_index_url` | A URL to a PyPI repository index. | No | `https://pypi.org/simple/` | _string_ |
 | `pip_extra_index_urls` | A space-delimited string of URLs to additional PyPI repository indices. | No | _Empty string_ | _string_ |
 | `pr_body_file` | Relative path to PR body file from the root of the repository.</br></br>Example: `'.github/utils/pr_body_deps_check.txt'`. | No | _Empty string_ | _string_ |
 | `fail_fast` | Whether the task to update dependencies should fail if any error occurs. | No | `false` | _boolean_ |
 | `pr_labels` | A comma separated list of strings of GitHub labels to use for the created PR. | No | _Empty string_ | _string_ |
-| `ignore` | Create ignore conditions for certain dependencies. A multi-line string of ignore rules, where each line is an ellipsis-separated (`...`) string of key/value-pairs. One line per dependency. This option is similar to [the `ignore` option of Dependabot](https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file#ignore).</br></br>See also [Single vs multi-line input](index.md#single-vs-multi-line-input). | No | _Empty string_ | _string_
+| `ignore` | Create ignore conditions for certain dependencies. A multi-line string of ignore rules, where each line is an ellipsis-separated (`...`) string of key/value-pairs. One line per dependency. This option is similar to [the `ignore` option of Dependabot](https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file#ignore).</br></br>See also [Single vs multi-line input](index.md#single-vs-multi-line-input). | No | _Empty string_ | _string_ |
 | `branch_name_extension` | A string to append to the branch name of the created PR. Example: `'-my-branch'`. It will be appended after a forward slash, so the final branch name will be `ci/update-pyproject/-my-branch`. | No | _Empty string_ | _string_ |
 | `debug` | Whether to run the workflow in debug mode, printing extra debug information. | No | `false` | _boolean_ |
 | `skip_unnormalized_python_package_names` | Whether to skip dependencies with unnormalized Python package names. Normalization is outlined [here](https://packaging.python.org/en/latest/specifications/name-normalization). | No | `false` | _boolean_ |
@@ -99,7 +100,7 @@ on:
 jobs:
   check-dependencies:
     name: Call external workflow
-    uses: SINTEF/ci-cd/.github/workflows/ci_check_pyproject_dependencies.yml@v2.8.3
+    uses: SINTEF/ci-cd/.github/workflows/ci_check_pyproject_dependencies.yml@v2.9.2
     if: github.repository_owner == 'SINTEF'
     with:
       git_username: "Casper Welzel Andersen"

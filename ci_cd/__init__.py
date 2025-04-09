@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import logging
 
-__version__ = "2.8.3"
+__version__ = "2.9.2"
 __author__ = "Casper Welzel Andersen"
 __author_email__ = "casper.w.andersen@sintef.no"
 

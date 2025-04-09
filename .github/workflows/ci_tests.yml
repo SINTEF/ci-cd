@@ -14,6 +14,11 @@ on:
         required: false
         type: string
         default: ""
+      system_dependencies:
+        description: "A single (space-separated) or multi-line string of Ubuntu APT packages to install prior to installing the local repository."
+        required: false
+        type: string
+        default: ""
 
       # pre-commit
       run_pre-commit:
@@ -149,11 +154,6 @@ on:
         required: false
         type: boolean
         default: false
-      system_dependencies:
-        description: "A single (space-separated) or multi-line string of Ubuntu APT packages to install prior to building the documentation."
-        required: false
-        type: string
-        default: ""
       warnings_as_errors:
         description: "Build the documentation in 'strict' mode, treating warnings as errors. **Important**: If this is set to `false`, beware that the documentation may _not_ be rendered or built as one may have intended. Default: `true`."
         required: false
@@ -260,6 +260,22 @@ jobs:
         python-version: "${{ inputs.python_version_pre-commit }}"
         allow-prereleases: true
 
+    - name: Install system dependencies
+      if: inputs.system_dependencies != ''
+      run: |
+        if [[ "${{ inputs.system_dependencies }}" =~ \n ]]; then
+          # Expected to be a multi-line string
+          SYSTEM_PACKAGES=()
+          while IFS= read -r line; do
+            if [ -n "${line}" ]; then SYSTEM_PACKAGES+=("${line}"); fi
+          done <<< "${{ inputs.system_dependencies }}"
+        else
+          # Expected to be a single-line string
+          SYSTEM_PACKAGES=(${{ inputs.system_dependencies }})
+        fi
+
+        sudo apt update && sudo apt install -y "${SYSTEM_PACKAGES[@]}"
+
     - name: Install Python dependencies
       run: |
         python -m pip install --upgrade pip
@@ -288,6 +304,22 @@ jobs:
       with:
         python-version: "${{ inputs.python_version_pylint_safety }}"
         allow-prereleases: true
+
+    - name: Install system dependencies
+      if: inputs.system_dependencies != ''
+      run: |
+        if [[ "${{ inputs.system_dependencies }}" =~ \n ]]; then
+          # Expected to be a multi-line string
+          SYSTEM_PACKAGES=()
+          while IFS= read -r line; do
+            if [ -n "${line}" ]; then SYSTEM_PACKAGES+=("${line}"); fi
+          done <<< "${{ inputs.system_dependencies }}"
+        else
+          # Expected to be a single-line string
+          SYSTEM_PACKAGES=(${{ inputs.system_dependencies }})
+        fi
+
+        sudo apt update && sudo apt install -y "${SYSTEM_PACKAGES[@]}"
 
     - name: Install dependencies
       run: |
@@ -361,6 +393,22 @@ jobs:
         python-version: "${{ inputs.python_version_package }}"
         allow-prereleases: true
 
+    - name: Install system dependencies
+      if: inputs.system_dependencies != ''
+      run: |
+        if [[ "${{ inputs.system_dependencies }}" =~ \n ]]; then
+          # Expected to be a multi-line string
+          SYSTEM_PACKAGES=()
+          while IFS= read -r line; do
+            if [ -n "${line}" ]; then SYSTEM_PACKAGES+=("${line}"); fi
+          done <<< "${{ inputs.system_dependencies }}"
+        else
+          # Expected to be a single-line string
+          SYSTEM_PACKAGES=(${{ inputs.system_dependencies }})
+        fi
+
+        sudo apt update && sudo apt install -y "${SYSTEM_PACKAGES[@]}"
+
     - name: Install Python dependencies
       run: |
         python -m pip install -U pip
@@ -405,9 +453,9 @@ jobs:
 
     - name: Validate inputs
       run: |
-        if [[ "${{ steps.determine_framework.outputs.framework }}" == "mkdocs" && ! "${{ inputs.python_version_docs }}" =~ ^3\.([7-9]|1[0-4])(\..*)?$ ]]; then
+        if [[ "${{ steps.determine_framework.outputs.framework }}" == "mkdocs" && ! "${{ inputs.python_version_docs }}" =~ ^3\.([8-9]|1[0-4])(\..*)?$ ]]; then
           echo "Python version '${{ inputs.python_version_docs }}' is not supported."
-          echo "Supported versions are: 3.7, 3.8, 3.9, 3.10, 3.11, 3.12, 3.13, 3.14."
+          echo "Supported versions are: 3.8, 3.9, 3.10, 3.11, 3.12, 3.13, 3.14."
           exit 1
         fi
 
@@ -446,7 +494,7 @@ jobs:
         python -m pip install -U pip
         pip install -U setuptools wheel
         pip install ${EDITABLE}.${{ inputs.install_extras }}
-        pip install git+https://github.com/SINTEF/ci-cd.git@v2.8.3
+        pip install git+https://github.com/SINTEF/ci-cd.git@v2.9.2
       env:
         PIP_INDEX_URL: ${{ inputs.pip_index_url_docs }}
         PIP_EXTRA_INDEX_URL: ${{ inputs.pip_extra_index_urls_docs }}

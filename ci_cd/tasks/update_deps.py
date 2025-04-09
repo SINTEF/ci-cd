@@ -315,7 +315,7 @@ def update_deps(
         marker_py_version = ""
         if parsed_requirement.marker:
             environment_keys = default_environment().keys()
-            empty_environment = {key: "" for key in environment_keys}
+            empty_environment = dict.fromkeys(environment_keys, "")
             python_version_centric_environment = empty_environment
             python_version_centric_environment.update({"python_version": py_version})
 
@@ -451,7 +451,7 @@ def update_deps(
                     break
             else:
                 if latest_version.epoch == 0:
-                    current_version = "0.0.0".split(".")
+                    current_version = ["0", "0", "0"]
                 else:
                     current_version = f"{latest_version.epoch}!0.0.0".split(".")
 

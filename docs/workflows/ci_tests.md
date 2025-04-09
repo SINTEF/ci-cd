@@ -21,6 +21,7 @@ These inputs are general and apply to all jobs in this workflow.
 |:--- |:--- |:---:|:---:|:---:|
 | `runner` | The runner to use for the workflow. Note, the callable workflow expects a Linux/Unix system.. | No | ubuntu-latest | _string_ |
 | `install_extras` | Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces.</br></br>Example: `'[dev,pre-commit]'`. | No | _Empty string_ | _string_ |
+| `system_dependencies` | A single (space-separated) or multi-line string of Ubuntu APT packages to install prior to installing the local repository.</br></br>See also [Single vs multi-line input](index.md#single-vs-multi-line-input). | No | _Empty string_ | _string_ |
 
 ### Run `pre-commit`
 
@@ -131,7 +132,6 @@ General inputs for building the documentation:
 | `pip_index_url_docs` | A URL to a PyPI repository index. | No | `https://pypi.org/simple/` | _string_ |
 | `pip_extra_index_urls_docs` | A space-delimited string of URLs to additional PyPI repository indices. | No | _Empty string_ | _string_ |
 | `relative` | Whether or not to use the locally installed Python package(s), and install it as an editable. | No | `false` | _boolean_ |
-| `system_dependencies` | A single (space-separated) or multi-line string of Ubuntu APT packages to install prior to building the documentation.</br></br>See also [Single vs multi-line input](index.md#single-vs-multi-line-input). | No | _Empty string_ | _string_ |
 | `warnings_as_errors` | Build the documentation in 'strict' mode, treating warnings as errors.</br></br>**Important**: If this is set to `false`, beware that the documentation may _not_ be rendered or built as one may have intended.</br></br>Default: `true`. | No | `true` | _boolean_ |
 | `use_mkdocs` | Whether or not to build the documentation using the MkDocs framework. Mutually exclusive with `use_sphinx`. | No | `false` | _boolean_ |
 | `use_sphinx` | Whether or not to build the documentation using the Sphinx framework. Mutually exclusive with `use_mkdocs`. | No | `false` | _boolean_ |
@@ -177,10 +177,10 @@ on:
 jobs:
   tests:
     name: Run basic tests
-    uses: SINTEF/ci-cd/.github/workflows/ci_tests.yml@v2.8.3
+    uses: SINTEF/ci-cd/.github/workflows/ci_tests.yml@v2.9.2
     with:
       python_version_pylint_safety: "3.8"
-      python_version_docs: "3.7"
+      python_version_docs: "3.9"
       install_extras: "[dev,docs]"
       skip_pre-commit_hooks: pylint
       pylint_options: --rcfile=pyproject.toml
@@ -205,10 +205,10 @@ on:
 jobs:
   tests:
     name: Run basic tests
-    uses: SINTEF/ci-cd/.github/workflows/ci_tests.yml@v2.8.3
+    uses: SINTEF/ci-cd/.github/workflows/ci_tests.yml@v2.9.2
     with:
       python_version_pylint_safety: "3.8"
-      python_version_docs: "3.7"
+      python_version_docs: "3.9"
       install_extras: "[dev,docs]"
       skip_pre-commit_hooks: pylint
       pylint_runs: |
@@ -231,6 +231,7 @@ See also [General information](index.md#general-information).
 |:--- |:--- |:---:|:---:|:---:|
 | `runner` | The runner to use for the workflow. Note, the callable workflow expects a Linux/Unix system.. | No | ubuntu-latest | _string_ |
 | `install_extras` | Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces.</br></br>Example: `'[dev,pre-commit]'`. | No | _Empty string_ | _string_ |
+| `system_dependencies` | A single (space-separated) or multi-line string of Ubuntu APT packages to install prior to installing the local repository.</br></br>See also [Single vs multi-line input](index.md#single-vs-multi-line-input). | No | _Empty string_ | _string_ |
 | `run_pre-commit` | Run the `pre-commit` test job. | No | `true` | _boolean_ |
 | `python_version_pre-commit` | The Python version to use for the `pre-commit` test job. | No | 3.9 | _string_ |
 | `pip_index_url_pre-commit` | A URL to a PyPI repository index. | No | `https://pypi.org/simple/` | _string_ |
@@ -256,7 +257,6 @@ See also [General information](index.md#general-information).
 | `pip_index_url_docs` | A URL to a PyPI repository index. | No | `https://pypi.org/simple/` | _string_ |
 | `pip_extra_index_urls_docs` | A space-delimited string of URLs to additional PyPI repository indices. | No | _Empty string_ | _string_ |
 | `relative` | Whether or not to use the locally installed Python package(s), and install it as an editable. | No | `false` | _boolean_ |
-| `system_dependencies` | A single (space-separated) or multi-line string of Ubuntu APT packages to install prior to building the documentation. | No | _Empty string_ | _string_ |
 | `warnings_as_errors` | Build the documentation in 'strict' mode, treating warnings as errors.</br></br>**Important**: If this is set to `false`, beware that the documentation may _not_ be rendered or built as one may have intended.</br></br>Default: `true`. | No | `true` | _boolean_ |
 | `use_mkdocs` | Whether or not to build the documentation using the MkDocs framework. Mutually exclusive with `use_sphinx`. | No | `false` | _boolean_ |
 | `use_sphinx` | Whether or not to build the documentation using the Sphinx framework. Mutually exclusive with `use_mkdocs`. | No | `false` | _boolean_ |

@@ -16,7 +16,6 @@ classifiers = [
     "Development Status :: 2 - Pre-Alpha",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
@@ -29,34 +28,30 @@ classifiers = [
     "Private :: Do Not Upload",
 ]
 keywords = ["ci", "cd", "pre-commit"]
-requires-python = "~=3.7"
+requires-python = "~=3.8"
 dynamic = ["version", "description"]
 
 dependencies = [
     "invoke ~=2.2",
-    "packaging ~=24.0",
-    "tomlkit ~=0.12.5",
-    "typing-extensions ~=4.7; python_version < '3.8'",
-    "typing-extensions ~=4.12; python_version >= '3.8'",
+    "packaging ~=24.2",
+    "tomlkit ~=0.13.2",
+    "typing-extensions ~=4.13",
 ]
 
 [project.optional-dependencies]
 docs = [
     "mike ~=2.1",
-    "mkdocs ~=1.5",
+    "mkdocs ~=1.6",
     "mkdocs-awesome-pages-plugin ~=2.9",
-    "mkdocs-material ~=9.2; python_version < '3.8'",
-    "mkdocs-material ~=9.5; python_version >= '3.8'",
-    "mkdocstrings[python-legacy] ~=0.22.0; python_version < '3.8'",
-    "mkdocstrings[python-legacy] ~=0.26.1; python_version >= '3.8'",
+    "mkdocs-material ~=9.6",
+    "mkdocstrings[python-legacy] ~=0.26.1",
 ]
 testing = [
-    "pytest ~=7.4",
-    "pytest-cov ~=4.1",
+    "pytest ~=8.3",
+    "pytest-cov ~=5.0",
 ]
 dev = [
-    "pre-commit ~=2.21; python_version < '3.8'",
-    "pre-commit ~=3.5; python_version >= '3.8'",
+    "pre-commit ~=3.5",
     "ci-cd[docs,testing]",
 ]
 
@@ -71,7 +66,7 @@ Changelog = "https://SINTEF.github.io/ci-cd/latest/CHANGELOG"
 "ci-cd" = "ci_cd.main:program.run"
 
 [tool.mypy]
-python_version = "3.7"
+python_version = "3.8"
 ignore_missing_imports = true
 scripts_are_modules = true
 warn_unused_configs = true
@@ -80,7 +75,7 @@ allow_redefinition = true
 check_untyped_defs = true
 
 [tool.pytest.ini_options]
-minversion = "7.4"
+minversion = "8.3"
 addopts = ["-rs", "--cov=ci_cd", "--cov-report=term-missing:skip-covered"]
 filterwarnings = ["error"]
 

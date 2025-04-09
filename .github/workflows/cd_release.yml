@@ -29,6 +29,11 @@ on:
         required: false
         type: string
         default: ""
+      system_dependencies:
+        description: "A single (space-separated) or multi-line string of Ubuntu APT packages to install prior to installing the local repository."
+        required: false
+        type: string
+        default: ""
       relative:
         description: "Whether or not to use install the local Python package(s) as an editable."
         required: false
@@ -138,11 +143,6 @@ on:
         required: false
         type: string
         default: "mkdocs"
-      system_dependencies:
-        description: "A single (space-separated) or multi-line string of Ubuntu APT packages to install prior to building the documentation."
-        required: false
-        type: string
-        default: ""
 
       # MkDocs
       mkdocs_update_latest:
@@ -185,9 +185,9 @@ jobs:
     steps:
     - name: Validate inputs
       run: |
-        if [[ ! "${{ inputs.python_version_build }}" =~ ^3\.([7-9]|1[0-4])(\..*)?$ ]]; then
+        if [[ ! "${{ inputs.python_version_build }}" =~ ^3\.([8-9]|1[0-4])(\..*)?$ ]]; then
           echo "Python version '${{ inputs.python_version_build }}' is not supported."
-          echo "Supported versions are: 3.7, 3.8, 3.9, 3.10, 3.11, 3.12, 3.13, 3.14."
+          echo "Supported versions are: 3.8, 3.9, 3.10, 3.11, 3.12, 3.13, 3.14."
           exit 1
         fi
 
@@ -202,6 +202,22 @@ jobs:
         python-version: "${{ inputs.python_version_build }}"
         allow-prereleases: true
 
+    - name: Install system dependencies
+      if: inputs.system_dependencies != ''
+      run: |
+        if [[ "${{ inputs.system_dependencies }}" =~ \n ]]; then
+          # Expected to be a multi-line string
+          SYSTEM_PACKAGES=()
+          while IFS= read -r line; do
+            if [ -n "${line}" ]; then SYSTEM_PACKAGES+=("${line}"); fi
+          done <<< "${{ inputs.system_dependencies }}"
+        else
+          # Expected to be a single-line string
+          SYSTEM_PACKAGES=(${{ inputs.system_dependencies }})
+        fi
+
+        sudo apt update && sudo apt install -y "${SYSTEM_PACKAGES[@]}"
+
     - name: Install Python dependencies
       run: |
         EDITABLE=
@@ -213,7 +229,7 @@ jobs:
         if [ -n "${{ inputs.build_libs }}" ]; then
           pip install ${{ inputs.build_libs }}
         fi
-        pip install git+https://github.com/SINTEF/ci-cd.git@v2.8.3
+        pip install git+https://github.com/SINTEF/ci-cd.git@v2.9.2
       env:
         PIP_INDEX_URL: ${{ inputs.pip_index_url }}
         PIP_EXTRA_INDEX_URL: ${{ inputs.pip_extra_index_urls }}
