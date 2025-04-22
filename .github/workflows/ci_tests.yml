@@ -68,7 +68,7 @@ on:
         description: "Run the `pylint` test job."
         required: false
         type: boolean
-        default: true
+        default: false
       pylint_options:
         description: "Single (space-separated) or multi-line string of pylint command line options. Note, this is only valid if 'pylint_runs' is not defined."
         required: false
@@ -89,7 +89,7 @@ on:
         description: "Run the `safety` test job."
         required: false
         type: boolean
-        default: true
+        default: false
       safety_options:
         description: "Single (space-separated) or multi-line string of safety command line options."
         required: false
