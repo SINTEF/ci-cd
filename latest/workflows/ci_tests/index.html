@@ -20,7 +20,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.11">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.12">
     
     
       
@@ -28,7 +28,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.4af4bdda.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.2afb09e1.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
@@ -1566,6 +1566,11 @@ For more information about <code>pre-commit</code>, please see the tool's websit
 </tbody>
 </table>
 <h3 id="run-pylint-safety">Run <code>pylint</code> &amp; <code>safety</code><a class="headerlink" href="#run-pylint-safety" title="Permanent link">&para;</a></h3>
+<div class="admonition warning">
+<p class="admonition-title">Deprecation notice</p>
+<p>The <code>pylint</code> and <code>safety</code> jobs are deprecated in favor of using <a href="https://pre-commit.com"><code>pre-commit</code></a> hooks and the dedicated <a href="https://docs.safetycli.com/safety-docs/installation/github-actions">safety GitHub Action</a>.
+This job will be removed in a future version.</p>
+</div>
 <p>Run the <a href="https://pylint.pycqa.org/"><code>pylint</code></a> and/or <a href="https://github.com/pyupio/safety"><code>safety</code></a> tools.</p>
 <p>The <code>pylint</code> tool can be run in different ways.
 Either it is run once and the <code>pylint_targets</code> is a required input, while <code>pylint_options</code> is a single- or multi-line optional input.
@@ -1592,14 +1597,14 @@ For each line in <code>pylint_runs</code>, <code>pylint</code> will be executed.
 <td style="text-align: left;"><code>run_pylint</code></td>
 <td style="text-align: left;">Run the <code>pylint</code> test job.</td>
 <td style="text-align: center;">No</td>
-<td style="text-align: center;"><code>true</code></td>
+<td style="text-align: center;"><code>false</code></td>
 <td style="text-align: center;"><em>boolean</em></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>run_safety</code></td>
 <td style="text-align: left;">Run the <code>safety</code> test job.</td>
 <td style="text-align: center;">No</td>
-<td style="text-align: center;"><code>true</code></td>
+<td style="text-align: center;"><code>false</code></td>
 <td style="text-align: center;"><em>boolean</em></td>
 </tr>
 <tr>
@@ -2054,63 +2059,63 @@ However, it is recommended to instead refer to the job-specific tables of inputs
 </tr>
 <tr>
 <td style="text-align: left;"><code>run_pylint</code></td>
-<td style="text-align: left;">Run the <code>pylint</code> test job.</td>
+<td style="text-align: left;"><strong><em>Deprecated</em></strong> Run the <code>pylint</code> test job.</td>
 <td style="text-align: center;">No</td>
-<td style="text-align: center;"><code>true</code></td>
+<td style="text-align: center;"><code>false</code></td>
 <td style="text-align: center;"><em>boolean</em></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>run_safety</code></td>
-<td style="text-align: left;">Run the <code>safety</code> test job.</td>
+<td style="text-align: left;"><strong><em>Deprecated</em></strong> Run the <code>safety</code> test job.</td>
 <td style="text-align: center;">No</td>
-<td style="text-align: center;"><code>true</code></td>
+<td style="text-align: center;"><code>false</code></td>
 <td style="text-align: center;"><em>boolean</em></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>python_version_pylint_safety</code></td>
-<td style="text-align: left;">The Python version to use for the <code>pylint</code> and <code>safety</code> test jobs.</td>
+<td style="text-align: left;"><strong><em>Deprecated</em></strong> The Python version to use for the <code>pylint</code> and <code>safety</code> test jobs.</td>
 <td style="text-align: center;">No</td>
 <td style="text-align: center;">3.9</td>
 <td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>pip_index_url_pylint_safety</code></td>
-<td style="text-align: left;">A URL to a PyPI repository index.</td>
+<td style="text-align: left;"><strong><em>Deprecated</em></strong> A URL to a PyPI repository index.</td>
 <td style="text-align: center;">No</td>
 <td style="text-align: center;"><code>https://pypi.org/simple/</code></td>
 <td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>pip_extra_index_urls_pylint_safety</code></td>
-<td style="text-align: left;">A space-delimited string of URLs to additional PyPI repository indices.</td>
+<td style="text-align: left;"><strong><em>Deprecated</em></strong> A space-delimited string of URLs to additional PyPI repository indices.</td>
 <td style="text-align: center;">No</td>
 <td style="text-align: center;"><em>Empty string</em></td>
 <td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>pylint_targets</code></td>
-<td style="text-align: left;">Space-separated string of pylint file and folder targets.</br></br><strong>Note</strong>: This is only valid if <code>pylint_runs</code> is not defined.</td>
+<td style="text-align: left;"><strong><em>Deprecated</em></strong> Space-separated string of pylint file and folder targets.</br></br><strong>Note</strong>: This is only valid if <code>pylint_runs</code> is not defined.</td>
 <td style="text-align: center;"><strong>Yes, if <code>pylint_runs</code> is not defined</strong></td>
 <td style="text-align: center;"><em>Empty string</em></td>
 <td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>pylint_options</code></td>
-<td style="text-align: left;">Single (space-separated) or multi-line string of pylint command line options.</br></br><strong>Note</strong>: This is only valid if <code>pylint_runs</code> is not defined.</td>
+<td style="text-align: left;"><strong><em>Deprecated</em></strong> Single (space-separated) or multi-line string of pylint command line options.</br></br><strong>Note</strong>: This is only valid if <code>pylint_runs</code> is not defined.</td>
 <td style="text-align: center;">No</td>
 <td style="text-align: center;"><em>Empty string</em></td>
 <td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>pylint_runs</code></td>
-<td style="text-align: left;">Single or multi-line string with each line representing a separate pylint run/execution. This should include all desired options and targets.</br></br><strong>Important</strong>: The inputs <code>pylint_options</code> and <code>pylint_targets</code> will be ignored if this is defined.</td>
+<td style="text-align: left;"><strong><em>Deprecated</em></strong> Single or multi-line string with each line representing a separate pylint run/execution. This should include all desired options and targets.</br></br><strong>Important</strong>: The inputs <code>pylint_options</code> and <code>pylint_targets</code> will be ignored if this is defined.</td>
 <td style="text-align: center;">No</td>
 <td style="text-align: center;"><em>Empty string</em></td>
 <td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
 <td style="text-align: left;"><code>safety_options</code></td>
-<td style="text-align: left;">Single (space-separated) or multi-line string of safety command line options.</td>
+<td style="text-align: left;"><strong><em>Deprecated</em></strong> Single (space-separated) or multi-line string of safety command line options.</td>
 <td style="text-align: center;">No</td>
 <td style="text-align: center;"><em>Empty string</em></td>
 <td style="text-align: center;"><em>string</em></td>
