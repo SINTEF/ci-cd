@@ -46,6 +46,10 @@ This job **should not be run** _if_ the repository does not implement `pre-commi
 
 ### Run `pylint` & `safety`
 
+!!! warning "Deprecation notice"
+    The `pylint` and `safety` jobs are deprecated in favor of using [`pre-commit`](https://pre-commit.com) hooks and the dedicated [safety GitHub Action](https://docs.safetycli.com/safety-docs/installation/github-actions).
+    This job will be removed in a future version.
+
 Run the [`pylint`](https://pylint.pycqa.org/) and/or [`safety`](https://github.com/pyupio/safety) tools.
 
 The `pylint` tool can be run in different ways.
@@ -66,8 +70,8 @@ There are no expectations or pre-requisites.
 
 | **Name** | **Description** | **Required** | **Default** | **Type** |
 |:--- |:--- |:---:|:---:|:---:|
-| `run_pylint` | Run the `pylint` test job. | No | `true` | _boolean_ |
-| `run_safety` | Run the `safety` test job. | No | `true` | _boolean_ |
+| `run_pylint` | Run the `pylint` test job. | No | `false` | _boolean_ |
+| `run_safety` | Run the `safety` test job. | No | `false` | _boolean_ |
 | `python_version_pylint_safety` | The Python version to use for the `pylint` and `safety` test jobs. | No | 3.9 | _string_ |
 | `pip_index_url_pylint_safety` | A URL to a PyPI repository index. | No | `https://pypi.org/simple/` | _string_ |
 | `pip_extra_index_urls_pylint_safety` | A space-delimited string of URLs to additional PyPI repository indices. | No | _Empty string_ | _string_ |
@@ -237,15 +241,15 @@ See also [General information](index.md#general-information).
 | `pip_index_url_pre-commit` | A URL to a PyPI repository index. | No | `https://pypi.org/simple/` | _string_ |
 | `pip_extra_index_urls_pre-commit` | A space-delimited string of URLs to additional PyPI repository indices. | No | _Empty string_ | _string_ |
 | `skip_pre-commit_hooks` | A comma-separated list of pre-commit hook IDs to skip when running `pre-commit` after updating hooks. | No | _Empty string_ | _string_ |
-| `run_pylint` | Run the `pylint` test job. | No | `true` | _boolean_ |
-| `run_safety` | Run the `safety` test job. | No | `true` | _boolean_ |
-| `python_version_pylint_safety` | The Python version to use for the `pylint` and `safety` test jobs. | No | 3.9 | _string_ |
-| `pip_index_url_pylint_safety` | A URL to a PyPI repository index. | No | `https://pypi.org/simple/` | _string_ |
-| `pip_extra_index_urls_pylint_safety` | A space-delimited string of URLs to additional PyPI repository indices. | No | _Empty string_ | _string_ |
-| `pylint_targets` | Space-separated string of pylint file and folder targets.</br></br>**Note**: This is only valid if `pylint_runs` is not defined. | **Yes, if `pylint_runs` is not defined** | _Empty string_ | _string_ |
-| `pylint_options` | Single (space-separated) or multi-line string of pylint command line options.</br></br>**Note**: This is only valid if `pylint_runs` is not defined. | No | _Empty string_ | _string_ |
-| `pylint_runs` | Single or multi-line string with each line representing a separate pylint run/execution. This should include all desired options and targets.</br></br>**Important**: The inputs `pylint_options` and `pylint_targets` will be ignored if this is defined. | No | _Empty string_ | _string_ |
-| `safety_options` | Single (space-separated) or multi-line string of safety command line options. | No | _Empty string_ | _string_ |
+| `run_pylint` | **_Deprecated_** Run the `pylint` test job. | No | `false` | _boolean_ |
+| `run_safety` | **_Deprecated_** Run the `safety` test job. | No | `false` | _boolean_ |
+| `python_version_pylint_safety` | **_Deprecated_** The Python version to use for the `pylint` and `safety` test jobs. | No | 3.9 | _string_ |
+| `pip_index_url_pylint_safety` | **_Deprecated_** A URL to a PyPI repository index. | No | `https://pypi.org/simple/` | _string_ |
+| `pip_extra_index_urls_pylint_safety` | **_Deprecated_** A space-delimited string of URLs to additional PyPI repository indices. | No | _Empty string_ | _string_ |
+| `pylint_targets` | **_Deprecated_** Space-separated string of pylint file and folder targets.</br></br>**Note**: This is only valid if `pylint_runs` is not defined. | **Yes, if `pylint_runs` is not defined** | _Empty string_ | _string_ |
+| `pylint_options` | **_Deprecated_** Single (space-separated) or multi-line string of pylint command line options.</br></br>**Note**: This is only valid if `pylint_runs` is not defined. | No | _Empty string_ | _string_ |
+| `pylint_runs` | **_Deprecated_** Single or multi-line string with each line representing a separate pylint run/execution. This should include all desired options and targets.</br></br>**Important**: The inputs `pylint_options` and `pylint_targets` will be ignored if this is defined. | No | _Empty string_ | _string_ |
+| `safety_options` | **_Deprecated_** Single (space-separated) or multi-line string of safety command line options. | No | _Empty string_ | _string_ |
 | `run_build_package` | Run the `build package` test job. | No | `true` | _boolean_ |
 | `python_version_package` | The Python version to use for the `build package` test job. | No | 3.9 | _string_ |
 | `pip_index_url_package` | A URL to a PyPI repository index. | No | `https://pypi.org/simple/` | _string_ |
