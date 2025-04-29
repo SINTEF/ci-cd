@@ -68,7 +68,7 @@ on:
         description: "Run the `pylint` test job."
         required: false
         type: boolean
-        default: true
+        default: false
       pylint_options:
         description: "Single (space-separated) or multi-line string of pylint command line options. Note, this is only valid if 'pylint_runs' is not defined."
         required: false
@@ -89,7 +89,7 @@ on:
         description: "Run the `safety` test job."
         required: false
         type: boolean
-        default: true
+        default: false
       safety_options:
         description: "Single (space-separated) or multi-line string of safety command line options."
         required: false
@@ -294,6 +294,11 @@ jobs:
     runs-on: ${{ inputs.runner }}
 
     steps:
+    - name: This job is deprecated
+      run: |
+        echo "This job is deprecated. See https://sintef.github.io/ci-cd/latest/workflows/ci_tests/#run-pylint-safety"
+        echo "::warning file=ci_tests.yml,line=299,col=9::The 'Run `pylint` & `safety`' job is deprecated. See https://sintef.github.io/ci-cd/latest/workflows/ci_tests/#run-pylint-safety"
+
     - name: Checkout ${{ github.repository }}
       uses: actions/checkout@v4
       with:
