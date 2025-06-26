@@ -8,4 +8,4 @@ build/
 site/
 
 # Coverage
-.coverage
+.coverage*

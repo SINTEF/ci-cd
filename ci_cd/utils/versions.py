@@ -114,6 +114,9 @@ class SemanticVersion(str):
             cls, str(version) if version else cls._build_version(**kwargs)
         )
 
+    def __hash__(self):
+        return self.__str__().__hash__()
+
     def __init__(
         self,
         version: str | Version | None = None,
