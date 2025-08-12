@@ -192,7 +192,7 @@ jobs:
         fi
 
     - name: Checkout ${{ github.repository }}
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
         fetch-depth: 0
 
@@ -408,7 +408,7 @@ jobs:
         fi
 
     - name: Checkout ${{ github.repository }}
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
         fetch-depth: 0
         ref: ${{ inputs.release_branch }}
