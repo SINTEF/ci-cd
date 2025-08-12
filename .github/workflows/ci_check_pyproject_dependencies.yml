@@ -138,7 +138,7 @@ jobs:
         fi
 
     - name: Checkout ${{ steps.validate_inputs.outputs.target_branch }} in ${{ github.repository }}
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
         ref: ${{ steps.validate_inputs.outputs.target_branch }}
         fetch-depth: 0

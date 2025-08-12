@@ -216,7 +216,7 @@ jobs:
 
     - name: Checkout ${{ github.repository }}
       if: steps.release_check.outputs.release_run == 'false'
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
         fetch-depth: 0
 
@@ -468,7 +468,7 @@ jobs:
 
     steps:
     - name: Checkout ${{ github.repository }}
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
         ref: ${{ inputs.permanent_dependencies_branch }}
         fetch-depth: 0

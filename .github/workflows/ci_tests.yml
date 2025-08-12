@@ -252,7 +252,7 @@ jobs:
 
     steps:
     - name: Checkout ${{ github.repository }}
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
     - name: Set up Python ${{ inputs.python_version_pre-commit }}
       uses: actions/setup-python@v5
@@ -300,7 +300,7 @@ jobs:
         echo "::warning file=ci_tests.yml,line=299,col=9::The 'Run `pylint` & `safety`' job is deprecated. See https://sintef.github.io/ci-cd/latest/workflows/ci_tests/#run-pylint-safety"
 
     - name: Checkout ${{ github.repository }}
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
         fetch-depth: 2
 
@@ -390,7 +390,7 @@ jobs:
 
     steps:
     - name: Checkout ${{ github.repository }}
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
     - name: Set up Python ${{ inputs.python_version_package }}
       uses: actions/setup-python@v5
@@ -465,7 +465,7 @@ jobs:
         fi
 
     - name: Checkout ${{ github.repository }}
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
         fetch-depth: 2
 
