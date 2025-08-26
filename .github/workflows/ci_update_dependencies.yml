@@ -148,10 +148,12 @@ jobs:
         if [ -n "$(git status --porcelain .pre-commit-config.yaml)" ]; then
           # Set environment variable notifying next steps that the hooks changed
           echo "Pre-commit hooks have been updated !"
-          echo "updated_pre_commit_hooks=true" >> $GITHUB_OUTPUT
+          UPDATED_PRE_COMMIT_HOOKS=true
+          echo "updated_pre_commit_hooks=$UPDATED_PRE_COMMIT_HOOKS" >> $GITHUB_OUTPUT
         else
           echo "No pre-commit hooks have been updated."
-          echo "updated_pre_commit_hooks=false" >> $GITHUB_OUTPUT
+          UPDATED_PRE_COMMIT_HOOKS=false
+          echo "updated_pre_commit_hooks=$UPDATED_PRE_COMMIT_HOOKS" >> $GITHUB_OUTPUT
         fi
 
     - name: Possibly run `pre-commit` with updated hooks
@@ -179,11 +181,13 @@ jobs:
 
           echo -e "### Update dependencies\n\nAutomatically created PR from [\`${{ inputs.permanent_dependencies_branch }}\`](https://github.com/${{ github.repository }}/tree/${{ inputs.permanent_dependencies_branch }}).\n\nThe PR is based on the ['CI - Update dependencies PR' workflow](https://SINTEF.github.io/ci-cd/latest/workflows/ci_update_dependencies/) in [SINTEF/ci-cd](https://github.com/SINTEF/ci-cd).\n\n#### To do\n\n- [ ] Check that the diff is sensible, and that tests and builds pass with the new dependency versions.\n${{ inputs.extra_to_dos }}" > ${PR_BODY_FILE}
           echo "Using default PR body."
-          echo "remove_pr_body_file=true" >> $GITHUB_OUTPUT
+          REMOVE_PR_BODY_FILE=true
+          echo "remove_pr_body_file=$REMOVE_PR_BODY_FILE" >> $GITHUB_OUTPUT
         else
           echo "Using found PR body text file at ${{ inputs.pr_body_file }}."
           echo "pr_body_file=${{ inputs.pr_body_file }}" >> $GITHUB_OUTPUT
-          echo "remove_pr_body_file=false" >> $GITHUB_OUTPUT
+          REMOVE_PR_BODY_FILE=false
+          echo "remove_pr_body_file=$REMOVE_PR_BODY_FILE" >> $GITHUB_OUTPUT
         fi
 
     - name: Fetch PR body

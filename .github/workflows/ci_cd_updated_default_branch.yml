@@ -190,10 +190,12 @@ jobs:
         COMMIT_MSG="$(gh api /repos/${{ github.repository }}/commits/${{ inputs.default_repo_branch }} --jq '.commit.message')"
         if [[ "${COMMIT_MSG}" =~ ^Release\ v.*$ ]] || [ "${COMMIT_MSG}" == "[bot] Update documentation" ]; then
           echo "In a release or just ran this job - do not run this job !"
-          echo "release_run=true" >> $GITHUB_OUTPUT
+          RELEASE_RUN=true
+          echo "release_run=$RELEASE_RUN" >> $GITHUB_OUTPUT
         else
           echo "Not a release and did not just run this job - update docs"
-          echo "release_run=false" >> $GITHUB_OUTPUT
+          RELEASE_RUN=false
+          echo "release_run=$RELEASE_RUN" >> $GITHUB_OUTPUT
         fi
       env:
         GITHUB_TOKEN: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
@@ -368,7 +370,8 @@ jobs:
           fi
 
           git commit -m "[bot] Update documentation"
-          echo "UPDATE_DEFAULT_BRANCH=true" >> $GITHUB_ENV
+          UPDATE_DEFAULT_BRANCH=true
+          echo "UPDATE_DEFAULT_BRANCH=$UPDATE_DEFAULT_BRANCH" >> $GITHUB_ENV
         else
           echo -e "\u2714 All good !"
         fi
@@ -487,11 +490,13 @@ jobs:
 
           echo -e "### Update dependencies\n\nAutomatically created PR from [\`${{ inputs.permanent_dependencies_branch }}\`](https://github.com/${{ github.repository }}/tree/${{ inputs.permanent_dependencies_branch }}).\n\nThe PR is based on the ['CI - Update dependencies PR' workflow](https://SINTEF.github.io/ci-cd/latest/workflows/ci_update_dependencies/) in [SINTEF/ci-cd](https://github.com/SINTEF/ci-cd).\n\n#### To do\n" > ${PR_BODY_FILE}
           echo "Using default PR body (similar to the one used in the 'CI - Update dependencies PR' workflow)."
-          echo "remove_pr_body_file=true" >> $GITHUB_OUTPUT
+          REMOVE_PR_BODY_FILE=true
+          echo "remove_pr_body_file=$REMOVE_PR_BODY_FILE" >> $GITHUB_OUTPUT
         else
           echo "Using found PR body text file at ${{ inputs.update_dependencies_pr_body_file }}."
           echo "pr_body_file=${{ inputs.update_dependencies_pr_body_file }}" >> $GITHUB_OUTPUT
-          echo "remove_pr_body_file=false" >> $GITHUB_OUTPUT
+          REMOVE_PR_BODY_FILE=false
+          echo "remove_pr_body_file=$REMOVE_PR_BODY_FILE" >> $GITHUB_OUTPUT
         fi
 
     - name: Update '${{ inputs.permanent_dependencies_branch }}'
@@ -504,11 +509,13 @@ jobs:
         if [ -z "$(printf '%s\n' "${LATEST_PR_BODY}" | head -8 | diff - .tmp_file.txt --strip-trailing-cr)" ]; then
           echo "The dependencies have just been updated! Reset to ${{ inputs.default_repo_branch }}."
           git reset --hard origin/${{ inputs.default_repo_branch }}
-          echo "force_push=yes" >> $GITHUB_OUTPUT
+          FORCE_PUSH=yes
+          echo "force_push=$FORCE_PUSH" >> $GITHUB_OUTPUT
         else
           echo "Merge new updates to ${{ inputs.default_repo_branch }} into ${{ inputs.permanent_dependencies_branch }}"
           git merge -m "Keep '${{ inputs.permanent_dependencies_branch }}' up-to-date with '${{ inputs.default_repo_branch }}'" origin/${{ inputs.default_repo_branch }}
-          echo "force_push=no" >> $GITHUB_OUTPUT
+          FORCE_PUSH=no
+          echo "force_push=$FORCE_PUSH" >> $GITHUB_OUTPUT
         fi
 
         if [ "${{ steps.pr_body_config.outputs.remove_pr_body_file }}" == "true" ] && [ -f "${{ steps.pr_body_config.outputs.pr_body }}" ]; then
