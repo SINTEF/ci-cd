@@ -116,7 +116,8 @@ jobs:
           # Cause of action: Set 'target_branch' to the (old) default value, and emit a deprecation warning.
 
           echo "::warning file=${{ github.workflow_ref }},title=Deprecation Warning::'permanent_dependencies_branch' is deprecated and will be removed in v2.6.0. Use 'target_branch' instead with explicit value. The old default value for 'permanent_dependencies_branch' was: 'ci/dependency-updates'."
-          echo "target_branch=ci/dependency-updates" >> $GITHUB_OUTPUT
+          TARGET_BRANCH=ci/dependency-updates
+          echo "target_branch=$TARGET_BRANCH" >> $GITHUB_OUTPUT
         elif [ -z "${{ inputs.target_branch }}" ] && [ -n "${{ inputs.permanent_dependencies_branch }}" ]; then
           # Scenario expected to be: One has set an explicit value for 'permanent_dependencies_branch' previously.
           # While not knowing that it is now deprecated, and one should instead use 'target_branch' with an explicitly set value.
@@ -231,11 +232,13 @@ jobs:
         fi
 
         if [ -n "$(git status --porcelain pyproject.toml)" ]; then
-          echo "update_dependencies=true" >> $GITHUB_OUTPUT
+          UPDATE_DEPENDENCIES=true
+          echo "update_dependencies=$UPDATE_DEPENDENCIES" >> $GITHUB_OUTPUT
           git add pyproject.toml
           git commit -m "Update dependencies in \`pyproject.toml\`"
         else
-          echo "update_dependencies=false" >> $GITHUB_OUTPUT
+          UPDATE_DEPENDENCIES=false
+          echo "update_dependencies=$UPDATE_DEPENDENCIES" >> $GITHUB_OUTPUT
         fi
 
     - name: Set PR body
@@ -252,11 +255,13 @@ jobs:
 
           echo -e "### Update dependencies (\`pyproject.toml\`)\n\nAutomatically created PR based on the ['CI - Check pyproject.toml dependencies' workflow](https://SINTEF.github.io/ci-cd/latest/workflows/ci_check_pyproject_dependencies/) in [SINTEF/ci-cd](https://github.com/SINTEF/ci-cd)." > ${PR_BODY_FILE}
           echo "Using default PR body."
-          echo "remove_pr_body_file=true" >> $GITHUB_OUTPUT
+          REMOVE_PR_BODY_FILE=true
+          echo "remove_pr_body_file=$REMOVE_PR_BODY_FILE" >> $GITHUB_OUTPUT
         else
           echo "Using found PR body text file at ${{ inputs.pr_body_file }}."
           echo "pr_body_file=${{ inputs.pr_body_file }}" >> $GITHUB_OUTPUT
-          echo "remove_pr_body_file=false" >> $GITHUB_OUTPUT
+          REMOVE_PR_BODY_FILE=false
+          echo "remove_pr_body_file=$REMOVE_PR_BODY_FILE" >> $GITHUB_OUTPUT
         fi
 
     - name: Fetch PR body
