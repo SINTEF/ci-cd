@@ -222,7 +222,7 @@ jobs:
 
     - name: Set up Python ${{ inputs.python_version }}
       if: steps.release_check.outputs.release_run == 'false'
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v6
       with:
         python-version: "${{ inputs.python_version }}"
         allow-prereleases: true
