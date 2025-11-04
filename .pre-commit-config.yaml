@@ -1,6 +1,3 @@
-default_language_version:
-  python: python3.9
-
 repos:
   # pre-commit-hooks supplies a multitude of small hooks
   # To get an overview of them all as well as the ones used here, please see
