@@ -19,6 +19,9 @@ jobs:
       run_pylint: false
       run_safety: false
 
+      # pre-commit
+      python_version_pre-commit: '3.10'
+
       # build dist
       build_libs: flit
       build_cmd: flit build
