@@ -364,7 +364,7 @@ jobs:
 
     - name: Upload source distribution
       if: inputs.upload_distribution && inputs.python_package
-      uses: actions/upload-artifact@v5
+      uses: actions/upload-artifact@v6
       with:
         name: dist
         path: ${{ inputs.build_dir }}
