@@ -3,6 +3,7 @@
 
 File used to test running the hooks in the CI/CD pipeline independently of the shell.
 """
+
 from __future__ import annotations
 
 import subprocess  # nosec

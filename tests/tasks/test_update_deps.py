@@ -943,15 +943,12 @@ dependencies = ["pytest ~=7.0"]
 
     if pre_commit:
         # The git folder pyproject.toml should be updated
-        assert (
-            pyproject_file_git_repo.read_text(encoding="utf8")
-            == """[project]
+        assert pyproject_file_git_repo.read_text(encoding="utf8") == """[project]
 name = "ci-cd"
 requires-python = "~=3.8"
 
 dependencies = ["pre-commit >=2.21.0,<4"]
 """
-        )
 
         # The tmp_path pyproject.toml should have no changes
         assert pyproject_file_tmp_path.read_text(encoding="utf8") == (
@@ -966,15 +963,12 @@ dependencies = ["pre-commit >=2.21.0,<4"]
         )
 
         # The tmp_path pyproject.toml should have have changed
-        assert (
-            pyproject_file_tmp_path.read_text(encoding="utf8")
-            == """[project]
+        assert pyproject_file_tmp_path.read_text(encoding="utf8") == """[project]
 name = "ci-cd"
 requires-python = "~=3.8"
 
 dependencies = ["pytest ~=7.4"]
 """
-        )
 
 
 @pytest.mark.parametrize("fail_fast", [True, False])
