@@ -249,16 +249,13 @@ def test_special_options(tmp_path: Path) -> None:
     assert (api_reference_folder / ".pages").read_text(
         encoding="utf8"
     ) == 'title: "API Reference"\n'
-    assert (
-        (api_reference_folder / "main.md").read_text(encoding="utf8")
-        == """# main
+    assert (api_reference_folder / "main.md").read_text(encoding="utf8") == """# main
 
 ::: ci_cd.main
     options:
       test_option: "yup"
       another_special_option: true
 """
-    )
     assert (
         (api_reference_folder / "exceptions.md").read_text(encoding="utf8")
         == """# exceptions

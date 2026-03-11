@@ -216,13 +216,13 @@ jobs:
 
     - name: Checkout ${{ github.repository }}
       if: steps.release_check.outputs.release_run == 'false'
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         fetch-depth: 0
 
     - name: Set up Python ${{ inputs.python_version }}
       if: steps.release_check.outputs.release_run == 'false'
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v6
       with:
         python-version: "${{ inputs.python_version }}"
         allow-prereleases: true
@@ -468,7 +468,7 @@ jobs:
 
     steps:
     - name: Checkout ${{ github.repository }}
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         ref: ${{ inputs.permanent_dependencies_branch }}
         fetch-depth: 0

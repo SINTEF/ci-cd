@@ -33,7 +33,7 @@ dynamic = ["version", "description"]
 
 dependencies = [
     "invoke ~=2.2",
-    "packaging ~=25.0",
+    "packaging ~=26.0",
     "tomlkit ~=0.13.3",
     "typing-extensions ~=4.13",
 ]
@@ -43,7 +43,7 @@ docs = [
     "mike ~=2.1",
     "mkdocs ~=1.6",
     "mkdocs-awesome-pages-plugin ~=2.9",
-    "mkdocs-material ~=9.6",
+    "mkdocs-material ~=9.7",
     "mkdocstrings[python-legacy] ~=0.26.1",
 ]
 testing = [

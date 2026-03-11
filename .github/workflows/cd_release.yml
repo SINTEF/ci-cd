@@ -192,12 +192,12 @@ jobs:
         fi
 
     - name: Checkout ${{ github.repository }}
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         fetch-depth: 0
 
     - name: Set up Python ${{ inputs.python_version_build }}
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v6
       with:
         python-version: "${{ inputs.python_version_build }}"
         allow-prereleases: true
@@ -364,7 +364,7 @@ jobs:
 
     - name: Upload source distribution
       if: inputs.upload_distribution && inputs.python_package
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: dist
         path: ${{ inputs.build_dir }}
@@ -408,13 +408,13 @@ jobs:
         fi
 
     - name: Checkout ${{ github.repository }}
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         fetch-depth: 0
         ref: ${{ inputs.release_branch }}
 
     - name: Set up Python ${{ inputs.python_version_docs }}
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v6
       with:
         python-version: "${{ inputs.python_version_docs }}"
         allow-prereleases: true

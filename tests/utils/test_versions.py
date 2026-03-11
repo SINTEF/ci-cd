@@ -989,9 +989,7 @@ def test_parse_ignore_entries(
         entries=entries,
         separator=separator,
     )
-    assert (
-        parsed_entries == expected_outcome
-    ), f"""Failed for:
+    assert parsed_entries == expected_outcome, f"""Failed for:
   entries={entries}
   separator={separator}
 
@@ -1051,9 +1049,7 @@ def test_parse_ignore_rules(
     from ci_cd.utils.versions import parse_ignore_rules
 
     parsed_rules = parse_ignore_rules(rules=rules)
-    assert (
-        parsed_rules == expected_outcome
-    ), f"""Failed for:
+    assert parsed_rules == expected_outcome, f"""Failed for:
   rules={rules}
 
 Expected outcome:

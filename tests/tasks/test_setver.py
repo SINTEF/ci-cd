@@ -358,7 +358,8 @@ def test_init_file_not_found() -> None:
     assert not (Path.cwd() / "does not matter" / "__init__.py").exists()
 
     with pytest.raises(
-        SystemExit, match="Could not find the Python package's root '__init__.py' file"
+        SystemExit,
+        match=r"Could not find the Python package's root '__init__\.py' file",
     ):
         setver(MockContext(), package_dir="does not matter", version="0.1.0")
 
