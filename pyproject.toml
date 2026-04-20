@@ -33,14 +33,14 @@ dynamic = ["version", "description"]
 
 dependencies = [
     "invoke ~=2.2",
-    "packaging ~=26.0",
+    "packaging ~=26.1",
     "tomlkit ~=0.13.3",
     "typing-extensions ~=4.13",
 ]
 
 [project.optional-dependencies]
 docs = [
-    "mike ~=2.1",
+    "mike ~=2.2",
     "mkdocs ~=1.6",
     "mkdocs-awesome-pages-plugin ~=2.9",
     "mkdocs-material ~=9.7",
