@@ -211,7 +211,38 @@ Create a GitHub milestone named after the new version (e.g. `v2.9.2`):
 gh api repos/SINTEF/ci-cd/milestones --method POST -f title="v<version>"
 ```
 
-### 3. Publish the release
+### 3. Create and close the release summary issue
+
+The release summary is a GitHub issue with the `release-summary` label. It is part of the externally managed release process used by the CI release workflow, so create it for each release and make sure it is **closed** before the release is published.
+
+**Create the issue** using a heredoc to reliably pass the multi-line Markdown body, and capture the output URL so it can be closed in the next step:
+
+```bash
+ISSUE_URL=$(cat <<'EOF' | gh issue create \
+  --title "Release summary v<version>" \
+  --label "release-summary" \
+  --milestone "v<version>" \
+  --body-file -
+## <topic>
+
+<summary>
+EOF
+)
+```
+
+**Summary style** — write in plain Markdown, no PR/issue links, no changelog header. Use `##` sections for each notable topic. Add a `## DX` section only when there are dependency or dev-tool updates with nothing else to say about them. Keep it concise; a few sentences per section is enough. Study the existing issues with the `release-summary` label for tone and length:
+
+```bash
+gh issue list --label "release-summary" --state all --limit 5 --json number,title,body
+```
+
+**Close the issue immediately** to finalise the summary:
+
+```bash
+gh issue close "$ISSUE_URL"
+```
+
+### 4. Publish the release
 
 Create and publish the GitHub release. Use the version string as both the tag name and the title, targeting `main`. Do not add a body — the CI workflow appends the generated changelog automatically.
 
@@ -219,7 +250,7 @@ Create and publish the GitHub release. Use the version string as both the tag na
 gh release create v<version> --title "v<version>" --target main --notes ""
 ```
 
-### 4. Monitor the release workflow
+### 5. Monitor the release workflow
 
 Publishing the release triggers the `CD - Release` workflow. Find the run ID by filtering on the release workflow:
 
