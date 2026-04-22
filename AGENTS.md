@@ -26,6 +26,32 @@ done
 
 If none of these exist, the guard will exit with an error. In that case, ask the user for the correct path before proceeding.
 
+## Issues
+
+Before starting any non-trivial change, open a GitHub issue that describes the problem or feature. A good issue includes:
+
+- A clear statement of the problem or goal.
+- Linked references to where the issue was observed or is likely to occur (e.g. file paths, line numbers, workflow run URLs, PR/commit links).
+- A minimal reproduction or example, if relevant (error output, a failing command, a short code snippet).
+- A considerations section sketching one or more possible approaches and their trade-offs, so reviewers can weigh in before work begins.
+
+```bash
+gh issue create --title "<title>" --body "$(cat <<'EOF'
+## Problem
+
+<description>
+
+## References
+
+<links>
+
+## Considerations
+
+<approaches and trade-offs>
+EOF
+)"
+```
+
 ## Branching
 
 Always create a new branch from an up-to-date `main` before making changes. Never commit directly to `main`.
@@ -278,7 +304,7 @@ If the release workflow fails after the release has been published:
    git tag -d v<version>
    ```
 
-2. **Fix the underlying issue** following the normal development process (branch → PR → merge). Wait until the fix is merged and all CI workflows against `main` pass before continuing.
+2. **Fix the underlying issue** following the normal development process (issue → branch → PR → merge). Wait until the fix is merged and all CI workflows against `main` pass before continuing.
 
 3. **Update the release summary issue** if the fix introduced changes that should be reflected in the summary (e.g. new PRs merged as part of the fix). Reopen the issue, edit the body, and close it again. `$ISSUE_URL` refers to the release summary issue created in step 3 of the normal release process — if it is no longer in scope, find it with `gh issue list --label release-summary --state closed --limit 5`:
 
