@@ -24,7 +24,7 @@ done
 "$PRE_COMMIT" run -a
 ```
 
-If none of these exist or you are unsure which environment is correct, ask the user before proceeding.
+If none of these exist, the guard will exit with an error. In that case, ask the user for the correct path before proceeding.
 
 ## Branching
 
