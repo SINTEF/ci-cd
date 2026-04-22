@@ -1740,12 +1740,17 @@
 <p>The <code>run_pylint</code> and <code>run_safety</code> inputs in <code>ci_tests.yml</code> are now deprecated and default to <code>false</code>. Users are encouraged to migrate to <code>pre-commit</code> hooks for linting and to the dedicated Safety GitHub Action or <code>pip-audit</code> for vulnerability scanning.</p>
 <h2 id="dx">DX<a class="headerlink" href="#dx" title="Permanent link">&para;</a></h2>
 <p>Update dependencies, developer tools, and add <code>AGENTS.md</code> with agent guidelines.</p>
+<p><strong>Fixed bugs:</strong></p>
+<ul>
+<li>CD - Release workflow fails to push workflow file changes due to missing 'workflows' permission <a href="https://github.com/SINTEF/ci-cd/issues/406">#406</a></li>
+</ul>
 <p><strong>Closed issues:</strong></p>
 <ul>
 <li>Pass env variables to <code>GITHUB_ENV</code> after definition <a href="https://github.com/SINTEF/ci-cd/issues/234">#234</a></li>
 </ul>
 <p><strong>Merged pull requests:</strong></p>
 <ul>
+<li>Grant workflows permission to CD release workflow <a href="https://github.com/SINTEF/ci-cd/pull/407">#407</a> (<a href="https://github.com/CasperWA-ai-bot">CasperWA-ai-bot</a>)</li>
 <li>Add missing release summary step to release process <a href="https://github.com/SINTEF/ci-cd/pull/405">#405</a> (<a href="https://github.com/CasperWA-ai-bot">CasperWA-ai-bot</a>)</li>
 <li>Add AGENTS.md with agent guidelines <a href="https://github.com/SINTEF/ci-cd/pull/403">#403</a> (<a href="https://github.com/CasperWA-ai-bot">CasperWA-ai-bot</a>)</li>
 <li>[pre-commit.ci] pre-commit autoupdate <a href="https://github.com/SINTEF/ci-cd/pull/402">#402</a> (<a href="https://github.com/apps/pre-commit-ci">pre-commit-ci[bot]</a>)</li>
