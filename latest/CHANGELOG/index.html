@@ -781,6 +781,28 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#deprecate-pylint-and-safety-ci-jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deprecate pylint and safety CI jobs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DX
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#v292-2025-03-07" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -803,7 +825,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#dx" class="md-nav__link">
+  <a href="#dx_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         DX
@@ -865,7 +887,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#dx_1" class="md-nav__link">
+  <a href="#dx_2" class="md-nav__link">
     <span class="md-ellipsis">
       
         DX
@@ -903,7 +925,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#dx_2" class="md-nav__link">
+  <a href="#dx_3" class="md-nav__link">
     <span class="md-ellipsis">
       
         DX
@@ -1485,6 +1507,28 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#deprecate-pylint-and-safety-ci-jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deprecate pylint and safety CI jobs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DX
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#v292-2025-03-07" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1507,7 +1551,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#dx" class="md-nav__link">
+  <a href="#dx_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         DX
@@ -1569,7 +1613,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#dx_1" class="md-nav__link">
+  <a href="#dx_2" class="md-nav__link">
     <span class="md-ellipsis">
       
         DX
@@ -1607,7 +1651,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#dx_2" class="md-nav__link">
+  <a href="#dx_3" class="md-nav__link">
     <span class="md-ellipsis">
       
         DX
@@ -1692,12 +1736,17 @@
 <h1 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">&para;</a></h1>
 <h2 id="unreleased-changes-2026-04-22"><a href="https://github.com/SINTEF/ci-cd/tree/Unreleased changes">Unreleased changes</a> (2026-04-22)<a class="headerlink" href="#unreleased-changes-2026-04-22" title="Permanent link">&para;</a></h2>
 <p><a href="https://github.com/SINTEF/ci-cd/compare/v2.9.2...Unreleased changes">Full Changelog</a></p>
+<h2 id="deprecate-pylint-and-safety-ci-jobs">Deprecate <code>pylint</code> and <code>safety</code> CI jobs<a class="headerlink" href="#deprecate-pylint-and-safety-ci-jobs" title="Permanent link">&para;</a></h2>
+<p>The <code>run_pylint</code> and <code>run_safety</code> inputs in <code>ci_tests.yml</code> are now deprecated and default to <code>false</code>. Users are encouraged to migrate to <code>pre-commit</code> hooks for linting and to the dedicated Safety GitHub Action or <code>pip-audit</code> for vulnerability scanning.</p>
+<h2 id="dx">DX<a class="headerlink" href="#dx" title="Permanent link">&para;</a></h2>
+<p>Update dependencies, developer tools, and add <code>AGENTS.md</code> with agent guidelines.</p>
 <p><strong>Closed issues:</strong></p>
 <ul>
 <li>Pass env variables to <code>GITHUB_ENV</code> after definition <a href="https://github.com/SINTEF/ci-cd/issues/234">#234</a></li>
 </ul>
 <p><strong>Merged pull requests:</strong></p>
 <ul>
+<li>Add missing release summary step to release process <a href="https://github.com/SINTEF/ci-cd/pull/405">#405</a> (<a href="https://github.com/CasperWA-ai-bot">CasperWA-ai-bot</a>)</li>
 <li>Add AGENTS.md with agent guidelines <a href="https://github.com/SINTEF/ci-cd/pull/403">#403</a> (<a href="https://github.com/CasperWA-ai-bot">CasperWA-ai-bot</a>)</li>
 <li>[pre-commit.ci] pre-commit autoupdate <a href="https://github.com/SINTEF/ci-cd/pull/402">#402</a> (<a href="https://github.com/apps/pre-commit-ci">pre-commit-ci[bot]</a>)</li>
 <li>[pre-commit.ci] pre-commit autoupdate <a href="https://github.com/SINTEF/ci-cd/pull/398">#398</a> (<a href="https://github.com/apps/pre-commit-ci">pre-commit-ci[bot]</a>)</li>
@@ -1761,7 +1810,7 @@
 <p>A <code>system_dependencies</code> input has been added to all workflows that install the local Python package. This is to install Ubuntu APT package prior to installing the Python package.</p>
 <p>Where the <code>system_dependencies</code> input was already defined, it has now been elevated to a general input that will work for other jobs in the same workflow as well.</p>
 <p>Update documentation accordingly.</p>
-<h2 id="dx">DX<a class="headerlink" href="#dx" title="Permanent link">&para;</a></h2>
+<h2 id="dx_1">DX<a class="headerlink" href="#dx_1" title="Permanent link">&para;</a></h2>
 <p>Update dependencies and developer tools.</p>
 <p><strong>Implemented enhancements:</strong></p>
 <ul>
@@ -1793,7 +1842,7 @@
 <p><a href="https://github.com/SINTEF/ci-cd/compare/v2.8.3...v2.9.0">Full Changelog</a></p>
 <h2 id="update-python-version-support">Update Python version support<a class="headerlink" href="#update-python-version-support" title="Permanent link">&para;</a></h2>
 <p>Drop Python 3.9 support, while adding Python 3.14 support.</p>
-<h3 id="dx_1">DX<a class="headerlink" href="#dx_1" title="Permanent link">&para;</a></h3>
+<h3 id="dx_2">DX<a class="headerlink" href="#dx_2" title="Permanent link">&para;</a></h3>
 <p>Several updates for developer tools and dependencies.</p>
 <p><strong>Implemented enhancements:</strong></p>
 <ul>
@@ -1825,7 +1874,7 @@
 <p><a href="https://github.com/SINTEF/ci-cd/compare/v2.8.2...v2.8.3">Full Changelog</a></p>
 <h2 id="update-github-actions">Update GitHub Actions<a class="headerlink" href="#update-github-actions" title="Permanent link">&para;</a></h2>
 <p>Update the used GitHub Actions in the callable workflows.</p>
-<h2 id="dx_2">DX<a class="headerlink" href="#dx_2" title="Permanent link">&para;</a></h2>
+<h2 id="dx_3">DX<a class="headerlink" href="#dx_3" title="Permanent link">&para;</a></h2>
 <p>Update development tools and dependencies for an improved developer experience.</p>
 <p><strong>Merged pull requests:</strong></p>
 <ul>
