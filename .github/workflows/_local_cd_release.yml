@@ -10,7 +10,6 @@ jobs:
     name: Call reusable workflow
     permissions:
       contents: write
-      workflows: write
       pull-requests: read
       issues: read
       statuses: read
