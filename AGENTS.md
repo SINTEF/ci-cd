@@ -235,6 +235,34 @@ gh run watch <run-id>
 
 The workflow updates the changelog, bumps the package version, and commits back to `main`. All jobs must finish with a green tick before the release is considered done.
 
+### Handling a failed release
+
+If the release workflow fails after the release has been published:
+
+1. **Delete the release and the associated tag** to allow re-running:
+
+   ```bash
+   gh release delete v<version> --yes
+   git push origin :refs/tags/v<version>
+   ```
+
+2. **Fix the underlying issue** following the normal development process (branch → PR → merge). Wait until the fix is merged and all CI workflows against `main` pass before continuing.
+
+3. **Update the release summary issue** if the fix introduced changes that should be reflected in the summary (e.g. new PRs merged as part of the fix). Reopen the issue, edit the body, and close it again:
+
+   ```bash
+   gh issue reopen <issue-number>
+   gh issue edit <issue-number> --body "$(cat <<'EOF'
+   ## <topic>
+
+   <updated summary>
+   EOF
+   )"
+   gh issue close <issue-number>
+   ```
+
+4. **Re-publish the release** starting from the "Publish the release" step — the milestone and release summary issue do not need to be recreated.
+
 ## Codebase References
 
 External documentation and non-obvious architectural notes that are useful context when working on this codebase:
