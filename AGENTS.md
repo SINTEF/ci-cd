@@ -125,8 +125,7 @@ The `## Squash commit message` heading must appear literally at the start of a l
 ```bash
 CURRENT_BODY=$(gh pr view <number> --json body -q .body)
 TRIMMED=$(printf '%s\n' "$CURRENT_BODY" | sed '/^## Squash commit message/,$d')
-gh pr edit <number> --body "$(cat <<EOF
-${TRIMMED}
+gh pr edit <number> --body "$(printf '%s\n' "$TRIMMED"; cat <<'EOF'
 ## Squash commit message
 
 <details>
