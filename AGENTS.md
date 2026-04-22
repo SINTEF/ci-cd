@@ -20,7 +20,7 @@ for p in venv/bin/pre-commit .venv/bin/pre-commit ~/.venv/ci-cd/bin/pre-commit; 
 done
 [ -n "$PRE_COMMIT" ] || { echo "pre-commit not found; ask the user for the correct path" >&2; exit 1; }
 # Then invoke via the resolved path, e.g.:
-$PRE_COMMIT run -a
+"$PRE_COMMIT" run -a
 ```
 
 If none of these exist or you are unsure which environment is correct, ask the user before proceeding.
@@ -67,7 +67,7 @@ All tests must pass and no new warnings should be introduced — the suite is co
 Open pull requests against `main` on GitHub (`SINTEF/ci-cd`) using the `gh` CLI:
 
 ```bash
-gh pr create --title "<title>" --base main --reviewer "@copilot" --body "$(cat <<'EOF'
+gh pr create --title "<title>" --base main --reviewer "copilot" --body "$(cat <<'EOF'
 <description>
 
 ## Squash commit message
