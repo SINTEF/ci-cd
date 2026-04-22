@@ -282,14 +282,9 @@ If the release workflow fails after the release has been published:
 3. **Update the release summary issue** if the fix introduced changes that should be reflected in the summary (e.g. new PRs merged as part of the fix). Reopen the issue, edit the body, and close it again:
 
    ```bash
-   gh issue reopen <issue-number>
-   gh issue edit <issue-number> --body "$(cat <<'EOF'
-   ## <topic>
-
-   <updated summary>
-   EOF
-   )"
-   gh issue close <issue-number>
+   gh issue reopen "$ISSUE_URL"
+   printf '%s\n' '## <topic>' '' '<updated summary>' | gh issue edit "$ISSUE_URL" --body-file -
+   gh issue close "$ISSUE_URL"
    ```
 
 4. **Re-publish the release** starting from the "Publish the release" step — the milestone and release summary issue do not need to be recreated.
