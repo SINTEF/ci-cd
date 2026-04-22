@@ -99,11 +99,11 @@ All tests must pass and no new warnings should be introduced — the suite is co
 
 Open pull requests against `main` on GitHub (`SINTEF/ci-cd`) using the `gh` CLI:
 
-If the PR addresses an issue, include `Fixes #<number>` at the top of the description so GitHub closes the issue automatically on merge.
+If the PR addresses an issue, include `Fixes #<number>` at the top of the description so GitHub closes the issue automatically on merge. If there is no associated issue, delete that line.
 
 ```bash
 gh pr create --title "<title>" --base main --reviewer "@copilot" --body "$(cat <<'EOF'
-Fixes #<number>.
+Fixes #<number>.  <!-- delete this line if there is no associated issue -->
 
 <description>
 
@@ -319,7 +319,7 @@ If the release workflow fails after the release has been published:
 3. **Update the release summary issue** if the fix introduced changes that should be reflected in the summary (e.g. new PRs merged as part of the fix). Reopen the issue, update the body preserving any existing sections, and close it again. `$ISSUE_URL` refers to the release summary issue created in step 3 of the normal release process — if it is no longer in scope, redefine `$ISSUE_URL`:
 
    ```bash
-   ISSUE_URL=$(gh issue list --label release-summary --state closed --limit 1 --json url --jq '.[0].url')
+   ISSUE_URL=$(gh issue list --label release-summary --milestone "v<version>" --state closed --limit 1 --json url --jq '.[0].url')
    ```
 
    Then reopen, write the updated body to a temp file (preserving existing sections), and close:
