@@ -35,7 +35,7 @@ git switch main && git pull origin main
 git switch -c <initials>/<short-description>
 ```
 
-Branch names follow the pattern `<initials>/<short-description>`, e.g. `cwa/add-reranker` or `tfh/fix-auth-timeout`. Use lowercase and hyphens only. Use the initials of the person you are working on behalf of; if unsure, derive them from `git config user.name` or ask. For branches created autonomously without a specific person to attribute them to, use `ai` as the prefix (e.g. `ai/fix-auth-timeout`).
+Branch names follow the pattern `<initials>/<short-description>`, e.g. `cwa/add-reranker` or `tfh/fix-auth-timeout`. Both components use only lowercase letters and hyphens; `/` is the separator between them. Use the initials of the person you are working on behalf of; if unsure, derive them from `git config user.name` or ask. For branches created autonomously without a specific person to attribute them to, use `ai` as the prefix (e.g. `ai/fix-auth-timeout`).
 
 ## Commits
 
