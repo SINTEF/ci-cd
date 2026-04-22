@@ -16,8 +16,10 @@ Always invoke `pre-commit` using the full path to the virtual environment binary
 
 ```bash
 for p in venv/bin/pre-commit .venv/bin/pre-commit ~/.venv/ci-cd/bin/pre-commit; do
-  [ -f "$p" ] && { PRE_COMMIT="$p"; break; }
+  [ -x "$p" ] && { PRE_COMMIT="$p"; break; }
 done
+# Then invoke via the resolved path, e.g.:
+$PRE_COMMIT run -a
 ```
 
 If none of these exist or you are unsure which environment is correct, ask the user before proceeding.
@@ -39,7 +41,7 @@ Write clear, imperative commit messages that describe *what* and *why*, not *how
 
 ### Bot account
 
-Each contributor working with an AI agent is encouraged to configure a dedicated GitHub bot account for AI-authored commits and PRs, so that AI activity is clearly distinguishable from human work in the repository history. The bot account to use, and how it is configured, is left to each contributor — a common approach is to set `GITHUB_TOKEN`, `GIT_AUTHOR_NAME`, `GIT_AUTHOR_EMAIL`, `GIT_COMMITTER_NAME`, and `GIT_COMMITTER_EMAIL` in the agent's environment so that commits and PRs are attributed to the bot without affecting the contributor's own git identity. Use a token scoped to the minimum privileges required (typically just `repo`), and avoid exposing it in logs or shell history.
+Each contributor working with an AI agent is encouraged to configure a dedicated GitHub bot account for AI-authored commits and PRs, so that AI activity is clearly distinguishable from human work in the repository history. The bot account to use, and how it is configured, is left to each contributor — a common approach is to set `GITHUB_TOKEN`, `GIT_AUTHOR_NAME`, `GIT_AUTHOR_EMAIL`, `GIT_COMMITTER_NAME`, and `GIT_COMMITTER_EMAIL` in the agent's environment so that commits and PRs are attributed to the bot without affecting the contributor's own git identity. Prefer a fine-grained PAT scoped to this repository with only the permissions the workflow actually needs (typically **Contents: read/write** and **Pull requests: read/write**), and avoid exposing it in logs or shell history. Store it in a secure secret store rather than in a shell profile or `.env` file.
 
 ## Testing
 
@@ -64,11 +66,19 @@ All tests must pass and no new warnings should be introduced — the suite is co
 Open pull requests against `main` on GitHub (`SINTEF/ci-cd`) using the `gh` CLI:
 
 ```bash
-gh pr create --title "<title>" --body "<description>
+gh pr create --title "<title>" --base main --reviewer "@copilot" --body "$(cat <<'EOF'
+<description>
 
 ## Squash commit message
 
-<initial commit message(s)>" --base main --reviewer "@copilot"
+<details>
+<summary>Click to view squash commit message</summary>
+
+> <initial commit message(s)>
+
+</details>
+EOF
+)"
 ```
 
 Request a review from Copilot (`@copilot`) whenever possible. If the reviewer cannot be added (e.g. the feature is not enabled on the repository, or the PR was opened by a bot account that lacks permission to request Copilot reviews), omit the `--reviewer` flag and continue without it. In the latter case, ask the human contributor to request the Copilot review manually from their own account.
@@ -91,21 +101,45 @@ If the version is older than 2.88.0, report this to the user and suggest upgradi
 
 PRs are **squash-merged**. GitHub collects all commit messages into the squash commit body by default, but this is rarely well-structured. Instead, maintain a dedicated `## Squash commit message` section at the bottom of the PR description that is kept up to date as commits are added. When the PR is eventually merged, this section can be copy-pasted verbatim as the final commit message.
 
-**Each time a new commit is pushed**, rewrite the section to reflect the new intended final squash commit message using `gh pr edit`:
+The canonical format for the section is:
+
+```markdown
+## Squash commit message
+
+<details>
+<summary>Click to view squash commit message</summary>
+
+> Subject line here
+>
+> Optional body paragraph.
+
+</details>
+```
+
+The `## Squash commit message` heading must appear literally at the start of a line (not inside the `<details>` block) so the trimming command below can locate it reliably. The message lines are prefixed with `>` to make them easy to identify and copy.
+
+**Each time a new commit is pushed**, rewrite the section using `gh pr edit`:
 
 ```bash
 CURRENT_BODY=$(gh pr view <number> --json body -q .body)
 TRIMMED=$(echo "$CURRENT_BODY" | sed '/^## Squash commit message/,$d')
-gh pr edit <number> --body "${TRIMMED}
+gh pr edit <number> --body "$(cat <<'EOF'
+${TRIMMED}
 ## Squash commit message
-<updated full message here>"
+
+<details>
+<summary>Click to view squash commit message</summary>
+
+> <updated subject line>
+>
+> <updated body>
+
+</details>
+EOF
+)"
 ```
 
-Keep commit messages within this section in the same imperative style as regular commit messages. The section should always reflect the full intended squash commit message — not a log of every individual commit.
-
-Ensure the updated squash commit message is written in raw markdown and can be copy-pasted directly into the GitHub squash commit editor without further formatting. Also, keep it "hidden", by wrapping it in a `details` HTML tag with a summary like "Click to view squash commit message" so that it doesn't clutter the PR description. One way to make it easier to copy would be to prepend all lines with `>` and a space.
-
-The final squash commit message should be a concise summary of the entire PR, including the main change and any relevant context or motivation. It should not be a verbatim concatenation of all individual commit messages, but rather a well-crafted message that captures the essence of the PR in a clear and informative way.
+The section should always reflect the full intended squash commit message — not a log of every individual commit. Write it in the same imperative style as regular commit messages. The final message should be a concise summary of the entire PR, including the main change and any relevant context or motivation.
 
 ### Iterate on a PR
 
