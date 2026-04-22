@@ -316,21 +316,19 @@ If the release workflow fails after the release has been published:
 
 2. **Fix the underlying issue** following the normal development process (issue → branch → PR → merge). Wait until the fix is merged and all CI workflows against `main` pass before continuing.
 
-3. **Update the release summary issue** if the fix introduced changes that should be reflected in the summary (e.g. new PRs merged as part of the fix). Reopen the issue, update the body preserving any existing sections, and close it again. `$ISSUE_URL` refers to the release summary issue created in step 3 of the normal release process — if it is no longer in scope, assign it first:
+3. **Update the release summary issue** if the fix introduced changes that should be reflected in the summary (e.g. new PRs merged as part of the fix). Reopen the issue, update the body preserving any existing sections, and close it again. `$ISSUE_URL` refers to the release summary issue created in step 3 of the normal release process — if it is no longer in scope, redefine `$ISSUE_URL`:
 
    ```bash
    ISSUE_URL=$(gh issue list --label release-summary --state closed --limit 1 --json url --jq '.[0].url')
    ```
 
-   Then reopen, fetch the existing body, edit it, and close:
+   Then reopen, write the updated body to a temp file (preserving existing sections), and close:
 
    ```bash
    gh issue reopen "$ISSUE_URL"
-   gh issue view "$ISSUE_URL" --json body --jq .body  # review existing content before editing
-   gh issue edit "$ISSUE_URL" --body "$(cat <<'EOF'
-   <full updated body, preserving existing sections>
-   EOF
-   )"
+   gh issue view "$ISSUE_URL" --json body --jq .body > /tmp/release_summary.md
+   # edit /tmp/release_summary.md to add or update sections
+   gh issue edit "$ISSUE_URL" --body-file /tmp/release_summary.md
    gh issue close "$ISSUE_URL"
    ```
 
