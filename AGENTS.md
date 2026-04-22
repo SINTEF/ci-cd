@@ -216,8 +216,6 @@ Include:
 
 Releases are triggered manually. The steps below cover the full process from deciding the version number to verifying the CI release workflow.
 
-**Prerequisite — `RELEASE_PAT` secret:** The `CD - Release` workflow pushes version-bumped files back to `main`, including files under `.github/workflows/`. Pushing workflow files requires the `workflow` scope on the token. GitHub Actions GITHUB_TOKEN cannot be granted this scope via the `permissions:` key in a workflow file — it is a PAT-only capability. Ensure the `RELEASE_PAT` repository secret is set to a classic PAT (or fine-grained PAT with workflow read/write) belonging to an account with push access. Without a valid `RELEASE_PAT`, the release workflow will fail with: `refusing to allow a GitHub App to create or update workflow … without workflows permission`.
-
 Throughout this section, `<version>` refers to the bare version number without a `v` prefix (e.g. `2.9.2`). The `v` prefix is written explicitly wherever it is needed (e.g. `v<version>` → `v2.9.2`).
 
 ### 1. Determine the version bump
@@ -305,10 +303,6 @@ gh run watch <run-id>
 The workflow updates the changelog, bumps the package version, and commits back to `main`. All jobs must finish with a green tick before the release is considered done.
 
 ### Handling a failed release
-
-**Common failure: `refusing to allow a GitHub App to create or update workflow … without workflows permission`**
-
-This error means the token used by the push step does not have the `workflow` scope. It cannot be fixed by adding `workflows: write` to the `permissions:` block — that key is not valid for GitHub Actions GITHUB_TOKEN (only for PATs). The fix is to ensure `RELEASE_PAT` is set and has the `workflow` scope (see the prerequisite note at the top of this section).
 
 If the release workflow fails after the release has been published:
 
