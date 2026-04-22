@@ -275,11 +275,12 @@ If the release workflow fails after the release has been published:
    ```bash
    gh release delete v<version> --yes
    git push origin :refs/tags/v<version>
+   git tag -d v<version>
    ```
 
 2. **Fix the underlying issue** following the normal development process (branch → PR → merge). Wait until the fix is merged and all CI workflows against `main` pass before continuing.
 
-3. **Update the release summary issue** if the fix introduced changes that should be reflected in the summary (e.g. new PRs merged as part of the fix). Reopen the issue, edit the body, and close it again:
+3. **Update the release summary issue** if the fix introduced changes that should be reflected in the summary (e.g. new PRs merged as part of the fix). Reopen the issue, edit the body, and close it again. `$ISSUE_URL` refers to the release summary issue created in step 3 of the normal release process — if it is no longer in scope, find it with `gh issue list --label release-summary --state closed --limit 5`:
 
    ```bash
    gh issue reopen "$ISSUE_URL"
