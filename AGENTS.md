@@ -15,6 +15,7 @@ After editing any files, always run `pre-commit run -a` until it exits with succ
 Always invoke `pre-commit` using the full path to the virtual environment binary rather than relying on a system-level installation. Use the first path that exists:
 
 ```bash
+PRE_COMMIT=
 for p in venv/bin/pre-commit .venv/bin/pre-commit ~/.venv/ci-cd/bin/pre-commit; do
   [ -x "$p" ] && { PRE_COMMIT="$p"; break; }
 done
@@ -67,7 +68,7 @@ All tests must pass and no new warnings should be introduced — the suite is co
 Open pull requests against `main` on GitHub (`SINTEF/ci-cd`) using the `gh` CLI:
 
 ```bash
-gh pr create --title "<title>" --base main --reviewer "copilot" --body "$(cat <<'EOF'
+gh pr create --title "<title>" --base main --reviewer "@copilot" --body "$(cat <<'EOF'
 <description>
 
 ## Squash commit message
