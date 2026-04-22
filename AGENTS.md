@@ -28,22 +28,28 @@ If none of these exist, the guard will exit with an error. In that case, ask the
 
 ## Issues
 
-Before starting any non-trivial change, open a GitHub issue that describes the problem or feature. A good issue includes:
+Before starting any bug fix or feature change, open a GitHub issue that describes the problem or feature. A good issue includes:
 
 - A clear statement of the problem or goal.
-- Linked references to where the issue was observed or is likely to occur (e.g. file paths, line numbers, workflow run URLs, PR/commit links).
+- Context: where the issue was observed or is likely to occur, with concrete references (file paths, line numbers, workflow run URLs, PR/commit links) and an explanation of why each is relevant.
 - A minimal reproduction or example, if relevant (error output, a failing command, a short code snippet).
-- A considerations section sketching one or more possible approaches and their trade-offs, so reviewers can weigh in before work begins.
+- A considerations section sketching one or more possible approaches and their trade-offs.
+
+Proceed with branching immediately after creating the issue unless the human contributor asks you to wait for feedback first.
 
 ```bash
-gh issue create --title "<title>" --body "$(cat <<'EOF'
-## Problem
+gh issue create --title "<title>" --assignee @me --body "$(cat <<'EOF'
+## Problem / Goal
 
 <description>
 
-## References
+## Context
 
-<links>
+<references with explanation>
+
+## Reproduction
+
+<steps, command output, or code snippet — omit if not applicable>
 
 ## Considerations
 
@@ -93,8 +99,12 @@ All tests must pass and no new warnings should be introduced — the suite is co
 
 Open pull requests against `main` on GitHub (`SINTEF/ci-cd`) using the `gh` CLI:
 
+If the PR addresses an issue, include `Fixes #<number>` at the top of the description so GitHub closes the issue automatically on merge.
+
 ```bash
 gh pr create --title "<title>" --base main --reviewer "@copilot" --body "$(cat <<'EOF'
+Fixes #<number>.
+
 <description>
 
 ## Squash commit message
