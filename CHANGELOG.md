@@ -2,23 +2,97 @@
 
 ## [Unreleased](https://github.com/SINTEF/ci-cd/tree/HEAD)
 
-[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.9.2...HEAD)
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.10.0...HEAD)
 
-## Introduce `system_dependencies` for all relevant workflows
+**Fixed bugs:**
 
-A `system_dependencies` input has been added to all workflows that install the local Python package. This is to install Ubuntu APT package prior to installing the Python package.
+- CI/CD - New updates to main workflow fails when pushing to protected branches [\#411](https://github.com/SINTEF/ci-cd/issues/411)
 
-Where the `system_dependencies` input was already defined, it has now been elevated to a general input that will work for other jobs in the same workflow as well.
+## [v2.10.0](https://github.com/SINTEF/ci-cd/tree/v2.10.0) (2026-04-22)
 
-Update documentation accordingly.
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.9.2...v2.10.0)
+
+## Deprecate `pylint` and `safety` CI jobs
+
+The `run_pylint` and `run_safety` inputs in `ci_tests.yml` are now deprecated and default to `false`. Users are encouraged to migrate to `pre-commit` hooks for linting and to the dedicated Safety GitHub Action or `pip-audit` for vulnerability scanning.
 
 ## DX
 
-Update dependencies and developer tools.
+Update dependencies, developer tools, and add `AGENTS.md` with agent guidelines.
 
-**Implemented enhancements:**
 
-- Support install system dependencies prior to Python package [\#327](https://github.com/SINTEF/ci-cd/issues/327)
+**Fixed bugs:**
+
+- CD - Release workflow fails to push workflow file changes due to missing 'workflows' permission [\#406](https://github.com/SINTEF/ci-cd/issues/406)
+
+**Closed issues:**
+
+- Invalid 'workflows' key in \_local\_cd\_release.yml permissions block [\#409](https://github.com/SINTEF/ci-cd/issues/409)
+- Pass env variables to `GITHUB_ENV` after definition [\#234](https://github.com/SINTEF/ci-cd/issues/234)
+
+**Merged pull requests:**
+
+- Pass PAT to checkout token in CI/CD updated-main workflow [\#412](https://github.com/SINTEF/ci-cd/pull/412) ([CasperWA-ai-bot](https://github.com/CasperWA-ai-bot))
+- Remove invalid workflows permission key [\#410](https://github.com/SINTEF/ci-cd/pull/410) ([CasperWA-ai-bot](https://github.com/CasperWA-ai-bot))
+- Document release failure recovery procedure [\#408](https://github.com/SINTEF/ci-cd/pull/408) ([CasperWA-ai-bot](https://github.com/CasperWA-ai-bot))
+- Grant workflows permission to CD release workflow [\#407](https://github.com/SINTEF/ci-cd/pull/407) ([CasperWA-ai-bot](https://github.com/CasperWA-ai-bot))
+- Add missing release summary step to release process [\#405](https://github.com/SINTEF/ci-cd/pull/405) ([CasperWA-ai-bot](https://github.com/CasperWA-ai-bot))
+- Add AGENTS.md with agent guidelines [\#403](https://github.com/SINTEF/ci-cd/pull/403) ([CasperWA-ai-bot](https://github.com/CasperWA-ai-bot))
+- \[pre-commit.ci\] pre-commit autoupdate [\#402](https://github.com/SINTEF/ci-cd/pull/402) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#398](https://github.com/SINTEF/ci-cd/pull/398) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[Auto-generated\] Update dependencies [\#397](https://github.com/SINTEF/ci-cd/pull/397) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[pre-commit.ci\] pre-commit autoupdate [\#396](https://github.com/SINTEF/ci-cd/pull/396) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#394](https://github.com/SINTEF/ci-cd/pull/394) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#393](https://github.com/SINTEF/ci-cd/pull/393) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#392](https://github.com/SINTEF/ci-cd/pull/392) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[Auto-generated\] Update dependencies [\#391](https://github.com/SINTEF/ci-cd/pull/391) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[pre-commit.ci\] pre-commit autoupdate [\#389](https://github.com/SINTEF/ci-cd/pull/389) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#388](https://github.com/SINTEF/ci-cd/pull/388) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#387](https://github.com/SINTEF/ci-cd/pull/387) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[Auto-generated\] Update dependencies [\#386](https://github.com/SINTEF/ci-cd/pull/386) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[pre-commit.ci\] pre-commit autoupdate [\#385](https://github.com/SINTEF/ci-cd/pull/385) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#383](https://github.com/SINTEF/ci-cd/pull/383) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#382](https://github.com/SINTEF/ci-cd/pull/382) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[Auto-generated\] Update dependencies [\#381](https://github.com/SINTEF/ci-cd/pull/381) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[pre-commit.ci\] pre-commit autoupdate [\#380](https://github.com/SINTEF/ci-cd/pull/380) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#379](https://github.com/SINTEF/ci-cd/pull/379) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#376](https://github.com/SINTEF/ci-cd/pull/376) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[Auto-generated\] Update dependencies [\#375](https://github.com/SINTEF/ci-cd/pull/375) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[pre-commit.ci\] pre-commit autoupdate [\#374](https://github.com/SINTEF/ci-cd/pull/374) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#372](https://github.com/SINTEF/ci-cd/pull/372) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#370](https://github.com/SINTEF/ci-cd/pull/370) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[Auto-generated\] Update dependencies [\#369](https://github.com/SINTEF/ci-cd/pull/369) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[pre-commit.ci\] pre-commit autoupdate [\#367](https://github.com/SINTEF/ci-cd/pull/367) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#366](https://github.com/SINTEF/ci-cd/pull/366) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#365](https://github.com/SINTEF/ci-cd/pull/365) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[Auto-generated\] Update dependencies [\#364](https://github.com/SINTEF/ci-cd/pull/364) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[pre-commit.ci\] pre-commit autoupdate [\#363](https://github.com/SINTEF/ci-cd/pull/363) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#362](https://github.com/SINTEF/ci-cd/pull/362) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#361](https://github.com/SINTEF/ci-cd/pull/361) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#360](https://github.com/SINTEF/ci-cd/pull/360) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[Auto-generated\] Update dependencies [\#358](https://github.com/SINTEF/ci-cd/pull/358) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[pre-commit.ci\] pre-commit autoupdate [\#356](https://github.com/SINTEF/ci-cd/pull/356) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#355](https://github.com/SINTEF/ci-cd/pull/355) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#353](https://github.com/SINTEF/ci-cd/pull/353) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[Auto-generated\] Update dependencies [\#352](https://github.com/SINTEF/ci-cd/pull/352) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[pre-commit.ci\] pre-commit autoupdate [\#351](https://github.com/SINTEF/ci-cd/pull/351) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#350](https://github.com/SINTEF/ci-cd/pull/350) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[Auto-generated\] Update dependencies [\#349](https://github.com/SINTEF/ci-cd/pull/349) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[pre-commit.ci\] pre-commit autoupdate [\#347](https://github.com/SINTEF/ci-cd/pull/347) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#346](https://github.com/SINTEF/ci-cd/pull/346) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[Auto-generated\] Update dependencies [\#344](https://github.com/SINTEF/ci-cd/pull/344) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[pre-commit.ci\] pre-commit autoupdate [\#343](https://github.com/SINTEF/ci-cd/pull/343) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#342](https://github.com/SINTEF/ci-cd/pull/342) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#341](https://github.com/SINTEF/ci-cd/pull/341) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#340](https://github.com/SINTEF/ci-cd/pull/340) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[Auto-generated\] Update dependencies [\#339](https://github.com/SINTEF/ci-cd/pull/339) ([TEAM4-0](https://github.com/TEAM4-0))
+- Deprecate the pylint+safety CI tests job [\#338](https://github.com/SINTEF/ci-cd/pull/338) ([CasperWA](https://github.com/CasperWA))
+- \[pre-commit.ci\] pre-commit autoupdate [\#336](https://github.com/SINTEF/ci-cd/pull/336) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#335](https://github.com/SINTEF/ci-cd/pull/335) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[Auto-generated\] Update dependencies [\#334](https://github.com/SINTEF/ci-cd/pull/334) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[pre-commit.ci\] pre-commit autoupdate [\#332](https://github.com/SINTEF/ci-cd/pull/332) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#331](https://github.com/SINTEF/ci-cd/pull/331) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#330](https://github.com/SINTEF/ci-cd/pull/330) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
 
 ## [v2.9.2](https://github.com/SINTEF/ci-cd/tree/v2.9.2) (2025-03-07)
 
@@ -35,6 +109,10 @@ Update documentation accordingly.
 ## DX
 
 Update dependencies and developer tools.
+
+**Implemented enhancements:**
+
+- Support install system dependencies prior to Python package [\#327](https://github.com/SINTEF/ci-cd/issues/327)
 
 **Merged pull requests:**
 
