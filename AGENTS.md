@@ -18,6 +18,7 @@ Always invoke `pre-commit` using the full path to the virtual environment binary
 for p in venv/bin/pre-commit .venv/bin/pre-commit ~/.venv/ci-cd/bin/pre-commit; do
   [ -x "$p" ] && { PRE_COMMIT="$p"; break; }
 done
+[ -n "$PRE_COMMIT" ] || { echo "pre-commit not found; ask the user for the correct path" >&2; exit 1; }
 # Then invoke via the resolved path, e.g.:
 $PRE_COMMIT run -a
 ```
@@ -122,8 +123,8 @@ The `## Squash commit message` heading must appear literally at the start of a l
 
 ```bash
 CURRENT_BODY=$(gh pr view <number> --json body -q .body)
-TRIMMED=$(echo "$CURRENT_BODY" | sed '/^## Squash commit message/,$d')
-gh pr edit <number> --body "$(cat <<'EOF'
+TRIMMED=$(printf '%s\n' "$CURRENT_BODY" | sed '/^## Squash commit message/,$d')
+gh pr edit <number> --body "$(cat <<EOF
 ${TRIMMED}
 ## Squash commit message
 
@@ -255,4 +256,4 @@ This repository is self-referential — it consumes its own reusable workflows (
 
 ### Auto-generated documentation
 
-[`docs/api_reference/`](docs/api_reference/) is auto-generated via the `api-reference-docs` pre-commit hook and the `api_reference_docs` invoke task — do not edit those files manually.
+[`docs/api_reference/`](docs/api_reference/) is auto-generated via the `docs-api-reference` pre-commit hook (which runs `ci-cd create-api-reference-docs`) — do not edit those files manually.
