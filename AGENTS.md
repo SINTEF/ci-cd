@@ -306,6 +306,8 @@ The workflow updates the changelog, bumps the package version, and commits back 
 
 If the release workflow fails after the release has been published:
 
+If the failure is clearly transient — e.g. a required CI check failed because an external service (such as Codecov) was temporarily unavailable, not because of a code bug — complete step 1, then skip steps 2 and 3 and proceed directly to step 4 (Re-publish the release).
+
 1. **Delete the release and the associated tag** to allow re-running:
 
    ```bash

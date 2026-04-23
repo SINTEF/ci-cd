@@ -65,7 +65,7 @@ jobs:
       if: matrix.python-version == '3.9' && github.repository == 'SINTEF/ci-cd'
       uses: codecov/codecov-action@v6
       with:
-        fail_ci_if_error: true
+        fail_ci_if_error: false
         token: ${{ secrets.CODECOV_TOKEN }}
 
   # These jobs are mainly to test a default run of the hooks including `--pre-commit`
