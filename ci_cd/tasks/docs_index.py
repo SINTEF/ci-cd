@@ -56,7 +56,7 @@ def create_docs_index(
         root_repo_path: str = root_repo_path  # type: ignore[no-redef]
         replacement_separator: str = replacement_separator  # type: ignore[no-redef]
 
-    docs_folder: Path = Path(docs_folder)
+    docs_folder = Path(docs_folder)
 
     if not replacement:
         replacement: list[str] = []  # type: ignore[no-redef]
@@ -67,7 +67,7 @@ def create_docs_index(
         result: Result = context.run("git rev-parse --show-toplevel", hide=True)
         root_repo_path = result.stdout.strip("\n")
 
-    root_repo_path: Path = Path(root_repo_path).resolve()
+    root_repo_path = Path(root_repo_path).resolve()
     readme = root_repo_path / "README.md"
     docs_index = root_repo_path / docs_folder / "index.md"
 

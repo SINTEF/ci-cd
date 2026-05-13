@@ -134,7 +134,7 @@ def create_api_reference_docs(
         special_option: list[str] = []  # type: ignore[no-redef]
 
     # Initialize user-given paths as pure POSIX paths
-    package_dir: list[PurePosixPath] = [PurePosixPath(_) for _ in package_dir]
+    package_dir = [PurePosixPath(_) for _ in package_dir]
     root_repo_path = str(PurePosixPath(root_repo_path))
     docs_folder: PurePosixPath = PurePosixPath(docs_folder)  # type: ignore[no-redef]
     full_docs_folder = [Path(PurePosixPath(_)) for _ in full_docs_folder]
