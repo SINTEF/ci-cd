@@ -216,7 +216,7 @@ jobs:
 
     - name: Checkout ${{ github.repository }}
       if: steps.release_check.outputs.release_run == 'false'
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
       with:
         fetch-depth: 0
         token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
@@ -469,7 +469,7 @@ jobs:
 
     steps:
     - name: Checkout ${{ github.repository }}
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
       with:
         ref: ${{ inputs.permanent_dependencies_branch }}
         fetch-depth: 0
