@@ -192,7 +192,7 @@ jobs:
         fi
 
     - name: Checkout ${{ github.repository }}
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
       with:
         fetch-depth: 0
         token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
@@ -409,7 +409,7 @@ jobs:
         fi
 
     - name: Checkout ${{ github.repository }}
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
       with:
         fetch-depth: 0
         ref: ${{ inputs.release_branch }}
