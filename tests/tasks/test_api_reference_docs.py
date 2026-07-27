@@ -216,8 +216,10 @@ def test_special_options(tmp_path: Path) -> None:
         special_option=[
             'main.py,test_option: "yup"',
             "main.py,another_special_option: true",
-            "exceptions.py,my_special_option: |"
-            f"\n{' ' * 8}multi-line-thing\n{' ' * 8}another line",
+            (
+                "exceptions.py,my_special_option: |"
+                f"\n{' ' * 8}multi-line-thing\n{' ' * 8}another line"
+            ),
         ],
     )
 
@@ -343,8 +345,10 @@ def test_special_options_multiple_packages(tmp_path: Path) -> None:
         special_option=[
             'ci_cd/main.py,test_option: "yup"',
             "ci_cd/main.py,another_special_option: true",
-            "ci_cd_again/exceptions.py,my_special_option: |"
-            f"\n{' ' * 8}multi-line-thing\n{' ' * 8}another line",
+            (
+                "ci_cd_again/exceptions.py,my_special_option: |"
+                f"\n{' ' * 8}multi-line-thing\n{' ' * 8}another line"
+            ),
         ],
     )
 
