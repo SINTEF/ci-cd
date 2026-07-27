@@ -456,8 +456,10 @@ def test_invalid_code_base_update_regex(
             version="0.1.0",
             code_base_update=[
                 rf"{file_to_update.resolve()},version = '.*',version = '{{version}}",
-                rf"{file_to_update.resolve()},version = \(?:'|\").*',version = "
-                rf"'{{version}}",
+                (
+                    rf"{file_to_update.resolve()},version = \(?:'|\").*',version = "
+                    rf"'{{version}}"
+                ),
             ],
             code_base_update_separator=",",
             fail_fast=fail_fast,

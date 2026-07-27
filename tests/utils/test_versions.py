@@ -886,8 +886,7 @@ Instead, ignore_version() is {not expected_outcome}
         ),
         (
             [
-                "dependency-name=test...versions=>2.2.2..."
-                "update-types=version-update:semver-patch"
+                "dependency-name=test...versions=>2.2.2...update-types=version-update:semver-patch"
             ],
             "...",
             {
@@ -899,8 +898,7 @@ Instead, ignore_version() is {not expected_outcome}
         ),
         (
             [
-                "dependency-name=test;versions=>2.2.2;"
-                "update-types=version-update:semver-patch"
+                "dependency-name=test;versions=>2.2.2;update-types=version-update:semver-patch"
             ],
             ";",
             {
@@ -912,8 +910,7 @@ Instead, ignore_version() is {not expected_outcome}
         ),
         (
             [
-                "dependency-name=test...versions=>2.2.2..."
-                "update-types=version-update:semver-patch",
+                "dependency-name=test...versions=>2.2.2...update-types=version-update:semver-patch",
                 "dependency-name=test...versions=<3",
             ],
             "...",
@@ -926,8 +923,7 @@ Instead, ignore_version() is {not expected_outcome}
         ),
         (
             [
-                "dependency-name=test;versions=>2.2.2;"
-                "update-types=version-update:semver-patch",
+                "dependency-name=test;versions=>2.2.2;update-types=version-update:semver-patch",
                 "dependency-name=test;versions=<3",
             ],
             ";",
@@ -940,10 +936,8 @@ Instead, ignore_version() is {not expected_outcome}
         ),
         (
             [
-                "dependency-name=test...versions=>2.2.2..."
-                "update-types=version-update:semver-patch",
-                "dependency-name=test...versions=<3..."
-                "update-types=version-update:semver-major",
+                "dependency-name=test...versions=>2.2.2...update-types=version-update:semver-patch",
+                "dependency-name=test...versions=<3...update-types=version-update:semver-major",
             ],
             "...",
             {
@@ -958,10 +952,8 @@ Instead, ignore_version() is {not expected_outcome}
         ),
         (
             [
-                "dependency-name=test;versions=>2.2.2;"
-                "update-types=version-update:semver-patch",
-                "dependency-name=test;versions=<3;"
-                "update-types=version-update:semver-major",
+                "dependency-name=test;versions=>2.2.2;update-types=version-update:semver-patch",
+                "dependency-name=test;versions=<3;update-types=version-update:semver-major",
             ],
             ";",
             {

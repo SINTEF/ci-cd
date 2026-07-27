@@ -194,13 +194,11 @@ special_option: %s""",
     special_options_files = defaultdict(list)
     for special_file, option in [_.split(",", maxsplit=1) for _ in special_option]:
         if any("," in _ for _ in (special_file, option)):
-            LOGGER.error(
-                "Failing for special-option: %s", ",".join([special_file, option])
-            )
+            LOGGER.error("Failing for special-option: %s", f"{special_file},{option}")
             if debug:
                 print(
                     "Failing for special-option:",
-                    ",".join([special_file, option]),
+                    f"{special_file},{option}",
                     flush=True,
                 )
             sys.exit(
