@@ -1414,7 +1414,7 @@ https://packaging.python.org/en/latest/specifications/name-normalization/</p>
 
 
 <h3 id="ci_cd.tasks.update_deps.update_deps" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">update_deps</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">root_repo_path</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">fail_fast</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">pre_commit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ignore_separator</span><span class="o">=</span><span class="s1">&#39;...&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip_unnormalized_python_package_names</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">update_deps</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">root_repo_path</span><span class="o">=</span><span class="s1">'.'</span><span class="p">,</span> <span class="n">fail_fast</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">pre_commit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ignore_separator</span><span class="o">=</span><span class="s1">'...'</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip_unnormalized_python_package_names</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
 
 <a href="#ci_cd.tasks.update_deps.update_deps" class="headerlink" title="Permanent link">&para;</a></h3>
@@ -1427,47 +1427,47 @@ https://packaging.python.org/en/latest/specifications/name-normalization/</p>
           <summary>Source code in <code>ci_cd/tasks/update_deps.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@task</span><span class="p">(</span>
     <span class="n">help</span><span class="o">=</span><span class="p">{</span>
-        <span class="s2">&quot;fail-fast&quot;</span><span class="p">:</span> <span class="p">(</span>
-            <span class="s2">&quot;Fail immediately if an error occurs. Otherwise, print and ignore all &quot;</span>
-            <span class="s2">&quot;non-critical errors.&quot;</span>
+        <span class="s2">"fail-fast"</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"Fail immediately if an error occurs. Otherwise, print and ignore all "</span>
+            <span class="s2">"non-critical errors."</span>
         <span class="p">),</span>
-        <span class="s2">&quot;root-repo-path&quot;</span><span class="p">:</span> <span class="p">(</span>
-            <span class="s2">&quot;A resolvable path to the root directory of the repository folder.&quot;</span>
+        <span class="s2">"root-repo-path"</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"A resolvable path to the root directory of the repository folder."</span>
         <span class="p">),</span>
-        <span class="s2">&quot;pre-commit&quot;</span><span class="p">:</span> <span class="s2">&quot;Whether or not this task is run as a pre-commit hook.&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ignore&quot;</span><span class="p">:</span> <span class="p">(</span>
-            <span class="s2">&quot;Ignore-rules based on the `ignore` config option of Dependabot. It &quot;</span>
-            <span class="s2">&quot;should be of the format: key=value...key=value, i.e., an ellipsis &quot;</span>
-            <span class="s2">&quot;(`...`) separator and then equal-sign-separated key/value-pairs. &quot;</span>
-            <span class="s2">&quot;Alternatively, the `--ignore-separator` can be set to something else to &quot;</span>
-            <span class="s2">&quot;overwrite the ellipsis. The only supported keys are: `dependency-name`, &quot;</span>
-            <span class="s2">&quot;`versions`, and `update-types`. Can be supplied multiple times per &quot;</span>
-            <span class="s2">&quot;`dependency-name`.&quot;</span>
+        <span class="s2">"pre-commit"</span><span class="p">:</span> <span class="s2">"Whether or not this task is run as a pre-commit hook."</span><span class="p">,</span>
+        <span class="s2">"ignore"</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"Ignore-rules based on the `ignore` config option of Dependabot. It "</span>
+            <span class="s2">"should be of the format: key=value...key=value, i.e., an ellipsis "</span>
+            <span class="s2">"(`...`) separator and then equal-sign-separated key/value-pairs. "</span>
+            <span class="s2">"Alternatively, the `--ignore-separator` can be set to something else to "</span>
+            <span class="s2">"overwrite the ellipsis. The only supported keys are: `dependency-name`, "</span>
+            <span class="s2">"`versions`, and `update-types`. Can be supplied multiple times per "</span>
+            <span class="s2">"`dependency-name`."</span>
         <span class="p">),</span>
-        <span class="s2">&quot;ignore-separator&quot;</span><span class="p">:</span> <span class="p">(</span>
-            <span class="s2">&quot;Value to use instead of ellipsis (`...`) as a separator in `--ignore` &quot;</span>
-            <span class="s2">&quot;key/value-pairs.&quot;</span>
+        <span class="s2">"ignore-separator"</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"Value to use instead of ellipsis (`...`) as a separator in `--ignore` "</span>
+            <span class="s2">"key/value-pairs."</span>
         <span class="p">),</span>
-        <span class="s2">&quot;verbose&quot;</span><span class="p">:</span> <span class="s2">&quot;Whether or not to print debug statements.&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;skip-unnormalized-python-package-names&quot;</span><span class="p">:</span> <span class="p">(</span>
-            <span class="s2">&quot;Whether to skip dependencies with unnormalized Python package names. &quot;</span>
-            <span class="s2">&quot;Normalization is outlined here: &quot;</span>
-            <span class="s2">&quot;https://packaging.python.org/en/latest/specifications/name-normalization.&quot;</span>
+        <span class="s2">"verbose"</span><span class="p">:</span> <span class="s2">"Whether or not to print debug statements."</span><span class="p">,</span>
+        <span class="s2">"skip-unnormalized-python-package-names"</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"Whether to skip dependencies with unnormalized Python package names. "</span>
+            <span class="s2">"Normalization is outlined here: "</span>
+            <span class="s2">"https://packaging.python.org/en/latest/specifications/name-normalization."</span>
         <span class="p">),</span>
     <span class="p">},</span>
-    <span class="n">iterable</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ignore&quot;</span><span class="p">],</span>
+    <span class="n">iterable</span><span class="o">=</span><span class="p">[</span><span class="s2">"ignore"</span><span class="p">],</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">update_deps</span><span class="p">(</span>
     <span class="n">context</span><span class="p">,</span>
-    <span class="n">root_repo_path</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span>
+    <span class="n">root_repo_path</span><span class="o">=</span><span class="s2">"."</span><span class="p">,</span>
     <span class="n">fail_fast</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">pre_commit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">ignore</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">ignore_separator</span><span class="o">=</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
+    <span class="n">ignore_separator</span><span class="o">=</span><span class="s2">"..."</span><span class="p">,</span>
     <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">skip_unnormalized_python_package_names</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Update dependencies in specified Python package&#39;s `pyproject.toml`.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Update dependencies in specified Python package's `pyproject.toml`."""</span>
     <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
         <span class="n">context</span><span class="p">:</span> <span class="n">Context</span> <span class="o">=</span> <span class="n">context</span>  <span class="c1"># type: ignore[no-redef]</span>
         <span class="n">root_repo_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">root_repo_path</span>  <span class="c1"># type: ignore[no-redef]</span>
@@ -1484,27 +1484,27 @@ https://packaging.python.org/en/latest/specifications/name-normalization/</p>
 
     <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
         <span class="n">LOGGER</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">))</span>
-        <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Verbose logging enabled.&quot;</span><span class="p">)</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Verbose logging enabled."</span><span class="p">)</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">ignore_rules</span> <span class="o">=</span> <span class="n">parse_ignore_entries</span><span class="p">(</span><span class="n">ignore</span><span class="p">,</span> <span class="n">ignore_separator</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">InputError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CROSS_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> Error: Could not parse ignore options.</span><span class="se">\n</span><span class="s2">&quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;Exception: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CROSS_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> Error: Could not parse ignore options.</span><span class="se">\n</span><span class="s2">"</span>
+            <span class="sa">f</span><span class="s2">"Exception: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">"</span>
         <span class="p">)</span>
-    <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Parsed ignore rules: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">ignore_rules</span><span class="p">)</span>
+    <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Parsed ignore rules: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">ignore_rules</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">pre_commit</span> <span class="ow">and</span> <span class="n">root_repo_path</span> <span class="o">==</span> <span class="s2">&quot;.&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">pre_commit</span> <span class="ow">and</span> <span class="n">root_repo_path</span> <span class="o">==</span> <span class="s2">"."</span><span class="p">:</span>
         <span class="c1"># Use git to determine repo root</span>
-        <span class="n">result</span><span class="p">:</span> <span class="n">Result</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;git rev-parse --show-toplevel&quot;</span><span class="p">,</span> <span class="n">hide</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">root_repo_path</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">result</span><span class="p">:</span> <span class="n">Result</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">"git rev-parse --show-toplevel"</span><span class="p">,</span> <span class="n">hide</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">root_repo_path</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
 
-    <span class="n">pyproject_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">root_repo_path</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span> <span class="o">/</span> <span class="s2">&quot;pyproject.toml&quot;</span>
+    <span class="n">pyproject_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">root_repo_path</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span> <span class="o">/</span> <span class="s2">"pyproject.toml"</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">pyproject_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CROSS_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> Error: Could not find the Python package &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;repository&#39;s &#39;pyproject.toml&#39; file at: </span><span class="si">{</span><span class="n">pyproject_path</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CROSS_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> Error: Could not find the Python package "</span>
+            <span class="sa">f</span><span class="s2">"repository's 'pyproject.toml' file at: </span><span class="si">{</span><span class="n">pyproject_path</span><span class="si">}</span><span class="s2">"</span>
         <span class="p">)</span>
 
     <span class="c1"># Parse pyproject.toml</span>
@@ -1512,34 +1512,34 @@ https://packaging.python.org/en/latest/specifications/name-normalization/</p>
         <span class="n">pyproject</span> <span class="o">=</span> <span class="n">tomlkit</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">pyproject_path</span><span class="o">.</span><span class="n">read_bytes</span><span class="p">())</span>
     <span class="k">except</span> <span class="n">TOMLKitError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CROSS_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> Error: Could not parse the &#39;pyproject.toml&#39; &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;file at: </span><span class="si">{</span><span class="n">pyproject_path</span><span class="si">}</span><span class="se">\n</span><span class="s2">Exception: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CROSS_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> Error: Could not parse the 'pyproject.toml' "</span>
+            <span class="sa">f</span><span class="s2">"file at: </span><span class="si">{</span><span class="n">pyproject_path</span><span class="si">}</span><span class="se">\n</span><span class="s2">Exception: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">"</span>
         <span class="p">)</span>
 
     <span class="c1"># Retrieve the minimum required Python version</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">py_version</span> <span class="o">=</span> <span class="n">get_min_max_py_version</span><span class="p">(</span>
-            <span class="n">pyproject</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;project&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;requires-python&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">pyproject</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"project"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"requires-python"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
         <span class="p">)</span>
     <span class="k">except</span> <span class="n">UnableToResolve</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CROSS_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> Error: Cannot determine minimum Python version.&quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Exception: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CROSS_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> Error: Cannot determine minimum Python version."</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Exception: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">"</span>
         <span class="p">)</span>
-    <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Minimum required Python version: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">py_version</span><span class="p">)</span>
+    <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Minimum required Python version: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">py_version</span><span class="p">)</span>
 
-    <span class="c1"># Retrieve the Python project&#39;s package name</span>
-    <span class="n">project_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">pyproject</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;project&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="c1"># Retrieve the Python project's package name</span>
+    <span class="n">project_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">pyproject</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"project"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"name"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">project_name</span><span class="p">:</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CROSS_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> Error: Could not find the Python project&#39;s name&quot;</span>
-            <span class="s2">&quot; in &#39;pyproject.toml&#39;.&quot;</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CROSS_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> Error: Could not find the Python project's name"</span>
+            <span class="s2">" in 'pyproject.toml'."</span>
         <span class="p">)</span>
 
     <span class="c1"># Build the list of dependencies listed in pyproject.toml</span>
-    <span class="n">dependencies</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">pyproject</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;project&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;dependencies&quot;</span><span class="p">,</span> <span class="p">[])</span>
+    <span class="n">dependencies</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">pyproject</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"project"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"dependencies"</span><span class="p">,</span> <span class="p">[])</span>
     <span class="k">for</span> <span class="n">optional_deps</span> <span class="ow">in</span> <span class="p">(</span>
-        <span class="n">pyproject</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;project&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;optional-dependencies&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+        <span class="n">pyproject</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"project"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"optional-dependencies"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
     <span class="p">):</span>
         <span class="n">dependencies</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">optional_deps</span><span class="p">)</span>
 
@@ -1554,25 +1554,25 @@ https://packaging.python.org/en/latest/specifications/name-normalization/</p>
         <span class="k">except</span> <span class="n">InvalidRequirement</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">skip_unnormalized_python_package_names</span><span class="p">:</span>
                 <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Skipping requirement </span><span class="si">{</span><span class="n">dependency</span><span class="si">!r}</span><span class="s2">, as unnormalized Python &quot;</span>
-                    <span class="s2">&quot;package naming is allowed by user. Note, the requirements could &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;not be parsed: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="sa">f</span><span class="s2">"Skipping requirement </span><span class="si">{</span><span class="n">dependency</span><span class="si">!r}</span><span class="s2">, as unnormalized Python "</span>
+                    <span class="s2">"package naming is allowed by user. Note, the requirements could "</span>
+                    <span class="sa">f</span><span class="s2">"not be parsed: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">"</span>
                 <span class="p">)</span>
                 <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
                 <span class="nb">print</span><span class="p">(</span><span class="n">info_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">),</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
                 <span class="k">continue</span>
 
             <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Could not parse requirement </span><span class="si">{</span><span class="n">dependency</span><span class="si">!r}</span><span class="s2"> from pyproject.toml: &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"Could not parse requirement </span><span class="si">{</span><span class="n">dependency</span><span class="si">!r}</span><span class="s2"> from pyproject.toml: "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
             <span class="n">LOGGER</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">fail_fast</span><span class="p">:</span>
-                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CROSS_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">error_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CROSS_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">error_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">error_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">),</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="n">error</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">continue</span>
-        <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Parsed requirement: </span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">parsed_requirement</span><span class="p">)</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Parsed requirement: </span><span class="si">%r</span><span class="s2">"</span><span class="p">,</span> <span class="n">parsed_requirement</span><span class="p">)</span>
 
         <span class="c1"># Skip package if already handled</span>
         <span class="k">if</span> <span class="n">parsed_requirement</span> <span class="ow">in</span> <span class="n">already_handled_packages</span><span class="p">:</span>
@@ -1582,8 +1582,8 @@ https://packaging.python.org/en/latest/specifications/name-normalization/</p>
         <span class="c1"># dependencies)</span>
         <span class="k">if</span> <span class="n">parsed_requirement</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">project_name</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Dependency </span><span class="si">{</span><span class="n">parsed_requirement</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2"> is detected as being this &quot;</span>
-                <span class="s2">&quot;project and will be skipped.&quot;</span>
+                <span class="sa">f</span><span class="s2">"Dependency </span><span class="si">{</span><span class="n">parsed_requirement</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2"> is detected as being this "</span>
+                <span class="s2">"project and will be skipped."</span>
             <span class="p">)</span>
             <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">info_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">),</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1598,8 +1598,8 @@ https://packaging.python.org/en/latest/specifications/name-normalization/</p>
         <span class="c1"># BUT do regenerate the dependency in order to have a consistent formatting</span>
         <span class="k">if</span> <span class="n">parsed_requirement</span><span class="o">.</span><span class="n">url</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Dependency </span><span class="si">{</span><span class="n">parsed_requirement</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2"> is pinned to a URL and &quot;</span>
-                <span class="s2">&quot;will be skipped.&quot;</span>
+                <span class="sa">f</span><span class="s2">"Dependency </span><span class="si">{</span><span class="n">parsed_requirement</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2"> is pinned to a URL and "</span>
+                <span class="s2">"will be skipped."</span>
             <span class="p">)</span>
             <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">info_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">),</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1616,9 +1616,9 @@ https://packaging.python.org/en/latest/specifications/name-normalization/</p>
             <span class="c1"># Only warn if package name does not match project name</span>
             <span class="k">if</span> <span class="n">parsed_requirement</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="n">project_name</span><span class="p">:</span>
                 <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Dependency </span><span class="si">{</span><span class="n">parsed_requirement</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2"> is not version &quot;</span>
-                    <span class="s2">&quot;restricted and will be skipped. Consider adding version &quot;</span>
-                    <span class="s2">&quot;restrictions.&quot;</span>
+                    <span class="sa">f</span><span class="s2">"Dependency </span><span class="si">{</span><span class="n">parsed_requirement</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2"> is not version "</span>
+                    <span class="s2">"restricted and will be skipped. Consider adding version "</span>
+                    <span class="s2">"restrictions."</span>
                 <span class="p">)</span>
                 <span class="n">LOGGER</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
                 <span class="nb">print</span><span class="p">(</span><span class="n">warning_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">),</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1630,12 +1630,12 @@ https://packaging.python.org/en/latest/specifications/name-normalization/</p>
             <span class="k">continue</span>
 
         <span class="c1"># Examine markers for a custom set of Python version specifiers</span>
-        <span class="n">marker_py_version</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">marker_py_version</span> <span class="o">=</span> <span class="s2">""</span>
         <span class="k">if</span> <span class="n">parsed_requirement</span><span class="o">.</span><span class="n">marker</span><span class="p">:</span>
             <span class="n">environment_keys</span> <span class="o">=</span> <span class="n">default_environment</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
-            <span class="n">empty_environment</span> <span class="o">=</span> <span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">environment_keys</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">empty_environment</span> <span class="o">=</span> <span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">environment_keys</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
             <span class="n">python_version_centric_environment</span> <span class="o">=</span> <span class="n">empty_environment</span>
-            <span class="n">python_version_centric_environment</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;python_version&quot;</span><span class="p">:</span> <span class="n">py_version</span><span class="p">})</span>
+            <span class="n">python_version_centric_environment</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">"python_version"</span><span class="p">:</span> <span class="n">py_version</span><span class="p">})</span>
 
             <span class="k">if</span> <span class="ow">not</span> <span class="n">parsed_requirement</span><span class="o">.</span><span class="n">marker</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
                 <span class="n">environment</span><span class="o">=</span><span class="n">python_version_centric_environment</span>
@@ -1648,72 +1648,72 @@ https://packaging.python.org/en/latest/specifications/name-normalization/</p>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">marker_py_version</span> <span class="o">=</span> <span class="n">get_min_max_py_version</span><span class="p">(</span><span class="n">parsed_requirement</span><span class="o">.</span><span class="n">marker</span><span class="p">)</span>
 
-            <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Min/max Python version from marker: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">marker_py_version</span><span class="p">)</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Min/max Python version from marker: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">marker_py_version</span><span class="p">)</span>
 
-        <span class="c1"># Check version from PyPI&#39;s online package index</span>
+        <span class="c1"># Check version from PyPI's online package index</span>
         <span class="n">out</span><span class="p">:</span> <span class="n">Result</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
-            <span class="s2">&quot;pip index versions &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;--python-version </span><span class="si">{</span><span class="n">marker_py_version</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">py_version</span><span class="si">}</span><span class="s2"> &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">parsed_requirement</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="s2">"pip index versions "</span>
+            <span class="sa">f</span><span class="s2">"--python-version </span><span class="si">{</span><span class="n">marker_py_version</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">py_version</span><span class="si">}</span><span class="s2"> "</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">parsed_requirement</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
             <span class="n">hide</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="n">package_latest_version_line</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">package_latest_version_line</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="o">=</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span>
-            <span class="sa">r</span><span class="s2">&quot;(?P&lt;package&gt;\S+) \((?P&lt;version&gt;\S+)\)&quot;</span><span class="p">,</span> <span class="n">package_latest_version_line</span>
+            <span class="sa">r</span><span class="s2">"(?P&lt;package&gt;\S+) \((?P&lt;version&gt;\S+)\)"</span><span class="p">,</span> <span class="n">package_latest_version_line</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">match</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="s2">&quot;Could not parse package and version from &#39;pip index versions&#39; output &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;for line:</span><span class="se">\n</span><span class="s2">  </span><span class="si">{</span><span class="n">package_latest_version_line</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="s2">"Could not parse package and version from 'pip index versions' output "</span>
+                <span class="sa">f</span><span class="s2">"for line:</span><span class="se">\n</span><span class="s2">  </span><span class="si">{</span><span class="n">package_latest_version_line</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
             <span class="n">LOGGER</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">fail_fast</span><span class="p">:</span>
-                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CROSS_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">error_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CROSS_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">error_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">error_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">),</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="n">already_handled_packages</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">parsed_requirement</span><span class="p">)</span>
             <span class="n">error</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">continue</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">latest_version</span> <span class="o">=</span> <span class="n">Version</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;version&quot;</span><span class="p">))</span>
+            <span class="n">latest_version</span> <span class="o">=</span> <span class="n">Version</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">"version"</span><span class="p">))</span>
         <span class="k">except</span> <span class="n">InvalidVersion</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Could not parse version </span><span class="si">{</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s1">&#39;version&#39;</span><span class="p">)</span><span class="si">!r}</span><span class="s2"> from &#39;pip index &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;versions&#39; output for line:</span><span class="se">\n</span><span class="s2">  </span><span class="si">{</span><span class="n">package_latest_version_line</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;Exception: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"Could not parse version </span><span class="si">{</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s1">'version'</span><span class="p">)</span><span class="si">!r}</span><span class="s2"> from 'pip index "</span>
+                <span class="sa">f</span><span class="s2">"versions' output for line:</span><span class="se">\n</span><span class="s2">  </span><span class="si">{</span><span class="n">package_latest_version_line</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">"</span>
+                <span class="sa">f</span><span class="s2">"Exception: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
             <span class="n">LOGGER</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">fail_fast</span><span class="p">:</span>
-                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CROSS_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">error_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CROSS_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">error_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">error_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">),</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="n">error</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">continue</span>
-        <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Retrieved latest version: </span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">latest_version</span><span class="p">)</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Retrieved latest version: </span><span class="si">%r</span><span class="s2">"</span><span class="p">,</span> <span class="n">latest_version</span><span class="p">)</span>
 
         <span class="c1"># Here used to be a sanity check to ensure that the package name parsed from</span>
-        <span class="c1"># pyproject.toml matches the name returned from &#39;pip index versions&#39;.</span>
+        <span class="c1"># pyproject.toml matches the name returned from 'pip index versions'.</span>
         <span class="c1"># But I cannot think of a reason why they would not match, so it has been</span>
         <span class="c1"># removed.</span>
-        <span class="c1"># When checking &#39;pip index versions&#39; output, it seems that the package name</span>
+        <span class="c1"># When checking 'pip index versions' output, it seems that the package name</span>
         <span class="c1"># returned is always the same as is used in the command call, e.g., if</span>
-        <span class="c1"># &#39;pip index versions reQUEsts&#39; is called, then the output will always be</span>
-        <span class="c1"># &#39;reQUEsts (&lt;latest version here&gt;)&#39;.</span>
+        <span class="c1"># 'pip index versions reQUEsts' is called, then the output will always be</span>
+        <span class="c1"># 'reQUEsts (&lt;latest version here&gt;)'.</span>
 
         <span class="c1"># Check whether pyproject.toml already uses the latest version</span>
         <span class="c1"># This is expected if the latest version equals a specifier with any of the</span>
         <span class="c1"># operators: ==, &gt;=, or ~=.</span>
-        <span class="n">split_latest_version</span> <span class="o">=</span> <span class="n">latest_version</span><span class="o">.</span><span class="n">base_version</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+        <span class="n">split_latest_version</span> <span class="o">=</span> <span class="n">latest_version</span><span class="o">.</span><span class="n">base_version</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)</span>
         <span class="n">_continue</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">for</span> <span class="n">specifier</span> <span class="ow">in</span> <span class="n">parsed_requirement</span><span class="o">.</span><span class="n">specifier</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">specifier</span><span class="o">.</span><span class="n">operator</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;==&quot;</span><span class="p">,</span> <span class="s2">&quot;&gt;=&quot;</span><span class="p">,</span> <span class="s2">&quot;~=&quot;</span><span class="p">]:</span>
-                <span class="n">split_specifier_version</span> <span class="o">=</span> <span class="n">specifier</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">specifier</span><span class="o">.</span><span class="n">operator</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"=="</span><span class="p">,</span> <span class="s2">"&gt;="</span><span class="p">,</span> <span class="s2">"~="</span><span class="p">]:</span>
+                <span class="n">split_specifier_version</span> <span class="o">=</span> <span class="n">specifier</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)</span>
                 <span class="n">equal_length_latest_version</span> <span class="o">=</span> <span class="n">split_latest_version</span><span class="p">[</span>
                     <span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">split_specifier_version</span><span class="p">)</span>
                 <span class="p">]</span>
                 <span class="k">if</span> <span class="n">equal_length_latest_version</span> <span class="o">==</span> <span class="n">split_specifier_version</span><span class="p">:</span>
                     <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-                        <span class="s2">&quot;Package </span><span class="si">%r</span><span class="s2"> is already up-to-date. Specifiers: </span><span class="si">%s</span><span class="s2">. &quot;</span>
-                        <span class="s2">&quot;Latest version: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                        <span class="s2">"Package </span><span class="si">%r</span><span class="s2"> is already up-to-date. Specifiers: </span><span class="si">%s</span><span class="s2">. "</span>
+                        <span class="s2">"Latest version: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
                         <span class="n">parsed_requirement</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
                         <span class="n">parsed_requirement</span><span class="o">.</span><span class="n">specifier</span><span class="p">,</span>
                         <span class="n">latest_version</span><span class="p">,</span>
@@ -1725,12 +1725,12 @@ https://packaging.python.org/en/latest/specifications/name-normalization/</p>
 
         <span class="c1"># Create ignore rules based on specifier set</span>
         <span class="n">requirement_ignore_rules</span> <span class="o">=</span> <span class="n">create_ignore_rules</span><span class="p">(</span><span class="n">parsed_requirement</span><span class="o">.</span><span class="n">specifier</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">requirement_ignore_rules</span><span class="p">[</span><span class="s2">&quot;versions&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">requirement_ignore_rules</span><span class="p">[</span><span class="s2">"versions"</span><span class="p">]:</span>
             <span class="k">if</span> <span class="n">parsed_requirement</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">ignore_rules</span><span class="p">:</span>
-                <span class="c1"># Only &quot;versions&quot; key exists in requirement_ignore_rules</span>
-                <span class="k">if</span> <span class="s2">&quot;versions&quot;</span> <span class="ow">in</span> <span class="n">ignore_rules</span><span class="p">[</span><span class="n">parsed_requirement</span><span class="o">.</span><span class="n">name</span><span class="p">]:</span>
-                    <span class="n">ignore_rules</span><span class="p">[</span><span class="n">parsed_requirement</span><span class="o">.</span><span class="n">name</span><span class="p">][</span><span class="s2">&quot;versions&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
-                        <span class="n">requirement_ignore_rules</span><span class="p">[</span><span class="s2">&quot;versions&quot;</span><span class="p">]</span>
+                <span class="c1"># Only "versions" key exists in requirement_ignore_rules</span>
+                <span class="k">if</span> <span class="s2">"versions"</span> <span class="ow">in</span> <span class="n">ignore_rules</span><span class="p">[</span><span class="n">parsed_requirement</span><span class="o">.</span><span class="n">name</span><span class="p">]:</span>
+                    <span class="n">ignore_rules</span><span class="p">[</span><span class="n">parsed_requirement</span><span class="o">.</span><span class="n">name</span><span class="p">][</span><span class="s2">"versions"</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+                        <span class="n">requirement_ignore_rules</span><span class="p">[</span><span class="s2">"versions"</span><span class="p">]</span>
                     <span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">ignore_rules</span><span class="p">[</span><span class="n">parsed_requirement</span><span class="o">.</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
@@ -1739,17 +1739,17 @@ https://packaging.python.org/en/latest/specifications/name-normalization/</p>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">ignore_rules</span><span class="p">[</span><span class="n">parsed_requirement</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">requirement_ignore_rules</span>
             <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-                <span class="s2">&quot;Created ignore rules (from specifier set): </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="s2">"Created ignore rules (from specifier set): </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
                 <span class="n">requirement_ignore_rules</span><span class="p">,</span>
             <span class="p">)</span>
 
         <span class="c1"># Apply ignore rules</span>
-        <span class="k">if</span> <span class="n">parsed_requirement</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">ignore_rules</span> <span class="ow">or</span> <span class="s2">&quot;*&quot;</span> <span class="ow">in</span> <span class="n">ignore_rules</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">parsed_requirement</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">ignore_rules</span> <span class="ow">or</span> <span class="s2">"*"</span> <span class="ow">in</span> <span class="n">ignore_rules</span><span class="p">:</span>
             <span class="n">versions</span><span class="p">:</span> <span class="n">IgnoreVersions</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="n">update_types</span><span class="p">:</span> <span class="n">IgnoreUpdateTypes</span> <span class="o">=</span> <span class="p">{}</span>
 
-            <span class="k">if</span> <span class="s2">&quot;*&quot;</span> <span class="ow">in</span> <span class="n">ignore_rules</span><span class="p">:</span>
-                <span class="n">versions</span><span class="p">,</span> <span class="n">update_types</span> <span class="o">=</span> <span class="n">parse_ignore_rules</span><span class="p">(</span><span class="n">ignore_rules</span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="s2">"*"</span> <span class="ow">in</span> <span class="n">ignore_rules</span><span class="p">:</span>
+                <span class="n">versions</span><span class="p">,</span> <span class="n">update_types</span> <span class="o">=</span> <span class="n">parse_ignore_rules</span><span class="p">(</span><span class="n">ignore_rules</span><span class="p">[</span><span class="s2">"*"</span><span class="p">])</span>
 
             <span class="k">if</span> <span class="n">parsed_requirement</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">ignore_rules</span><span class="p">:</span>
                 <span class="n">parsed_rules</span> <span class="o">=</span> <span class="n">parse_ignore_rules</span><span class="p">(</span><span class="n">ignore_rules</span><span class="p">[</span><span class="n">parsed_requirement</span><span class="o">.</span><span class="n">name</span><span class="p">])</span>
@@ -1758,20 +1758,20 @@ https://packaging.python.org/en/latest/specifications/name-normalization/</p>
                 <span class="n">update_types</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">parsed_rules</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 
             <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-                <span class="s2">&quot;Ignore rules:</span><span class="se">\n</span><span class="s2">versions: </span><span class="si">%s</span><span class="se">\n</span><span class="s2">update_types: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">versions</span><span class="p">,</span> <span class="n">update_types</span>
+                <span class="s2">"Ignore rules:</span><span class="se">\n</span><span class="s2">versions: </span><span class="si">%s</span><span class="se">\n</span><span class="s2">update_types: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">versions</span><span class="p">,</span> <span class="n">update_types</span>
             <span class="p">)</span>
 
-            <span class="c1"># Get &quot;current&quot; version from specifier set, i.e., the lowest allowed version</span>
-            <span class="c1"># If a minimum version is not explicitly specified, use &#39;0.0.0&#39;</span>
+            <span class="c1"># Get "current" version from specifier set, i.e., the lowest allowed version</span>
+            <span class="c1"># If a minimum version is not explicitly specified, use '0.0.0'</span>
             <span class="k">for</span> <span class="n">specifier</span> <span class="ow">in</span> <span class="n">parsed_requirement</span><span class="o">.</span><span class="n">specifier</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">specifier</span><span class="o">.</span><span class="n">operator</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;==&quot;</span><span class="p">,</span> <span class="s2">&quot;&gt;=&quot;</span><span class="p">,</span> <span class="s2">&quot;~=&quot;</span><span class="p">]:</span>
-                    <span class="n">current_version</span> <span class="o">=</span> <span class="n">specifier</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">specifier</span><span class="o">.</span><span class="n">operator</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"=="</span><span class="p">,</span> <span class="s2">"&gt;="</span><span class="p">,</span> <span class="s2">"~="</span><span class="p">]:</span>
+                    <span class="n">current_version</span> <span class="o">=</span> <span class="n">specifier</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)</span>
                     <span class="k">break</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">latest_version</span><span class="o">.</span><span class="n">epoch</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="n">current_version</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">]</span>
+                    <span class="n">current_version</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"0"</span><span class="p">,</span> <span class="s2">"0"</span><span class="p">,</span> <span class="s2">"0"</span><span class="p">]</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">current_version</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">latest_version</span><span class="o">.</span><span class="n">epoch</span><span class="si">}</span><span class="s2">!0.0.0&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+                    <span class="n">current_version</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">latest_version</span><span class="o">.</span><span class="n">epoch</span><span class="si">}</span><span class="s2">!0.0.0"</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">ignore_version</span><span class="p">(</span>
                 <span class="n">current</span><span class="o">=</span><span class="n">current_version</span><span class="p">,</span>
@@ -1790,13 +1790,13 @@ https://packaging.python.org/en/latest/specifications/name-normalization/</p>
             <span class="p">)</span>
         <span class="k">except</span> <span class="n">UnableToResolve</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="s2">&quot;Could not determine how to update to the latest version using the &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;version range specifier set: </span><span class="si">{</span><span class="n">parsed_requirement</span><span class="o">.</span><span class="n">specifier</span><span class="si">}</span><span class="s2">. &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;Package: </span><span class="si">{</span><span class="n">parsed_requirement</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">. Latest version: </span><span class="si">{</span><span class="n">latest_version</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="s2">"Could not determine how to update to the latest version using the "</span>
+                <span class="sa">f</span><span class="s2">"version range specifier set: </span><span class="si">{</span><span class="n">parsed_requirement</span><span class="o">.</span><span class="n">specifier</span><span class="si">}</span><span class="s2">. "</span>
+                <span class="sa">f</span><span class="s2">"Package: </span><span class="si">{</span><span class="n">parsed_requirement</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">. Latest version: </span><span class="si">{</span><span class="n">latest_version</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
-            <span class="n">LOGGER</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">. Exception: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">exc</span><span class="p">)</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">"</span><span class="si">%s</span><span class="s2">. Exception: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">exc</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">fail_fast</span><span class="p">:</span>
-                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CROSS_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">error_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CROSS_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">error_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">error_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">),</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="n">already_handled_packages</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">parsed_requirement</span><span class="p">)</span>
             <span class="n">error</span> <span class="o">=</span> <span class="kc">True</span>
@@ -1806,49 +1806,49 @@ https://packaging.python.org/en/latest/specifications/name-normalization/</p>
             <span class="c1"># Regenerate the full requirement string with the updated specifiers</span>
             <span class="c1"># Note: If any white space is present after the name (possibly incl.</span>
             <span class="c1"># extras) is reduced to a single space.</span>
-            <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">rf</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">parsed_requirement</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">(?:\[.*\])?\s+&quot;</span><span class="p">,</span> <span class="n">dependency</span><span class="p">)</span>
+            <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">rf</span><span class="s2">"</span><span class="si">{</span><span class="n">parsed_requirement</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">(?:\[.*\])?\s+"</span><span class="p">,</span> <span class="n">dependency</span><span class="p">)</span>
             <span class="n">updated_dependency</span> <span class="o">=</span> <span class="n">regenerate_requirement</span><span class="p">(</span>
                 <span class="n">parsed_requirement</span><span class="p">,</span>
                 <span class="n">specifier</span><span class="o">=</span><span class="n">updated_specifier_set</span><span class="p">,</span>
                 <span class="n">post_name_space</span><span class="o">=</span><span class="nb">bool</span><span class="p">(</span><span class="n">match</span><span class="p">),</span>
             <span class="p">)</span>
-            <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Updated dependency: </span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">updated_dependency</span><span class="p">)</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Updated dependency: </span><span class="si">%r</span><span class="s2">"</span><span class="p">,</span> <span class="n">updated_dependency</span><span class="p">)</span>
 
             <span class="n">pattern_sub_line</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="n">dependency</span><span class="p">)</span>
-            <span class="n">replacement_sub_line</span> <span class="o">=</span> <span class="n">updated_dependency</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">,</span> <span class="s2">&quot;&#39;&quot;</span><span class="p">)</span>
+            <span class="n">replacement_sub_line</span> <span class="o">=</span> <span class="n">updated_dependency</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'"'</span><span class="p">,</span> <span class="s2">"'"</span><span class="p">)</span>
 
-            <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;pattern_sub_line: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">pattern_sub_line</span><span class="p">)</span>
-            <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;replacement_sub_line: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">replacement_sub_line</span><span class="p">)</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"pattern_sub_line: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">pattern_sub_line</span><span class="p">)</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"replacement_sub_line: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">replacement_sub_line</span><span class="p">)</span>
 
             <span class="c1"># Update pyproject.toml</span>
             <span class="n">update_file</span><span class="p">(</span><span class="n">pyproject_path</span><span class="p">,</span> <span class="p">(</span><span class="n">pattern_sub_line</span><span class="p">,</span> <span class="n">replacement_sub_line</span><span class="p">))</span>
             <span class="n">already_handled_packages</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">parsed_requirement</span><span class="p">)</span>
-            <span class="n">updated_packages</span><span class="p">[</span><span class="n">parsed_requirement</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="n">updated_packages</span><span class="p">[</span><span class="n">parsed_requirement</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="s2">","</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
                 <span class="nb">str</span><span class="p">(</span><span class="n">_</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span>
                     <span class="n">updated_specifier_set</span><span class="p">,</span>
                     <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">spec</span><span class="p">:</span> <span class="n">spec</span><span class="o">.</span><span class="n">operator</span><span class="p">,</span>
                     <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                 <span class="p">)</span>
-            <span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot; ; </span><span class="si">{</span><span class="n">parsed_requirement</span><span class="o">.</span><span class="n">marker</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">parsed_requirement</span><span class="o">.</span><span class="n">marker</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="sa">f</span><span class="s2">" ; </span><span class="si">{</span><span class="n">parsed_requirement</span><span class="o">.</span><span class="n">marker</span><span class="si">}</span><span class="s2">"</span> <span class="k">if</span> <span class="n">parsed_requirement</span><span class="o">.</span><span class="n">marker</span> <span class="k">else</span> <span class="s2">""</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CROSS_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> Errors occurred! See printed statements above.&quot;</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CROSS_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> Errors occurred! See printed statements above."</span>
         <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">updated_packages</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">PARTY_POPPER</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> Successfully updated the following &quot;</span>
-            <span class="s2">&quot;dependencies:</span><span class="se">\n</span><span class="s2">&quot;</span>
-            <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">package</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s2">)&quot;</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">PARTY_POPPER</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> Successfully updated the following "</span>
+            <span class="s2">"dependencies:</span><span class="se">\n</span><span class="s2">"</span>
+            <span class="o">+</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">package</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s2">)"</span>
                 <span class="k">for</span> <span class="n">package</span><span class="p">,</span> <span class="n">version</span> <span class="ow">in</span> <span class="n">updated_packages</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
             <span class="p">)</span>
-            <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span>
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CHECK_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> No dependency updates available.&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CHECK_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> No dependency updates available."</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>

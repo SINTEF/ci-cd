@@ -1368,7 +1368,7 @@
 
 
 <h3 id="ci_cd.tasks.docs_index.create_docs_index" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">create_docs_index</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">pre_commit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">root_repo_path</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">docs_folder</span><span class="o">=</span><span class="s1">&#39;docs&#39;</span><span class="p">,</span> <span class="n">replacement</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">replacement_separator</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">create_docs_index</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">pre_commit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">root_repo_path</span><span class="o">=</span><span class="s1">'.'</span><span class="p">,</span> <span class="n">docs_folder</span><span class="o">=</span><span class="s1">'docs'</span><span class="p">,</span> <span class="n">replacement</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">replacement_separator</span><span class="o">=</span><span class="s1">','</span><span class="p">)</span></code>
 
 
 <a href="#ci_cd.tasks.docs_index.create_docs_index" class="headerlink" title="Permanent link">&para;</a></h3>
@@ -1381,36 +1381,36 @@
           <summary>Source code in <code>ci_cd/tasks/docs_index.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@task</span><span class="p">(</span>
     <span class="n">help</span><span class="o">=</span><span class="p">{</span>
-        <span class="s2">&quot;pre-commit&quot;</span><span class="p">:</span> <span class="s2">&quot;Whether or not this task is run as a pre-commit hook.&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;root-repo-path&quot;</span><span class="p">:</span> <span class="p">(</span>
-            <span class="s2">&quot;A resolvable path to the root directory of the repository folder.&quot;</span>
+        <span class="s2">"pre-commit"</span><span class="p">:</span> <span class="s2">"Whether or not this task is run as a pre-commit hook."</span><span class="p">,</span>
+        <span class="s2">"root-repo-path"</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"A resolvable path to the root directory of the repository folder."</span>
         <span class="p">),</span>
-        <span class="s2">&quot;docs-folder&quot;</span><span class="p">:</span> <span class="p">(</span>
-            <span class="s2">&quot;The folder name for the documentation root folder. &quot;</span>
-            <span class="s2">&quot;This defaults to &#39;docs&#39;.&quot;</span>
+        <span class="s2">"docs-folder"</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"The folder name for the documentation root folder. "</span>
+            <span class="s2">"This defaults to 'docs'."</span>
         <span class="p">),</span>
-        <span class="s2">&quot;replacement&quot;</span><span class="p">:</span> <span class="p">(</span>
-            <span class="s2">&quot;A replacement (mapping) to be performed on README.md when creating the &quot;</span>
-            <span class="s2">&quot;documentation&#39;s landing page (index.md). This list ALWAYS includes &quot;</span>
-            <span class="s2">&quot;replacing &#39;{docs-folder}/&#39; with an empty string, in order to correct &quot;</span>
-            <span class="s2">&quot;relative links. This input option can be supplied multiple times.&quot;</span>
+        <span class="s2">"replacement"</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"A replacement (mapping) to be performed on README.md when creating the "</span>
+            <span class="s2">"documentation's landing page (index.md). This list ALWAYS includes "</span>
+            <span class="s2">"replacing '{docs-folder}/' with an empty string, in order to correct "</span>
+            <span class="s2">"relative links. This input option can be supplied multiple times."</span>
         <span class="p">),</span>
-        <span class="s2">&quot;replacement-separator&quot;</span><span class="p">:</span> <span class="p">(</span>
-            <span class="s2">&quot;String to separate a replacement&#39;s &#39;old&#39; to &#39;new&#39; parts.&quot;</span>
-            <span class="s2">&quot;Defaults to a comma (,).&quot;</span>
+        <span class="s2">"replacement-separator"</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"String to separate a replacement's 'old' to 'new' parts."</span>
+            <span class="s2">"Defaults to a comma (,)."</span>
         <span class="p">),</span>
     <span class="p">},</span>
-    <span class="n">iterable</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;replacement&quot;</span><span class="p">],</span>
+    <span class="n">iterable</span><span class="o">=</span><span class="p">[</span><span class="s2">"replacement"</span><span class="p">],</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">create_docs_index</span><span class="p">(</span>
     <span class="n">context</span><span class="p">,</span>
     <span class="n">pre_commit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">root_repo_path</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span>
-    <span class="n">docs_folder</span><span class="o">=</span><span class="s2">&quot;docs&quot;</span><span class="p">,</span>
+    <span class="n">root_repo_path</span><span class="o">=</span><span class="s2">"."</span><span class="p">,</span>
+    <span class="n">docs_folder</span><span class="o">=</span><span class="s2">"docs"</span><span class="p">,</span>
     <span class="n">replacement</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">replacement_separator</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">,</span>
+    <span class="n">replacement_separator</span><span class="o">=</span><span class="s2">","</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create the documentation index page from README.md.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Create the documentation index page from README.md."""</span>
     <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
         <span class="n">context</span><span class="p">:</span> <span class="n">Context</span> <span class="o">=</span> <span class="n">context</span>  <span class="c1"># type: ignore[no-redef]</span>
         <span class="n">pre_commit</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">pre_commit</span>  <span class="c1"># type: ignore[no-redef]</span>
@@ -1421,32 +1421,32 @@
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">replacement</span><span class="p">:</span>
         <span class="n">replacement</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: ignore[no-redef]</span>
-    <span class="n">replacement</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">docs_folder</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">replacement_separator</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">replacement</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">docs_folder</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">replacement_separator</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">pre_commit</span> <span class="ow">and</span> <span class="n">root_repo_path</span> <span class="o">==</span> <span class="s2">&quot;.&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">pre_commit</span> <span class="ow">and</span> <span class="n">root_repo_path</span> <span class="o">==</span> <span class="s2">"."</span><span class="p">:</span>
         <span class="c1"># Use git to determine repo root</span>
-        <span class="n">result</span><span class="p">:</span> <span class="n">Result</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;git rev-parse --show-toplevel&quot;</span><span class="p">,</span> <span class="n">hide</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">root_repo_path</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">result</span><span class="p">:</span> <span class="n">Result</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">"git rev-parse --show-toplevel"</span><span class="p">,</span> <span class="n">hide</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">root_repo_path</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="n">root_repo_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">root_repo_path</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
-    <span class="n">readme</span> <span class="o">=</span> <span class="n">root_repo_path</span> <span class="o">/</span> <span class="s2">&quot;README.md&quot;</span>
-    <span class="n">docs_index</span> <span class="o">=</span> <span class="n">root_repo_path</span> <span class="o">/</span> <span class="n">docs_folder</span> <span class="o">/</span> <span class="s2">&quot;index.md&quot;</span>
+    <span class="n">readme</span> <span class="o">=</span> <span class="n">root_repo_path</span> <span class="o">/</span> <span class="s2">"README.md"</span>
+    <span class="n">docs_index</span> <span class="o">=</span> <span class="n">root_repo_path</span> <span class="o">/</span> <span class="n">docs_folder</span> <span class="o">/</span> <span class="s2">"index.md"</span>
 
-    <span class="n">content</span> <span class="o">=</span> <span class="n">readme</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">readme</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s2">"utf8"</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">mapping</span> <span class="ow">in</span> <span class="n">replacement</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">old</span><span class="p">,</span> <span class="n">new</span> <span class="o">=</span> <span class="n">mapping</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">replacement_separator</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
             <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span>
-                <span class="s2">&quot;A replacement must only include an &#39;old&#39; and &#39;new&#39; part, i.e., be of &quot;</span>
-                <span class="s2">&quot;exactly length 2 when split by the &#39;--replacement-separator&#39;. The &quot;</span>
-                <span class="s2">&quot;following replacement did not fulfill this requirement: &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">mapping</span><span class="si">!r}</span><span class="se">\n</span><span class="s2">  --replacement-separator=</span><span class="si">{</span><span class="n">replacement_separator</span><span class="si">!r}</span><span class="s2">&quot;</span>
+                <span class="s2">"A replacement must only include an 'old' and 'new' part, i.e., be of "</span>
+                <span class="s2">"exactly length 2 when split by the '--replacement-separator'. The "</span>
+                <span class="s2">"following replacement did not fulfill this requirement: "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">mapping</span><span class="si">!r}</span><span class="se">\n</span><span class="s2">  --replacement-separator=</span><span class="si">{</span><span class="n">replacement_separator</span><span class="si">!r}</span><span class="s2">"</span>
             <span class="p">)</span>
         <span class="n">content</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">)</span>
 
-    <span class="n">docs_index</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span>
+    <span class="n">docs_index</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf8"</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">pre_commit</span><span class="p">:</span>
         <span class="c1"># Check if there have been any changes.</span>
@@ -1455,20 +1455,20 @@
         <span class="c1"># NOTE: Concerning the weird regular expression, see:</span>
         <span class="c1"># http://manpages.ubuntu.com/manpages/precise/en/man1/git-status.1.html</span>
         <span class="n">result</span><span class="p">:</span> <span class="n">Result</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>  <span class="c1"># type: ignore[no-redef]</span>
-            <span class="sa">f</span><span class="s1">&#39;git -C &quot;</span><span class="si">{</span><span class="n">root_repo_path</span><span class="si">}</span><span class="s1">&quot; status --porcelain &#39;</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">docs_index</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">root_repo_path</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s1">'git -C "</span><span class="si">{</span><span class="n">root_repo_path</span><span class="si">}</span><span class="s1">" status --porcelain '</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">docs_index</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">root_repo_path</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
             <span class="n">hide</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>
-                <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^[? MARC][?MD]&quot;</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">"^[? MARC][?MD]"</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
                     <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CURLY_LOOP</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> The landing page has been updated.&quot;</span>
-                        <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">Please stage it:</span><span class="se">\n\n</span><span class="s2">&quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;  git add </span><span class="si">{</span><span class="n">docs_index</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">root_repo_path</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CURLY_LOOP</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> The landing page has been updated."</span>
+                        <span class="s2">"</span><span class="se">\n\n</span><span class="s2">Please stage it:</span><span class="se">\n\n</span><span class="s2">"</span>
+                        <span class="sa">f</span><span class="s2">"  git add </span><span class="si">{</span><span class="n">docs_index</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">root_repo_path</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
                     <span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CHECK_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> No changes - your landing page is up-to-date !&quot;</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CHECK_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> No changes - your landing page is up-to-date !"</span>
         <span class="p">)</span>
 </code></pre></div>
         </details>

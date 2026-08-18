@@ -1369,7 +1369,7 @@
 
 
 <h3 id="ci_cd.tasks.setver.setver" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">setver</span><span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">package_dir</span><span class="p">,</span> <span class="n">version</span><span class="p">,</span> <span class="n">root_repo_path</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">code_base_update</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">code_base_update_separator</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">test</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fail_fast</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">setver</span><span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">package_dir</span><span class="p">,</span> <span class="n">version</span><span class="p">,</span> <span class="n">root_repo_path</span><span class="o">=</span><span class="s1">'.'</span><span class="p">,</span> <span class="n">code_base_update</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">code_base_update_separator</span><span class="o">=</span><span class="s1">','</span><span class="p">,</span> <span class="n">test</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fail_fast</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
 
 <a href="#ci_cd.tasks.setver.setver" class="headerlink" title="Permanent link">&para;</a></h3>
@@ -1382,50 +1382,50 @@
           <summary>Source code in <code>ci_cd/tasks/setver.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@task</span><span class="p">(</span>
     <span class="n">help</span><span class="o">=</span><span class="p">{</span>
-        <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;Version to set. Must be either a SemVer or a PEP 440 version.&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;package-dir&quot;</span><span class="p">:</span> <span class="p">(</span>
-            <span class="s2">&quot;Relative path to package dir from the repository root, &quot;</span>
-            <span class="s2">&quot;e.g. &#39;src/my_package&#39;.&quot;</span>
+        <span class="s2">"version"</span><span class="p">:</span> <span class="s2">"Version to set. Must be either a SemVer or a PEP 440 version."</span><span class="p">,</span>
+        <span class="s2">"package-dir"</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"Relative path to package dir from the repository root, "</span>
+            <span class="s2">"e.g. 'src/my_package'."</span>
         <span class="p">),</span>
-        <span class="s2">&quot;root-repo-path&quot;</span><span class="p">:</span> <span class="p">(</span>
-            <span class="s2">&quot;A resolvable path to the root directory of the repository folder.&quot;</span>
+        <span class="s2">"root-repo-path"</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"A resolvable path to the root directory of the repository folder."</span>
         <span class="p">),</span>
-        <span class="s2">&quot;code-base-update&quot;</span><span class="p">:</span> <span class="p">(</span>
-            <span class="s2">&quot;&#39;--code-base-update-separator&#39;-separated string defining &#39;file path&#39;, &quot;</span>
-            <span class="s2">&quot;&#39;pattern&#39;, &#39;replacement string&#39;, in that order, for something to update &quot;</span>
-            <span class="s2">&quot;in the code base. E.g., &#39;</span><span class="si">{package_dir}</span><span class="s2">/__init__.py,__version__ *= &quot;</span>
-            <span class="s2">&quot;*(&#39;|</span><span class="se">\&quot;</span><span class="s2">).*(&#39;|</span><span class="se">\&quot;</span><span class="s2">),__version__ = </span><span class="se">\&quot;</span><span class="si">{version}</span><span class="se">\&quot;</span><span class="s2">&#39;, where &#39;</span><span class="si">{package_dir}</span><span class="s2">&#39; &quot;</span>
-            <span class="s2">&quot;and </span><span class="si">{version}</span><span class="s2"> will be exchanged with the given &#39;--package-dir&#39; value and &quot;</span>
-            <span class="s2">&quot;given &#39;--version&#39; value, respectively. The &#39;file path&#39; must always &quot;</span>
-            <span class="s2">&quot;either be relative to the repository root directory or absolute. The &quot;</span>
-            <span class="s2">&quot;&#39;pattern&#39; should be given as a &#39;raw&#39; Python string. This input option &quot;</span>
-            <span class="s2">&quot;can be supplied multiple times.&quot;</span>
+        <span class="s2">"code-base-update"</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"'--code-base-update-separator'-separated string defining 'file path', "</span>
+            <span class="s2">"'pattern', 'replacement string', in that order, for something to update "</span>
+            <span class="s2">"in the code base. E.g., '</span><span class="si">{package_dir}</span><span class="s2">/__init__.py,__version__ *= "</span>
+            <span class="s2">"*('|</span><span class="se">\"</span><span class="s2">).*('|</span><span class="se">\"</span><span class="s2">),__version__ = </span><span class="se">\"</span><span class="si">{version}</span><span class="se">\"</span><span class="s2">', where '</span><span class="si">{package_dir}</span><span class="s2">' "</span>
+            <span class="s2">"and </span><span class="si">{version}</span><span class="s2"> will be exchanged with the given '--package-dir' value and "</span>
+            <span class="s2">"given '--version' value, respectively. The 'file path' must always "</span>
+            <span class="s2">"either be relative to the repository root directory or absolute. The "</span>
+            <span class="s2">"'pattern' should be given as a 'raw' Python string. This input option "</span>
+            <span class="s2">"can be supplied multiple times."</span>
         <span class="p">),</span>
-        <span class="s2">&quot;code-base-update-separator&quot;</span><span class="p">:</span> <span class="p">(</span>
-            <span class="s2">&quot;The string separator to use for &#39;--code-base-update&#39; values.&quot;</span>
+        <span class="s2">"code-base-update-separator"</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"The string separator to use for '--code-base-update' values."</span>
         <span class="p">),</span>
-        <span class="s2">&quot;fail_fast&quot;</span><span class="p">:</span> <span class="p">(</span>
-            <span class="s2">&quot;Whether to exit the task immediately upon failure or wait until the end. &quot;</span>
-            <span class="s2">&quot;Note, no code changes will happen if an error occurs.&quot;</span>
+        <span class="s2">"fail_fast"</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"Whether to exit the task immediately upon failure or wait until the end. "</span>
+            <span class="s2">"Note, no code changes will happen if an error occurs."</span>
         <span class="p">),</span>
-        <span class="s2">&quot;test&quot;</span><span class="p">:</span> <span class="p">(</span>
-            <span class="s2">&quot;Whether to do a dry run or not. If set, the task will not make any &quot;</span>
-            <span class="s2">&quot;changes to the code base.&quot;</span>
+        <span class="s2">"test"</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"Whether to do a dry run or not. If set, the task will not make any "</span>
+            <span class="s2">"changes to the code base."</span>
         <span class="p">),</span>
     <span class="p">},</span>
-    <span class="n">iterable</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;code_base_update&quot;</span><span class="p">],</span>
+    <span class="n">iterable</span><span class="o">=</span><span class="p">[</span><span class="s2">"code_base_update"</span><span class="p">],</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">setver</span><span class="p">(</span>
     <span class="n">_</span><span class="p">,</span>
     <span class="n">package_dir</span><span class="p">,</span>
     <span class="n">version</span><span class="p">,</span>
-    <span class="n">root_repo_path</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span>
+    <span class="n">root_repo_path</span><span class="o">=</span><span class="s2">"."</span><span class="p">,</span>
     <span class="n">code_base_update</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">code_base_update_separator</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">,</span>
+    <span class="n">code_base_update_separator</span><span class="o">=</span><span class="s2">","</span><span class="p">,</span>
     <span class="n">test</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">fail_fast</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sets the specified version of specified Python package.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Sets the specified version of specified Python package."""</span>
     <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
         <span class="n">package_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">package_dir</span>  <span class="c1"># type: ignore[no-redef]</span>
         <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">version</span>  <span class="c1"># type: ignore[no-redef]</span>
@@ -1441,42 +1441,42 @@
         <span class="n">semantic_version</span> <span class="o">=</span> <span class="n">SemanticVersion</span><span class="p">(</span><span class="n">version</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="s2">&quot;Please specify version as a semantic version (SemVer) or PEP 440 version. &quot;</span>
-            <span class="s2">&quot;The version may be prepended by a &#39;v&#39;.&quot;</span>
+            <span class="s2">"Please specify version as a semantic version (SemVer) or PEP 440 version. "</span>
+            <span class="s2">"The version may be prepended by a 'v'."</span>
         <span class="p">)</span>
-        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CROSS_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">error_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CROSS_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">error_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="c1"># Root repo path</span>
     <span class="n">root_repo</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">root_repo_path</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">root_repo</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Could not find the repository root at: </span><span class="si">{</span><span class="n">root_repo</span><span class="si">}</span><span class="s2"> (user provided: &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">root_repo_path</span><span class="si">!r}</span><span class="s2">)&quot;</span>
+            <span class="sa">f</span><span class="s2">"Could not find the repository root at: </span><span class="si">{</span><span class="n">root_repo</span><span class="si">}</span><span class="s2"> (user provided: "</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">root_repo_path</span><span class="si">!r}</span><span class="s2">)"</span>
         <span class="p">)</span>
-        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CROSS_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">error_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CROSS_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">error_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="c1"># Run the task with defaults</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">code_base_update</span><span class="p">:</span>
-        <span class="n">init_file</span> <span class="o">=</span> <span class="n">root_repo</span> <span class="o">/</span> <span class="n">package_dir</span> <span class="o">/</span> <span class="s2">&quot;__init__.py&quot;</span>
+        <span class="n">init_file</span> <span class="o">=</span> <span class="n">root_repo</span> <span class="o">/</span> <span class="n">package_dir</span> <span class="o">/</span> <span class="s2">"__init__.py"</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">init_file</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="s2">&quot;Could not find the Python package&#39;s root &#39;__init__.py&#39; file at: &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">init_file</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="s2">"Could not find the Python package's root '__init__.py' file at: "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">init_file</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
-            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CROSS_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">error_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CROSS_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">error_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
         <span class="n">update_file</span><span class="p">(</span>
             <span class="n">init_file</span><span class="p">,</span>
             <span class="p">(</span>
-                <span class="sa">r</span><span class="s1">&#39;__version__ *= *(?:</span><span class="se">\&#39;</span><span class="s1">|&quot;).*(?:</span><span class="se">\&#39;</span><span class="s1">|&quot;)&#39;</span><span class="p">,</span>
-                <span class="sa">f</span><span class="s1">&#39;__version__ = &quot;</span><span class="si">{</span><span class="n">semantic_version</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s1">'__version__ *= *(?:</span><span class="se">\'</span><span class="s1">|").*(?:</span><span class="se">\'</span><span class="s1">|")'</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s1">'__version__ = "</span><span class="si">{</span><span class="n">semantic_version</span><span class="si">}</span><span class="s1">"'</span><span class="p">,</span>
             <span class="p">),</span>
         <span class="p">)</span>
 
         <span class="c1"># Success, done</span>
         <span class="nb">print</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">PARTY_POPPER</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> Bumped version for </span><span class="si">{</span><span class="n">package_dir</span><span class="si">}</span><span class="s2"> to &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">semantic_version</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">PARTY_POPPER</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> Bumped version for </span><span class="si">{</span><span class="n">package_dir</span><span class="si">}</span><span class="s2"> to "</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">semantic_version</span><span class="si">}</span><span class="s2">."</span>
         <span class="p">)</span>
         <span class="k">return</span>
 
@@ -1491,14 +1491,14 @@
             <span class="p">)</span>
         <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="s2">&quot;Could not properly extract &#39;file path&#39;, &#39;pattern&#39;, &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;&#39;replacement string&#39; from the &#39;--code-base-update&#39;=</span><span class="si">{</span><span class="n">code_update</span><span class="si">}</span><span class="s2">:&quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="s2">"Could not properly extract 'file path', 'pattern', "</span>
+                <span class="sa">f</span><span class="s2">"'replacement string' from the '--code-base-update'=</span><span class="si">{</span><span class="n">code_update</span><span class="si">}</span><span class="s2">:"</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
             <span class="n">LOGGER</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-            <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Traceback: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_exc</span><span class="p">())</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Traceback: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_exc</span><span class="p">())</span>
             <span class="k">if</span> <span class="n">fail_fast</span><span class="p">:</span>
-                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CROSS_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">error_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CROSS_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">error_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">error_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">),</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="n">error</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">continue</span>
@@ -1512,20 +1512,20 @@
             <span class="n">filepath</span> <span class="o">=</span> <span class="n">root_repo</span> <span class="o">/</span> <span class="n">filepath</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">filepath</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Could not find the user-provided file at: </span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Could not find the user-provided file at: </span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="s2">"</span>
             <span class="n">LOGGER</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">fail_fast</span><span class="p">:</span>
-                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CROSS_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">error_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CROSS_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">error_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">error_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">),</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="n">error</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">continue</span>
 
         <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;filepath: %s</span>
+<span class="w">            </span><span class="sd">"""filepath: %s</span>
 <span class="sd">pattern: %r</span>
 <span class="sd">replacement (input): %s</span>
 <span class="sd">replacement (handled): %s</span>
-<span class="sd">&quot;&quot;&quot;</span><span class="p">,</span>
+<span class="sd">"""</span><span class="p">,</span>
             <span class="n">filepath</span><span class="p">,</span>
             <span class="n">pattern</span><span class="p">,</span>
             <span class="n">replacement</span><span class="p">,</span>
@@ -1543,7 +1543,7 @@
 
     <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CROSS_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> Errors occurred! See printed statements above.&quot;</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CROSS_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> Errors occurred! See printed statements above."</span>
         <span class="p">)</span>
 
     <span class="k">for</span> <span class="p">(</span>
@@ -1554,16 +1554,16 @@
     <span class="p">)</span> <span class="ow">in</span> <span class="n">validated_code_base_updates</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">test</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;filepath: </span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="se">\n</span><span class="s2">pattern: </span><span class="si">{</span><span class="n">pattern</span><span class="si">!r}</span><span class="se">\n</span><span class="s2">&quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;replacement (input): </span><span class="si">{</span><span class="n">input_replacement</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;replacement (handled): </span><span class="si">{</span><span class="n">replacement</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"filepath: </span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="se">\n</span><span class="s2">pattern: </span><span class="si">{</span><span class="n">pattern</span><span class="si">!r}</span><span class="se">\n</span><span class="s2">"</span>
+                <span class="sa">f</span><span class="s2">"replacement (input): </span><span class="si">{</span><span class="n">input_replacement</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
+                <span class="sa">f</span><span class="s2">"replacement (handled): </span><span class="si">{</span><span class="n">replacement</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
             <span class="k">continue</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="n">update_file</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">replacement</span><span class="p">))</span>
         <span class="k">except</span> <span class="n">re</span><span class="o">.</span><span class="n">error</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">""</span>
 
             <span class="k">if</span> <span class="n">validated_code_base_updates</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="p">(</span>
                 <span class="n">filepath</span><span class="p">,</span>
@@ -1571,21 +1571,21 @@
                 <span class="n">replacement</span><span class="p">,</span>
                 <span class="n">input_replacement</span><span class="p">,</span>
             <span class="p">):</span>
-                <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot;Some files have already been updated !</span><span class="se">\n\n</span><span class="s2"> &quot;</span>
+                <span class="n">msg</span> <span class="o">+=</span> <span class="s2">"Some files have already been updated !</span><span class="se">\n\n</span><span class="s2"> "</span>
 
             <span class="n">msg</span> <span class="o">+=</span> <span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Could not update file </span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="s2"> according to the given input:</span><span class="se">\n\n</span><span class="s2">  &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;pattern: </span><span class="si">{</span><span class="n">pattern</span><span class="si">}</span><span class="se">\n</span><span class="s2">  replacement: </span><span class="si">{</span><span class="n">replacement</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">Exception: &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"Could not update file </span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="s2"> according to the given input:</span><span class="se">\n\n</span><span class="s2">  "</span>
+                <span class="sa">f</span><span class="s2">"pattern: </span><span class="si">{</span><span class="n">pattern</span><span class="si">}</span><span class="se">\n</span><span class="s2">  replacement: </span><span class="si">{</span><span class="n">replacement</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">Exception: "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
             <span class="n">LOGGER</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-            <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Traceback: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_exc</span><span class="p">())</span>
-            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CROSS_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">error_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Traceback: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_exc</span><span class="p">())</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CROSS_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">error_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="c1"># Success, done</span>
     <span class="nb">print</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">PARTY_POPPER</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> Bumped version for </span><span class="si">{</span><span class="n">package_dir</span><span class="si">}</span><span class="s2"> to &quot;</span>
-        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">semantic_version</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">PARTY_POPPER</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> Bumped version for </span><span class="si">{</span><span class="n">package_dir</span><span class="si">}</span><span class="s2"> to "</span>
+        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">semantic_version</span><span class="si">}</span><span class="s2">."</span>
     <span class="p">)</span>
 </code></pre></div>
         </details>

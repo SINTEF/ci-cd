@@ -2183,16 +2183,16 @@ It is meant to be complete as is.</p>
 <span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">pull</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">branches</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;main&#39;</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">'main'</span>
 
 <span class="nt">jobs</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">tests</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run basic tests</span>
 <span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SINTEF/ci-cd/.github/workflows/ci_tests.yml@v2.10.0</span>
 <span class="w">    </span><span class="nt">with</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">python_version_pylint_safety</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.8&quot;</span>
-<span class="w">      </span><span class="nt">python_version_docs</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.9&quot;</span>
-<span class="w">      </span><span class="nt">install_extras</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;[dev,docs]&quot;</span>
+<span class="w">      </span><span class="nt">python_version_pylint_safety</span><span class="p">:</span><span class="w"> </span><span class="s">"3.8"</span>
+<span class="w">      </span><span class="nt">python_version_docs</span><span class="p">:</span><span class="w"> </span><span class="s">"3.9"</span>
+<span class="w">      </span><span class="nt">install_extras</span><span class="p">:</span><span class="w"> </span><span class="s">"[dev,docs]"</span>
 <span class="w">      </span><span class="nt">skip_pre-commit_hooks</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pylint</span>
 <span class="w">      </span><span class="nt">pylint_options</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--rcfile=pyproject.toml</span>
 <span class="w">      </span><span class="nt">pylint_targets</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my_python_package</span>
@@ -2208,16 +2208,16 @@ It is meant to be complete as is.</p>
 <span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">pull</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">branches</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;main&#39;</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">'main'</span>
 
 <span class="nt">jobs</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">tests</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run basic tests</span>
 <span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SINTEF/ci-cd/.github/workflows/ci_tests.yml@v2.10.0</span>
 <span class="w">    </span><span class="nt">with</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">python_version_pylint_safety</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.8&quot;</span>
-<span class="w">      </span><span class="nt">python_version_docs</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.9&quot;</span>
-<span class="w">      </span><span class="nt">install_extras</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;[dev,docs]&quot;</span>
+<span class="w">      </span><span class="nt">python_version_pylint_safety</span><span class="p">:</span><span class="w"> </span><span class="s">"3.8"</span>
+<span class="w">      </span><span class="nt">python_version_docs</span><span class="p">:</span><span class="w"> </span><span class="s">"3.9"</span>
+<span class="w">      </span><span class="nt">install_extras</span><span class="p">:</span><span class="w"> </span><span class="s">"[dev,docs]"</span>
 <span class="w">      </span><span class="nt">skip_pre-commit_hooks</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pylint</span>
 <span class="w">      </span><span class="nt">pylint_runs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
 <span class="w">        </span><span class="no">--rcfile=pyproject.toml --ignore-paths=tests/ my_python_package</span>

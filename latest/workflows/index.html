@@ -1461,37 +1461,37 @@ Instead, one should consider the input parameter to be single line only if it is
 <p><strong>Accepted</strong> input styles:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Two separate version update changes:</span>
 <span class="nt">version_update_changes</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<span class="w">  </span><span class="no">&quot;file/path,pattern,replacement string&quot;</span>
-<span class="w">  </span><span class="no">&quot;another/file/path,pattern,replacement string&quot;</span>
+<span class="w">  </span><span class="no">"file/path,pattern,replacement string"</span>
+<span class="w">  </span><span class="no">"another/file/path,pattern,replacement string"</span>
 
 <span class="c1"># A single version update change</span>
 <span class="nt">version_update_changes</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<span class="w">  </span><span class="no">&quot;file/path,pattern,replacement string&quot;</span>
+<span class="w">  </span><span class="no">"file/path,pattern,replacement string"</span>
 
 <span class="c1"># A single version update change, different formatting for input</span>
-<span class="nt">version_update_changes</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;file/path,pattern,replacement</span><span class="nv"> </span><span class="s">string&quot;</span>
+<span class="nt">version_update_changes</span><span class="p">:</span><span class="w"> </span><span class="s">"file/path,pattern,replacement</span><span class="nv"> </span><span class="s">string"</span>
 </code></pre></div>
 <p><strong>Disallowed</strong> input styles:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Two separate version update changes:</span>
-<span class="nt">version_update_changes</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;file/path,pattern,replacement</span><span class="nv"> </span><span class="s">string</span><span class="nv"> </span><span class="s">another/file/path,pattern,replacement</span><span class="nv"> </span><span class="s">string&quot;</span>
+<span class="nt">version_update_changes</span><span class="p">:</span><span class="w"> </span><span class="s">"file/path,pattern,replacement</span><span class="nv"> </span><span class="s">string</span><span class="nv"> </span><span class="s">another/file/path,pattern,replacement</span><span class="nv"> </span><span class="s">string"</span>
 </code></pre></div>
 <h4 id="single-line-input">Single line input<a class="headerlink" href="#single-line-input" title="Permanent link">&para;</a></h4>
 <p><strong>Accepted</strong> input styles:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># A single git username:</span>
-<span class="nt">git_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Casper</span><span class="nv"> </span><span class="s">Welzel</span><span class="nv"> </span><span class="s">Andersen&quot;</span>
+<span class="nt">git_username</span><span class="p">:</span><span class="w"> </span><span class="s">"Casper</span><span class="nv"> </span><span class="s">Welzel</span><span class="nv"> </span><span class="s">Andersen"</span>
 
 <span class="c1"># A single git username, different formatting for input</span>
 <span class="nt">git_username</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<span class="w">  </span><span class="no">&quot;Casper Welzel Andersen&quot;</span>
+<span class="w">  </span><span class="no">"Casper Welzel Andersen"</span>
 </code></pre></div>
 <p><strong>Disallowed</strong> input styles:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Two separate git usernames:</span>
 <span class="nt">git_username</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<span class="w">  </span><span class="no">&quot;Casper Welzel Andersen&quot;</span>
-<span class="w">  </span><span class="no">&quot;Francesca L. Bleken&quot;</span>
+<span class="w">  </span><span class="no">"Casper Welzel Andersen"</span>
+<span class="w">  </span><span class="no">"Francesca L. Bleken"</span>
 
 <span class="c1"># Two separate git usernames, different formatting for input</span>
-<span class="nt">git_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Casper</span><span class="nv"> </span><span class="s">Welzel</span><span class="nv"> </span><span class="s">Andersen</span><span class="nv"> </span><span class="s">Francesca</span><span class="nv"> </span><span class="s">L.</span><span class="nv"> </span><span class="s">Bleken&quot;</span>
+<span class="nt">git_username</span><span class="p">:</span><span class="w"> </span><span class="s">"Casper</span><span class="nv"> </span><span class="s">Welzel</span><span class="nv"> </span><span class="s">Andersen</span><span class="nv"> </span><span class="s">Francesca</span><span class="nv"> </span><span class="s">L.</span><span class="nv"> </span><span class="s">Bleken"</span>
 </code></pre></div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -1501,23 +1501,23 @@ But the git username will be a single string, combining the names in succession,
 <h4 id="single-or-multi-line-input">Single or multi-line input<a class="headerlink" href="#single-or-multi-line-input" title="Permanent link">&para;</a></h4>
 <p><strong>Accepted</strong> input styles:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># A single system dependency:</span>
-<span class="nt">system_dependencies</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;graphviz&quot;</span>
+<span class="nt">system_dependencies</span><span class="p">:</span><span class="w"> </span><span class="s">"graphviz"</span>
 
 <span class="c1"># A single system dependency, different formatting for input</span>
 <span class="nt">system_dependencies</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<span class="w">  </span><span class="no">&quot;graphviz&quot;</span>
+<span class="w">  </span><span class="no">"graphviz"</span>
 
 <span class="c1"># Two separate system dependencies:</span>
 <span class="nt">system_dependencies</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<span class="w">  </span><span class="no">&quot;graphviz&quot;</span>
-<span class="w">  </span><span class="no">&quot;Sphinx&quot;</span>
+<span class="w">  </span><span class="no">"graphviz"</span>
+<span class="w">  </span><span class="no">"Sphinx"</span>
 
 <span class="c1"># Two separate system dependencies, different formatting for input</span>
-<span class="nt">system_dependencies</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;graphviz</span><span class="nv"> </span><span class="s">Sphinx&quot;</span>
+<span class="nt">system_dependencies</span><span class="p">:</span><span class="w"> </span><span class="s">"graphviz</span><span class="nv"> </span><span class="s">Sphinx"</span>
 </code></pre></div>
 <p><strong>Disallowed</strong> input styles:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Use of custom separator:</span>
-<span class="nt">system_dependencies</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;graphviz,Sphinx&quot;</span>
+<span class="nt">system_dependencies</span><span class="p">:</span><span class="w"> </span><span class="s">"graphviz,Sphinx"</span>
 </code></pre></div>
 
 

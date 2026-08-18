@@ -1370,7 +1370,7 @@ This is specifically to be used with the MkDocs and mkdocstrings framework.</p>
 
 
 <h3 id="ci_cd.tasks.api_reference_docs.create_api_reference_docs" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">create_api_reference_docs</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">package_dir</span><span class="p">,</span> <span class="n">pre_clean</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">pre_commit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">root_repo_path</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">docs_folder</span><span class="o">=</span><span class="s1">&#39;docs&#39;</span><span class="p">,</span> <span class="n">unwanted_folder</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">unwanted_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">full_docs_folder</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">full_docs_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">special_option</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">relative</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">create_api_reference_docs</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">package_dir</span><span class="p">,</span> <span class="n">pre_clean</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">pre_commit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">root_repo_path</span><span class="o">=</span><span class="s1">'.'</span><span class="p">,</span> <span class="n">docs_folder</span><span class="o">=</span><span class="s1">'docs'</span><span class="p">,</span> <span class="n">unwanted_folder</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">unwanted_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">full_docs_folder</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">full_docs_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">special_option</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">relative</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
 
 <a href="#ci_cd.tasks.api_reference_docs.create_api_reference_docs" class="headerlink" title="Permanent link">&para;</a></h3>
@@ -1383,72 +1383,72 @@ This is specifically to be used with the MkDocs and mkdocstrings framework.</p>
           <summary>Source code in <code>ci_cd/tasks/api_reference_docs.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@task</span><span class="p">(</span>
     <span class="n">help</span><span class="o">=</span><span class="p">{</span>
-        <span class="s2">&quot;package-dir&quot;</span><span class="p">:</span> <span class="p">(</span>
-            <span class="s2">&quot;Relative path to a package dir from the repository root, &quot;</span>
-            <span class="s2">&quot;e.g., &#39;src/my_package&#39;. This input option can be supplied multiple times.&quot;</span>
+        <span class="s2">"package-dir"</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"Relative path to a package dir from the repository root, "</span>
+            <span class="s2">"e.g., 'src/my_package'. This input option can be supplied multiple times."</span>
         <span class="p">),</span>
-        <span class="s2">&quot;pre-clean&quot;</span><span class="p">:</span> <span class="s2">&quot;Remove the &#39;api_reference&#39; sub directory prior to (re)creation.&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;pre-commit&quot;</span><span class="p">:</span> <span class="p">(</span>
-            <span class="s2">&quot;Whether or not this task is run as a pre-commit hook. Will return a &quot;</span>
-            <span class="s2">&quot;non-zero error code if changes were made.&quot;</span>
+        <span class="s2">"pre-clean"</span><span class="p">:</span> <span class="s2">"Remove the 'api_reference' sub directory prior to (re)creation."</span><span class="p">,</span>
+        <span class="s2">"pre-commit"</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"Whether or not this task is run as a pre-commit hook. Will return a "</span>
+            <span class="s2">"non-zero error code if changes were made."</span>
         <span class="p">),</span>
-        <span class="s2">&quot;root-repo-path&quot;</span><span class="p">:</span> <span class="p">(</span>
-            <span class="s2">&quot;A resolvable path to the root directory of the repository folder.&quot;</span>
+        <span class="s2">"root-repo-path"</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"A resolvable path to the root directory of the repository folder."</span>
         <span class="p">),</span>
-        <span class="s2">&quot;docs-folder&quot;</span><span class="p">:</span> <span class="p">(</span>
-            <span class="s2">&quot;The folder name for the documentation root folder. &quot;</span>
-            <span class="s2">&quot;This defaults to &#39;docs&#39;.&quot;</span>
+        <span class="s2">"docs-folder"</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"The folder name for the documentation root folder. "</span>
+            <span class="s2">"This defaults to 'docs'."</span>
         <span class="p">),</span>
-        <span class="s2">&quot;unwanted-folder&quot;</span><span class="p">:</span> <span class="p">(</span>
-            <span class="s2">&quot;A folder to avoid including into the Python API reference documentation. &quot;</span>
-            <span class="s2">&quot;Note, only folder names, not paths, may be included. Note, all folders &quot;</span>
-            <span class="s2">&quot;and their contents with this name will be excluded. Defaults to &quot;</span>
-            <span class="s2">&quot;&#39;__pycache__&#39;. This input option can be supplied multiple times.&quot;</span>
+        <span class="s2">"unwanted-folder"</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"A folder to avoid including into the Python API reference documentation. "</span>
+            <span class="s2">"Note, only folder names, not paths, may be included. Note, all folders "</span>
+            <span class="s2">"and their contents with this name will be excluded. Defaults to "</span>
+            <span class="s2">"'__pycache__'. This input option can be supplied multiple times."</span>
         <span class="p">),</span>
-        <span class="s2">&quot;unwanted-file&quot;</span><span class="p">:</span> <span class="p">(</span>
-            <span class="s2">&quot;A file to avoid including into the Python API reference documentation. &quot;</span>
-            <span class="s2">&quot;Note, only full file names, not paths, may be included, i.e., filename + &quot;</span>
-            <span class="s2">&quot;file extension. Note, all files with this names will be excluded. &quot;</span>
-            <span class="s2">&quot;Defaults to &#39;__init__.py&#39;. This input option can be supplied multiple &quot;</span>
-            <span class="s2">&quot;times.&quot;</span>
+        <span class="s2">"unwanted-file"</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"A file to avoid including into the Python API reference documentation. "</span>
+            <span class="s2">"Note, only full file names, not paths, may be included, i.e., filename + "</span>
+            <span class="s2">"file extension. Note, all files with this names will be excluded. "</span>
+            <span class="s2">"Defaults to '__init__.py'. This input option can be supplied multiple "</span>
+            <span class="s2">"times."</span>
         <span class="p">),</span>
-        <span class="s2">&quot;full-docs-folder&quot;</span><span class="p">:</span> <span class="p">(</span>
-            <span class="s2">&quot;A folder in which to include everything - even those without &quot;</span>
-            <span class="s2">&quot;documentation strings. This may be useful for a module full of data &quot;</span>
-            <span class="s2">&quot;models or to ensure all class attributes are listed. This input option &quot;</span>
-            <span class="s2">&quot;can be supplied multiple times.&quot;</span>
+        <span class="s2">"full-docs-folder"</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"A folder in which to include everything - even those without "</span>
+            <span class="s2">"documentation strings. This may be useful for a module full of data "</span>
+            <span class="s2">"models or to ensure all class attributes are listed. This input option "</span>
+            <span class="s2">"can be supplied multiple times."</span>
         <span class="p">),</span>
-        <span class="s2">&quot;full-docs-file&quot;</span><span class="p">:</span> <span class="p">(</span>
-            <span class="s2">&quot;A full relative path to a file in which to include everything - even &quot;</span>
-            <span class="s2">&quot;those without documentation strings. This may be useful for a file full &quot;</span>
-            <span class="s2">&quot;of data models or to ensure all class attributes are listed. This input &quot;</span>
-            <span class="s2">&quot;option can be supplied multiple times.&quot;</span>
+        <span class="s2">"full-docs-file"</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"A full relative path to a file in which to include everything - even "</span>
+            <span class="s2">"those without documentation strings. This may be useful for a file full "</span>
+            <span class="s2">"of data models or to ensure all class attributes are listed. This input "</span>
+            <span class="s2">"option can be supplied multiple times."</span>
         <span class="p">),</span>
-        <span class="s2">&quot;special-option&quot;</span><span class="p">:</span> <span class="p">(</span>
-            <span class="s2">&quot;A combination of a relative path to a file and a fully formed &quot;</span>
-            <span class="s2">&quot;mkdocstrings option that should be added to the generated MarkDown file. &quot;</span>
-            <span class="s2">&quot;The combination should be comma-separated. Example: &quot;</span>
-            <span class="s2">&quot;&#39;my_module/py_file.py,show_bases:false&#39;. Encapsulate the value in double &quot;</span>
-            <span class="s1">&#39;quotation marks (&quot;) if including spaces ( ). Important: If multiple &#39;</span>
-            <span class="s2">&quot;package-dir options are supplied, the relative path MUST include/start &quot;</span>
-            <span class="s2">&quot;with the package-dir value, e.g., &quot;</span>
-            <span class="s2">&quot;&#39;</span><span class="se">\&quot;</span><span class="s2">my_package/my_module/py_file.py,show_bases: false</span><span class="se">\&quot;</span><span class="s2">&#39;. This input &quot;</span>
-            <span class="s2">&quot;option can be supplied multiple times. The options will be accumulated &quot;</span>
-            <span class="s2">&quot;for the same file, if given several times.&quot;</span>
+        <span class="s2">"special-option"</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"A combination of a relative path to a file and a fully formed "</span>
+            <span class="s2">"mkdocstrings option that should be added to the generated MarkDown file. "</span>
+            <span class="s2">"The combination should be comma-separated. Example: "</span>
+            <span class="s2">"'my_module/py_file.py,show_bases:false'. Encapsulate the value in double "</span>
+            <span class="s1">'quotation marks (") if including spaces ( ). Important: If multiple '</span>
+            <span class="s2">"package-dir options are supplied, the relative path MUST include/start "</span>
+            <span class="s2">"with the package-dir value, e.g., "</span>
+            <span class="s2">"'</span><span class="se">\"</span><span class="s2">my_package/my_module/py_file.py,show_bases: false</span><span class="se">\"</span><span class="s2">'. This input "</span>
+            <span class="s2">"option can be supplied multiple times. The options will be accumulated "</span>
+            <span class="s2">"for the same file, if given several times."</span>
         <span class="p">),</span>
-        <span class="s2">&quot;relative&quot;</span><span class="p">:</span> <span class="p">(</span>
-            <span class="s2">&quot;Whether or not to use relative Python import links in the API reference &quot;</span>
-            <span class="s2">&quot;markdown files.&quot;</span>
+        <span class="s2">"relative"</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"Whether or not to use relative Python import links in the API reference "</span>
+            <span class="s2">"markdown files."</span>
         <span class="p">),</span>
-        <span class="s2">&quot;debug&quot;</span><span class="p">:</span> <span class="s2">&quot;Whether or not to print debug statements.&quot;</span><span class="p">,</span>
+        <span class="s2">"debug"</span><span class="p">:</span> <span class="s2">"Whether or not to print debug statements."</span><span class="p">,</span>
     <span class="p">},</span>
     <span class="n">iterable</span><span class="o">=</span><span class="p">[</span>
-        <span class="s2">&quot;package_dir&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;unwanted_folder&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;unwanted_file&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;full_docs_folder&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;full_docs_file&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;special_option&quot;</span><span class="p">,</span>
+        <span class="s2">"package_dir"</span><span class="p">,</span>
+        <span class="s2">"unwanted_folder"</span><span class="p">,</span>
+        <span class="s2">"unwanted_file"</span><span class="p">,</span>
+        <span class="s2">"full_docs_folder"</span><span class="p">,</span>
+        <span class="s2">"full_docs_file"</span><span class="p">,</span>
+        <span class="s2">"special_option"</span><span class="p">,</span>
     <span class="p">],</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">create_api_reference_docs</span><span class="p">(</span>
@@ -1456,8 +1456,8 @@ This is specifically to be used with the MkDocs and mkdocstrings framework.</p>
     <span class="n">package_dir</span><span class="p">,</span>
     <span class="n">pre_clean</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">pre_commit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">root_repo_path</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span>
-    <span class="n">docs_folder</span><span class="o">=</span><span class="s2">&quot;docs&quot;</span><span class="p">,</span>
+    <span class="n">root_repo_path</span><span class="o">=</span><span class="s2">"."</span><span class="p">,</span>
+    <span class="n">docs_folder</span><span class="o">=</span><span class="s2">"docs"</span><span class="p">,</span>
     <span class="n">unwanted_folder</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">unwanted_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">full_docs_folder</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -1466,7 +1466,7 @@ This is specifically to be used with the MkDocs and mkdocstrings framework.</p>
     <span class="n">relative</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create the Python API Reference in the documentation.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Create the Python API Reference in the documentation."""</span>
     <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
         <span class="n">context</span><span class="p">:</span> <span class="n">Context</span> <span class="o">=</span> <span class="n">context</span>  <span class="c1"># type: ignore[no-redef]</span>
         <span class="n">pre_clean</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">pre_clean</span>  <span class="c1"># type: ignore[no-redef]</span>
@@ -1477,9 +1477,9 @@ This is specifically to be used with the MkDocs and mkdocstrings framework.</p>
         <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">debug</span>  <span class="c1"># type: ignore[no-redef]</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">unwanted_folder</span><span class="p">:</span>
-        <span class="n">unwanted_folder</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;__pycache__&quot;</span><span class="p">]</span>  <span class="c1"># type: ignore[no-redef]</span>
+        <span class="n">unwanted_folder</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"__pycache__"</span><span class="p">]</span>  <span class="c1"># type: ignore[no-redef]</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">unwanted_file</span><span class="p">:</span>
-        <span class="n">unwanted_file</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;__init__.py&quot;</span><span class="p">]</span>  <span class="c1"># type: ignore[no-redef]</span>
+        <span class="n">unwanted_file</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"__init__.py"</span><span class="p">]</span>  <span class="c1"># type: ignore[no-redef]</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">full_docs_folder</span><span class="p">:</span>
         <span class="n">full_docs_folder</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: ignore[no-redef]</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">full_docs_file</span><span class="p">:</span>
@@ -1494,40 +1494,40 @@ This is specifically to be used with the MkDocs and mkdocstrings framework.</p>
     <span class="n">full_docs_folder</span> <span class="o">=</span> <span class="p">[</span><span class="n">Path</span><span class="p">(</span><span class="n">PurePosixPath</span><span class="p">(</span><span class="n">_</span><span class="p">))</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">full_docs_folder</span><span class="p">]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">write_file</span><span class="p">(</span><span class="n">full_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write file with `content` to `full_path`&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Write file with `content` to `full_path`"""</span>
         <span class="k">if</span> <span class="n">full_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-            <span class="n">cached_content</span> <span class="o">=</span> <span class="n">full_path</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span>
+            <span class="n">cached_content</span> <span class="o">=</span> <span class="n">full_path</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s2">"utf8"</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">content</span> <span class="o">==</span> <span class="n">cached_content</span><span class="p">:</span>
                 <span class="k">del</span> <span class="n">cached_content</span>
                 <span class="k">return</span>
             <span class="k">del</span> <span class="n">cached_content</span>
-        <span class="n">full_path</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span>
+        <span class="n">full_path</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf8"</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">pre_commit</span><span class="p">:</span>
         <span class="c1"># Ensure git is installed</span>
-        <span class="n">result</span><span class="p">:</span> <span class="n">Result</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;git --version&quot;</span><span class="p">,</span> <span class="n">hide</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">result</span><span class="p">:</span> <span class="n">Result</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">"git --version"</span><span class="p">,</span> <span class="n">hide</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">exited</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span>
-                <span class="s2">&quot;Git is not installed. Please install it before running this task.&quot;</span>
+                <span class="s2">"Git is not installed. Please install it before running this task."</span>
             <span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">pre_commit</span> <span class="ow">and</span> <span class="n">root_repo_path</span> <span class="o">==</span> <span class="s2">&quot;.&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">pre_commit</span> <span class="ow">and</span> <span class="n">root_repo_path</span> <span class="o">==</span> <span class="s2">"."</span><span class="p">:</span>
         <span class="c1"># Use git to determine repo root</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;git rev-parse --show-toplevel&quot;</span><span class="p">,</span> <span class="n">hide</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">root_repo_path</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># type: ignore[no-redef]</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">"git rev-parse --show-toplevel"</span><span class="p">,</span> <span class="n">hide</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">root_repo_path</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># type: ignore[no-redef]</span>
 
     <span class="n">root_repo_path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">root_repo_path</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>  <span class="c1"># type: ignore[no-redef]</span>
     <span class="n">package_dirs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">Path</span><span class="p">(</span><span class="n">root_repo_path</span> <span class="o">/</span> <span class="n">_</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">package_dir</span><span class="p">]</span>
-    <span class="n">docs_api_ref_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">root_repo_path</span> <span class="o">/</span> <span class="n">docs_folder</span> <span class="o">/</span> <span class="s2">&quot;api_reference&quot;</span><span class="p">)</span>
+    <span class="n">docs_api_ref_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">root_repo_path</span> <span class="o">/</span> <span class="n">docs_folder</span> <span class="o">/</span> <span class="s2">"api_reference"</span><span class="p">)</span>
 
     <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;package_dirs: %s</span>
+<span class="w">        </span><span class="sd">"""package_dirs: %s</span>
 <span class="sd">docs_api_ref_dir: %s</span>
 <span class="sd">unwanted_folder: %s</span>
 <span class="sd">unwanted_file: %s</span>
 <span class="sd">full_docs_folder: %s</span>
 <span class="sd">full_docs_file: %s</span>
-<span class="sd">special_option: %s&quot;&quot;&quot;</span><span class="p">,</span>
+<span class="sd">special_option: %s"""</span><span class="p">,</span>
         <span class="n">package_dirs</span><span class="p">,</span>
         <span class="n">docs_api_ref_dir</span><span class="p">,</span>
         <span class="n">unwanted_folder</span><span class="p">,</span>
@@ -1537,68 +1537,68 @@ This is specifically to be used with the MkDocs and mkdocstrings framework.</p>
         <span class="n">special_option</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;package_dirs:&quot;</span><span class="p">,</span> <span class="n">package_dirs</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;docs_api_ref_dir:&quot;</span><span class="p">,</span> <span class="n">docs_api_ref_dir</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;unwanted_folder:&quot;</span><span class="p">,</span> <span class="n">unwanted_folder</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;unwanted_file:&quot;</span><span class="p">,</span> <span class="n">unwanted_file</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;full_docs_folder:&quot;</span><span class="p">,</span> <span class="n">full_docs_folder</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;full_docs_file:&quot;</span><span class="p">,</span> <span class="n">full_docs_file</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;special_option:&quot;</span><span class="p">,</span> <span class="n">special_option</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"package_dirs:"</span><span class="p">,</span> <span class="n">package_dirs</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"docs_api_ref_dir:"</span><span class="p">,</span> <span class="n">docs_api_ref_dir</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"unwanted_folder:"</span><span class="p">,</span> <span class="n">unwanted_folder</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"unwanted_file:"</span><span class="p">,</span> <span class="n">unwanted_file</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"full_docs_folder:"</span><span class="p">,</span> <span class="n">full_docs_folder</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"full_docs_file:"</span><span class="p">,</span> <span class="n">full_docs_file</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"special_option:"</span><span class="p">,</span> <span class="n">special_option</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="n">special_options_files</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">special_file</span><span class="p">,</span> <span class="n">option</span> <span class="ow">in</span> <span class="p">[</span><span class="n">_</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">special_option</span><span class="p">]:</span>
-        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="s2">&quot;,&quot;</span> <span class="ow">in</span> <span class="n">_</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="p">(</span><span class="n">special_file</span><span class="p">,</span> <span class="n">option</span><span class="p">)):</span>
-            <span class="n">LOGGER</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Failing for special-option: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">special_file</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">option</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">special_file</span><span class="p">,</span> <span class="n">option</span> <span class="ow">in</span> <span class="p">[</span><span class="n">_</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">special_option</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="s2">","</span> <span class="ow">in</span> <span class="n">_</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="p">(</span><span class="n">special_file</span><span class="p">,</span> <span class="n">option</span><span class="p">)):</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">"Failing for special-option: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">special_file</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">option</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span>
-                    <span class="s2">&quot;Failing for special-option:&quot;</span><span class="p">,</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">special_file</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">option</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="s2">"Failing for special-option:"</span><span class="p">,</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">special_file</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">option</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
                     <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span>
-                <span class="s2">&quot;special-option values may only include a single comma (,) to &quot;</span>
-                <span class="s2">&quot;separate the relative file path and the mkdocstsrings option.&quot;</span>
+                <span class="s2">"special-option values may only include a single comma (,) to "</span>
+                <span class="s2">"separate the relative file path and the mkdocstsrings option."</span>
             <span class="p">)</span>
         <span class="n">special_options_files</span><span class="p">[</span><span class="n">special_file</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">option</span><span class="p">)</span>
 
-    <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;special_options_files: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">special_options_files</span><span class="p">)</span>
+    <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"special_options_files: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">special_options_files</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;special_options_files:&quot;</span><span class="p">,</span> <span class="n">special_options_files</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"special_options_files:"</span><span class="p">,</span> <span class="n">special_options_files</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span> <span class="ow">in</span> <span class="n">_</span> <span class="ow">or</span> <span class="s2">&quot;/&quot;</span> <span class="ow">in</span> <span class="n">_</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">unwanted_folder</span> <span class="o">+</span> <span class="n">unwanted_file</span><span class="p">):</span>
-        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s2">&quot;Unwanted folders and files may NOT be paths.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span> <span class="ow">in</span> <span class="n">_</span> <span class="ow">or</span> <span class="s2">"/"</span> <span class="ow">in</span> <span class="n">_</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">unwanted_folder</span> <span class="o">+</span> <span class="n">unwanted_file</span><span class="p">):</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s2">"Unwanted folders and files may NOT be paths."</span><span class="p">)</span>
 
-    <span class="n">pages_template</span> <span class="o">=</span> <span class="s1">&#39;title: &quot;</span><span class="si">{name}</span><span class="s1">&quot;</span><span class="se">\n</span><span class="s1">&#39;</span>
-    <span class="n">md_template</span> <span class="o">=</span> <span class="s2">&quot;# </span><span class="si">{name}</span><span class="se">\n\n</span><span class="s2">::: </span><span class="si">{py_path}</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="n">pages_template</span> <span class="o">=</span> <span class="s1">'title: "</span><span class="si">{name}</span><span class="s1">"</span><span class="se">\n</span><span class="s1">'</span>
+    <span class="n">md_template</span> <span class="o">=</span> <span class="s2">"# </span><span class="si">{name}</span><span class="se">\n\n</span><span class="s2">::: </span><span class="si">{py_path}</span><span class="se">\n</span><span class="s2">"</span>
     <span class="n">no_docstring_template_addition</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">4</span><span class="si">}</span><span class="s2">options:</span><span class="se">\n</span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">6</span><span class="si">}</span><span class="s2">show_if_no_docstring: true</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">' '</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">4</span><span class="si">}</span><span class="s2">options:</span><span class="se">\n</span><span class="si">{</span><span class="s1">' '</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">6</span><span class="si">}</span><span class="s2">show_if_no_docstring: true</span><span class="se">\n</span><span class="s2">"</span>
     <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">docs_api_ref_dir</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">and</span> <span class="n">pre_clean</span><span class="p">:</span>
-        <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Removing </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">docs_api_ref_dir</span><span class="p">)</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Removing </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">docs_api_ref_dir</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Removing </span><span class="si">{</span><span class="n">docs_api_ref_dir</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Removing </span><span class="si">{</span><span class="n">docs_api_ref_dir</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">docs_api_ref_dir</span><span class="p">,</span> <span class="n">ignore_errors</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">docs_api_ref_dir</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">docs_api_ref_dir</span><span class="si">}</span><span class="s2"> should have been removed!&quot;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">docs_api_ref_dir</span><span class="si">}</span><span class="s2"> should have been removed!"</span><span class="p">)</span>
     <span class="n">docs_api_ref_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Writing file: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">docs_api_ref_dir</span> <span class="o">/</span> <span class="s2">&quot;.pages&quot;</span><span class="p">)</span>
+    <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Writing file: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">docs_api_ref_dir</span> <span class="o">/</span> <span class="s2">".pages"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Writing file: </span><span class="si">{</span><span class="n">docs_api_ref_dir</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s1">&#39;.pages&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Writing file: </span><span class="si">{</span><span class="n">docs_api_ref_dir</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s1">'.pages'</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">write_file</span><span class="p">(</span>
-        <span class="n">full_path</span><span class="o">=</span><span class="n">docs_api_ref_dir</span> <span class="o">/</span> <span class="s2">&quot;.pages&quot;</span><span class="p">,</span>
-        <span class="n">content</span><span class="o">=</span><span class="n">pages_template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;API Reference&quot;</span><span class="p">),</span>
+        <span class="n">full_path</span><span class="o">=</span><span class="n">docs_api_ref_dir</span> <span class="o">/</span> <span class="s2">".pages"</span><span class="p">,</span>
+        <span class="n">content</span><span class="o">=</span><span class="n">pages_template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"API Reference"</span><span class="p">),</span>
     <span class="p">)</span>
 
     <span class="n">single_package</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">package_dirs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
     <span class="k">for</span> <span class="n">package</span> <span class="ow">in</span> <span class="n">package_dirs</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">dirpath</span><span class="p">,</span> <span class="n">dirnames</span><span class="p">,</span> <span class="n">filenames</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">package</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">unwanted</span> <span class="ow">in</span> <span class="n">unwanted_folder</span><span class="p">:</span>
-                <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;unwanted: </span><span class="si">%s</span><span class="se">\n</span><span class="s2">dirnames: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">unwanted</span><span class="p">,</span> <span class="n">dirnames</span><span class="p">)</span>
+                <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"unwanted: </span><span class="si">%s</span><span class="se">\n</span><span class="s2">dirnames: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">unwanted</span><span class="p">,</span> <span class="n">dirnames</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;unwanted:&quot;</span><span class="p">,</span> <span class="n">unwanted</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;dirnames:&quot;</span><span class="p">,</span> <span class="n">dirnames</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">"unwanted:"</span><span class="p">,</span> <span class="n">unwanted</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">"dirnames:"</span><span class="p">,</span> <span class="n">dirnames</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">unwanted</span> <span class="ow">in</span> <span class="n">dirnames</span><span class="p">:</span>
                     <span class="c1"># Avoid walking into or through unwanted directories</span>
                     <span class="n">dirnames</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">unwanted</span><span class="p">)</span>
@@ -1609,50 +1609,50 @@ This is specifically to be used with the MkDocs and mkdocstrings framework.</p>
             <span class="n">abspath</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="n">package</span> <span class="o">/</span> <span class="n">relpath</span> <span class="k">if</span> <span class="n">single_package</span> <span class="k">else</span> <span class="n">package</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="n">relpath</span>
             <span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
-            <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;relpath: </span><span class="si">%s</span><span class="se">\n</span><span class="s2">abspath: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">relpath</span><span class="p">,</span> <span class="n">abspath</span><span class="p">)</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"relpath: </span><span class="si">%s</span><span class="se">\n</span><span class="s2">abspath: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">relpath</span><span class="p">,</span> <span class="n">abspath</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;relpath:&quot;</span><span class="p">,</span> <span class="n">relpath</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;abspath:&quot;</span><span class="p">,</span> <span class="n">abspath</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">"relpath:"</span><span class="p">,</span> <span class="n">relpath</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">"abspath:"</span><span class="p">,</span> <span class="n">abspath</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">abspath</span> <span class="o">/</span> <span class="s2">&quot;__init__.py&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">abspath</span> <span class="o">/</span> <span class="s2">"__init__.py"</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
                 <span class="c1"># Avoid paths that are not included in the public Python API</span>
-                <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;does not exist: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">abspath</span> <span class="o">/</span> <span class="s2">&quot;__init__.py&quot;</span><span class="p">)</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;does not exist:&quot;</span><span class="p">,</span> <span class="n">abspath</span> <span class="o">/</span> <span class="s2">&quot;__init__.py&quot;</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"does not exist: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">abspath</span> <span class="o">/</span> <span class="s2">"__init__.py"</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">"does not exist:"</span><span class="p">,</span> <span class="n">abspath</span> <span class="o">/</span> <span class="s2">"__init__.py"</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
                 <span class="k">continue</span>
 
             <span class="c1"># Create `.pages`</span>
             <span class="n">docs_sub_dir</span> <span class="o">=</span> <span class="n">docs_api_ref_dir</span> <span class="o">/</span> <span class="n">relpath</span>
             <span class="n">docs_sub_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;docs_sub_dir: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">docs_sub_dir</span><span class="p">)</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"docs_sub_dir: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">docs_sub_dir</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;docs_sub_dir:&quot;</span><span class="p">,</span> <span class="n">docs_sub_dir</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">relpath</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;.&quot;</span><span class="p">:</span>
-                <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Writing file: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">docs_sub_dir</span> <span class="o">/</span> <span class="s2">&quot;.pages&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">"docs_sub_dir:"</span><span class="p">,</span> <span class="n">docs_sub_dir</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">relpath</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">"."</span><span class="p">:</span>
+                <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Writing file: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">docs_sub_dir</span> <span class="o">/</span> <span class="s2">".pages"</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Writing file: </span><span class="si">{</span><span class="n">docs_sub_dir</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s1">&#39;.pages&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Writing file: </span><span class="si">{</span><span class="n">docs_sub_dir</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="s1">'.pages'</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
                 <span class="n">write_file</span><span class="p">(</span>
-                    <span class="n">full_path</span><span class="o">=</span><span class="n">docs_sub_dir</span> <span class="o">/</span> <span class="s2">&quot;.pages&quot;</span><span class="p">,</span>
+                    <span class="n">full_path</span><span class="o">=</span><span class="n">docs_sub_dir</span> <span class="o">/</span> <span class="s2">".pages"</span><span class="p">,</span>
                     <span class="n">content</span><span class="o">=</span><span class="n">pages_template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">relpath</span><span class="o">.</span><span class="n">name</span><span class="p">),</span>
                 <span class="p">)</span>
 
             <span class="c1"># Create markdown files</span>
             <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">_</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">):</span>
                 <span class="k">if</span> <span class="p">(</span>
-                    <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;.*\.py$&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span> <span class="ow">is</span> <span class="kc">None</span>
+                    <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">".*\.py$"</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span> <span class="ow">is</span> <span class="kc">None</span>
                     <span class="ow">or</span> <span class="nb">str</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="ow">in</span> <span class="n">unwanted_file</span>
                 <span class="p">):</span>
-                    <span class="c1"># Not a Python file: We don&#39;t care about it!</span>
+                    <span class="c1"># Not a Python file: We don't care about it!</span>
                     <span class="c1"># Or filename is in the list of unwanted files:</span>
-                    <span class="c1"># We don&#39;t want it!</span>
+                    <span class="c1"># We don't want it!</span>
                     <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-                        <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> is not a Python file or is an unwanted file (through user &quot;</span>
-                        <span class="s2">&quot;input). Skipping it.&quot;</span><span class="p">,</span>
+                        <span class="s2">"</span><span class="si">%s</span><span class="s2"> is not a Python file or is an unwanted file (through user "</span>
+                        <span class="s2">"input). Skipping it."</span><span class="p">,</span>
                         <span class="n">filename</span><span class="p">,</span>
                     <span class="p">)</span>
                     <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
                         <span class="nb">print</span><span class="p">(</span>
-                            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2"> is not a Python file or is an unwanted file &quot;</span>
-                            <span class="s2">&quot;(through user input). Skipping it.&quot;</span><span class="p">,</span>
+                            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2"> is not a Python file or is an unwanted file "</span>
+                            <span class="s2">"(through user input). Skipping it."</span><span class="p">,</span>
                             <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                         <span class="p">)</span>
                     <span class="k">continue</span>
@@ -1661,63 +1661,63 @@ This is specifically to be used with the MkDocs and mkdocstrings framework.</p>
                     <span class="n">package</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">root_repo_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">relative</span> <span class="k">else</span> <span class="n">package</span><span class="o">.</span><span class="n">name</span>
                 <span class="p">)</span>
                 <span class="n">py_path</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">py_path_root</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">filename</span><span class="o">.</span><span class="n">stem</span><span class="si">}</span><span class="s2">&quot;</span>
-                    <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">relpath</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;.&quot;</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">py_path_root</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">filename</span><span class="o">.</span><span class="n">stem</span><span class="si">}</span><span class="s2">"</span>
+                    <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">relpath</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"."</span>
                     <span class="ow">or</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">relpath</span><span class="p">)</span> <span class="o">==</span> <span class="n">package</span><span class="o">.</span><span class="n">name</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">single_package</span><span class="p">)</span>
                     <span class="k">else</span> <span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">py_path_root</span><span class="si">}</span><span class="s2">/&quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">relpath</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">single_package</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="n">relpath</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">package</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="si">}</span><span class="s2">/&quot;</span>  <span class="c1"># noqa: E501</span>
-                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">filename</span><span class="o">.</span><span class="n">stem</span><span class="si">}</span><span class="s2">&quot;</span>
+                        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">py_path_root</span><span class="si">}</span><span class="s2">/"</span>
+                        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">relpath</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">single_package</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="n">relpath</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">package</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="si">}</span><span class="s2">/"</span>  <span class="c1"># noqa: E501</span>
+                        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">filename</span><span class="o">.</span><span class="n">stem</span><span class="si">}</span><span class="s2">"</span>
                     <span class="p">)</span>
                 <span class="p">)</span>
 
                 <span class="c1"># Replace OS specific path separators with forward slashes before</span>
                 <span class="c1"># replacing that with dots (for Python import paths).</span>
-                <span class="n">py_path</span> <span class="o">=</span> <span class="n">py_path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">,</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">)</span>
+                <span class="n">py_path</span> <span class="o">=</span> <span class="n">py_path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">,</span> <span class="s2">"/"</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"/"</span><span class="p">,</span> <span class="s2">"."</span><span class="p">)</span>
 
-                <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;filename: </span><span class="si">%s</span><span class="se">\n</span><span class="s2">py_path: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">py_path</span><span class="p">)</span>
+                <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"filename: </span><span class="si">%s</span><span class="se">\n</span><span class="s2">py_path: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">py_path</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;filename:&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;py_path:&quot;</span><span class="p">,</span> <span class="n">py_path</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">"filename:"</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">"py_path:"</span><span class="p">,</span> <span class="n">py_path</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
                 <span class="n">relative_file_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span>
-                    <span class="nb">str</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">relpath</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;.&quot;</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">relpath</span> <span class="o">/</span> <span class="n">filename</span><span class="p">)</span>
+                    <span class="nb">str</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">relpath</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"."</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">relpath</span> <span class="o">/</span> <span class="n">filename</span><span class="p">)</span>
                 <span class="p">)</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span>
 
-                <span class="c1"># For special files we want to include EVERYTHING, even if it doesn&#39;t</span>
+                <span class="c1"># For special files we want to include EVERYTHING, even if it doesn't</span>
                 <span class="c1"># have a doc-string</span>
                 <span class="n">template</span> <span class="o">=</span> <span class="n">md_template</span> <span class="o">+</span> <span class="p">(</span>
                     <span class="n">no_docstring_template_addition</span>
                     <span class="k">if</span> <span class="n">relative_file_path</span> <span class="ow">in</span> <span class="n">full_docs_file</span>
                     <span class="ow">or</span> <span class="n">relpath</span> <span class="ow">in</span> <span class="n">full_docs_folder</span>
-                    <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+                    <span class="k">else</span> <span class="s2">""</span>
                 <span class="p">)</span>
 
                 <span class="c1"># Include special options, if any, for certain files.</span>
                 <span class="k">if</span> <span class="n">relative_file_path</span> <span class="ow">in</span> <span class="n">special_options_files</span><span class="p">:</span>
                     <span class="n">template</span> <span class="o">+=</span> <span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">4</span><span class="si">}</span><span class="s2">options:</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="s2">&quot;options:</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">template</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+                        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">' '</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">4</span><span class="si">}</span><span class="s2">options:</span><span class="se">\n</span><span class="s2">"</span> <span class="k">if</span> <span class="s2">"options:</span><span class="se">\n</span><span class="s2">"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">template</span> <span class="k">else</span> <span class="s2">""</span>
                     <span class="p">)</span>
-                    <span class="n">template</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">6</span><span class="si">}{</span><span class="n">option</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="n">template</span> <span class="o">+=</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">' '</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">6</span><span class="si">}{</span><span class="n">option</span><span class="si">}</span><span class="s2">"</span>
                         <span class="k">for</span> <span class="n">option</span> <span class="ow">in</span> <span class="n">special_options_files</span><span class="p">[</span><span class="n">relative_file_path</span><span class="p">]</span>
                     <span class="p">)</span>
-                    <span class="n">template</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="n">template</span> <span class="o">+=</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span>
 
                 <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-                    <span class="s2">&quot;template: </span><span class="si">%s</span><span class="se">\n</span><span class="s2">Writing file: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="s2">"template: </span><span class="si">%s</span><span class="se">\n</span><span class="s2">Writing file: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
                     <span class="n">template</span><span class="p">,</span>
-                    <span class="n">docs_sub_dir</span> <span class="o">/</span> <span class="n">filename</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.md&quot;</span><span class="p">),</span>
+                    <span class="n">docs_sub_dir</span> <span class="o">/</span> <span class="n">filename</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">".md"</span><span class="p">),</span>
                 <span class="p">)</span>
                 <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;template:&quot;</span><span class="p">,</span> <span class="n">template</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">"template:"</span><span class="p">,</span> <span class="n">template</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
                     <span class="nb">print</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;Writing file: </span><span class="si">{</span><span class="n">docs_sub_dir</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">filename</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s1">&#39;.md&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                        <span class="sa">f</span><span class="s2">"Writing file: </span><span class="si">{</span><span class="n">docs_sub_dir</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">filename</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s1">'.md'</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
                         <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                     <span class="p">)</span>
 
                 <span class="n">write_file</span><span class="p">(</span>
-                    <span class="n">full_path</span><span class="o">=</span><span class="n">docs_sub_dir</span> <span class="o">/</span> <span class="n">filename</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.md&quot;</span><span class="p">),</span>
+                    <span class="n">full_path</span><span class="o">=</span><span class="n">docs_sub_dir</span> <span class="o">/</span> <span class="n">filename</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">".md"</span><span class="p">),</span>
                     <span class="n">content</span><span class="o">=</span><span class="n">template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">filename</span><span class="o">.</span><span class="n">stem</span><span class="p">,</span> <span class="n">py_path</span><span class="o">=</span><span class="n">py_path</span><span class="p">),</span>
                 <span class="p">)</span>
 
@@ -1728,22 +1728,22 @@ This is specifically to be used with the MkDocs and mkdocstrings framework.</p>
         <span class="c1"># NOTE: Concerning the weird regular expression, see:</span>
         <span class="c1"># http://manpages.ubuntu.com/manpages/precise/en/man1/git-status.1.html</span>
         <span class="n">result</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s1">&#39;git -C &quot;</span><span class="si">{</span><span class="n">root_repo_path</span><span class="si">}</span><span class="s1">&quot; status --porcelain &#39;</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">docs_api_ref_dir</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">root_repo_path</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s1">'git -C "</span><span class="si">{</span><span class="n">root_repo_path</span><span class="si">}</span><span class="s1">" status --porcelain '</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">docs_api_ref_dir</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">root_repo_path</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
             <span class="n">hide</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>
-                <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^[? MARC][?MD]&quot;</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">"^[? MARC][?MD]"</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
                     <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CURLY_LOOP</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> The following files have been &quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;changed/added/removed:</span><span class="se">\n\n</span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
-                        <span class="s2">&quot;Please stage them:</span><span class="se">\n\n</span><span class="s2">&quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;  git add </span><span class="si">{</span><span class="n">docs_api_ref_dir</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">root_repo_path</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CURLY_LOOP</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> The following files have been "</span>
+                        <span class="sa">f</span><span class="s2">"changed/added/removed:</span><span class="se">\n\n</span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
+                        <span class="s2">"Please stage them:</span><span class="se">\n\n</span><span class="s2">"</span>
+                        <span class="sa">f</span><span class="s2">"  git add </span><span class="si">{</span><span class="n">docs_api_ref_dir</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">root_repo_path</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
                     <span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CHECK_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> No changes - your API reference documentation &quot;</span>
-            <span class="s2">&quot;is up-to-date !&quot;</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">Emoji</span><span class="o">.</span><span class="n">CHECK_MARK</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> No changes - your API reference documentation "</span>
+            <span class="s2">"is up-to-date !"</span>
         <span class="p">)</span>
 </code></pre></div>
         </details>
