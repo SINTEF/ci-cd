@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
     
     
       
@@ -31,10 +31,10 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -898,7 +898,7 @@
   <a href="#ci_cd.exceptions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ci_cd.exceptions
+        exceptions
       
     </span>
   </a>
@@ -1337,7 +1337,7 @@
   <a href="#ci_cd.exceptions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ci_cd.exceptions
+        exceptions
       
     </span>
   </a>
@@ -1408,16 +1408,14 @@
 <h1 id="exceptions">exceptions<a class="headerlink" href="#exceptions" title="Permanent link">&para;</a></h1>
 
 
-  <div class="doc doc-object doc-module">
+<div class="doc doc-object doc-module">
+
+
 
 <a id="ci_cd.exceptions"></a>
     <div class="doc doc-contents first">
 
-      <p>CI/CD-specific exceptions.</p>
-
-
-
-  <div class="doc doc-children">
+        <p>CI/CD-specific exceptions.</p>
 
 
 
@@ -1425,130 +1423,170 @@
 
 
 
-  <div class="doc doc-object doc-class">
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
 
 
 
 <h3 id="ci_cd.exceptions.CICDException" class="doc doc-heading">
-        <code>
-CICDException            (<span title="Exception">Exception</span>)
-        </code>
-
+            <code>CICDException</code>
 
 
 <a href="#ci_cd.exceptions.CICDException" class="headerlink" title="Permanent link">&para;</a></h3>
 
+
     <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="Exception">Exception</span></code></p>
 
-      <p>Top-level package exception class.</p>
 
-        <details class="quote">
-          <summary>Source code in <code>ci_cd/exceptions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">CICDException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+
+        <p>Top-level package exception class.</p>
+
+
+
+
+
+
+
+
+              <details class="mkdocstrings-source">
+                <summary>Source code in <code>ci_cd/exceptions.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">CICDException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Top-level package exception class."""</span>
-</code></pre></div>
-        </details>
-
+</code></pre></div></td></tr></table></div>
+              </details>
 
     </div>
 
-  </div>
+</div>
 
-
-
-  <div class="doc doc-object doc-class">
+<div class="doc doc-object doc-class">
 
 
 
 <h3 id="ci_cd.exceptions.InputError" class="doc doc-heading">
-        <code>
-InputError            (<span title="ValueError">ValueError</span>, <a class="autorefs autorefs-internal" title="ci_cd.exceptions.CICDException" href="#ci_cd.exceptions.CICDException">CICDException</a>)
-        </code>
-
+            <code>InputError</code>
 
 
 <a href="#ci_cd.exceptions.InputError" class="headerlink" title="Permanent link">&para;</a></h3>
 
+
     <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="ValueError">ValueError</span></code>, <code><a class="autorefs autorefs-internal" title="CICDException (ci_cd.exceptions.CICDException)" href="#ci_cd.exceptions.CICDException">CICDException</a></code></p>
 
-      <p>There is an error with the input given to a task.</p>
 
-        <details class="quote">
-          <summary>Source code in <code>ci_cd/exceptions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">InputError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">CICDException</span><span class="p">):</span>
+
+        <p>There is an error with the input given to a task.</p>
+
+
+
+
+
+
+
+
+              <details class="mkdocstrings-source">
+                <summary>Source code in <code>ci_cd/exceptions.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">10</span>
+<span class="normal">11</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">InputError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">CICDException</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""There is an error with the input given to a task."""</span>
-</code></pre></div>
-        </details>
-
+</code></pre></div></td></tr></table></div>
+              </details>
 
     </div>
 
-  </div>
+</div>
 
-
-
-  <div class="doc doc-object doc-class">
+<div class="doc doc-object doc-class">
 
 
 
 <h3 id="ci_cd.exceptions.InputParserError" class="doc doc-heading">
-        <code>
-InputParserError            (<a class="autorefs autorefs-internal" title="ci_cd.exceptions.InputError" href="#ci_cd.exceptions.InputError">InputError</a>)
-        </code>
-
+            <code>InputParserError</code>
 
 
 <a href="#ci_cd.exceptions.InputParserError" class="headerlink" title="Permanent link">&para;</a></h3>
 
+
     <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="InputError (ci_cd.exceptions.InputError)" href="#ci_cd.exceptions.InputError">InputError</a></code></p>
 
-      <p>The input could not be parsed, it may be wrongly formatted.</p>
 
-        <details class="quote">
-          <summary>Source code in <code>ci_cd/exceptions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">InputParserError</span><span class="p">(</span><span class="n">InputError</span><span class="p">):</span>
+
+        <p>The input could not be parsed, it may be wrongly formatted.</p>
+
+
+
+
+
+
+
+
+              <details class="mkdocstrings-source">
+                <summary>Source code in <code>ci_cd/exceptions.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">14</span>
+<span class="normal">15</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">InputParserError</span><span class="p">(</span><span class="n">InputError</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""The input could not be parsed, it may be wrongly formatted."""</span>
-</code></pre></div>
-        </details>
-
+</code></pre></div></td></tr></table></div>
+              </details>
 
     </div>
 
-  </div>
+</div>
 
-
-
-  <div class="doc doc-object doc-class">
+<div class="doc doc-object doc-class">
 
 
 
 <h3 id="ci_cd.exceptions.UnableToResolve" class="doc doc-heading">
-        <code>
-UnableToResolve            (<a class="autorefs autorefs-internal" title="ci_cd.exceptions.CICDException" href="#ci_cd.exceptions.CICDException">CICDException</a>)
-        </code>
-
+            <code>UnableToResolve</code>
 
 
 <a href="#ci_cd.exceptions.UnableToResolve" class="headerlink" title="Permanent link">&para;</a></h3>
 
+
     <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="CICDException (ci_cd.exceptions.CICDException)" href="#ci_cd.exceptions.CICDException">CICDException</a></code></p>
 
-      <p>Unable to resolve a task or sub-task.</p>
 
-        <details class="quote">
-          <summary>Source code in <code>ci_cd/exceptions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">UnableToResolve</span><span class="p">(</span><span class="n">CICDException</span><span class="p">):</span>
+
+        <p>Unable to resolve a task or sub-task.</p>
+
+
+
+
+
+
+
+
+              <details class="mkdocstrings-source">
+                <summary>Source code in <code>ci_cd/exceptions.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">18</span>
+<span class="normal">19</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">UnableToResolve</span><span class="p">(</span><span class="n">CICDException</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Unable to resolve a task or sub-task."""</span>
-</code></pre></div>
-        </details>
-
+</code></pre></div></td></tr></table></div>
+              </details>
 
     </div>
 
-  </div>
-
-
-
+</div>
 
 
 
@@ -1557,7 +1595,7 @@ UnableToResolve            (<a class="autorefs autorefs-internal" title="ci_cd.e
 
     </div>
 
-  </div>
+</div>
 
 
 
@@ -1638,10 +1676,10 @@ UnableToResolve            (<a class="autorefs autorefs-internal" title="ci_cd.e
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.top"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.top"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
       
     
   </body>

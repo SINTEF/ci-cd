@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
     
     
       
@@ -31,10 +31,10 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -1780,7 +1780,7 @@ For more information about <code>pre-commit</code>, please see the tool's websit
 <td style="text-align: left;"><code>python_version_pre-commit</code></td>
 <td style="text-align: left;">The Python version to use for the <code>pre-commit</code> test job.</td>
 <td style="text-align: center;">No</td>
-<td style="text-align: center;">3.9</td>
+<td style="text-align: center;">3.11</td>
 <td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
@@ -1852,7 +1852,7 @@ For each line in <code>pylint_runs</code>, <code>pylint</code> will be executed.
 <td style="text-align: left;"><code>python_version_pylint_safety</code></td>
 <td style="text-align: left;">The Python version to use for the <code>pylint</code> and <code>safety</code> test jobs.</td>
 <td style="text-align: center;">No</td>
-<td style="text-align: center;">3.9</td>
+<td style="text-align: center;">3.11</td>
 <td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
@@ -1927,7 +1927,7 @@ For each line in <code>pylint_runs</code>, <code>pylint</code> will be executed.
 <td style="text-align: left;"><code>python_version_package</code></td>
 <td style="text-align: left;">The Python version to use for the <code>build package</code> test job.</td>
 <td style="text-align: center;">No</td>
-<td style="text-align: center;">3.9</td>
+<td style="text-align: center;">3.11</td>
 <td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
@@ -2001,7 +2001,7 @@ For Sphinx, it requires at minimum the files created from running <code>sphinx-q
 <td style="text-align: left;"><code>python_version_docs</code></td>
 <td style="text-align: left;">The Python version to use for the <code>build documentation</code> test job.</td>
 <td style="text-align: center;">No</td>
-<td style="text-align: center;">3.9</td>
+<td style="text-align: center;">3.11</td>
 <td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
@@ -2191,7 +2191,7 @@ It is meant to be complete as is.</p>
 <span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SINTEF/ci-cd/.github/workflows/ci_tests.yml@v2.10.0</span>
 <span class="w">    </span><span class="nt">with</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">python_version_pylint_safety</span><span class="p">:</span><span class="w"> </span><span class="s">"3.8"</span>
-<span class="w">      </span><span class="nt">python_version_docs</span><span class="p">:</span><span class="w"> </span><span class="s">"3.9"</span>
+<span class="w">      </span><span class="nt">python_version_docs</span><span class="p">:</span><span class="w"> </span><span class="s">"3.11"</span>
 <span class="w">      </span><span class="nt">install_extras</span><span class="p">:</span><span class="w"> </span><span class="s">"[dev,docs]"</span>
 <span class="w">      </span><span class="nt">skip_pre-commit_hooks</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pylint</span>
 <span class="w">      </span><span class="nt">pylint_options</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--rcfile=pyproject.toml</span>
@@ -2216,7 +2216,7 @@ It is meant to be complete as is.</p>
 <span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SINTEF/ci-cd/.github/workflows/ci_tests.yml@v2.10.0</span>
 <span class="w">    </span><span class="nt">with</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">python_version_pylint_safety</span><span class="p">:</span><span class="w"> </span><span class="s">"3.8"</span>
-<span class="w">      </span><span class="nt">python_version_docs</span><span class="p">:</span><span class="w"> </span><span class="s">"3.9"</span>
+<span class="w">      </span><span class="nt">python_version_docs</span><span class="p">:</span><span class="w"> </span><span class="s">"3.11"</span>
 <span class="w">      </span><span class="nt">install_extras</span><span class="p">:</span><span class="w"> </span><span class="s">"[dev,docs]"</span>
 <span class="w">      </span><span class="nt">skip_pre-commit_hooks</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pylint</span>
 <span class="w">      </span><span class="nt">pylint_runs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
@@ -2274,7 +2274,7 @@ However, it is recommended to instead refer to the job-specific tables of inputs
 <td style="text-align: left;"><code>python_version_pre-commit</code></td>
 <td style="text-align: left;">The Python version to use for the <code>pre-commit</code> test job.</td>
 <td style="text-align: center;">No</td>
-<td style="text-align: center;">3.9</td>
+<td style="text-align: center;">3.11</td>
 <td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
@@ -2316,7 +2316,7 @@ However, it is recommended to instead refer to the job-specific tables of inputs
 <td style="text-align: left;"><code>python_version_pylint_safety</code></td>
 <td style="text-align: left;"><strong><em>Deprecated</em></strong> The Python version to use for the <code>pylint</code> and <code>safety</code> test jobs.</td>
 <td style="text-align: center;">No</td>
-<td style="text-align: center;">3.9</td>
+<td style="text-align: center;">3.11</td>
 <td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
@@ -2372,7 +2372,7 @@ However, it is recommended to instead refer to the job-specific tables of inputs
 <td style="text-align: left;"><code>python_version_package</code></td>
 <td style="text-align: left;">The Python version to use for the <code>build package</code> test job.</td>
 <td style="text-align: center;">No</td>
-<td style="text-align: center;">3.9</td>
+<td style="text-align: center;">3.11</td>
 <td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
@@ -2414,7 +2414,7 @@ However, it is recommended to instead refer to the job-specific tables of inputs
 <td style="text-align: left;"><code>python_version_docs</code></td>
 <td style="text-align: left;">The Python version to use for the <code>build documentation</code> test job.</td>
 <td style="text-align: center;">No</td>
-<td style="text-align: center;">3.9</td>
+<td style="text-align: center;">3.11</td>
 <td style="text-align: center;"><em>string</em></td>
 </tr>
 <tr>
@@ -2639,10 +2639,10 @@ However, it is recommended to instead refer to the job-specific tables of inputs
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.top"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.top"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
       
     
   </body>
