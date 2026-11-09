@@ -82,8 +82,11 @@ jobs:
       fail-fast: false
       matrix:
         # Use lowest and highest supported (stable) Python version
-        python-version: ["3.8", "3.12"]
-        os: ["ubuntu-latest", "windows-latest"]
+        include:
+          - python-version: "3.8"
+            os: ["ubuntu-24.04", "windows-latest"]
+          - python-version: "3.15"
+            os: ["ubuntu-latest", "windows-latest"]
 
     steps:
     - name: Checkout repository
