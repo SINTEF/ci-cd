@@ -20,7 +20,7 @@ jobs:
       run_safety: false
 
       # pre-commit
-      python_version_pre-commit: '3.10'
+      python_version_pre-commit: '3.11'
 
       # build dist
       build_libs: flit
