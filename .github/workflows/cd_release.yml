@@ -70,7 +70,7 @@ on:
         description: "The Python version to use for the workflow when building the package."
         required: false
         type: string
-        default: "3.9"
+        default: "3.11"
       package_dirs:
         description: "A multi-line string of paths to Python package directories relative to the repository directory to have its `__version__` value updated. Example: `'src/my_package'`. **Important**: This is _required_ if 'python_package' is 'true', which is the default."
         required: false
@@ -132,7 +132,7 @@ on:
         description: "The Python version to use for the workflow when building the documentation."
         required: false
         type: string
-        default: "3.9"
+        default: "3.11"
       doc_extras:
         description: "Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces. Note, if this is empty, 'install_extras' will be used as a fallback. Example: `'[docs]'`."
         required: false
@@ -185,9 +185,9 @@ jobs:
     steps:
     - name: Validate inputs
       run: |
-        if [[ ! "${{ inputs.python_version_build }}" =~ ^3\.([8-9]|1[0-4])(\..*)?$ ]]; then
+        if [[ ! "${{ inputs.python_version_build }}" =~ ^3\.([8-9]|1[0-6])(\..*)?$ ]]; then
           echo "Python version '${{ inputs.python_version_build }}' is not supported."
-          echo "Supported versions are: 3.8, 3.9, 3.10, 3.11, 3.12, 3.13, 3.14."
+          echo "Supported versions are: 3.8, 3.9, 3.10, 3.11, 3.12, 3.13, 3.14, 3.15, 3.16."
           exit 1
         fi
 

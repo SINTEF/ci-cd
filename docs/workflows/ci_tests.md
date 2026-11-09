@@ -39,7 +39,7 @@ This job **should not be run** _if_ the repository does not implement `pre-commi
 | **Name** | **Description** | **Required** | **Default** | **Type** |
 |:--- |:--- |:---:|:---:|:---:|
 | `run_pre-commit` | Run the `pre-commit` test job. | No | `true` | _boolean_ |
-| `python_version_pre-commit` | The Python version to use for the `pre-commit` test job. | No | 3.9 | _string_ |
+| `python_version_pre-commit` | The Python version to use for the `pre-commit` test job. | No | 3.11 | _string_ |
 | `pip_index_url_pre-commit` | A URL to a PyPI repository index. | No | `https://pypi.org/simple/` | _string_ |
 | `pip_extra_index_urls_pre-commit` | A space-delimited string of URLs to additional PyPI repository indices. | No | _Empty string_ | _string_ |
 | `skip_pre-commit_hooks` | A comma-separated list of pre-commit hook IDs to skip when running `pre-commit` after updating hooks. | No | _Empty string_ | _string_ |
@@ -72,7 +72,7 @@ There are no expectations or pre-requisites.
 |:--- |:--- |:---:|:---:|:---:|
 | `run_pylint` | Run the `pylint` test job. | No | `false` | _boolean_ |
 | `run_safety` | Run the `safety` test job. | No | `false` | _boolean_ |
-| `python_version_pylint_safety` | The Python version to use for the `pylint` and `safety` test jobs. | No | 3.9 | _string_ |
+| `python_version_pylint_safety` | The Python version to use for the `pylint` and `safety` test jobs. | No | 3.11 | _string_ |
 | `pip_index_url_pylint_safety` | A URL to a PyPI repository index. | No | `https://pypi.org/simple/` | _string_ |
 | `pip_extra_index_urls_pylint_safety` | A space-delimited string of URLs to additional PyPI repository indices. | No | _Empty string_ | _string_ |
 | `pylint_targets` | Space-separated string of pylint file and folder targets.</br></br>**Note**: This is only valid if `pylint_runs` is not defined. | **Yes, if `pylint_runs` is not defined** | _Empty string_ | _string_ |
@@ -95,7 +95,7 @@ The repository should be a "buildable" Python package.
 | **Name** | **Description** | **Required** | **Default** | **Type** |
 |:--- |:--- |:---:|:---:|:---:|
 | `run_build_package` | Run the `build package` test job. | No | `true` | _boolean_ |
-| `python_version_package` | The Python version to use for the `build package` test job. | No | 3.9 | _string_ |
+| `python_version_package` | The Python version to use for the `build package` test job. | No | 3.11 | _string_ |
 | `pip_index_url_package` | A URL to a PyPI repository index. | No | `https://pypi.org/simple/` | _string_ |
 | `pip_extra_index_urls_package` | A space-delimited string of URLs to additional PyPI repository indices. | No | _Empty string_ | _string_ |
 | `build_libs` | A space-separated list of packages to install via PyPI (`pip install`). | No | _Empty string_ | _string_ |
@@ -132,7 +132,7 @@ General inputs for building the documentation:
 | **Name** | **Description** | **Required** | **Default** | **Type** |
 |:--- |:--- |:---:|:---:|:---:|
 | `run_build_docs` | Run the `build package` test job. | No | `true` | _boolean_ |
-| `python_version_docs` | The Python version to use for the `build documentation` test job. | No | 3.9 | _string_ |
+| `python_version_docs` | The Python version to use for the `build documentation` test job. | No | 3.11 | _string_ |
 | `pip_index_url_docs` | A URL to a PyPI repository index. | No | `https://pypi.org/simple/` | _string_ |
 | `pip_extra_index_urls_docs` | A space-delimited string of URLs to additional PyPI repository indices. | No | _Empty string_ | _string_ |
 | `relative` | Whether or not to use the locally installed Python package(s), and install it as an editable. | No | `false` | _boolean_ |
@@ -184,7 +184,7 @@ jobs:
     uses: SINTEF/ci-cd/.github/workflows/ci_tests.yml@v2.10.0
     with:
       python_version_pylint_safety: "3.8"
-      python_version_docs: "3.9"
+      python_version_docs: "3.11"
       install_extras: "[dev,docs]"
       skip_pre-commit_hooks: pylint
       pylint_options: --rcfile=pyproject.toml
@@ -212,7 +212,7 @@ jobs:
     uses: SINTEF/ci-cd/.github/workflows/ci_tests.yml@v2.10.0
     with:
       python_version_pylint_safety: "3.8"
-      python_version_docs: "3.9"
+      python_version_docs: "3.11"
       install_extras: "[dev,docs]"
       skip_pre-commit_hooks: pylint
       pylint_runs: |
@@ -237,13 +237,13 @@ See also [General information](index.md#general-information).
 | `install_extras` | Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces.</br></br>Example: `'[dev,pre-commit]'`. | No | _Empty string_ | _string_ |
 | `system_dependencies` | A single (space-separated) or multi-line string of Ubuntu APT packages to install prior to installing the local repository.</br></br>See also [Single vs multi-line input](index.md#single-vs-multi-line-input). | No | _Empty string_ | _string_ |
 | `run_pre-commit` | Run the `pre-commit` test job. | No | `true` | _boolean_ |
-| `python_version_pre-commit` | The Python version to use for the `pre-commit` test job. | No | 3.9 | _string_ |
+| `python_version_pre-commit` | The Python version to use for the `pre-commit` test job. | No | 3.11 | _string_ |
 | `pip_index_url_pre-commit` | A URL to a PyPI repository index. | No | `https://pypi.org/simple/` | _string_ |
 | `pip_extra_index_urls_pre-commit` | A space-delimited string of URLs to additional PyPI repository indices. | No | _Empty string_ | _string_ |
 | `skip_pre-commit_hooks` | A comma-separated list of pre-commit hook IDs to skip when running `pre-commit` after updating hooks. | No | _Empty string_ | _string_ |
 | `run_pylint` | **_Deprecated_** Run the `pylint` test job. | No | `false` | _boolean_ |
 | `run_safety` | **_Deprecated_** Run the `safety` test job. | No | `false` | _boolean_ |
-| `python_version_pylint_safety` | **_Deprecated_** The Python version to use for the `pylint` and `safety` test jobs. | No | 3.9 | _string_ |
+| `python_version_pylint_safety` | **_Deprecated_** The Python version to use for the `pylint` and `safety` test jobs. | No | 3.11 | _string_ |
 | `pip_index_url_pylint_safety` | **_Deprecated_** A URL to a PyPI repository index. | No | `https://pypi.org/simple/` | _string_ |
 | `pip_extra_index_urls_pylint_safety` | **_Deprecated_** A space-delimited string of URLs to additional PyPI repository indices. | No | _Empty string_ | _string_ |
 | `pylint_targets` | **_Deprecated_** Space-separated string of pylint file and folder targets.</br></br>**Note**: This is only valid if `pylint_runs` is not defined. | **Yes, if `pylint_runs` is not defined** | _Empty string_ | _string_ |
@@ -251,13 +251,13 @@ See also [General information](index.md#general-information).
 | `pylint_runs` | **_Deprecated_** Single or multi-line string with each line representing a separate pylint run/execution. This should include all desired options and targets.</br></br>**Important**: The inputs `pylint_options` and `pylint_targets` will be ignored if this is defined. | No | _Empty string_ | _string_ |
 | `safety_options` | **_Deprecated_** Single (space-separated) or multi-line string of safety command line options. | No | _Empty string_ | _string_ |
 | `run_build_package` | Run the `build package` test job. | No | `true` | _boolean_ |
-| `python_version_package` | The Python version to use for the `build package` test job. | No | 3.9 | _string_ |
+| `python_version_package` | The Python version to use for the `build package` test job. | No | 3.11 | _string_ |
 | `pip_index_url_package` | A URL to a PyPI repository index. | No | `https://pypi.org/simple/` | _string_ |
 | `pip_extra_index_urls_package` | A space-delimited string of URLs to additional PyPI repository indices. | No | _Empty string_ | _string_ |
 | `build_libs` | A space-separated list of packages to install via PyPI (`pip install`). | No | _Empty string_ | _string_ |
 | `build_cmd` | The package build command, e.g., `'flit build'` or `'python -m build'` (default). | No | `python -m build` | _string_ |
 | `run_build_docs` | Run the `build package` test job. | No | `true` | _boolean_ |
-| `python_version_docs` | The Python version to use for the `build documentation` test job. | No | 3.9 | _string_ |
+| `python_version_docs` | The Python version to use for the `build documentation` test job. | No | 3.11 | _string_ |
 | `pip_index_url_docs` | A URL to a PyPI repository index. | No | `https://pypi.org/simple/` | _string_ |
 | `pip_extra_index_urls_docs` | A space-delimited string of URLs to additional PyPI repository indices. | No | _Empty string_ | _string_ |
 | `relative` | Whether or not to use the locally installed Python package(s), and install it as an editable. | No | `false` | _boolean_ |

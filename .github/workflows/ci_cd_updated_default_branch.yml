@@ -82,7 +82,7 @@ on:
         description: "The Python version to use for the workflow when building the documentation."
         required: false
         type: string
-        default: "3.9"
+        default: "3.11"
       doc_extras:
         description: "Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces. Example: `'[docs]'`."
         required: false
@@ -208,9 +208,9 @@ jobs:
             exit 1
         fi
 
-        if [[ ! "${{ inputs.python_version }}" =~ ^3\.([8-9]|1[0-4])(\..*)?$ ]]; then
+        if [[ ! "${{ inputs.python_version }}" =~ ^3\.([8-9]|1[0-6])(\..*)?$ ]]; then
           echo "Python version '${{ inputs.python_version }}' is not supported."
-          echo "Supported versions are: 3.8, 3.9, 3.10, 3.11, 3.12, 3.13, 3.14."
+          echo "Supported versions are: 3.8, 3.9, 3.10, 3.11, 3.12, 3.13, 3.14, 3.15, 3.16."
           exit 1
         fi
 
@@ -239,7 +239,7 @@ jobs:
           done <<< "${{ inputs.system_dependencies }}"
         else
           # Expected to be a single-line string
-          SYSTEM_PACKAGES=(${inputs.system_dependencies})
+          SYSTEM_PACKAGES=(${{ inputs.system_dependencies }})
         fi
 
         sudo apt update && sudo apt install -y "${SYSTEM_PACKAGES[@]}"

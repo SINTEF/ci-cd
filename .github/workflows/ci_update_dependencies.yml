@@ -53,7 +53,7 @@ on:
         description: "The Python version to use for the workflow. This is only relevant if `update_pre-commit` is `true`."
         required: false
         type: string
-        default: "3.9"
+        default: "3.11"
       install_extras:
         description: "Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces. Example: `'[dev,pre-commit]'`. This is only relevant if `update_pre-commit` is `true`."
         required: false

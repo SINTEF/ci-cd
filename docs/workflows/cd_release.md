@@ -178,7 +178,7 @@ Inputs related to updating the version, building and releasing the Python packag
 |:--- |:--- |:---:|:---:|:---:|
 | `publish_on_pypi` | Whether or not to publish on PyPI.</br></br>**Note**: This is only relevant if 'python_package' is 'true', which is the default.</br></br>**Important**: The default has changed from `true` to `false` to push for the use of PyPI's [Trusted Publisher](https://docs.pypi.org/trusted-publishers/) feature.</br>See the [Using PyPI's Trusted Publisher](#using-pypis-trusted-publisher) section for more information on how to migrate to this feature. | **Yes (will be non-required in v2.9)** | `false` | _boolean_ |
 | `python_package` | Whether or not this is a Python package, where the version should be updated in the `'package_dir'/__init__.py` for the possibly several 'package_dir' lines given in the `package_dirs` input and a build and release to PyPI should be performed. | No | `true` | _boolean_ |
-| `python_version_build` | The Python version to use for the workflow when building the package. | No | 3.9 | _string_ |
+| `python_version_build` | The Python version to use for the workflow when building the package. | No | 3.11 | _string_ |
 | `package_dirs` | A multi-line string of paths to Python package directories relative to the repository directory to have its `__version__` value updated.</br></br>Example: `'src/my_package'`.</br></br>**Important**: This is _required_ if 'python_package' is 'true', which is the default.</br></br>See also [Single vs multi-line input](index.md#single-vs-multi-line-input). | **_Yes_ (if 'python_package' is 'true')** | | _string_ |
 | `version_update_changes` | A multi-line string of changes to be implemented in the repository files upon updating the version. The string should be made up of three parts: 'file path', 'pattern', and 'replacement string'. These are separated by the 'version_update_changes_separator' value.</br>The 'file path' must _always_ either be relative to the repository root directory or absolute.</br>The 'pattern' should be given as a 'raw' Python string.</br></br>See also [Single vs multi-line input](index.md#single-vs-multi-line-input). | No | _Empty string_ | _string_ |
 | `version_update_changes_separator` | The separator to use for 'version_update_changes' when splitting the three parts of each string. | No | , | _string_ |
@@ -195,7 +195,7 @@ Inputs related to building and releasing the documentation in general.
 | **Name** | **Description** | **Required** | **Default** | **Type** |
 |:--- |:--- |:---:|:---:|:---:|
 | `update_docs` | Whether or not to also run the 'docs' workflow job. | No | `false` | _boolean_ |
-| `python_version_docs` | The Python version to use for the workflow when building the documentation. | No | 3.9 | _string_ |
+| `python_version_docs` | The Python version to use for the workflow when building the documentation. | No | 3.11 | _string_ |
 | `doc_extras` | Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces.</br></br>Note, if this is empty, 'install_extras' will be used as a fallback.</br></br>Example: `'[docs]'`. | No | _Empty string_ | _string_ |
 | `docs_framework` | The documentation framework to use. This can only be either `'mkdocs'` or `'sphinx'`. | No | mkdocs | _string_ |
 
