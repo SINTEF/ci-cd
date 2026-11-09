@@ -65,7 +65,7 @@ The repository contains the following:
 | `runner` | The runner to use for the workflow. Note, the callable workflow expects a Linux/Unix system.. | No | ubuntu-latest | _string_ |
 | `target_branch` | The branch name for the target of the opened PR.</br></br>**Note**: If a value is not given for this nor `permanent_dependencies_branch`, the default value for `permanent_dependencies_branch` will be used until v2.6.0, whereafter providing an explicit value for `target_branch` is **required**. | No | _Empty string_ | _string_ |
 | `permanent_dependencies_branch` | **DEPRECATED** - Will be removed in v2.6.0. Use `target_branch` instead.</br></br>The branch name for the permanent dependency updates branch. | No | ci/dependency-updates | _string_ |
-| `python_version` | The Python version to use for the workflow. | No | 3.9 | _string_ |
+| `python_version` | The Python version to use for the workflow. | No | 3.11 | _string_ |
 | `install_extras` | Any extras to install from the local repository through 'pip'. Must be encapsulated in square parentheses (`[]`) and be separated by commas (`,`) without any spaces.</br></br>Example: `'[dev,release]'`. | No | _Empty string_ | _string_ |
 | `system_dependencies` | A single (space-separated) or multi-line string of Ubuntu APT packages to install prior to installing the local repository.</br></br>See also [Single vs multi-line input](index.md#single-vs-multi-line-input). | No | _Empty string_ | _string_ |
 | `pip_index_url` | A URL to a PyPI repository index. | No | `https://pypi.org/simple/` | _string_ |
@@ -106,7 +106,7 @@ jobs:
       git_username: "Casper Welzel Andersen"
       git_email: "CasperWA@github.com"
       target_branch: "ci/dependency-updates"
-      python_version: "3.9"
+      python_version: "3.11"
       install_extras: "[dev]"
       pr_labels: "CI/CD"
     secrets:

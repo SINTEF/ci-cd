@@ -30,7 +30,7 @@ on:
         description: "The Python version to use for the `pre-commit` test job."
         required: false
         type: string
-        default: "3.9"
+        default: "3.11"
       pip_index_url_pre-commit:
         description: "A URL to a PyPI repository index. Defaults to 'https://pypi.org/simple/'."
         required: false
@@ -52,7 +52,7 @@ on:
         description: "The Python version to use for the `pylint` and `safety` test jobs."
         required: false
         type: string
-        default: "3.9"
+        default: "3.11"
       pip_index_url_pylint_safety:
         description: "A URL to a PyPI repository index. Defaults to 'https://pypi.org/simple/'."
         required: false
@@ -106,7 +106,7 @@ on:
         description: "The Python version to use for the `build package` test job."
         required: false
         type: string
-        default: "3.9"
+        default: "3.11"
       pip_index_url_package:
         description: "A URL to a PyPI repository index. Defaults to 'https://pypi.org/simple/'."
         required: false
@@ -138,7 +138,7 @@ on:
         description: "The Python version to use for the `build documentation` test job."
         required: false
         type: string
-        default: "3.9"
+        default: "3.11"
       pip_index_url_docs:
         description: "A URL to a PyPI repository index. Defaults to 'https://pypi.org/simple/'."
         required: false
@@ -458,9 +458,9 @@ jobs:
 
     - name: Validate inputs
       run: |
-        if [[ "${{ steps.determine_framework.outputs.framework }}" == "mkdocs" && ! "${{ inputs.python_version_docs }}" =~ ^3\.([8-9]|1[0-4])(\..*)?$ ]]; then
+        if [[ "${{ steps.determine_framework.outputs.framework }}" == "mkdocs" && ! "${{ inputs.python_version_docs }}" =~ ^3\.([8-9]|1[0-6])(\..*)?$ ]]; then
           echo "Python version '${{ inputs.python_version_docs }}' is not supported."
-          echo "Supported versions are: 3.8, 3.9, 3.10, 3.11, 3.12, 3.13, 3.14."
+          echo "Supported versions are: 3.8, 3.9, 3.10, 3.11, 3.12, 3.13, 3.14, 3.15, 3.16."
           exit 1
         fi
 
