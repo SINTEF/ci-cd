@@ -2,11 +2,84 @@
 
 ## [Unreleased](https://github.com/SINTEF/ci-cd/tree/HEAD)
 
-[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.10.0...HEAD)
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.11.0...HEAD)
 
-**Fixed bugs:**
+## Python 3.15 and 3.16 support, and Python 3.9 dropped as the default
 
-- CI/CD - New updates to main workflow fails when pushing to protected branches [\#411](https://github.com/SINTEF/ci-cd/issues/411)
+The Python versions 3.15 and 3.16 are now accepted by the `python_version*` inputs in the callable workflows that validate them. Previously, validation stopped at 3.14.
+
+**Behaviour change**: Python 3.9 is no longer the default Python version in the callable workflows. The default has been raised to Python 3.11 for all `python_version*` inputs. Callers that do not set these inputs explicitly will now run on Python 3.11, which may cause workflows to fail if the package under test does not support it. To keep using Python 3.9 (or any other version), set the relevant `python_version*` input explicitly in the `with` section of the calling workflow. For the exact input names, see the documentation page for each workflow.
+
+## Fix single-line `system_dependencies` in _CI/CD - Updated default branch_
+
+A single-line `system_dependencies` input caused the workflow to fail due to incorrect expression syntax. It is now expanded correctly.
+
+## Update GitHub Actions
+
+Update the GitHub Actions used in the callable workflows (`actions/checkout` and `actions/setup-python` to v7, and `chuhlomin/render-template` to v1.12).
+
+## DX
+
+Update dependencies and developer tools, loosen dependency pins, and no longer fail CI if the Codecov upload fails.
+
+
+## [v2.11.0](https://github.com/SINTEF/ci-cd/tree/v2.11.0) (2026-11-10)
+
+[Full Changelog](https://github.com/SINTEF/ci-cd/compare/v2.10.0...v2.11.0)
+
+## Python 3.15 and 3.16 support, and Python 3.9 dropped as the default
+
+The Python versions 3.15 and 3.16 are now accepted by the `python_version*` inputs in the callable workflows that validate them. Previously, validation stopped at 3.14.
+
+**Behaviour change**: Python 3.9 is no longer the default Python version in the callable workflows. The default has been raised to Python 3.11 for all `python_version*` inputs. Callers that do not set these inputs explicitly will now run on Python 3.11, which may cause workflows to fail if the package under test does not support it. To keep using Python 3.9 (or any other version), set the relevant `python_version*` input explicitly in the `with` section of the calling workflow. For the exact input names, see the documentation page for each workflow.
+
+## Fix single-line `system_dependencies` in _CI/CD - Updated default branch_
+
+A single-line `system_dependencies` input caused the workflow to fail due to incorrect expression syntax. It is now expanded correctly.
+
+## Update GitHub Actions
+
+Update the GitHub Actions used in the callable workflows (`actions/checkout` and `actions/setup-python` to v7, and `chuhlomin/render-template` to v1.12).
+
+## DX
+
+Update dependencies and developer tools, loosen dependency pins, and no longer fail CI if the Codecov upload fails.
+
+
+**Closed issues:**
+
+- Auto-update suddenly increases lower limit on requirements [\#421](https://github.com/SINTEF/ci-cd/issues/421)
+- Document transient failure shortcut in release failure handling [\#413](https://github.com/SINTEF/ci-cd/issues/413)
+
+**Merged pull requests:**
+
+- \[pre-commit.ci\] pre-commit autoupdate [\#448](https://github.com/SINTEF/ci-cd/pull/448) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[Auto-generated\] Update dependencies [\#447](https://github.com/SINTEF/ci-cd/pull/447) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[pre-commit.ci\] pre-commit autoupdate [\#445](https://github.com/SINTEF/ci-cd/pull/445) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#444](https://github.com/SINTEF/ci-cd/pull/444) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#443](https://github.com/SINTEF/ci-cd/pull/443) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#442](https://github.com/SINTEF/ci-cd/pull/442) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#441](https://github.com/SINTEF/ci-cd/pull/441) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#439](https://github.com/SINTEF/ci-cd/pull/439) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#438](https://github.com/SINTEF/ci-cd/pull/438) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#437](https://github.com/SINTEF/ci-cd/pull/437) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#436](https://github.com/SINTEF/ci-cd/pull/436) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[Auto-generated\] Update dependencies [\#435](https://github.com/SINTEF/ci-cd/pull/435) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[pre-commit.ci\] pre-commit autoupdate [\#434](https://github.com/SINTEF/ci-cd/pull/434) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#432](https://github.com/SINTEF/ci-cd/pull/432) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[Auto-generated\] Update dependencies [\#431](https://github.com/SINTEF/ci-cd/pull/431) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[pre-commit.ci\] pre-commit autoupdate [\#430](https://github.com/SINTEF/ci-cd/pull/430) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#429](https://github.com/SINTEF/ci-cd/pull/429) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#427](https://github.com/SINTEF/ci-cd/pull/427) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#426](https://github.com/SINTEF/ci-cd/pull/426) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[Auto-generated\] Update dependencies [\#423](https://github.com/SINTEF/ci-cd/pull/423) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[pre-commit.ci\] pre-commit autoupdate [\#422](https://github.com/SINTEF/ci-cd/pull/422) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#420](https://github.com/SINTEF/ci-cd/pull/420) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [\#419](https://github.com/SINTEF/ci-cd/pull/419) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- \[Auto-generated\] Update dependencies [\#418](https://github.com/SINTEF/ci-cd/pull/418) ([TEAM4-0](https://github.com/TEAM4-0))
+- \[pre-commit.ci\] pre-commit autoupdate [\#417](https://github.com/SINTEF/ci-cd/pull/417) ([pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci))
+- Do not fail CI if codecov fails [\#415](https://github.com/SINTEF/ci-cd/pull/415) ([CasperWA](https://github.com/CasperWA))
+- Document transient failure shortcut in release failure handling [\#414](https://github.com/SINTEF/ci-cd/pull/414) ([CasperWA-ai-bot](https://github.com/CasperWA-ai-bot))
 
 ## [v2.10.0](https://github.com/SINTEF/ci-cd/tree/v2.10.0) (2026-04-22)
 
@@ -23,6 +96,7 @@ Update dependencies, developer tools, and add `AGENTS.md` with agent guidelines.
 
 **Fixed bugs:**
 
+- CI/CD - New updates to main workflow fails when pushing to protected branches [\#411](https://github.com/SINTEF/ci-cd/issues/411)
 - CD - Release workflow fails to push workflow file changes due to missing 'workflows' permission [\#406](https://github.com/SINTEF/ci-cd/issues/406)
 
 **Closed issues:**
