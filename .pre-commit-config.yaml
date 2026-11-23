@@ -35,7 +35,7 @@ repos:
   # More information can be found in its documentation:
   # https://docs.astral.sh/ruff/
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.17.4
+    rev: v0.17.5
     hooks:
     - id: ruff-check
       name: ruff
@@ -68,7 +68,7 @@ repos:
     - id: mypy
 
   - repo: https://github.com/SINTEF/ci-cd
-    rev: v2.10.0
+    rev: v2.11.0
     hooks:
     - id: docs-api-reference
       args:
